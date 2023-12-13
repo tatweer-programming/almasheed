@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "564275998549",
+    "firebase_url": "https://masheed-d942d-default-rtdb.asia-southeast1.firebasedatabase.app",
+    "project_id": "masheed-d942d",
+    "storage_bucket": "masheed-d942d.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:564275998549:android:a5c7192294b00dbc8389dc",
+        "android_client_info": {
+          "package_name": "com.almasheed.store.almasheed"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCpZ9W1zt9znShCBWJYg1O97nIvLuIctJw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

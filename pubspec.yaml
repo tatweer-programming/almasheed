@@ -37,6 +37,9 @@ dependencies:
   cupertino_icons: ^1.0.2
   dartz:
   get_it:
+  equatable:
+  sizer:
+  shared_preferences:
 
 
   #bloc

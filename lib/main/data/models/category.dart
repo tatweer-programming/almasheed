@@ -1,6 +1,7 @@
 import 'package:almasheed/main/data/models/product.dart';
+import 'package:equatable/equatable.dart';
 
-class Category {
+class Category extends Equatable{
   final String categoryName;
   final String categoryImage;
   final List<String> productsIds;
@@ -18,4 +19,7 @@ class Category {
         categoryName: json['categoryName'],
         categoryImage: json['categoryImage'],
       );
+
+  @override
+  List<Object?> get props => [categoryImage,categoryName,productsIds];
 }
