@@ -1,18 +1,13 @@
 import 'package:flutter/material.dart';
 
-class NavigationManager {
-  static void pushAndRemove(BuildContext context, Widget screen) {
-    Navigator.pushAndRemoveUntil(context,
-        MaterialPageRoute(builder: (context) => screen), (route) => false);
+extension NavigationMethods on BuildContext {
+  void pop() {
+    Navigator.pop(this);
   }
 
-  static void push(BuildContext context, Widget screen) {
-    Navigator.push(context, MaterialPageRoute(builder: (context) => screen));
-  }
-
-  static void pushPage(BuildContext context, Widget screen) {
+  void pushPage(Widget screen) {
     Navigator.push(
-        context,
+        this,
         PageRouteBuilder(
           pageBuilder: (context, animation, secondaryAnimation) => screen,
           transitionsBuilder: (context, animation, secondaryAnimation, child) {
@@ -20,7 +15,7 @@ class NavigationManager {
             var end = Offset.zero;
             var curve = Curves.ease;
             var tween =
-                Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
+            Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
             return SlideTransition(
               position: animation.drive(tween),
               child: child,
@@ -35,7 +30,12 @@ class NavigationManager {
         ));
   }
 
-  static void pop(BuildContext context) {
-    Navigator.pop(context);
+  void push(Widget screen) {
+    Navigator.push(this, MaterialPageRoute(builder: (context) => screen));
+  }
+
+  void pushAndRemove(Widget screen) {
+    Navigator.pushAndRemoveUntil(this,
+        MaterialPageRoute(builder: (context) => screen), (route) => false);
   }
 }
