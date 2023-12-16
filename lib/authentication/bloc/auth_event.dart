@@ -18,12 +18,12 @@ class SendCodeEvent extends AuthEvent {
 
 class VerifyCodeEvent extends AuthEvent {
   final String code;
-
-  const VerifyCodeEvent({required this.code});
+  final String userType ;
+  const VerifyCodeEvent({required this.code , required this.userType});
 
   @override
 
-  List<Object?> get props =>[];
+  List<Object?> get props =>[code , userType];
 }
 
 

@@ -7,7 +7,8 @@ import 'package:pin_code_fields/pin_code_fields.dart';
 import '../../bloc/auth_bloc.dart';
 class OTPScreen extends StatelessWidget {
   final String phone ;
-  const OTPScreen({super.key , required this.phone});
+ final String userType;
+  const OTPScreen({super.key , required this.phone, required this.userType});
 
   @override
   Widget build(BuildContext context) {
@@ -83,14 +84,8 @@ class OTPScreen extends StatelessWidget {
 
                   controller: otpController,
                   keyboardType: TextInputType.number,
-                  boxShadows: [
-                    const BoxShadow(
-                      offset: Offset(0, 1),
-                      color: Colors.white,
-                      blurRadius: 10,
-                    )
-                  ],
                   onCompleted: (v) {
+                    bloc.add(VerifyCodeEvent(code: otpController.text, userType: userType));
                     print("Completed");
                   },
                   onChanged: (value) {
@@ -129,12 +124,16 @@ class OTPScreen extends StatelessWidget {
           Container(
             margin:
             const EdgeInsets.symmetric(vertical: 16.0, horizontal: 30),
+            decoration: BoxDecoration(
+                color: ColorManager.primary,
+                borderRadius: BorderRadius.circular(5),
+             ),
             child: ButtonTheme(
               height: 50,
               child: TextButton(
 
                 onPressed: () {
-                bloc.add(VerifyCodeEvent(code: otpController.text));
+                bloc.add(VerifyCodeEvent(code: otpController.text, userType: userType));
                 },
                 child: Center(
                     child: Text(
@@ -146,10 +145,6 @@ class OTPScreen extends StatelessWidget {
                     )),
               ),
             ),
-            decoration: BoxDecoration(
-                color: ColorManager.primary,
-                borderRadius: BorderRadius.circular(5),
-             ),
           ),
           const SizedBox(
             height: 16,
