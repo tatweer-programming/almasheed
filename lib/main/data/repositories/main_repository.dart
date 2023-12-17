@@ -7,13 +7,15 @@ import 'package:dartz/dartz.dart';
 import '../data_source/main_remote_data_source.dart';
 
 class MainRepository {
-  MainRemoteDataSource mainServices;
-  MainRepository(this.mainServices);
+  final MainRemoteDataSource mainRemoteDataSource;
+  MainRepository(this.mainRemoteDataSource);
   Future<Either<FirebaseException, List<Product>>> getProducts() async {
-    return await mainServices.getProducts();
+    return await mainRemoteDataSource.getProducts();
   }Future<Either<FirebaseException, List<Category>>> getCategories() async {
-    return await mainServices.getCategories();
+    return await mainRemoteDataSource.getCategories();
   }Future<Either<FirebaseException, List<String>>> getOffers() async {
-    return await mainServices.getOffers();
+    return await mainRemoteDataSource.getOffers();
+  }Future<Either<FirebaseException, Map<String,int>>> getBestSales() async {
+    return await mainRemoteDataSource.getBestSales();
   }
 }
