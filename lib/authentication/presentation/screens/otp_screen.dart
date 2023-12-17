@@ -44,11 +44,12 @@ class OTPScreen extends StatelessWidget {
                     TextSpan(
                         text: bloc.user?.phone,
                         style: const TextStyle(
-                            color: Colors.black,
+                            color: ColorManager.grey2,
                             fontWeight: FontWeight.bold,
                             fontSize: 15)),
                   ],
-                  style: const TextStyle(color: Colors.black54, fontSize: 15)),
+                  style: const TextStyle(color: ColorManager.black,
+                      fontSize: 15)),
               textAlign: TextAlign.center,
             ),
           ),
@@ -77,11 +78,9 @@ class OTPScreen extends StatelessWidget {
                     borderRadius: BorderRadius.circular(5),
                     fieldHeight: 50,
                     fieldWidth: 40,
-                    activeFillColor: Colors.white,
-                    inactiveFillColor:Colors.white,
-                  ),
-                  cursorColor: Colors.black,
-                  animationDuration: const Duration(milliseconds: 300),
+                    activeFillColor: ColorManager.white,
+                      inactiveFillColor:ColorManager.white),
+                  cursorColor: ColorManager.black,animationDuration: const Duration(milliseconds: 300),
 
                   controller: otpController,
                   keyboardType: TextInputType.number,
@@ -103,7 +102,7 @@ class OTPScreen extends StatelessWidget {
             children: [
               const Text(
                 "Didn't receive the code? ",
-                style: TextStyle(color: Colors.black54, fontSize: 15),
+                style: TextStyle(color: ColorManager.black, fontSize: 15),
               ),
               TextButton(
                   onPressed: (){
@@ -113,7 +112,7 @@ class OTPScreen extends StatelessWidget {
                   child: const Text(
                     "RESEND",
                     style: TextStyle(
-                        color: Color(0xFF91D3B3),
+                        color: ColorManager.primary,
                         fontWeight: FontWeight.bold,
                         fontSize: 16),
                   ))
@@ -139,7 +138,7 @@ class OTPScreen extends StatelessWidget {
                 child: Center(
                     child: Text(
                       "VERIFY".toUpperCase(),
-                      style:  TextStyle(
+                      style:  const TextStyle(
                           color: ColorManager.white,
                           fontSize: 18,
                           fontWeight: FontWeight.bold),

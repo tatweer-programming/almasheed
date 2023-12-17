@@ -24,6 +24,7 @@ class AuthService {
           print("a completed ");
           // يتم إكمال التحقق تلقائيًا في هذا المكان إذا تم استخدام رقم هاتف موثوق به مسبقًا
         },
+
         verificationFailed: (FirebaseAuthException e) {
           print('فشل التحقق ${e.message}');
         },
@@ -88,7 +89,7 @@ class AuthService {
       bool isCustomer = user is Customer;
       String userType = (user is Customer) ? "customer" : "merchant";
 
-  bool isUserExists = await _isUserExists(user.id, userType);
+      bool isUserExists = await _isUserExists(user.id, userType);
       if (!isUserExists) {
         if (kDebugMode) {
           print(isUserExists);
@@ -97,10 +98,8 @@ class AuthService {
         isCustomer
             ? await _createCustomer(user)
             : await _createMerchant(user as Merchant);
-
       }
       return Right(isUserExists);
-
     } on FirebaseException catch (e) {
       return Left(e);
     }

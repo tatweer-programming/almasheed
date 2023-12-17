@@ -8,7 +8,11 @@ class AuthInitial extends AuthState {
   @override
   List<Object> get props => [];
 }
-// authentication_bloc.dart
+
+class SendCodeLoadingState extends AuthState {
+  @override
+  List<Object?> get props => [];
+}
 
 class CodeSent extends AuthState {
   @override

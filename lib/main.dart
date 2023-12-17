@@ -1,15 +1,14 @@
+import 'package:almasheed/authentication/presentation/screens/account_type_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sizer/sizer.dart';
-
 import 'authentication/bloc/auth_bloc.dart';
 import 'core/local/shared_prefrences.dart';
 import 'core/services/dep_injection.dart';
 import 'core/services/firebase_options.dart';
 import 'core/utils/theme_manager.dart';
 import 'main/bloc/main_bloc.dart';
-import 'main/view/screens/main_screen.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -38,10 +37,10 @@ class Masheed extends StatelessWidget {
                   AuthBloc()
           )
         ],
-        child: MaterialApp(
+        child: MaterialApp (
             title: 'Al Masheed',
             theme: getAppTheme(),
-            home: const MainScreen()
+            home: const AccountTypeScreen()
         ),
       );
     });

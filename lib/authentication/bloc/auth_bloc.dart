@@ -3,6 +3,8 @@ import 'dart:async';
 import 'package:almasheed/authentication/data/models/merchant.dart';
 import 'package:almasheed/authentication/data/models/user.dart';
 import 'package:almasheed/authentication/data/services/auth_services.dart';
+import 'package:almasheed/authentication/presentation/components.dart';
+import 'package:almasheed/core/error/remote_error.dart';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -21,37 +23,38 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   bool agreeToTerms = false;
   bool codeSent = false;
   String? verificationId = AuthService.verificationID;
-   AppUser  ? user;
+  AppUser? user;
   late AuthRepository repository;
   AuthBloc() : super(AuthInitial()) {
     repository = AuthRepository();
 
     on<AuthEvent>((event, emit) async {
       if (event is SendCodeEvent) {
+        emit(SendCodeLoadingState());
         user = event.user;
         print(event.user.phone);
         print(user?.phone);
-        try {
-          final result = await repository.verifyPhoneNumber(user!.phone);
-          result.fold((l) {}, (r) {
-            codeSent = true;
-            verificationId = r;
-            emit(CodeSent());
-          });
-        } catch (e) {
-          // حدث خطأ، يمكنك إضافة رسالة خطأ إلى حالة الـ BLoC
-          //   yield AuthenticationFailed(error: 'حدث خطأ غير متوقع');
-        }
-      }
-      else if (event is ChangeAgreeToTermsStateEvent) {
+
+        final result = await repository.verifyPhoneNumber(user!.phone);
+        result.fold((l) {
+          errorToast(msg: ExceptionManager(l).translatedMessage());
+        }, (r) {
+          codeSent = true;
+          verificationId = r;
+          defaultToast(msg: "Code Sent Successfully ");
+          emit(CodeSent());
+        });
+      } else if (event is ChangeAgreeToTermsStateEvent) {
         agreeToTerms = !agreeToTerms;
         emit(ChangeAgreeToTermsState(state: agreeToTerms));
-      }
-      else if (event is VerifyCodeEvent) {
+      } else if (event is VerifyCodeEvent) {
         print(user);
         String userType = (user is Customer) ? "customer" : "merchant";
         var result = await repository.verifyCode(event.code, userType);
-        result.fold((l) {}, (r) async {
+        result.fold((l) {
+          errorToast(msg: ExceptionManager(l).translatedMessage());
+        }, (r) async {
+          defaultToast(msg: "Code Verified Successfully");
           user?.id = r;
           await _createUser();
         });
@@ -60,6 +63,11 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   }
   Future _createUser() async {
     var result = await repository.createUser(user!);
-    result.fold((l) {}, (r) {});
+    result.fold((l) {
+      errorToast(msg: ExceptionManager(l).translatedMessage());
+    }, (r) {
+      bool isExists = r;
+      isExists ? null : defaultToast(msg: "user created Successfully");
+    });
   }
 }

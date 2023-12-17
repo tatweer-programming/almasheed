@@ -1,6 +1,7 @@
 import 'package:almasheed/authentication/bloc/auth_bloc.dart';
 import 'package:almasheed/authentication/data/models/customer.dart';
 import 'package:almasheed/authentication/data/services/auth_services.dart';
+import 'package:almasheed/authentication/presentation/components.dart';
 import 'package:almasheed/authentication/presentation/screens/otp_screen.dart';
 import 'package:almasheed/core/utils/color_manager.dart';
 import 'package:almasheed/core/utils/navigation_manager.dart';
@@ -39,6 +40,8 @@ class CustomerLoginScreen extends StatelessWidget {
                 child: Form(
                   key: formKey,
                   child: Column(
+                  
+                    mainAxisAlignment: MainAxisAlignment.center,
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       Text("Phone Number", style: TextStyle(
@@ -46,64 +49,36 @@ class CustomerLoginScreen extends StatelessWidget {
                           fontSize: 16.sp
                       ),),
                       SizedBox(height: 5.sp,),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Text("+966", style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 14.sp
-                          )),
-                          SizedBox(width: 5.sp,),
-                          Expanded(
-                            child: TextFormField(
-
-                              maxLines: 1,
-                              keyboardType: TextInputType.phone,
-                              onSaved: (value) {
-
-                                if (formKey.currentState!.validate()) {
-                                  Customer customer = Customer(cartItems: [],
-                                      favorites: [], orders: [], id: "", phone: "+966${phoneController.text}");
-                                  bloc.add(SendCodeEvent(customer));
-                                }
-                              },
-                              decoration: InputDecoration(
-                                  border: OutlineInputBorder(borderRadius:
-                                  BorderRadius.circular(10.sp))
-                              ),
-                              controller: phoneController,
-                              validator: (value) {
-                                if (value!.isEmpty) {
-                                  return 'please enter phone number';
-                                }
-                                return null;
-                              },
-                            ),
-                          )
-
-                        ],
-                      ),
+                       PhoneNumberInput(controller: phoneController),
                       SizedBox(height: 10.sp,),
-                      Container(
-                        decoration: BoxDecoration(
+                      state is SendCodeLoadingState ? const
+                      Center(child: CircularProgressIndicator()):     Container(
+                        decoration: const BoxDecoration(
                             color: ColorManager.primary,
-                            borderRadius: const BorderRadius.all(
+                            borderRadius: BorderRadius.all(
                                 Radius.elliptical(10, 20))),
                         width: 25.w,
                         height: 30.sp,
 
                         child: InkWell(
                           onTap: ()  {
-                            if (formKey.currentState!.validate()) {
+                            if (formKey.currentState!.validate()&& bloc.agreeToTerms) {
                               Customer customer =
                               Customer(cartItems: [], favorites: [],
                                   orders: [], id: "", phone:
                                   "+966${phoneController.text}");
                               bloc.add(SendCodeEvent(customer));
                             }
+                            else if (!bloc.agreeToTerms){
+                              errorToast(msg: "You must agree to the terms and conditions");
+                            }
                           },
-                          child: const Center(child: Text(" Send code "),),
+                          child:   Center(child:
+                      const Text(" Send code " ,
+                          style: TextStyle(
+                            color: ColorManager.white
+                          ),
+                          ),),
                         ),
                       ),
                       SizedBox(
