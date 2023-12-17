@@ -3,22 +3,23 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sizer/sizer.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
-
 import '../../bloc/auth_bloc.dart';
+
 class OTPScreen extends StatelessWidget {
-  final String phone ;
- final String userType;
-  const OTPScreen({super.key , required this.phone, required this.userType});
+
+
+  const OTPScreen({super.key ,});
 
   @override
   Widget build(BuildContext context) {
     GlobalKey<FormState> formKey = GlobalKey <FormState>();
     final otpController = TextEditingController();
-    AuthBloc bloc = AuthBloc();
+    AuthBloc bloc = AuthBloc.get(context);
     return BlocBuilder<AuthBloc, AuthState>(
       bloc: bloc,
   builder: (context, state) {
-    return Scaffold(body:
+    return Scaffold(
+      body:
     Padding(
       padding:  EdgeInsets.all(10.w),
       child: ListView(
@@ -41,7 +42,7 @@ class OTPScreen extends StatelessWidget {
                   text: "Enter the code sent to ",
                   children: [
                     TextSpan(
-                        text: "+966 $phone",
+                        text: bloc.user?.phone,
                         style: const TextStyle(
                             color: Colors.black,
                             fontWeight: FontWeight.bold,
@@ -85,7 +86,7 @@ class OTPScreen extends StatelessWidget {
                   controller: otpController,
                   keyboardType: TextInputType.number,
                   onCompleted: (v) {
-                    bloc.add(VerifyCodeEvent(code: otpController.text, userType: userType));
+                    bloc.add(VerifyCodeEvent(code: otpController.text,));
                     print("Completed");
                   },
                   onChanged: (value) {
@@ -133,7 +134,7 @@ class OTPScreen extends StatelessWidget {
               child: TextButton(
 
                 onPressed: () {
-                bloc.add(VerifyCodeEvent(code: otpController.text, userType: userType));
+                  bloc.add(VerifyCodeEvent(code: otpController.text,));
                 },
                 child: Center(
                     child: Text(

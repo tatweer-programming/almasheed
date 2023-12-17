@@ -1,4 +1,5 @@
 import 'package:almasheed/authentication/bloc/auth_bloc.dart';
+import 'package:almasheed/authentication/data/models/customer.dart';
 import 'package:almasheed/authentication/data/services/auth_services.dart';
 import 'package:almasheed/authentication/presentation/screens/otp_screen.dart';
 import 'package:almasheed/core/utils/color_manager.dart';
@@ -14,7 +15,7 @@ class CustomerLoginScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     GlobalKey<FormState> formKey = GlobalKey <FormState>();
     TextEditingController phoneController = TextEditingController();
-    AuthBloc bloc = AuthBloc();
+    AuthBloc bloc = AuthBloc.get(context);
 
     return BlocConsumer<AuthBloc, AuthState>(
       bloc: bloc,
@@ -23,7 +24,7 @@ class CustomerLoginScreen extends StatelessWidget {
       },
       listener: (context, state) {
         if (bloc.verificationId != null) {
-          context.push(OTPScreen(phone: phoneController.text, userType: 'customer',));
+          context.push(const OTPScreen());
         }
       },
       builder: (context, state) {
@@ -60,10 +61,11 @@ class CustomerLoginScreen extends StatelessWidget {
                               maxLines: 1,
                               keyboardType: TextInputType.phone,
                               onSaved: (value) {
+
                                 if (formKey.currentState!.validate()) {
-                                  bloc.add(
-                                      SendCodeEvent(
-                                          "+966${phoneController.text}"));
+                                  Customer customer = Customer(cartItems: [],
+                                      favorites: [], orders: [], id: "", phone: "+966${phoneController.text}");
+                                  bloc.add(SendCodeEvent(customer));
                                 }
                               },
                               decoration: InputDecoration(
@@ -92,10 +94,13 @@ class CustomerLoginScreen extends StatelessWidget {
                         height: 30.sp,
 
                         child: InkWell(
-                          onTap: () {
+                          onTap: ()  {
                             if (formKey.currentState!.validate()) {
-                              bloc.add(
-                                  SendCodeEvent("+966${phoneController.text}"));
+                              Customer customer =
+                              Customer(cartItems: [], favorites: [],
+                                  orders: [], id: "", phone:
+                                  "+966${phoneController.text}");
+                              bloc.add(SendCodeEvent(customer));
                             }
                           },
                           child: const Center(child: Text(" Send code "),),

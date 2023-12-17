@@ -9,21 +9,21 @@ abstract class AuthEvent extends Equatable {
 
 
 class SendCodeEvent extends AuthEvent {
- final String phoneNumber ;
-  const SendCodeEvent(this.phoneNumber);
-  @override
 
-  List<Object?> get props =>[];
+  AppUser user ;
+ SendCodeEvent(this.user);
+  @override
+  List<Object?> get props =>[user];
 }
 
 class VerifyCodeEvent extends AuthEvent {
   final String code;
-  final String userType ;
-  const VerifyCodeEvent({required this.code , required this.userType});
+
+   const VerifyCodeEvent({required this.code ,});
 
   @override
 
-  List<Object?> get props =>[code , userType];
+  List<Object?> get props =>[code ,];
 }
 
 

@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:almasheed/authentication/data/models/customer.dart';
+import 'package:almasheed/authentication/data/models/merchant.dart';
 import 'package:almasheed/authentication/data/models/user.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dartz/dartz.dart';
@@ -14,7 +15,8 @@ class AuthService {
 
   static Completer<String> verificationIdCompleter = Completer<String>();
 
-  Future<Either<String, String>> verifyPhoneNumber(String phoneNumber) async {
+  Future<Either<FirebaseAuthException, String>> verifyPhoneNumber(
+      String phoneNumber) async {
     try {
       await _auth.verifyPhoneNumber(
         phoneNumber: phoneNumber,
@@ -36,8 +38,8 @@ class AuthService {
       );
 
       return Right(await waitForVerificationID());
-    } catch (e) {
-      return Left(e.toString());
+    } on FirebaseAuthException catch (e) {
+      return Left(e);
     }
   }
 
@@ -45,8 +47,10 @@ class AuthService {
     return verificationIdCompleter.future;
   }
 
-  Future<bool> verifyCode(String code, String userType) async {
+  Future<Either<FirebaseAuthException, String>> verifyCode(
+      String code, String userType) async {
     try {
+      late String id;
       print(code);
       final String verificationId = await waitForVerificationID();
 
@@ -56,21 +60,13 @@ class AuthService {
       );
 
       await _auth.signInWithCredential(credential).then((value) async {
-        await _isUserExists(value.user!.uid, userType).then((val) async {
-          print(value);
-          if (!val) {
-            if (kDebugMode) {
-              print(val);
-            }
-            await createCustomer(value.user!.uid, value.user!.phoneNumber!);
-          }
-        });
+        id = value.user!.uid;
       });
 
-      return true;
-    } catch (e) {
+      return Right(id);
+    } on FirebaseAuthException catch (e) {
       print('حدث خطأ أثناء التحقق من رمز التحقق: $e');
-      return false;
+      return Left(e);
     }
   }
 
@@ -87,15 +83,56 @@ class AuthService {
     return isExists;
   }
 
-  Future createCustomer(String id, String phone) async {
+  Future<Either<FirebaseException, bool>> createUser(AppUser user) async {
     try {
-      AppUser user = Customer(
-          cartItems: [], favorites: [], orders: [], id: id, phone: phone);
-      await _firestore.doc("customers/$id)").set(user.toJson()).then((value) {
+      bool isCustomer = user is Customer;
+      String userType = (user is Customer) ? "customer" : "merchant";
+
+  bool isUserExists = await _isUserExists(user.id, userType);
+      if (!isUserExists) {
+        if (kDebugMode) {
+          print(isUserExists);
+        }
+
+        isCustomer
+            ? await _createCustomer(user)
+            : await _createMerchant(user as Merchant);
+
+      }
+      return Right(isUserExists);
+
+    } on FirebaseException catch (e) {
+      return Left(e);
+    }
+  }
+
+  Future _createCustomer(Customer customer) async {
+    try {
+      await _firestore
+          .doc("customers/${customer.id})")
+          .set(customer.toJson())
+          .then((value) {
         print("objectKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKK");
       });
     } catch (e) {
-      print(e);
+      if (kDebugMode) {
+        print(e);
+      }
+    }
+  }
+
+  Future _createMerchant(Merchant merchant) async {
+    try {
+      await _firestore
+          .doc("merchants/${merchant.id})")
+          .set(merchant.toJson())
+          .then((value) {
+        print("objectKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKK");
+      });
+    } catch (e) {
+      if (kDebugMode) {
+        print(e);
+      }
     }
   }
 }

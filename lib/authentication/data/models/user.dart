@@ -2,9 +2,9 @@ import 'customer.dart';
 import 'merchant.dart';
 
 abstract class AppUser {
-final  String id;
+  String id;
 final  String phone;
-const AppUser({required this.id, required this.phone});
+AppUser({required this.id, required this.phone});
   Map<String, dynamic> toJson();
 
   static AppUser fromJson(Map<String, dynamic> json , String type) {
