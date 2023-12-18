@@ -22,6 +22,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       BlocProvider.of<AuthBloc>(context);
   bool agreeToTerms = false;
   bool codeSent = false;
+  bool authCompleted = false;
   String? verificationId = AuthService.verificationID;
   AppUser? user;
   late AuthRepository repository;
@@ -38,6 +39,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         final result = await repository.verifyPhoneNumber(user!.phone);
         result.fold((l) {
           errorToast(msg: ExceptionManager(l).translatedMessage());
+          emit(SendCodeErrorState());
         }, (r) {
           codeSent = true;
           verificationId = r;
@@ -67,7 +69,10 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       errorToast(msg: ExceptionManager(l).translatedMessage());
     }, (r) {
       bool isExists = r;
-      isExists ? null : defaultToast(msg: "user created Successfully");
+      isExists ? {
+      authCompleted = true
+      } : defaultToast(msg: "user created Successfully");
+  authCompleted = true;
     });
   }
 }

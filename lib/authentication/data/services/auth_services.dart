@@ -17,6 +17,8 @@ class AuthService {
 
   Future<Either<FirebaseAuthException, String>> verifyPhoneNumber(
       String phoneNumber) async {
+    Completer<Either<FirebaseAuthException, String>> completer =
+        Completer<Either<FirebaseAuthException, String>>();
     try {
       await _auth.verifyPhoneNumber(
         phoneNumber: phoneNumber,
@@ -24,24 +26,24 @@ class AuthService {
           print("a completed ");
           // يتم إكمال التحقق تلقائيًا في هذا المكان إذا تم استخدام رقم هاتف موثوق به مسبقًا
         },
-
         verificationFailed: (FirebaseAuthException e) {
           print('فشل التحقق ${e.message}');
+          completer.complete(Left(e));
         },
         codeSent: (String verificationId, int? resendToken) {
           print('تم إرسال رمز التحقق');
           verificationID = verificationId;
           verificationIdCompleter.complete(verificationID);
+          completer.complete(Right(verificationId));
         },
         codeAutoRetrievalTimeout: (String verificationId) {
           print('انتهت مهلة رمز التحقق');
         },
       );
-
-      return Right(await waitForVerificationID());
     } on FirebaseAuthException catch (e) {
-      return Left(e);
+      completer.complete(Left(e));
     }
+    return completer.future;
   }
 
   Future<String> waitForVerificationID() async {
@@ -78,8 +80,10 @@ class AuthService {
     late bool isExists;
     print(")))))))))))))))))))))))))))))))))))))))))))))))))");
     await _firestore.collection("${userType}s/").doc(id).get().then((value) {
-      isExists = value.data() != null;
-      print("****************************" + isExists.toString());
+      isExists =  value.data()!["id"] == id ;
+
+
+      print("****************************" + value.reference.path);
     });
     return isExists;
   }

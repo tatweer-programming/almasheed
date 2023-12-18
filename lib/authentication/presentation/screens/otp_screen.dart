@@ -1,4 +1,6 @@
 import 'package:almasheed/core/utils/color_manager.dart';
+import 'package:almasheed/core/utils/navigation_manager.dart';
+import 'package:almasheed/main/view/screens/main_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sizer/sizer.dart';
@@ -15,6 +17,17 @@ class OTPScreen extends StatelessWidget {
     GlobalKey<FormState> formKey = GlobalKey <FormState>();
     final otpController = TextEditingController();
     AuthBloc bloc = AuthBloc.get(context);
+    return BlocConsumer<AuthBloc, AuthState>(
+      bloc: bloc,
+      listenWhen: (AuthState, authState){
+        return (bloc.authCompleted);
+      },
+      listener: (context, state) {
+        if (bloc.authCompleted) {
+          context.push(const MainScreen());
+        }
+      },
+  builder: (context, state) {
     return BlocBuilder<AuthBloc, AuthState>(
       bloc: bloc,
   builder: (context, state) {
@@ -80,7 +93,8 @@ class OTPScreen extends StatelessWidget {
                     fieldWidth: 40,
                     activeFillColor: ColorManager.white,
                       inactiveFillColor:ColorManager.white),
-                  cursorColor: ColorManager.black,animationDuration: const Duration(milliseconds: 300),
+                  cursorColor: ColorManager.black,
+                  animationDuration: const Duration(milliseconds: 300),
 
                   controller: otpController,
                   keyboardType: TextInputType.number,
@@ -153,6 +167,8 @@ class OTPScreen extends StatelessWidget {
         ],
       ),
     ), );
+  },
+);
   },
 );
   }
