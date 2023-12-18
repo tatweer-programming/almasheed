@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 import 'color_manager.dart';
 
 ThemeData getAppTheme() {
@@ -22,7 +21,7 @@ ThemeData getAppTheme() {
     primaryColorLight: const Color(0xfffdced8),
     primaryColorDark: const Color(0xff920723),
     canvasColor: const Color(0xfffafafa),
-    scaffoldBackgroundColor: const Color(0xfffafafa),
+    scaffoldBackgroundColor: const Color(0xffffe8d6),
     bottomAppBarColor: const Color(0xffffffff),
     cardColor: const Color(0xffffffff),
     dividerColor: const Color(0x1f000000),
@@ -72,7 +71,104 @@ ThemeData getAppTheme() {
         brightness: Brightness.light,
       ),
     ),
-
+    inputDecorationTheme: const InputDecorationTheme(
+      labelStyle: TextStyle(
+        color: Color(0xdd000000),
+        fontSize: null,
+        fontWeight: FontWeight.w400,
+        fontStyle: FontStyle.normal,
+      ),
+      helperStyle: TextStyle(
+        color: Color(0xdd000000),
+        fontSize: null,
+        fontWeight: FontWeight.w400,
+        fontStyle: FontStyle.normal,
+      ),
+      hintStyle: TextStyle(
+        color: Color(0xdd000000),
+        fontSize: null,
+        fontWeight: FontWeight.w400,
+        fontStyle: FontStyle.normal,
+      ),
+      errorStyle: TextStyle(
+        color: Color(0xdd000000),
+        fontSize: null,
+        fontWeight: FontWeight.w400,
+        fontStyle: FontStyle.normal,
+      ),
+      errorMaxLines: null,
+      isDense: false,
+      contentPadding: EdgeInsets.only(top: 12, bottom: 12, left: 0, right: 0),
+      isCollapsed: false,
+      prefixStyle: TextStyle(
+        color: Color(0xdd000000),
+        fontSize: null,
+        fontWeight: FontWeight.w400,
+        fontStyle: FontStyle.normal,
+      ),
+      suffixStyle: TextStyle(
+        color: Color(0xdd000000),
+        fontSize: null,
+        fontWeight: FontWeight.w400,
+        fontStyle: FontStyle.normal,
+      ),
+      counterStyle: TextStyle(
+        color: Color(0xdd000000),
+        fontSize: null,
+        fontWeight: FontWeight.w400,
+        fontStyle: FontStyle.normal,
+      ),
+      filled: false,
+      fillColor: Color(0x00000000),
+      errorBorder: UnderlineInputBorder(
+        borderSide: BorderSide(
+          color: Color(0xff000000),
+          width: 1,
+          style: BorderStyle.solid,
+        ),
+        borderRadius: BorderRadius.all(Radius.circular(4.0)),
+      ),
+      focusedBorder: UnderlineInputBorder(
+        borderSide: BorderSide(
+          color: Color(0xff000000),
+          width: 1,
+          style: BorderStyle.solid,
+        ),
+        borderRadius: BorderRadius.all(Radius.circular(4.0)),
+      ),
+      focusedErrorBorder: UnderlineInputBorder(
+        borderSide: BorderSide(
+          color: Color(0xff000000),
+          width: 1,
+          style: BorderStyle.solid,
+        ),
+        borderRadius: BorderRadius.all(Radius.circular(4.0)),
+      ),
+      disabledBorder: UnderlineInputBorder(
+        borderSide: BorderSide(
+          color: Color(0xff000000),
+          width: 1,
+          style: BorderStyle.solid,
+        ),
+        borderRadius: BorderRadius.all(Radius.circular(4.0)),
+      ),
+      enabledBorder: UnderlineInputBorder(
+        borderSide: BorderSide(
+          color: Color(0xff000000),
+          width: 1,
+          style: BorderStyle.solid,
+        ),
+        borderRadius: BorderRadius.all(Radius.circular(4.0)),
+      ),
+      border: UnderlineInputBorder(
+        borderSide: BorderSide(
+          color: Color(0xff000000),
+          width: 1,
+          style: BorderStyle.solid,
+        ),
+        borderRadius: BorderRadius.all(Radius.circular(4.0)),
+      ),
+    ),
     iconTheme: const IconThemeData(
       color: Color(0xdd000000),
       opacity: 1,

@@ -7,7 +7,6 @@ class Customer extends AppUser {
 
   Customer({required this.cartItems, required this.favorites, required this.orders, required super.id, required super.phone});
 
-  @override
   Map<String, dynamic> toJson() {
     return {
       'id': id,

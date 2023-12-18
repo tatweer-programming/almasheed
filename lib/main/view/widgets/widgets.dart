@@ -1,17 +1,61 @@
-import 'package:almasheed/core/utils/navigation_manager.dart';
 import 'package:almasheed/main/data/models/category.dart';
 import 'package:almasheed/main/data/models/product.dart';
-import 'package:almasheed/main/view/screens/details_product.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
 
+import '../../../authentication/data/models/merchant.dart';
 import '../../../core/services/dep_injection.dart';
 import '../../../core/utils/color_manager.dart';
 import '../../bloc/main_bloc.dart';
 
-Widget searchDropdownBuilder(
+// defaultFormField(
+//     {String? label,
+//       IconData? prefix,
+//       String? hint,
+//       IconButton? suffix,
+//       bool? enabled = true,
+//       String? validatorText,
+//       TextInputType? type,
+//       void Function()? suffixFunction,
+//       FormFieldValidator? validator,
+//       bool obscureText = false,
+//       required TextEditingController controller}) =>
+//     TextFormField(
+//       onTapOutside: (event) {
+//         FocusManager.instance.primaryFocus?.unfocus();
+//       },
+//       controller: controller,
+//       keyboardType: type,
+//       enabled: enabled,
+//       cursorColor: ColorManager.primary,
+//       obscureText: obscureText,
+//       style: TextStyle(color: ColorManager.black),
+//       decoration: InputDecoration(
+//           disabledBorder: OutlineInputBorder(
+//             borderSide: BorderSide(color: ColorManager.secondary),
+//             borderRadius: BorderRadius.circular(10.sp),
+//           ),
+//           contentPadding: EdgeInsetsDirectional.symmetric(horizontal: 2.w),
+//           focusedBorder: OutlineInputBorder(
+//             borderRadius: BorderRadius.circular(10.sp),
+//           ),
+//           enabledBorder: OutlineInputBorder(
+//             borderRadius: BorderRadius.circular(10.sp),
+//           ),
+//           errorStyle: const TextStyle(fontSize: 0.01),
+//           fillColor: ColorManager.white,
+//           suffixIcon: suffix,
+//           labelText: label,
+//           helperText: hint,
+//           labelStyle: TextStyle(
+//             color: ColorManager.black,
+//           )),
+//       validator: validator,
+//     );
+
+Widget searchProductDropdownBuilder(
     {required Product? value,
     required String text,required BuildContext context,
     required Function(Product? value) onChanged,
@@ -45,28 +89,58 @@ Widget searchDropdownBuilder(
   );
 }
 
+
+Widget searchDropdownBuilder(
+    {required String? value,
+      required String text,
+      IconData? icon,
+      required Function(String? value) onChanged,
+      required List<String> items}) {
+  return DropdownSearch<String>(
+      popupProps:
+      const PopupProps.menu(showSelectedItems: true, showSearchBox: true),
+      dropdownDecoratorProps: DropDownDecoratorProps(
+        dropdownSearchDecoration: InputDecoration(
+            labelText: text,
+            filled: true,
+            enabledBorder:
+            OutlineInputBorder(borderRadius: BorderRadius.circular(10.sp)),
+            focusedBorder:
+            OutlineInputBorder(borderRadius: BorderRadius.circular(10.sp)),
+            prefixIcon: Icon(icon??Icons.search,),
+            contentPadding: EdgeInsetsDirectional.symmetric(horizontal: 3.w),
+            labelStyle: TextStyle(
+              fontSize: 10.sp,
+            )),
+      ),
+      items: items,
+      onChanged: onChanged,
+      selectedItem: value);
+}
+
 Widget searchWidget({required Product product,required bool isSelected}) =>
     Container(
-      padding: EdgeInsets.symmetric(horizontal: 2.w, vertical: 2.h),
+      padding: EdgeInsetsDirectional.only(start: 3.w,top: 2.h,),
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        mainAxisAlignment: MainAxisAlignment.start,
         children: [
           Container(
             clipBehavior: Clip.antiAliasWithSaveLayer,
             decoration:
                 BoxDecoration(borderRadius: BorderRadius.circular(5.sp)),
             child: Image.network(
-              product.productsImages.first,
-              width: 20.w,
-              height: 7.h,
+              product.productsImagesUrl.first,
+              width: 15.w,
+              height: 6.h,
               fit: BoxFit.cover,
             ),
           ),
+          SizedBox(width: 4.w,),
           Text(
             product.productName,
             style: TextStyle(
                 color: isSelected ? ColorManager.primary : ColorManager.black,
-                fontSize: 12.sp,
+                fontSize: 10.sp,
                 fontWeight: FontWeight.w500),
           ),
         ],
@@ -149,9 +223,8 @@ Widget textContainerWidget(String text) => Container(
         style: TextStyle(fontSize: 15.sp, fontWeight: FontWeight.w500),
       ),
     ));
-Widget sellerWidget({
-  required String name,
-  String? image,
+Widget merchantsWidget({
+  required Merchant merchant
 }) => Card(
   shape: OutlineInputBorder(
       borderRadius: BorderRadius.circular(10.sp),
@@ -160,43 +233,71 @@ Widget sellerWidget({
   elevation: 4.sp,
   child: Container(
       width: double.infinity,
+      height: 6.h,
       decoration: BoxDecoration(
           color: ColorManager.white,
+          gradient: const LinearGradient(
+              begin: Alignment.topCenter,
+              colors: [
+                Color(0xffe6ccb2),
+                Color(0xffddb892),
+                Color(0xffddb892),
+                Color(0xffb08968),
+              ]
+          ),
           borderRadius: BorderRadiusDirectional.circular(10.sp)),
       child: Padding(
         padding: EdgeInsets.symmetric(horizontal: 4.w,vertical: 1.h),
         child: Row(
           children: [
-            CircleAvatar(
-              radius: 25,
-              backgroundImage: image != null
-                  ? NetworkImage(image) as ImageProvider<Object>?
-                  : const AssetImage("assets/images/default_image.jpg",) as ImageProvider<Object>?,
-            ),
-            SizedBox(width: 2.w,),
             Expanded(
-              child: Text(name,
-                style: TextStyle(fontSize: 15.sp, fontWeight: FontWeight.w500),
+              child: Row(
+                children: [
+                  const Icon(Icons.drive_file_rename_outline),
+                  SizedBox(width: 2.w,),
+                  Expanded(
+                    child: Text(merchant.companyName,
+                      style: TextStyle(fontSize: 14.sp, fontWeight: FontWeight.w500),
+                    ),
+                  ),
+                ],
+              ),
+            ),Expanded(
+              child: Row(
+                children: [
+                  const Icon(Icons.location_city),
+                  SizedBox(width: 2.w,),
+                  Expanded(
+                    child: Text(merchant.city,
+                      style: TextStyle(fontSize: 14.sp, fontWeight: FontWeight.w500),
+                    ),
+                  ),
+                ],
               ),
             ),
+
+            const Icon(Icons.arrow_forward_ios_sharp),
           ],
         ),
       )),
 );
 
-Widget categoryWidget({required Category category}) => Column(
-      children: [
-        CircleAvatar(
-          radius: 40,
-          backgroundColor: ColorManager.grey1,
-          backgroundImage: NetworkImage(category.categoryImage),
-        ),
-        Text(
-          category.categoryName,
-          style: TextStyle(fontWeight: FontWeight.w400, fontSize: 14.sp),
-        )
-      ],
-    );
+Widget categoryWidget({required Category category,required VoidCallback onTap}) => InkWell(
+  onTap: onTap,
+  child: Column(
+        children: [
+          CircleAvatar(
+            radius: 40,
+            backgroundColor: ColorManager.grey1,
+            backgroundImage: NetworkImage(category.categoryImage),
+          ),
+          Text(
+            category.categoryName,
+            style: TextStyle(fontWeight: FontWeight.w400, fontSize: 14.sp),
+          )
+        ],
+      ),
+);
 
 Widget productWidget({
   required Product product,
@@ -227,10 +328,10 @@ Widget productWidget({
                     height: 20.h,
                     decoration: BoxDecoration(
                       color: ColorManager.grey1,
-                      image: DecorationImage(
-                        image: NetworkImage(product.productsImages[0]),
+                      image: product.productsImagesUrl.isNotEmpty ? DecorationImage(
+                        image: NetworkImage(product.productsImagesUrl[0]),
                         fit: BoxFit.cover,
-                      ),
+                      ) : null,
                     ),
                   ),
                   Padding(

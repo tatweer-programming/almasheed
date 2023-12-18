@@ -3,11 +3,11 @@ import 'package:almasheed/main/data/models/product.dart';
 import 'package:almasheed/main/data/repositories/main_repository.dart';
 import 'package:almasheed/main/view/screens/profile_screen.dart';
 import 'package:almasheed/main/view/screens/support_screen.dart';
-import 'package:bloc/bloc.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
+import '../../authentication/data/models/merchant.dart';
 import '../../core/services/dep_injection.dart';
 import '../view/screens/home_page_screen.dart';
 
@@ -21,10 +21,13 @@ class MainBloc extends Bloc<MainEvent, MainState> {
   int pageIndex = 0;
   int carouselIndicatorIndex = 0;
   List<Product> products = [];
+  List<Merchant> merchants = [];
   List<Product> offers = [];
   List<Product> bestSales = [];
   List<Category> categories = [];
   Product? selectedProduct;
+  String? selectedCity;
+  List<Product> sortedProducts = [];
   List<Widget> pages = [
     const HomePageScreen(),
     const ProfileScreen(),
@@ -42,16 +45,52 @@ class MainBloc extends Bloc<MainEvent, MainState> {
         emit(GetProductsLoadingState());
         var result = await MainRepository(sl()).getProducts();
         result.fold((l) {
-          emit(GetProductsErrorState());
+          emit(GetProductsErrorState(l));
         }, (r) {
           products = r;
           emit(GetProductsSuccessfullyState());
+        });
+      } else if (event is SetProductEvent) {
+        emit(SetProductLoadingState());
+        var result =
+            await MainRepository(sl()).setProduct(product: event.product);
+        result.fold((l) {
+          emit(SetProductErrorState(l));
+        }, (r) {
+          emit(SetProductSuccessfullyState());
+        });
+      } else if (event is UpdateProductEvent) {
+        emit(UpdateProductLoadingState());
+        var result =
+            await MainRepository(sl()).updateProduct(product: event.product);
+        result.fold((l) {
+          emit(UpdateProductErrorState(l));
+        }, (r) {
+          emit(UpdateProductSuccessfullyState());
+        });
+      } else if (event is DeleteProductEvent) {
+        emit(DeleteProductLoadingState());
+        var result =
+            await MainRepository(sl()).deleteProduct(product: event.product);
+        result.fold((l) {
+          emit(DeleteProductErrorState(l));
+        }, (r) {
+          emit(DeleteProductSuccessfullyState());
+        });
+      } else if (event is GetMerchantsEvent) {
+        emit(GetMerchantsLoadingState());
+        var result = await MainRepository(sl()).getMerchants();
+        result.fold((l) {
+          emit(GetMerchantsErrorState(l));
+        }, (r) {
+          merchants = r;
+          emit(GetMerchantsSuccessfullyState());
         });
       } else if (event is GetOffersEvent) {
         emit(GetOffersLoadingState());
         var result = await MainRepository(sl()).getOffers();
         result.fold((l) {
-          emit(GetOffersErrorState());
+          emit(GetOffersErrorState(l));
         }, (r) {
           List<String> response = r;
           offers = products
@@ -59,39 +98,77 @@ class MainBloc extends Bloc<MainEvent, MainState> {
               .toList();
           emit(GetOffersSuccessfullyState());
         });
-      }else if (event is GetBestSalesEvent) {
+      } else if (event is GetBestSalesEvent) {
         emit(GetBestSalesLoadingState());
         var result = await MainRepository(sl()).getBestSales();
         result.fold((l) {
-          emit(GetBestSalesErrorState());
+          emit(GetBestSalesErrorState(l));
         }, (r) {
-          Map<String,int> response = r;
-          response = Map.fromEntries(
-              response.entries.toList()..sort((e1, e2) => e1.value.compareTo(e2.value)));
-
+          Map<String, int> response = r;
+          response = Map.fromEntries(response.entries.toList()
+            ..sort((e1, e2) => e1.value.compareTo(e2.value)));
           bestSales = products
               .where((product) => response.containsKey(product.productId))
               .toList();
           emit(GetBestSalesSuccessfullyState());
         });
-      }else if (event is GetCategoriesEvent) {
+      } else if (event is GetCategoriesEvent) {
         emit(GetCategoriesLoadingState());
         var result = await MainRepository(sl()).getCategories();
         result.fold((l) {
-          emit(GetCategoriesErrorState());
+          emit(GetCategoriesErrorState(l));
         }, (r) {
           categories = r;
-          for(Category category in categories){
+          for (Category category in categories) {
             category.products = products
-                .where((product) => category.productsIds.contains(product.productId))
+                .where((product) =>
+                    category.productsIds.contains(product.productId))
                 .toList();
           }
           emit(GetCategoriesSuccessfullyState());
         });
-      }else if (event is SelectProductEvent){
+      } else if (event is SelectProductEvent) {
         selectedProduct = event.product;
         emit(SelectProductState());
+      } else if (event is SelectCityEvent) {
+        selectedCity = event.selectedCity;
+        sortedProducts = sortedProducts
+            .where((product) => product.productCity == event.selectedCity)
+            .toList();
+        emit(SelectedCityState(
+            selectedCity: event.selectedCity, sortedProducts: sortedProducts));
+      } else if (event is CancelSortProductsEvent) {
+        sortedProducts = event.products;
+        selectedCity = null;
+        emit(CancelSortProductsState(
+          products: event.products,
+        ));
+      } else if (event is SortProductsEvent) {
+        print("before $sortedProducts");
+        if (event.type == "Alphabet") {
+          sortedProducts.sort((product1, product2) =>
+              product1.productName.compareTo(product2.productName));
+        } else if (event.type == "Lowest to highest price") {
+          sortedProducts.sort((product1, product2) =>
+              product1.productPrice.compareTo(product2.productPrice));
+        } else if (event.type == "Highest to lowest price") {
+          sortedProducts.sort((product1, product2) =>
+              product2.productPrice.compareTo(product1.productPrice));
+        }
+        print("after $sortedProducts");
+        emit(SortProductsState(products: sortedProducts));
       }
     });
+  }
+  FirebaseException? isErrorState({required MainState state}){
+    if(state is SetProductErrorState)return state.error;
+    if(state is DeleteProductErrorState)return state.error;
+    if(state is UpdateProductErrorState)return state.error;
+    if(state is GetProductsErrorState)return state.error;
+    if(state is GetMerchantsErrorState)return state.error;
+    if(state is GetOffersErrorState)return state.error;
+    if(state is GetBestSalesErrorState)return state.error;
+    if(state is GetCategoriesErrorState)return state.error;
+    return null;
   }
 }

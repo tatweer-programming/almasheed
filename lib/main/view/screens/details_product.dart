@@ -15,7 +15,6 @@ class DetailsProductScreen extends StatelessWidget {
       initialIndex: 1,
       length: 2,
       child: Scaffold(
-        backgroundColor: ColorManager.secondary,
         body: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [

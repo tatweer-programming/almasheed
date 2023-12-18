@@ -56,12 +56,12 @@ class OTPScreen extends StatelessWidget {
                   children: [
                     TextSpan(
                         text: bloc.user?.phone,
-                        style: const TextStyle(
+                        style: TextStyle(
                             color: ColorManager.grey2,
                             fontWeight: FontWeight.bold,
                             fontSize: 15)),
                   ],
-                  style: const TextStyle(color: ColorManager.black,
+                  style: TextStyle(color: ColorManager.black,
                       fontSize: 15)),
               textAlign: TextAlign.center,
             ),
@@ -114,7 +114,7 @@ class OTPScreen extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              const Text(
+              Text(
                 "Didn't receive the code? ",
                 style: TextStyle(color: ColorManager.black, fontSize: 15),
               ),
@@ -123,7 +123,7 @@ class OTPScreen extends StatelessWidget {
                     
                   },
                
-                  child: const Text(
+                  child: Text(
                     "RESEND",
                     style: TextStyle(
                         color: ColorManager.primary,
@@ -152,7 +152,7 @@ class OTPScreen extends StatelessWidget {
                 child: Center(
                     child: Text(
                       "VERIFY".toUpperCase(),
-                      style:  const TextStyle(
+                      style: TextStyle(
                           color: ColorManager.white,
                           fontSize: 18,
                           fontWeight: FontWeight.bold),

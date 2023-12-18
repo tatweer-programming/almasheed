@@ -23,6 +23,32 @@ class GetProductsEvent extends MainEvent {
   List<Object?> get props => [];
 }
 
+class SetProductEvent extends MainEvent {
+  final Product product;
+  const SetProductEvent({required this.product});
+  @override
+  List<Object?> get props => [product];
+}
+
+class UpdateProductEvent extends MainEvent {
+  final Product product;
+  const UpdateProductEvent({required this.product});
+  @override
+  List<Object?> get props => [product];
+}
+
+class DeleteProductEvent extends MainEvent {
+  final Product product;
+  const DeleteProductEvent({required this.product});
+  @override
+  List<Object?> get props => [product];
+}
+
+class GetMerchantsEvent extends MainEvent {
+  @override
+  List<Object?> get props => [];
+}
+
 class GetCategoriesEvent extends MainEvent {
   @override
   List<Object?> get props => [];
@@ -43,4 +69,25 @@ class SelectProductEvent extends MainEvent {
   const SelectProductEvent({required this.product});
   @override
   List<Object?> get props => [product];
+}
+
+class SelectCityEvent extends MainEvent {
+  final String selectedCity;
+  const SelectCityEvent({required this.selectedCity});
+  @override
+  List<Object?> get props => [selectedCity];
+}
+
+class CancelSortProductsEvent extends MainEvent {
+  final List<Product> products;
+  const CancelSortProductsEvent({required this.products});
+  @override
+  List<Object?> get props => [products];
+}
+
+class SortProductsEvent extends MainEvent {
+  final String type;
+  const SortProductsEvent({required this.type});
+  @override
+  List<Object?> get props => [type];
 }

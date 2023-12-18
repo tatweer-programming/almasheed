@@ -94,9 +94,9 @@ class MerchantLoginScreen extends StatelessWidget {
                         SizedBox(height: 10.sp,),
                         state is SendCodeLoadingState ? const
                         Center(child: CircularProgressIndicator()):    Container(
-                          decoration: const BoxDecoration(
+                          decoration: BoxDecoration(
                               color: ColorManager.primary,
-                              borderRadius: BorderRadius.all(
+                              borderRadius: const BorderRadius.all(
                                   Radius.elliptical(10, 20))),
                           width: 25.w,
                           height: 30.sp,
@@ -120,7 +120,7 @@ class MerchantLoginScreen extends StatelessWidget {
                               }
                           
                             },
-                            child:  const Center(child:
+                            child: Center(child:
                             Text(" Send code " ,
                               style: TextStyle(
                                   color: ColorManager.white

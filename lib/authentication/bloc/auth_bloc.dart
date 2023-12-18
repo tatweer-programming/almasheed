@@ -1,13 +1,11 @@
 import 'dart:async';
-
-import 'package:almasheed/authentication/data/models/merchant.dart';
 import 'package:almasheed/authentication/data/models/user.dart';
 import 'package:almasheed/authentication/data/services/auth_services.dart';
 import 'package:almasheed/authentication/presentation/components.dart';
 import 'package:almasheed/core/error/remote_error.dart';
+import 'package:almasheed/core/utils/constance_manager.dart';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -70,9 +68,10 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     }, (r) {
       bool isExists = r;
       isExists ? {
-      authCompleted = true
+        authCompleted = true
       } : defaultToast(msg: "user created Successfully");
-  authCompleted = true;
+      authCompleted = true;
+      ConstantsManager.appUser = user;
     });
   }
 }

@@ -1,5 +1,6 @@
 import 'package:almasheed/core/utils/color_manager.dart';
 import 'package:almasheed/core/utils/navigation_manager.dart';
+import 'package:almasheed/main/view/screens/category_screen.dart';
 import 'package:almasheed/main/view/screens/details_product.dart';
 import 'package:almasheed/main/view/widgets/widgets.dart';
 import 'package:carousel_slider/carousel_slider.dart';
@@ -7,6 +8,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sizer/sizer.dart';
 
+import '../../../authentication/presentation/components.dart';
+import '../../../core/error/remote_error.dart';
 import '../../../core/services/dep_injection.dart';
 import '../../bloc/main_bloc.dart';
 
@@ -16,7 +19,6 @@ List<String> list = [
   "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSK_dpI9V5LsmeCAWth-VVt4LCJ4-uQq7Tr6w&usqp=CAU",
   "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRhZHbbrSxPuCzOdrugXgNjG5tS3Cp1J3uE1i2qBcsPcuPi7LtvzeVXrTwBPvqiNX7vkEg&usqp=CAU",
 ];
-List<String> list2 = ["Ahmed","Mohamed","Mahmoud","Ahmed","Mohamed","Mahmoud","Ahmed","Mohamed","Mahmoud","Ahmed","Mohamed","Mahmoud","ALI"];
 
 class HomePageScreen extends StatelessWidget {
   const HomePageScreen({super.key});
@@ -31,6 +33,9 @@ class HomePageScreen extends StatelessWidget {
           bloc.add(GetOffersEvent());
           bloc.add(GetCategoriesEvent());
           bloc.add(GetBestSalesEvent());
+        }
+        if(bloc.isErrorState(state: state) != null){
+          errorToast(msg: ExceptionManager(bloc.isErrorState(state: state)).translatedMessage());
         }
       },
       builder: (context, state) {
@@ -53,7 +58,7 @@ class HomePageScreen extends StatelessWidget {
                     Expanded(
                       child: SizedBox(
                         height: 7.h,
-                        child: searchDropdownBuilder(
+                        child: searchProductDropdownBuilder(
                             value: bloc.selectedProduct,
                             text: "search ...",
                             onChanged: (product) {
@@ -103,6 +108,9 @@ class HomePageScreen extends StatelessWidget {
                                         scrollDirection: Axis.horizontal,
                                         itemBuilder: (context, index) =>
                                             categoryWidget(
+                                              onTap: (){
+                                                context.push(CategoryScreen(category: bloc.categories[index],));
+                                              },
                                                 category:
                                                     bloc.categories[index]),
                                         separatorBuilder: (context, index) =>
@@ -179,14 +187,14 @@ class HomePageScreen extends StatelessWidget {
                                 )
                               : const SizedBox(),
                           SizedBox(height: 1.h,),
-                          textContainerWidget("Sellers"),
+                          textContainerWidget("Merchants"),
                           SizedBox(height: 1.h,),
                           ListView.separated(
                             padding: EdgeInsets.zero,
                             shrinkWrap: true,physics: const NeverScrollableScrollPhysics(),
-                              itemBuilder: (context, index) => sellerWidget(name: list2[index],),
+                              itemBuilder: (context, index) => merchantsWidget(merchant: bloc.merchants[index]),
                               separatorBuilder:
-                              (context, index) => SizedBox(height: 1.h,), itemCount: list2.length)
+                              (context, index) => SizedBox(height: 1.h,), itemCount: bloc.merchants.length)
                         ],
                       ),
                     ),

@@ -9,20 +9,6 @@ class MainInitial extends MainState {
   List<Object> get props => [];
 }
 
-class ChangeBottomNavState extends MainState {
-  final int index;
-  const ChangeBottomNavState({required this.index});
-  @override
-  List<Object> get props => [index];
-}
-
-class ChangeCarouselIndicatorState extends MainState {
-  final int index;
-  const ChangeCarouselIndicatorState({required this.index});
-  @override
-  List<Object> get props => [index];
-}
-
 // get product
 class GetProductsSuccessfullyState extends MainState {
   @override
@@ -35,8 +21,83 @@ class GetProductsLoadingState extends MainState {
 }
 
 class GetProductsErrorState extends MainState {
+  final FirebaseException error;
+  const GetProductsErrorState(this.error);
+  @override
+  List<Object?> get props => [error];
+}
+
+// set product
+class SetProductSuccessfullyState extends MainState {
   @override
   List<Object?> get props => [];
+}
+
+class SetProductLoadingState extends MainState {
+  @override
+  List<Object?> get props => [];
+}
+
+class SetProductErrorState extends MainState {
+  final FirebaseException error;
+  const SetProductErrorState(this.error);
+  @override
+  List<Object?> get props => [error];
+}
+
+
+// update product
+class UpdateProductSuccessfullyState extends MainState {
+  @override
+  List<Object?> get props => [];
+}
+
+class UpdateProductLoadingState extends MainState {
+  @override
+  List<Object?> get props => [];
+}
+
+class UpdateProductErrorState extends MainState {
+  final FirebaseException error;
+  const UpdateProductErrorState(this.error);
+  @override
+  List<Object?> get props => [error];
+}
+
+// delete product
+class DeleteProductSuccessfullyState extends MainState {
+  @override
+  List<Object?> get props => [];
+}
+
+class DeleteProductLoadingState extends MainState {
+  @override
+  List<Object?> get props => [];
+}
+
+class DeleteProductErrorState extends MainState {
+  final FirebaseException error;
+  const DeleteProductErrorState(this.error);
+  @override
+  List<Object?> get props => [error];
+}
+
+// get Merchants
+class GetMerchantsSuccessfullyState extends MainState {
+  @override
+  List<Object?> get props => [];
+}
+
+class GetMerchantsLoadingState extends MainState {
+  @override
+  List<Object?> get props => [];
+}
+
+class GetMerchantsErrorState extends MainState {
+  final FirebaseException error;
+  const GetMerchantsErrorState(this.error);
+  @override
+  List<Object?> get props => [error];
 }
 
 // get offer
@@ -51,8 +112,10 @@ class GetOffersLoadingState extends MainState {
 }
 
 class GetOffersErrorState extends MainState {
+  final FirebaseException error;
+  const GetOffersErrorState(this.error);
   @override
-  List<Object?> get props => [];
+  List<Object?> get props => [error];
 }
 
 // get category
@@ -67,10 +130,11 @@ class GetCategoriesLoadingState extends MainState {
 }
 
 class GetCategoriesErrorState extends MainState {
+  final FirebaseException error;
+  const GetCategoriesErrorState(this.error);
   @override
-  List<Object?> get props => [];
+  List<Object?> get props => [error];
 }
-
 
 // get best sales
 class GetBestSalesSuccessfullyState extends MainState {
@@ -84,11 +148,52 @@ class GetBestSalesLoadingState extends MainState {
 }
 
 class GetBestSalesErrorState extends MainState {
+  final FirebaseException error;
+  const GetBestSalesErrorState(this.error);
   @override
-  List<Object?> get props => [];
+  List<Object?> get props => [error];
 }
+
+// logic
 
 class SelectProductState extends MainState {
   @override
   List<Object?> get props => [];
+}
+
+class SelectedCityState extends MainState {
+  final String selectedCity;
+  final List<Product> sortedProducts;
+  const SelectedCityState(
+      {required this.selectedCity, required this.sortedProducts});
+  @override
+  List<Object?> get props => [selectedCity, sortedProducts];
+}
+
+class CancelSortProductsState extends MainState {
+  final List<Product> products;
+  const CancelSortProductsState({required this.products});
+  @override
+  List<Object?> get props => [products];
+}
+
+class SortProductsState extends MainState {
+  final List<Product> products;
+  const SortProductsState({required this.products});
+  @override
+  List<Object?> get props => [products];
+}
+
+class ChangeBottomNavState extends MainState {
+  final int index;
+  const ChangeBottomNavState({required this.index});
+  @override
+  List<Object> get props => [index];
+}
+
+class ChangeCarouselIndicatorState extends MainState {
+  final int index;
+  const ChangeCarouselIndicatorState({required this.index});
+  @override
+  List<Object> get props => [index];
 }

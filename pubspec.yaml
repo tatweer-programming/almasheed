@@ -44,17 +44,17 @@ dependencies:
   carousel_slider:
   dropdown_search:
   pin_code_fields:
+  fluttertoast:
 
   #bloc
   bloc:
   flutter_bloc:
 
   #fire base
-  firebase_core:
+  firebase_storage:
   firebase_auth:
   cloud_firestore:
   firebase_messaging:
-  fluttertoast:
 
 dev_dependencies:
   flutter_test:
@@ -79,8 +79,8 @@ flutter:
   uses-material-design: true
 
   # To add assets to your application, add an assets section, like this:
-  assets:
-    - assets/images/
+#  assets:
+#    - assets/images/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

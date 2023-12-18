@@ -1,4 +1,4 @@
-import 'package:almasheed/authentication/presentation/screens/account_type_screen.dart';
+import 'package:almasheed/main/view/screens/main_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -22,26 +22,21 @@ Future<void> main() async {
 
 class Masheed extends StatelessWidget {
   const Masheed({super.key});
-
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return Sizer(builder: (context, orientation, deviceType){
+    return Sizer(builder: (context, orientation, deviceType) {
       return MultiBlocProvider(
         providers: [
           BlocProvider<MainBloc>(
-              create: (BuildContext context) => sl()..add(GetProductsEvent())
-          ),
-          BlocProvider<AuthBloc>(
-              create: (BuildContext context) =>
-                  AuthBloc()
-          )
+              create: (BuildContext context) => sl()
+                ..add(GetProductsEvent())
+                ..add(GetMerchantsEvent())),
+          BlocProvider<AuthBloc>(create: (BuildContext context) => AuthBloc())
         ],
-        child: MaterialApp (
+        child: MaterialApp(
             title: 'Al Masheed',
             theme: getAppTheme(),
-            home: const AccountTypeScreen()
-        ),
+            home: const MainScreen()),
       );
     });
   }

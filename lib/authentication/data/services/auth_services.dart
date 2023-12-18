@@ -10,7 +10,7 @@ import 'package:flutter/foundation.dart';
 
 class AuthService {
   final FirebaseAuth _auth = FirebaseAuth.instance;
-  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  final FirebaseFirestore _fireStore = FirebaseFirestore.instance;
   static String? verificationID;
 
   static Completer<String> verificationIdCompleter = Completer<String>();
@@ -79,7 +79,7 @@ class AuthService {
   ) async {
     late bool isExists;
     print(")))))))))))))))))))))))))))))))))))))))))))))))))");
-    await _firestore.collection("${userType}s/").doc(id).get().then((value) {
+    await _fireStore.collection("${userType}s/").doc(id).get().then((value) {
       isExists =  value.data()!["id"] == id ;
 
 
@@ -111,7 +111,7 @@ class AuthService {
 
   Future _createCustomer(Customer customer) async {
     try {
-      await _firestore
+      await _fireStore
           .doc("customers/${customer.id})")
           .set(customer.toJson())
           .then((value) {
@@ -126,7 +126,7 @@ class AuthService {
 
   Future _createMerchant(Merchant merchant) async {
     try {
-      await _firestore
+      await _fireStore
           .doc("merchants/${merchant.id})")
           .set(merchant.toJson())
           .then((value) {
