@@ -41,10 +41,13 @@ class ModifyProductScreen extends StatelessWidget {
         if (state is UpdateProductLoadingState) {
           showDialog(
             context: context,
-            barrierDismissible: true,
+            barrierDismissible: false,
             builder: (context) {
-              return const AlertDialog(
-                  content: Column(
+              return AlertDialog(
+                shape: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(5.sp)
+                ),
+                  content: const Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   Center(child: CircularProgressIndicator()),
@@ -61,8 +64,11 @@ class ModifyProductScreen extends StatelessWidget {
           showDialog(
             context: context,
             builder: (context) {
-              return const AlertDialog(
-                content: Text(
+              return  AlertDialog(
+                shape: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(5.sp)
+                ),
+                content: const Text(
                   "The product has been modified successfully",
                   style: TextStyle(
                     fontWeight: FontWeight.w500,

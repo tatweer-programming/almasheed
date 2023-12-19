@@ -22,7 +22,6 @@ class DetailsProductScreen extends StatelessWidget {
     return BlocConsumer<MainBloc, MainState>(
       listener: (context, state) {
         if (state is GetProductsSuccessfullyState) {
-          print(state);
           bloc.add(GetCategoriesEvent());
         }
       },

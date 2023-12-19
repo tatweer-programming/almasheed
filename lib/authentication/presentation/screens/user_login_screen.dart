@@ -19,7 +19,7 @@ class CustomerLoginScreen extends StatelessWidget {
 
     return BlocConsumer<AuthBloc, AuthState>(
       bloc: bloc,
-      listenWhen: (AuthState, authState) {
+      listenWhen: (uthState, authState) {
         return (bloc.verificationId != null);
       },
       listener: (context, state) {

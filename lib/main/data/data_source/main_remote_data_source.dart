@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:almasheed/core/utils/constance_manager.dart';
 import 'package:almasheed/main/data/models/category.dart';
 import 'package:almasheed/main/data/models/product.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -10,7 +11,6 @@ import '../../../authentication/data/models/merchant.dart';
 
 class MainRemoteDataSource {
   final FirebaseFirestore firebaseInstance = FirebaseFirestore.instance;
-
   Future<Either<FirebaseException, List<Product>>> getProducts() async {
     try {
       List<Product> products = [];
@@ -29,7 +29,8 @@ class MainRemoteDataSource {
     required Product product,
   }) async {
     try {
-      product.productsImagesUrl??=[];
+      var batch = FirebaseFirestore.instance.batch();
+      product.productsImagesUrl ??= [];
       if (product.productsImagesFile != null) {
         for (XFile imageFile in product.productsImagesFile!) {
           String imageUrl = await _uploadImageToFirebaseStorage(
@@ -39,7 +40,29 @@ class MainRemoteDataSource {
           product.productsImagesUrl!.add(imageUrl);
         }
       }
-      await firebaseInstance.collection("products").doc().set(product.toJson());
+      var products =
+          firebaseInstance.collection("products").doc(product.productId);
+      var offers = firebaseInstance.collection("offers").doc("offers");
+      var merchants = firebaseInstance.collection("merchants").doc(ConstantsManager.appUser!.id);
+      var bestSales =
+          firebaseInstance.collection("best_sales").doc("best_sales");
+      var categories = firebaseInstance
+          .collection("categories")
+          .doc(product.productCategory);
+      batch.set(products, product.toJson());
+      batch.set(bestSales, {product.productId: 0});
+      batch.update(categories, {
+        "productsIds": FieldValue.arrayUnion([product.productId])
+      });
+      batch.update(merchants, {
+        "productsIds": FieldValue.arrayUnion([product.productId])
+      });
+      if (product.productNewPrice != product.productOldPrice) {
+        batch.update(offers, {
+          "productsIds": FieldValue.arrayUnion([product.productId])
+        });
+      }
+      await batch.commit();
       return const Right(unit);
     } on FirebaseException catch (error) {
       return Left(error);
@@ -55,7 +78,8 @@ class MainRemoteDataSource {
           .doc(product.productId)
           .delete()
           .then((_) {
-        _deleteImageFromFirebaseStorage(fileName: "products/${product.productName}");
+        _deleteImageFromFirebaseStorage(
+            fileName: "products/${product.productName}");
       });
       return const Right(unit);
     } on FirebaseException catch (error) {
@@ -67,17 +91,16 @@ class MainRemoteDataSource {
     required Product product,
   }) async {
     try {
-      if (product.productsImagesDelete != null && product.productsImagesDelete!.isNotEmpty) {
+      if (product.productsImagesDelete != null &&
+          product.productsImagesDelete!.isNotEmpty) {
         for (String productImage in product.productsImagesDelete!) {
-          print("Uri.parse(productImage).pathSegments.last   ${
-              Uri.parse(productImage).pathSegments.last
-          }");
-           _deleteImageFromFirebaseStorage(
+          _deleteImageFromFirebaseStorage(
               fileName: Uri.parse(productImage).pathSegments.last);
         }
         product.productsImagesDelete!.clear();
       }
-      if (product.productsImagesFile != null && product.productsImagesFile!.isNotEmpty) {
+      if (product.productsImagesFile != null &&
+          product.productsImagesFile!.isNotEmpty) {
         for (XFile imageFile in product.productsImagesFile!) {
           String imageUrl = await _uploadImageToFirebaseStorage(
               imageFile: imageFile,

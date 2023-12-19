@@ -146,7 +146,6 @@ class MainBloc extends Bloc<MainEvent, MainState> {
           products: event.products,
         ));
       } else if (event is SortProductsEvent) {
-        print("before $sortedProducts");
         if (event.type == "Alphabet") {
           sortedProducts.sort((product1, product2) =>
               product1.productName.compareTo(product2.productName));

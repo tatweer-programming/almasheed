@@ -1,5 +1,4 @@
 import 'dart:io';
-import 'dart:math';
 import 'package:almasheed/core/utils/navigation_manager.dart';
 import 'package:almasheed/main/data/models/product.dart';
 import 'package:almasheed/main/view/widgets/widgets.dart';
@@ -34,8 +33,11 @@ class AddProductScreen extends StatelessWidget {
             context: context,
             barrierDismissible: false,
             builder: (context) {
-              return const AlertDialog(
-                  content: Column(
+              return AlertDialog(
+                  shape: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(5.sp)
+                  ),
+                  content: const Column(
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       Center(child: CircularProgressIndicator()),
@@ -51,8 +53,11 @@ class AddProductScreen extends StatelessWidget {
           showDialog(
             context: context,
             builder: (context) {
-              return const AlertDialog(
-                content: Text(
+              return AlertDialog(
+                shape: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(5.sp)
+                ),
+                content: const Text(
                   "The product has been added successfully",
                   style: TextStyle(
                     fontWeight: FontWeight.w500,
@@ -83,6 +88,7 @@ class AddProductScreen extends StatelessWidget {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
+                          SizedBox(height: 1.h,),
                           defaultFormField(
                               validator: (value) {
                                 if (value!.isEmpty) {
@@ -187,7 +193,7 @@ class AddProductScreen extends StatelessWidget {
                                   productName: nameController.text,
                                   productCategory: productCategoryController.text,
                                   productsImagesFile: bloc.imagesFiles,
-                                  productId: DateTime.now.toString(),
+                                  productId: DateTime.now().toString(),
                                   productOldPrice:
                                       double.parse(priceController.text),
                                   productNewPrice: newPriceAfterDiscount(
