@@ -6,20 +6,21 @@ class Merchant extends AppUser {
   String area;
   String registrationNumber;
   List<String> orders;
+  List<String> productsIds;
 
-  Merchant({
-    required this.companyName,
-    required this.city,
-    required this.area,
-    required this.registrationNumber,
-    required this.orders,
-    required super.id,
-    required super.phone,
-  });
+  Merchant(
+      {required this.companyName,
+      required this.city,
+      required this.area,
+      required this.registrationNumber,
+      required this.orders,
+      required super.id,
+      required super.phone,
+      required this.productsIds});
 
   Map<String, dynamic> toJson() {
     return {
-      'type': 'merchant',
+      "productIds": productsIds,
       'id': id,
       'phone': phone,
       'companyName': companyName,
@@ -32,6 +33,7 @@ class Merchant extends AppUser {
 
   factory Merchant.fromJson(Map<String, dynamic> json) {
     return Merchant(
+        productsIds: (json['productIds'] as List).cast<String>(),
         companyName: json['companyName'],
         city: json['city'],
         area: json['area'],
