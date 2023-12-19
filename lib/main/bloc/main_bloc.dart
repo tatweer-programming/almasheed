@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:almasheed/main/data/models/category.dart';
 import 'package:almasheed/main/data/models/product.dart';
 import 'package:almasheed/main/data/repositories/main_repository.dart';
@@ -7,6 +9,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:image_picker/image_picker.dart';
 import '../../authentication/data/models/merchant.dart';
 import '../../core/services/dep_injection.dart';
 import '../view/screens/home_page_screen.dart';
@@ -25,6 +28,7 @@ class MainBloc extends Bloc<MainEvent, MainState> {
   List<Product> offers = [];
   List<Product> bestSales = [];
   List<Category> categories = [];
+  List<XFile> imagesFiles = [];
   Product? selectedProduct;
   String? selectedCity;
   List<Product> sortedProducts = [];
@@ -62,7 +66,7 @@ class MainBloc extends Bloc<MainEvent, MainState> {
       } else if (event is UpdateProductEvent) {
         emit(UpdateProductLoadingState());
         var result =
-            await MainRepository(sl()).updateProduct(product: event.product);
+            await MainRepository(sl()).modifyProduct(product: event.product);
         result.fold((l) {
           emit(UpdateProductErrorState(l));
         }, (r) {
@@ -150,25 +154,42 @@ class MainBloc extends Bloc<MainEvent, MainState> {
               product1.productName.compareTo(product2.productName));
         } else if (event.type == "Lowest to highest price") {
           sortedProducts.sort((product1, product2) =>
-              product1.productPrice.compareTo(product2.productPrice));
+              product1.productOldPrice.compareTo(product2.productOldPrice));
         } else if (event.type == "Highest to lowest price") {
           sortedProducts.sort((product1, product2) =>
-              product2.productPrice.compareTo(product1.productPrice));
+              product2.productOldPrice.compareTo(product1.productOldPrice));
+        } else if (event.type == "Best Sales") {
+          sortedProducts = event.products
+              .where((product) =>
+                  bestSales.map((e) => e.productId).contains(product.productId))
+              .toList();
+        }else if (event.type == "Offers") {
+          sortedProducts = event.products
+              .where((product) =>
+                  offers.map((e) => e.productId).contains(product.productId))
+              .toList();
         }
-        print("after $sortedProducts");
         emit(SortProductsState(products: sortedProducts));
+      } else if (event is PickImagesEvent) {
+        final pickedFile = await ImagePicker().pickMultiImage();
+        if (pickedFile.isNotEmpty) {
+          imagesFiles = imagesFiles + pickedFile;
+        }
+        emit(PickImageState(imagesFiles: imagesFiles));
+      } else if (event is RemovePickedImageEvent) {
+        emit(RemoveImageState());
+        imagesFiles.remove(event.image);
+        emit(RemovePickedImageState(imagesFiles: imagesFiles));
+      }else if (event is RemoveImageEvent) {
+        emit(AddImageUrlDeletedState());
+        event.imagesUrlDelete.add(event.image);
+        event.imagesUrl.remove(event.image);
+        emit(RemoveImageState());
       }
     });
   }
-  FirebaseException? isErrorState({required MainState state}){
-    if(state is SetProductErrorState)return state.error;
-    if(state is DeleteProductErrorState)return state.error;
-    if(state is UpdateProductErrorState)return state.error;
-    if(state is GetProductsErrorState)return state.error;
-    if(state is GetMerchantsErrorState)return state.error;
-    if(state is GetOffersErrorState)return state.error;
-    if(state is GetBestSalesErrorState)return state.error;
-    if(state is GetCategoriesErrorState)return state.error;
+  FirebaseException? isErrorState({required MainState state}) {
+    if (state is DeleteProductErrorState) return state.error;
     return null;
   }
 }

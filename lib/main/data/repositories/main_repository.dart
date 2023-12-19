@@ -34,9 +34,9 @@ class MainRepository {
     return await mainRemoteDataSource.setProduct(product: product);
   }
 
-  Future<Either<FirebaseException, Unit>> updateProduct(
+  Future<Either<FirebaseException, Unit>> modifyProduct(
       {required Product product}) async {
-    return await mainRemoteDataSource.updateProduct(product: product);
+    return await mainRemoteDataSource.modifyProduct(product: product);
   }
 
   Future<Either<FirebaseException, Unit>> deleteProduct(

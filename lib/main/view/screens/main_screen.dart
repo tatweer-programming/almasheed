@@ -1,5 +1,10 @@
+import 'dart:io';
+
+import 'package:almasheed/authentication/data/models/merchant.dart';
 import 'package:almasheed/core/utils/color_manager.dart';
+import 'package:almasheed/core/utils/constance_manager.dart';
 import 'package:almasheed/core/utils/navigation_manager.dart';
+import 'package:almasheed/main/view/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:responsive_navigation_bar/responsive_navigation_bar.dart';
@@ -7,6 +12,7 @@ import 'package:sizer/sizer.dart';
 
 import '../../../core/services/dep_injection.dart';
 import '../../bloc/main_bloc.dart';
+import 'add_product_screen.dart';
 
 class MainScreen extends StatelessWidget {
   const MainScreen({super.key});
@@ -45,36 +51,12 @@ class MainScreen extends StatelessWidget {
             padding: EdgeInsets.zero,
             inactiveIconColor: Colors.black,
           ),
-          floatingActionButton: FloatingActionButton(
-              onPressed: (){
-                showDialog(
-                  context: context,
-                  builder: (BuildContext context) {
-                    return AlertDialog(
-                        shape: RoundedRectangleBorder(
-                          borderRadius:
-                          BorderRadius.circular(10.sp),
-                        ),
-                        actions: [
-                          TextButton(onPressed: (){
-                            context.pop();
-                          }, child: const Text("Cancel")),
-                          TextButton(onPressed: (){
-                            context.pop();
-                          }, child: const Text("Okay")),
-                        ],
-                        content: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                                                    ],
-                        )
-                    );
-                  },
-                );
-              },
-              child: const Icon(Icons.add),
-          ),
+          floatingActionButton: ConstantsManager.appUser is! Merchant ? FloatingActionButton(
+            onPressed: () {
+              context.push(const AddProductScreen());
+            },
+            child: const Icon(Icons.add),
+          ):null,
           body: RefreshIndicator(
               onRefresh: () async {
                 bloc.add(GetOffersEvent());

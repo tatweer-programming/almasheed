@@ -7,8 +7,6 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sizer/sizer.dart';
-
-import '../../../authentication/presentation/components.dart';
 import '../../../core/error/remote_error.dart';
 import '../../../core/services/dep_injection.dart';
 import '../../bloc/main_bloc.dart';
@@ -30,13 +28,16 @@ class HomePageScreen extends StatelessWidget {
     return BlocConsumer<MainBloc, MainState>(
       listener: (context, state) {
         if (state is GetProductsSuccessfullyState) {
+          print(state);
           bloc.add(GetOffersEvent());
           bloc.add(GetCategoriesEvent());
           bloc.add(GetBestSalesEvent());
         }
-        if(bloc.isErrorState(state: state) != null){
-          errorToast(msg: ExceptionManager(bloc.isErrorState(state: state)).translatedMessage());
-        }
+        if (state is GetProductsErrorState)errorToast(msg: ExceptionManager(state.error).translatedMessage());
+        if (state is GetMerchantsErrorState)errorToast(msg: ExceptionManager(state.error).translatedMessage());
+        if (state is GetOffersErrorState)errorToast(msg: ExceptionManager(state.error).translatedMessage());
+        if (state is GetBestSalesErrorState)errorToast(msg: ExceptionManager(state.error).translatedMessage());
+        if (state is GetCategoriesErrorState)errorToast(msg: ExceptionManager(state.error).translatedMessage());
       },
       builder: (context, state) {
         return Column(
@@ -123,69 +124,69 @@ class HomePageScreen extends StatelessWidget {
                                   ],
                                 )
                               : const SizedBox(),
-                          bloc.offers.isNotEmpty
-                              ? Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    textContainerWidget("Hot Deals"),
-                                    SizedBox(
-                                      height: 1.h,
-                                    ),
-                                    SizedBox(
-                                      height: 32.h,
-                                      child: ListView.separated(
-                                        scrollDirection: Axis.horizontal,
-                                        shrinkWrap: true,
-                                        itemBuilder: (context, index) =>
-                                            productWidget(
-                                                openProductPressed: () {
-                                                  context.push(DetailsProductScreen(product: bloc.offers[index]));
-                                                },
-                                                product: bloc.offers[index],
-                                                addCardPressed: () {}),
-                                        separatorBuilder: (context, index) =>
-                                            SizedBox(
-                                          width: 4.w,
-                                        ),
-                                        itemCount: bloc.offers.length,
-                                      ),
-                                    ),
-                                    SizedBox(
-                                      height: 1.h,
-                                    ),
-                                  ],
-                                )
-                              : const SizedBox(),
-                          bloc.bestSales.isNotEmpty
-                              ? Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    textContainerWidget("Best Sales"),
-                                    SizedBox(
-                                      height: 1.h,
-                                    ),
-                                    SizedBox(
-                                      height: 32.h,
-                                      child: ListView.separated(
-                                        scrollDirection: Axis.horizontal,
-                                        shrinkWrap: true,
-                                        itemBuilder: (context, index) =>
-                                            productWidget(
-                                                openProductPressed: () {
-                                                  context.push(DetailsProductScreen(product: bloc.bestSales[index]));
-                                                },
-                                                product: bloc.bestSales[index],
-                                                addCardPressed: () {}),
-                                        separatorBuilder: (context, index) =>
-                                            SizedBox(
-                                          width: 8.w,
-                                        ),
-                                        itemCount: bloc.bestSales.length,
-                                      ),
-                                    ),
-                                  ],
-                                )
-                              : const SizedBox(),
+                          // bloc.offers.isNotEmpty
+                          //     ? Column(
+                          //         crossAxisAlignment: CrossAxisAlignment.start,
+                          //         children: [
+                          //           textContainerWidget("Hot Deals"),
+                          //           SizedBox(
+                          //             height: 1.h,
+                          //           ),
+                          //           SizedBox(
+                          //             height: 32.h,
+                          //             child: ListView.separated(
+                          //               scrollDirection: Axis.horizontal,
+                          //               shrinkWrap: true,
+                          //               itemBuilder: (context, index) =>
+                          //                   productWidget(
+                          //                       openProductPressed: () {
+                          //                         context.push(DetailsProductScreen(product: bloc.offers[index]));
+                          //                       },
+                          //                       product: bloc.offers[index],
+                          //                       addCardPressed: () {}),
+                          //               separatorBuilder: (context, index) =>
+                          //                   SizedBox(
+                          //                 width: 4.w,
+                          //               ),
+                          //               itemCount: bloc.offers.length,
+                          //             ),
+                          //           ),
+                          //           SizedBox(
+                          //             height: 1.h,
+                          //           ),
+                          //         ],
+                          //       )
+                          //     : const SizedBox(),
+                          // bloc.bestSales.isNotEmpty
+                          //     ? Column(
+                          //         crossAxisAlignment: CrossAxisAlignment.start,
+                          //         children: [
+                          //           textContainerWidget("Best Sales"),
+                          //           SizedBox(
+                          //             height: 1.h,
+                          //           ),
+                          //           SizedBox(
+                          //             height: 32.h,
+                          //             child: ListView.separated(
+                          //               scrollDirection: Axis.horizontal,
+                          //               shrinkWrap: true,
+                          //               itemBuilder: (context, index) =>
+                          //                   productWidget(
+                          //                       openProductPressed: () {
+                          //                         context.push(DetailsProductScreen(product: bloc.bestSales[index]));
+                          //                       },
+                          //                       product: bloc.bestSales[index],
+                          //                       addCardPressed: () {}),
+                          //               separatorBuilder: (context, index) =>
+                          //                   SizedBox(
+                          //                 width: 8.w,
+                          //               ),
+                          //               itemCount: bloc.bestSales.length,
+                          //             ),
+                          //           ),
+                          //         ],
+                          //       )
+                          //     : const SizedBox(),
                           SizedBox(height: 1.h,),
                           textContainerWidget("Merchants"),
                           SizedBox(height: 1.h,),

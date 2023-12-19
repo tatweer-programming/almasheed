@@ -197,3 +197,22 @@ class ChangeCarouselIndicatorState extends MainState {
   @override
   List<Object> get props => [index];
 }
+
+class PickImageState extends MainState {
+  final List<XFile> imagesFiles;
+  const PickImageState({required this.imagesFiles});
+  @override
+  List<Object> get props => [imagesFiles];
+}
+class RemovePickedImageState extends MainState {
+  final List<XFile> imagesFiles;
+  const RemovePickedImageState({required this.imagesFiles});
+  @override
+  List<Object> get props => [imagesFiles];
+}class AddImageUrlDeletedState extends MainState {
+  @override
+  List<Object> get props => [];
+}class RemoveImageState extends MainState {
+  @override
+  List<Object> get props => [];
+}

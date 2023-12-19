@@ -5,6 +5,7 @@ import 'package:almasheed/main/data/models/product.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dartz/dartz.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:image_picker/image_picker.dart';
 import '../../../authentication/data/models/merchant.dart';
 
 class MainRemoteDataSource {
@@ -28,20 +29,17 @@ class MainRemoteDataSource {
     required Product product,
   }) async {
     try {
-      await firebaseInstance
-          .collection("products")
-          .doc()
-          .set(product.toJson())
-          .then((_) {
-        if (product.productsImagesFile != null) {
-          for (File imageFile in product.productsImagesFile!) {
-            _uploadImageToFirebaseStorage(
-                imageFile: imageFile,
-                fileName:
-                    "${product.productName}/${Uri.file(imageFile.path).pathSegments.last}");
-          }
+      if (product.productsImagesFile != null) {
+        for (XFile imageFile in product.productsImagesFile!) {
+          print("object ${product.productName}/${Uri.file(imageFile.path).pathSegments.last}");
+          String imageUrl = await _uploadImageToFirebaseStorage(
+              imageFile: imageFile,
+              fileName:
+                  "${product.productName}/${Uri.file(imageFile.path).pathSegments.last}");
+          product.productsImagesUrl!.add(imageUrl);
         }
-      });
+      }
+      await firebaseInstance.collection("products").doc().set(product.toJson());
       return const Right(unit);
     } on FirebaseException catch (error) {
       return Left(error);
@@ -57,7 +55,7 @@ class MainRemoteDataSource {
           .doc(product.productId)
           .delete()
           .then((_) {
-        _deleteImageFromFirebaseStorage(fileName: product.productName);
+        _deleteImageFromFirebaseStorage(fileName: "products/${product.productName}");
       });
       return const Right(unit);
     } on FirebaseException catch (error) {
@@ -65,29 +63,33 @@ class MainRemoteDataSource {
     }
   }
 
-  Future<Either<FirebaseException, Unit>> updateProduct({
+  Future<Either<FirebaseException, Unit>> modifyProduct({
     required Product product,
   }) async {
     try {
+      if (product.productsImagesDelete != null && product.productsImagesDelete!.isNotEmpty) {
+        for (String productImage in product.productsImagesDelete!) {
+          print("Uri.parse(productImage).pathSegments.last   ${
+              Uri.parse(productImage).pathSegments.last
+          }");
+           _deleteImageFromFirebaseStorage(
+              fileName: Uri.parse(productImage).pathSegments.last);
+        }
+        product.productsImagesDelete!.clear();
+      }
+      if (product.productsImagesFile != null && product.productsImagesFile!.isNotEmpty) {
+        for (XFile imageFile in product.productsImagesFile!) {
+          String imageUrl = await _uploadImageToFirebaseStorage(
+              imageFile: imageFile,
+              fileName:
+                  "${product.productName}/${Uri.file(imageFile.path).pathSegments.last}");
+          product.productsImagesUrl!.add(imageUrl);
+        }
+      }
       await firebaseInstance
           .collection("products")
           .doc(product.productId)
-          .update(product.toJson())
-          .then((_) {
-        if (product.productsImagesDelete != null) {
-          for (String productImage in product.productsImagesDelete!) {
-            _deleteImageFromFirebaseStorage(
-                fileName:
-                    "${product.productName}/${Uri.file(productImage).pathSegments.last}");
-          }
-        }
-        if (product.productsImagesFile != null) {
-          for (File imageFile in product.productsImagesFile!) {
-            _uploadImageToFirebaseStorage(
-                imageFile: imageFile, fileName: product.productName);
-          }
-        }
-      });
+          .update(product.toJson());
       return const Right(unit);
     } on FirebaseException catch (error) {
       return Left(error);
@@ -160,11 +162,11 @@ class MainRemoteDataSource {
   }
 
   void _deleteImageFromFirebaseStorage({required String fileName}) async {
-    FirebaseStorage.instance.ref().child("products/$fileName").delete();
+    FirebaseStorage.instance.ref().child(fileName).delete();
   }
 
   Future<String> _uploadImageToFirebaseStorage(
-      {required File imageFile, required String fileName}) async {
+      {required XFile imageFile, required String fileName}) async {
     Reference reference =
         FirebaseStorage.instance.ref().child("products/$fileName");
     await reference.putFile(File(imageFile.path));

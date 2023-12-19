@@ -87,7 +87,29 @@ class CancelSortProductsEvent extends MainEvent {
 
 class SortProductsEvent extends MainEvent {
   final String type;
-  const SortProductsEvent({required this.type});
+  final List<Product> products;
+  const SortProductsEvent({required this.type,required this.products});
   @override
-  List<Object?> get props => [type];
+  List<Object?> get props => [type,products];
+}
+
+class PickImagesEvent extends MainEvent {
+  @override
+  List<Object?> get props => [];
+}
+
+class RemovePickedImageEvent extends MainEvent {
+  final XFile image;
+  const RemovePickedImageEvent({required this.image});
+  @override
+  List<Object?> get props => [image];
+}
+
+class RemoveImageEvent extends MainEvent {
+  final String image;
+  final List<String> imagesUrlDelete;
+  final List<String> imagesUrl;
+  const RemoveImageEvent({required this.image,required this.imagesUrlDelete,required this.imagesUrl});
+  @override
+  List<Object?> get props => [image,imagesUrl,imagesUrlDelete];
 }

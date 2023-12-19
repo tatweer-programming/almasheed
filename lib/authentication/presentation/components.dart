@@ -6,15 +6,16 @@ import 'package:sizer/sizer.dart';
 import '../../core/utils/color_manager.dart';
 
 class AccountTypeItem extends StatelessWidget {
- final String type ;
-final Widget nextScreen;
-  const AccountTypeItem({super.key , required this.type  , required this.nextScreen});
+  final String type;
+  final Widget nextScreen;
+  const AccountTypeItem(
+      {super.key, required this.type, required this.nextScreen});
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: (){
-     context.push(nextScreen);
+      onTap: () {
+        context.push(nextScreen);
       },
       child: SizedBox(
         height: 35.w,
@@ -23,11 +24,11 @@ final Widget nextScreen;
           elevation: 5,
           child: Center(
             child: Text(
-              type ,
-              style: TextStyle(fontSize: 16.sp,
-                fontWeight: FontWeight.bold ,
+              type,
+              style: TextStyle(
+                fontSize: 16.sp,
+                fontWeight: FontWeight.bold,
               ),
-
             ),
           ),
         ),
@@ -35,24 +36,24 @@ final Widget nextScreen;
     );
   }
 }
+
 class PhoneNumberInput extends StatelessWidget {
-  final TextEditingController controller ;
-  const PhoneNumberInput({super.key , required this.controller});
+  final TextEditingController controller;
+  const PhoneNumberInput({super.key, required this.controller});
 
   @override
   Widget build(BuildContext context) {
-    return    Row(
+    return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        Text("+966", style: TextStyle(
-            fontWeight: FontWeight.bold,
-            fontSize: 14.sp
-        )),
-        SizedBox(width: 5.sp,),
+        Text("+966",
+            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14.sp)),
+        SizedBox(
+          width: 5.sp,
+        ),
         Expanded(
-          child:
-          defaultFormField(
+          child: defaultFormField(
               validator: (value) {
                 if (value!.isEmpty) {
                   return 'please enter phone number';
@@ -62,47 +63,36 @@ class PhoneNumberInput extends StatelessWidget {
               label: "Phone Number",
               controller: controller),
         ),
-
-
       ],
     );
   }
 }
 
-
 Widget defaultFormField(
-    {
-      required String label,
-      // IconData? prefix,
-      // IconButton? suffix,
-      // bool? enabled = true,
-      //String? validatorText,
-      TextInputType? type,
-   //   void Function()? suffixFunction,
-      FormFieldValidator? validator,
-     // bool obscureText = false,
-      required TextEditingController controller
-    }) =>
+        {required String label,
+        // IconData? prefix,
+        // IconButton? suffix,
+        // bool? enabled = true,
+        //String? validatorText,
+        TextInputType? type,
+        //   void Function()? suffixFunction,
+        FormFieldValidator? validator,
+        // bool obscureText = false,
+        required TextEditingController controller}) =>
     TextFormField(
       controller: controller,
       keyboardType: type,
       cursorColor: ColorManager.primary,
       decoration: InputDecoration(
-
-          isDense: true,                      // Added this
+          isDense: true, // Added this
           contentPadding: EdgeInsets.all(15.sp),
           filled: true,
           fillColor: ColorManager.white,
-          border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(5.sp)
-          ),
-
-
+          border: OutlineInputBorder(borderRadius: BorderRadius.circular(5.sp)),
           labelText: label,
           labelStyle: TextStyle(
             color: ColorManager.black,
-          )
-      ),
+          )),
       validator: validator,
     );
 
@@ -127,5 +117,3 @@ void errorToast({
     toastLength: Toast.LENGTH_SHORT,
   );
 }
-
-
