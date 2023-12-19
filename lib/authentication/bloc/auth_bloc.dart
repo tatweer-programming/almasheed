@@ -4,7 +4,6 @@ import 'package:almasheed/authentication/data/services/auth_services.dart';
 import 'package:almasheed/authentication/presentation/components.dart';
 import 'package:almasheed/core/error/remote_error.dart';
 import 'package:almasheed/core/utils/constance_manager.dart';
-import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -31,9 +30,6 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       if (event is SendCodeEvent) {
         emit(SendCodeLoadingState());
         user = event.user;
-        print(event.user.phone);
-        print(user?.phone);
-
         final result = await repository.verifyPhoneNumber(user!.phone);
         result.fold((l) {
           errorToast(msg: ExceptionManager(l).translatedMessage());

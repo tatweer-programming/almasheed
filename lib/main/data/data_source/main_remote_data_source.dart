@@ -29,9 +29,9 @@ class MainRemoteDataSource {
     required Product product,
   }) async {
     try {
+      product.productsImagesUrl??=[];
       if (product.productsImagesFile != null) {
         for (XFile imageFile in product.productsImagesFile!) {
-          print("object ${product.productName}/${Uri.file(imageFile.path).pathSegments.last}");
           String imageUrl = await _uploadImageToFirebaseStorage(
               imageFile: imageFile,
               fileName:

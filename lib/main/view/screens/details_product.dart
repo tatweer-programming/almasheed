@@ -2,7 +2,6 @@ import 'package:almasheed/core/utils/color_manager.dart';
 import 'package:almasheed/core/utils/navigation_manager.dart';
 import 'package:almasheed/main/data/models/product.dart';
 import 'package:almasheed/main/view/screens/modify_screen.dart';
-import 'package:almasheed/main/view/screens/home_page_screen.dart';
 import 'package:almasheed/main/view/widgets/widgets.dart';
 import 'package:carousel_slider/carousel_controller.dart';
 import 'package:flutter/material.dart';

@@ -6,26 +6,25 @@ abstract class AuthEvent extends Equatable {
 
 // authentication_bloc.dart
 
-
-
 class SendCodeEvent extends AuthEvent {
-
-  AppUser user ;
- SendCodeEvent(this.user);
+  final AppUser user;
+  const SendCodeEvent(this.user);
   @override
-  List<Object?> get props =>[user];
+  List<Object?> get props => [user];
 }
 
 class VerifyCodeEvent extends AuthEvent {
   final String code;
 
-   const VerifyCodeEvent({required this.code ,});
+  const VerifyCodeEvent({
+    required this.code,
+  });
 
   @override
-
-  List<Object?> get props =>[code ,];
+  List<Object?> get props => [
+        code,
+      ];
 }
-
 
 class ChangeAgreeToTermsStateEvent extends AuthEvent {
   final bool state;
@@ -33,6 +32,5 @@ class ChangeAgreeToTermsStateEvent extends AuthEvent {
   const ChangeAgreeToTermsStateEvent({required this.state});
 
   @override
-
-  List<Object?> get props =>[];
+  List<Object?> get props => [];
 }

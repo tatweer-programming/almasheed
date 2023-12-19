@@ -34,7 +34,6 @@ defaultFormField(
       style: TextStyle(color: ColorManager.black),
       decoration: InputDecoration(
           disabledBorder: OutlineInputBorder(
-            borderSide: BorderSide(color: ColorManager.secondary),
             borderRadius: BorderRadius.circular(10.sp),
           ),
           contentPadding: EdgeInsetsDirectional.symmetric(horizontal: 2.w),
@@ -44,7 +43,7 @@ defaultFormField(
           enabledBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(10.sp),
           ),
-          errorStyle: const TextStyle(fontSize: 0.01),
+          errorStyle: TextStyle(color: ColorManager.error),
           fillColor: ColorManager.white,
           filled: true,
           suffixIcon: suffix,

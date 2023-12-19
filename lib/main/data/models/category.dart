@@ -1,6 +1,6 @@
 import 'package:almasheed/main/data/models/product.dart';
 import 'package:equatable/equatable.dart';
-
+//ignore: must_be_immutable
 class Category extends Equatable{
   final String categoryName;
   final String categoryImage;

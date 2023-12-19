@@ -27,44 +27,49 @@ class ModifyProductScreen extends StatelessWidget {
     discountController.text = product.productNewPrice.toString();
     descriptionController.text = product.productDescription;
     bloc.imagesFiles = [];
-    product.productsImagesDelete??=[];
-    product.productsImagesUrl??=[];
+    product.productsImagesDelete ??= [];
+    product.productsImagesUrl ??= [];
     // Merchant merchant = ConstantsManager.appUser as Merchant;
     return BlocConsumer<MainBloc, MainState>(
       listener: (context, state) {
         if (state is GetProductsSuccessfullyState) {
-          print(state);
           bloc.add(GetCategoriesEvent());
         }
-        if (state is UpdateProductErrorState)errorToast(msg: ExceptionManager(state.error).translatedMessage());
-        if(state is UpdateProductLoadingState){
-          showDialog(context: context,
-              barrierDismissible: true,
-              builder: (context) {
-                return const AlertDialog(
-                  content:
-                    Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Center(child: CircularProgressIndicator()),
-                      ],
-                    )
-                );
-              },
+        if (state is UpdateProductErrorState) {
+          errorToast(msg: ExceptionManager(state.error).translatedMessage());
+        }
+        if (state is UpdateProductLoadingState) {
+          showDialog(
+            context: context,
+            barrierDismissible: true,
+            builder: (context) {
+              return const AlertDialog(
+                  content: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Center(child: CircularProgressIndicator()),
+                ],
+              ));
+            },
           );
-        }if(state is UpdateProductSuccessfullyState){
+        }
+        if (state is UpdateProductSuccessfullyState) {
           bloc.add(GetProductsEvent());
           context.pop();
           context.pop();
           context.pop();
-          showDialog(context: context,
-              builder: (context) {
-                return const AlertDialog(
-                  content:  Text("The product has been modified successfully",style: TextStyle(
+          showDialog(
+            context: context,
+            builder: (context) {
+              return const AlertDialog(
+                content: Text(
+                  "The product has been modified successfully",
+                  style: TextStyle(
                     fontWeight: FontWeight.w500,
-                  ),),
-                );
-              },
+                  ),
+                ),
+              );
+            },
           );
         }
       },
@@ -175,7 +180,8 @@ class ModifyProductScreen extends StatelessWidget {
                                                 bloc.add(RemoveImageEvent(
                                                     imagesUrlDelete: product
                                                         .productsImagesDelete!,
-                                                    imagesUrl:product.productsImagesUrl!,
+                                                    imagesUrl: product
+                                                        .productsImagesUrl!,
                                                     image: image));
                                               },
                                               icon: Icons.close,
@@ -199,7 +205,8 @@ class ModifyProductScreen extends StatelessWidget {
                                 productId: product.productId,
                                 productsImagesFile: bloc.imagesFiles,
                                 productsImagesUrl: product.productsImagesUrl,
-                                productsImagesDelete: product.productsImagesDelete,
+                                productsImagesDelete:
+                                    product.productsImagesDelete,
                                 productOldPrice:
                                     double.parse(priceController.text),
                                 productNewPrice: double.parse(
