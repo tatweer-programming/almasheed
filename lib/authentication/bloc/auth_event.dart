@@ -7,10 +7,8 @@ abstract class AuthEvent extends Equatable {
 // authentication_bloc.dart
 
 class SendCodeEvent extends AuthEvent {
-  AppUser user;
-
-  SendCodeEvent(this.user);
-
+  final AppUser user;
+  const SendCodeEvent(this.user);
   @override
   List<Object?> get props => [user];
 }

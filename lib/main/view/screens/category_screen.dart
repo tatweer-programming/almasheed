@@ -22,7 +22,6 @@ class CategoryScreen extends StatelessWidget {
     bloc.sortedProducts = category.products!;
     return BlocConsumer<MainBloc, MainState>(
       listener: (context, state) {
-        print(state);
         if (state is GetProductsSuccessfullyState) {
           bloc.add(GetCategoriesEvent());
         }

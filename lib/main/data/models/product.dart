@@ -1,10 +1,10 @@
-import 'dart:io';
 import 'package:equatable/equatable.dart';
 import 'package:image_picker/image_picker.dart';
-
+//ignore: must_be_immutable
 class Product extends Equatable {
   final String productName;
-  String? productId;
+  String? productCategory;
+  final String productId;
   List<String>? productsImagesUrl;
   List<XFile>? productsImagesFile;
   List<String>? productsImagesDelete;
@@ -13,10 +13,10 @@ class Product extends Equatable {
   final String productDescription;
   final String merchantName;
   final String productCity;
-
   Product(
       {required this.productName,
-      this.productId,
+      this.productCategory,
+      required this.productId,
       this.productsImagesUrl,
       required this.productOldPrice,
       required this.productNewPrice,
@@ -25,7 +25,6 @@ class Product extends Equatable {
       this.productsImagesDelete,
       required this.productDescription,
       required this.merchantName});
-
   factory Product.fromJson(Map<String, dynamic> json) => Product(
         productDescription: json['productDescription'],
         productId: json['productId'],
@@ -38,16 +37,15 @@ class Product extends Equatable {
         productOldPrice: json['productOldPrice'].toDouble(),
         merchantName: json['merchantName'],
       );
-
   Map<String, dynamic> toJson() {
     return {
       'productDescription': productDescription,
       "productId": productId,
       "productCity": productCity,
-      "productDiscount": productNewPrice,
+      "productNewPrice": productNewPrice,
       "productsImages": productsImagesUrl,
       "productName": productName,
-      "productPrice": productOldPrice,
+      "productOldPrice": productOldPrice,
       "merchantName": merchantName,
     };
   }

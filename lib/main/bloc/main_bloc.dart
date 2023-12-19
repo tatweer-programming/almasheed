@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:almasheed/main/data/models/category.dart';
 import 'package:almasheed/main/data/models/product.dart';
 import 'package:almasheed/main/data/repositories/main_repository.dart';
@@ -148,7 +146,6 @@ class MainBloc extends Bloc<MainEvent, MainState> {
           products: event.products,
         ));
       } else if (event is SortProductsEvent) {
-        print("before $sortedProducts");
         if (event.type == "Alphabet") {
           sortedProducts.sort((product1, product2) =>
               product1.productName.compareTo(product2.productName));

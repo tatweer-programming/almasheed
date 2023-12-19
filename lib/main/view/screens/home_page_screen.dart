@@ -28,7 +28,6 @@ class HomePageScreen extends StatelessWidget {
     return BlocConsumer<MainBloc, MainState>(
       listener: (context, state) {
         if (state is GetProductsSuccessfullyState) {
-          print(state);
           bloc.add(GetOffersEvent());
           bloc.add(GetCategoriesEvent());
           bloc.add(GetBestSalesEvent());
