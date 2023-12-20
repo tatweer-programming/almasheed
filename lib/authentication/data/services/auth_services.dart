@@ -80,8 +80,7 @@ class AuthService {
     late bool isExists;
     print(")))))))))))))))))))))))))))))))))))))))))))))))))");
     await _fireStore.collection("${userType}s/").doc(id).get().then((value) {
-      isExists =  value.data()!["id"] == id ;
-
+      isExists = value.data()?["id"] == id;
 
       print("****************************" + value.reference.path);
     });

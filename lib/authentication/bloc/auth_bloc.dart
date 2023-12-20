@@ -4,6 +4,7 @@ import 'package:almasheed/authentication/data/services/auth_services.dart';
 import 'package:almasheed/authentication/presentation/components.dart';
 import 'package:almasheed/core/error/remote_error.dart';
 import 'package:almasheed/core/utils/constance_manager.dart';
+import 'package:dartz/dartz.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -12,6 +13,7 @@ import '../data/models/customer.dart';
 import '../data/repositories/auth_repository.dart';
 
 part 'auth_event.dart';
+
 part 'auth_state.dart';
 
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
@@ -23,6 +25,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   String? verificationId = AuthService.verificationID;
   AppUser? user;
   late AuthRepository repository;
+
   AuthBloc() : super(AuthInitial()) {
     repository = AuthRepository();
 
@@ -57,17 +60,25 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       }
     });
   }
+
   Future _createUser() async {
     var result = await repository.createUser(user!);
     result.fold((l) {
       errorToast(msg: ExceptionManager(l).translatedMessage());
     }, (r) {
       bool isExists = r;
-      isExists ? {
-        authCompleted = true
-      } : defaultToast(msg: "user created Successfully");
-      authCompleted = true;
-      ConstantsManager.appUser = user;
+      if (isExists) {
+        authCompleted = true;
+        ConstantsManager.appUser = user;
+        print(ConstantsManager.appUser);
+        emit(Authenticated());
+      } else {
+        defaultToast(msg: "user created Successfully");
+        authCompleted = true;
+        ConstantsManager.appUser = user;
+        print(ConstantsManager.appUser);
+        emit(Authenticated());
+      }
     });
   }
 }

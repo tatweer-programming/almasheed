@@ -1,7 +1,7 @@
 import 'package:almasheed/authentication/data/models/user.dart';
 
 class Customer extends AppUser {
-  List<String> cartItems;
+  Map<String, int> cartItems;
   List<String> favorites;
   List<String> orders;
 
@@ -18,7 +18,7 @@ class Customer extends AppUser {
   }
   factory Customer.fromJson(Map<String, dynamic> json) {
     return Customer(
-      cartItems: (json['cartItems'] as List).cast<String>(),
+      cartItems: json['cartItems'] ,
       favorites: (json['favorites'] as List).cast<String>(),
       orders: (json['orders'] as List).cast<String>(), id:  json['id'], phone: json['phone'],
     );

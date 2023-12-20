@@ -1,3 +1,4 @@
+import 'package:almasheed/authentication/presentation/screens/account_type_screen.dart';
 import 'package:almasheed/main/view/screens/main_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -22,6 +23,7 @@ Future<void> main() async {
 
 class Masheed extends StatelessWidget {
   const Masheed({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Sizer(builder: (context, orientation, deviceType) {
@@ -36,7 +38,7 @@ class Masheed extends StatelessWidget {
         child: MaterialApp(
             title: 'Al Masheed',
             theme: getAppTheme(),
-            home: const MainScreen()),
+            home: const AccountTypeScreen()),
       );
     });
   }
