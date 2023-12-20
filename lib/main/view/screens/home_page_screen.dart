@@ -3,6 +3,7 @@ import 'package:almasheed/core/utils/navigation_manager.dart';
 import 'package:almasheed/main/view/screens/category_screen.dart';
 import 'package:almasheed/main/view/screens/details_product.dart';
 import 'package:almasheed/main/view/widgets/widgets.dart';
+import 'package:almasheed/payment/presentation/screens/cart_screen.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -32,11 +33,16 @@ class HomePageScreen extends StatelessWidget {
           bloc.add(GetCategoriesEvent());
           bloc.add(GetBestSalesEvent());
         }
-        if (state is GetProductsErrorState)errorToast(msg: ExceptionManager(state.error).translatedMessage());
-        if (state is GetMerchantsErrorState)errorToast(msg: ExceptionManager(state.error).translatedMessage());
-        if (state is GetOffersErrorState)errorToast(msg: ExceptionManager(state.error).translatedMessage());
-        if (state is GetBestSalesErrorState)errorToast(msg: ExceptionManager(state.error).translatedMessage());
-        if (state is GetCategoriesErrorState)errorToast(msg: ExceptionManager(state.error).translatedMessage());
+        if (state is GetProductsErrorState)
+          errorToast(msg: ExceptionManager(state.error).translatedMessage());
+        if (state is GetMerchantsErrorState)
+          errorToast(msg: ExceptionManager(state.error).translatedMessage());
+        if (state is GetOffersErrorState)
+          errorToast(msg: ExceptionManager(state.error).translatedMessage());
+        if (state is GetBestSalesErrorState)
+          errorToast(msg: ExceptionManager(state.error).translatedMessage());
+        if (state is GetCategoriesErrorState)
+          errorToast(msg: ExceptionManager(state.error).translatedMessage());
       },
       builder: (context, state) {
         return Column(
@@ -63,19 +69,24 @@ class HomePageScreen extends StatelessWidget {
                             text: "search ...",
                             onChanged: (product) {
                               bloc.add(SelectProductEvent(product: product!));
-                              context.push(DetailsProductScreen(product: product));
+                              context
+                                  .push(DetailsProductScreen(product: product));
                             },
-                            items: bloc.products, context: context
-                        ),
+                            items: bloc.products,
+                            context: context),
                       ),
                     ),
                     SizedBox(
                       width: 3.w,
                     ),
-                    Icon(
-                      Icons.shopping_cart_outlined,
-                      color: ColorManager.white,
-                    ),
+                    IconButton(
+                        onPressed: () {
+                          context.push(const CartScreen());
+                        },
+                        icon: const Icon(
+                          Icons.shopping_cart_outlined,
+                          color: ColorManager.white,
+                        )),
                   ],
                 ),
               ),
@@ -108,9 +119,12 @@ class HomePageScreen extends StatelessWidget {
                                         scrollDirection: Axis.horizontal,
                                         itemBuilder: (context, index) =>
                                             categoryWidget(
-                                              onTap: (){
-                                                context.push(CategoryScreen(category: bloc.categories[index],));
-                                              },
+                                                onTap: () {
+                                                  context.push(CategoryScreen(
+                                                    category:
+                                                        bloc.categories[index],
+                                                  ));
+                                                },
                                                 category:
                                                     bloc.categories[index]),
                                         separatorBuilder: (context, index) =>
@@ -186,15 +200,23 @@ class HomePageScreen extends StatelessWidget {
                           //         ],
                           //       )
                           //     : const SizedBox(),
-                          SizedBox(height: 1.h,),
+                          SizedBox(
+                            height: 1.h,
+                          ),
                           textContainerWidget("Merchants"),
-                          SizedBox(height: 1.h,),
+                          SizedBox(
+                            height: 1.h,
+                          ),
                           ListView.separated(
-                            padding: EdgeInsets.zero,
-                            shrinkWrap: true,physics: const NeverScrollableScrollPhysics(),
-                              itemBuilder: (context, index) => merchantsWidget(merchant: bloc.merchants[index]),
-                              separatorBuilder:
-                              (context, index) => SizedBox(height: 1.h,), itemCount: bloc.merchants.length)
+                              padding: EdgeInsets.zero,
+                              shrinkWrap: true,
+                              physics: const NeverScrollableScrollPhysics(),
+                              itemBuilder: (context, index) => merchantsWidget(
+                                  merchant: bloc.merchants[index]),
+                              separatorBuilder: (context, index) => SizedBox(
+                                    height: 1.h,
+                                  ),
+                              itemCount: bloc.merchants.length)
                         ],
                       ),
                     ),

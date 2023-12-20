@@ -1,5 +1,6 @@
 import 'package:almasheed/authentication/presentation/screens/account_type_screen.dart';
 import 'package:almasheed/main/view/screens/main_screen.dart';
+import 'package:almasheed/payment/bloc/payment_bloc.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -33,7 +34,9 @@ class Masheed extends StatelessWidget {
               create: (BuildContext context) => sl()
                 ..add(GetProductsEvent())
                 ..add(GetMerchantsEvent())),
-          BlocProvider<AuthBloc>(create: (BuildContext context) => AuthBloc())
+          BlocProvider<AuthBloc>(create: (BuildContext context) => AuthBloc()),
+          BlocProvider<PaymentBloc>(
+              create: (BuildContext context) => PaymentBloc())
         ],
         child: MaterialApp(
             title: 'Al Masheed',

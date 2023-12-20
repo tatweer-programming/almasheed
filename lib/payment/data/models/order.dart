@@ -4,7 +4,6 @@ import '../../../main/data/models/product.dart';
 
 class OrderModel extends Equatable {
   List<Product> products;
-
   double totalPrice;
 
   OrderModel({required this.totalPrice, required this.products});
