@@ -62,6 +62,21 @@ class UpdateProductErrorState extends MainState {
   const UpdateProductErrorState(this.error);
   @override
   List<Object?> get props => [error];
+}class SetCategorySuccessfullyState extends MainState {
+  @override
+  List<Object?> get props => [];
+}
+
+class SetCategoryLoadingState extends MainState {
+  @override
+  List<Object?> get props => [];
+}
+
+class SetCategoryErrorState extends MainState {
+  final FirebaseException error;
+  const SetCategoryErrorState(this.error);
+  @override
+  List<Object?> get props => [error];
 }
 
 // delete product
@@ -160,6 +175,10 @@ class SelectProductState extends MainState {
   @override
   List<Object?> get props => [];
 }
+class SelectProductCategoryState extends MainState {
+  @override
+  List<Object?> get props => [];
+}
 
 class SelectedCityState extends MainState {
   final String selectedCity;
@@ -215,4 +234,15 @@ class RemovePickedImageState extends MainState {
 }class RemoveImageState extends MainState {
   @override
   List<Object> get props => [];
+}class MakeImagesFilesEmptyState extends MainState {
+  final List<XFile> imagesFiles;
+  const MakeImagesFilesEmptyState(this.imagesFiles);
+  @override
+  List<Object> get props => [imagesFiles];
+}
+class SelectEditOrDeleteProductState extends MainState {
+  final Product product;
+  const SelectEditOrDeleteProductState(this.product);
+  @override
+  List<Object> get props => [product];
 }

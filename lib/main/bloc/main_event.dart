@@ -37,6 +37,13 @@ class UpdateProductEvent extends MainEvent {
   List<Object?> get props => [product];
 }
 
+class SetCategoryEvent extends MainEvent {
+  final Category category;
+  const SetCategoryEvent({required this.category});
+  @override
+  List<Object?> get props => [category];
+}
+
 class DeleteProductEvent extends MainEvent {
   final Product product;
   const DeleteProductEvent({required this.product});
@@ -77,6 +84,21 @@ class SelectCityEvent extends MainEvent {
   @override
   List<Object?> get props => [selectedCity];
 }
+class SelectEditOrDeleteProductEvent extends MainEvent {
+  final String selected;
+  final BuildContext context;
+  final Product product;
+  const SelectEditOrDeleteProductEvent({required this.selected,required this.product,required this.context});
+  @override
+  List<Object?> get props => [selected,product,context];
+}
+
+class SelectProductCategoryEvent extends MainEvent {
+  final String selectedProductCategory;
+  const SelectProductCategoryEvent({required this.selectedProductCategory});
+  @override
+  List<Object?> get props => [selectedProductCategory];
+}
 
 class CancelSortProductsEvent extends MainEvent {
   final List<Product> products;
@@ -94,6 +116,11 @@ class SortProductsEvent extends MainEvent {
 }
 
 class PickImagesEvent extends MainEvent {
+  @override
+  List<Object?> get props => [];
+}
+
+class MakeImagesFilesEmptyEvent extends MainEvent {
   @override
   List<Object?> get props => [];
 }

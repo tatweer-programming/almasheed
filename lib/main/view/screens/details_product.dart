@@ -1,13 +1,13 @@
 import 'package:almasheed/core/utils/color_manager.dart';
 import 'package:almasheed/core/utils/navigation_manager.dart';
 import 'package:almasheed/main/data/models/product.dart';
-import 'package:almasheed/main/view/screens/modify_screen.dart';
 import 'package:almasheed/main/view/widgets/widgets.dart';
 import 'package:carousel_slider/carousel_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sizer/sizer.dart';
 
+import '../../../core/error/remote_error.dart';
 import '../../../core/services/dep_injection.dart';
 import '../../bloc/main_bloc.dart';
 
@@ -21,8 +21,45 @@ class DetailsProductScreen extends StatelessWidget {
     MainBloc bloc = sl();
     return BlocConsumer<MainBloc, MainState>(
       listener: (context, state) {
-        if (state is GetProductsSuccessfullyState) {
-          bloc.add(GetCategoriesEvent());
+        if(state is DeleteProductErrorState){
+          errorToast(msg: ExceptionManager(state.error).translatedMessage());
+        }
+        if (state is DeleteProductLoadingState) {
+          showDialog(
+            context: context,
+            barrierDismissible: false,
+            builder: (context) {
+              return AlertDialog(
+                  shape: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(5.sp)),
+                  content: const Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Center(child: CircularProgressIndicator()),
+                    ],
+                  ));
+            },
+          );
+        }
+        if (state is DeleteProductSuccessfullyState) {
+          bloc.add(GetProductsEvent());
+          context.pop();
+          context.pop();
+          showDialog(
+            context: context,
+            builder: (context) {
+              return AlertDialog(
+                shape: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(5.sp)),
+                content: const Text(
+                  "The product has been deleted successfully",
+                  style: TextStyle(
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+              );
+            },
+          );
         }
       },
       builder: (context, state) {
@@ -62,27 +99,61 @@ class DetailsProductScreen extends StatelessWidget {
                                         horizontal: 2.w, vertical: 1.h),
                                     child: iconContainer(
                                         size: 25.sp,
-                                        vertical: 1.h,
-                                        horizontal: 1.w,
+                                        padding: 5.sp,
                                         onPressed: () {
                                           context.pop();
                                         },
                                         icon: Icons.arrow_back_ios_new),
                                   ),
+                                  // Align(
+                                  //   alignment: Alignment.center,
+                                  //   child: Padding(
+                                  //     padding: EdgeInsets.symmetric(
+                                  //         horizontal: 2.w, vertical: 1.h),
+                                  //     child: iconContainer(
+                                  //         horizontal: 3.w,
+                                  //         size: 20.sp,
+                                  //         onPressed: () {
+                                  //
+                                  //         },
+                                  //         icon: Icons.more_horiz),
+                                  //   ),
+                                  // ),
                                   Align(
                                     alignment: Alignment.topRight,
                                     child: Padding(
                                       padding: EdgeInsets.symmetric(
                                           horizontal: 2.w, vertical: 1.h),
-                                      child: iconContainer(
-                                          horizontal: 3.w,
-                                          size: 20.sp,
-                                          onPressed: () {
-                                            context.push(ModifyProductScreen(
-                                              product: product,
-                                            ));
+                                      child: CircleAvatar(
+                                        radius: 20,
+                                        backgroundColor: ColorManager.primary,
+                                        child: PopupMenuButton<String>(
+                                          icon: const Icon(
+                                            Icons.more_horiz,
+                                            color: ColorManager.white,
+                                          ),
+                                          onSelected: (String value) {
+                                            bloc.add(
+                                                SelectEditOrDeleteProductEvent(
+                                                    context: context,
+                                                    product: product,
+                                                    selected: value));
                                           },
-                                          icon: Icons.edit),
+                                          itemBuilder: (
+                                            BuildContext context,
+                                          ) =>
+                                              <PopupMenuEntry<String>>[
+                                            const PopupMenuItem<String>(
+                                              value: 'Edit',
+                                              child: Text("Edit"),
+                                            ),
+                                            const PopupMenuItem<String>(
+                                              value: 'Delete',
+                                              child: Text('Delete'),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
                                     ),
                                   ),
                                 ],
@@ -93,7 +164,7 @@ class DetailsProductScreen extends StatelessWidget {
                                   padding: EdgeInsets.symmetric(
                                       horizontal: 2.w, vertical: 1.h),
                                   child: iconContainer(
-                                      horizontal: 3.w,
+                                      padding: 5.sp,
                                       size: 20.sp,
                                       onPressed: () {},
                                       icon: Icons.favorite_border),

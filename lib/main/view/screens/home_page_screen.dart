@@ -1,5 +1,6 @@
 import 'package:almasheed/core/utils/color_manager.dart';
 import 'package:almasheed/core/utils/navigation_manager.dart';
+import 'package:almasheed/main/data/models/category.dart';
 import 'package:almasheed/main/view/screens/category_screen.dart';
 import 'package:almasheed/main/view/screens/details_product.dart';
 import 'package:almasheed/main/view/widgets/widgets.dart';
@@ -33,16 +34,21 @@ class HomePageScreen extends StatelessWidget {
           bloc.add(GetCategoriesEvent());
           bloc.add(GetBestSalesEvent());
         }
-        if (state is GetProductsErrorState)
+        if (state is GetProductsErrorState) {
           errorToast(msg: ExceptionManager(state.error).translatedMessage());
-        if (state is GetMerchantsErrorState)
+        }
+        if (state is GetMerchantsErrorState) {
           errorToast(msg: ExceptionManager(state.error).translatedMessage());
-        if (state is GetOffersErrorState)
+        }
+        if (state is GetOffersErrorState) {
           errorToast(msg: ExceptionManager(state.error).translatedMessage());
-        if (state is GetBestSalesErrorState)
+        }
+        if (state is GetBestSalesErrorState) {
           errorToast(msg: ExceptionManager(state.error).translatedMessage());
-        if (state is GetCategoriesErrorState)
+        }
+        if (state is GetCategoriesErrorState) {
           errorToast(msg: ExceptionManager(state.error).translatedMessage());
+        }
       },
       builder: (context, state) {
         return Column(
@@ -65,7 +71,6 @@ class HomePageScreen extends StatelessWidget {
                       child: SizedBox(
                         height: 7.h,
                         child: searchProductDropdownBuilder(
-                            value: bloc.selectedProduct,
                             text: "search ...",
                             onChanged: (product) {
                               bloc.add(SelectProductEvent(product: product!));
@@ -137,69 +142,6 @@ class HomePageScreen extends StatelessWidget {
                                   ],
                                 )
                               : const SizedBox(),
-                          // bloc.offers.isNotEmpty
-                          //     ? Column(
-                          //         crossAxisAlignment: CrossAxisAlignment.start,
-                          //         children: [
-                          //           textContainerWidget("Hot Deals"),
-                          //           SizedBox(
-                          //             height: 1.h,
-                          //           ),
-                          //           SizedBox(
-                          //             height: 32.h,
-                          //             child: ListView.separated(
-                          //               scrollDirection: Axis.horizontal,
-                          //               shrinkWrap: true,
-                          //               itemBuilder: (context, index) =>
-                          //                   productWidget(
-                          //                       openProductPressed: () {
-                          //                         context.push(DetailsProductScreen(product: bloc.offers[index]));
-                          //                       },
-                          //                       product: bloc.offers[index],
-                          //                       addCardPressed: () {}),
-                          //               separatorBuilder: (context, index) =>
-                          //                   SizedBox(
-                          //                 width: 4.w,
-                          //               ),
-                          //               itemCount: bloc.offers.length,
-                          //             ),
-                          //           ),
-                          //           SizedBox(
-                          //             height: 1.h,
-                          //           ),
-                          //         ],
-                          //       )
-                          //     : const SizedBox(),
-                          // bloc.bestSales.isNotEmpty
-                          //     ? Column(
-                          //         crossAxisAlignment: CrossAxisAlignment.start,
-                          //         children: [
-                          //           textContainerWidget("Best Sales"),
-                          //           SizedBox(
-                          //             height: 1.h,
-                          //           ),
-                          //           SizedBox(
-                          //             height: 32.h,
-                          //             child: ListView.separated(
-                          //               scrollDirection: Axis.horizontal,
-                          //               shrinkWrap: true,
-                          //               itemBuilder: (context, index) =>
-                          //                   productWidget(
-                          //                       openProductPressed: () {
-                          //                         context.push(DetailsProductScreen(product: bloc.bestSales[index]));
-                          //                       },
-                          //                       product: bloc.bestSales[index],
-                          //                       addCardPressed: () {}),
-                          //               separatorBuilder: (context, index) =>
-                          //                   SizedBox(
-                          //                 width: 8.w,
-                          //               ),
-                          //               itemCount: bloc.bestSales.length,
-                          //             ),
-                          //           ),
-                          //         ],
-                          //       )
-                          //     : const SizedBox(),
                           SizedBox(
                             height: 1.h,
                           ),
@@ -212,7 +154,21 @@ class HomePageScreen extends StatelessWidget {
                               shrinkWrap: true,
                               physics: const NeverScrollableScrollPhysics(),
                               itemBuilder: (context, index) => merchantsWidget(
-                                  merchant: bloc.merchants[index]),
+                                  merchant: bloc.merchants[index],
+                                  onTap: () {
+                                    context.push(CategoryScreen(
+                                        category: Category(
+                                            categoryName: "",
+                                            products: bloc.products
+                                                .where((product) => bloc
+                                                    .merchants[index]
+                                                    .productsIds
+                                                    .contains(
+                                                        product.productId))
+                                                .toList(),
+                                            productsIds: bloc.merchants[index]
+                                                .productsIds)));
+                                  }),
                               separatorBuilder: (context, index) => SizedBox(
                                     height: 1.h,
                                   ),

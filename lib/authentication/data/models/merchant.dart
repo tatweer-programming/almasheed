@@ -20,7 +20,7 @@ class Merchant extends AppUser {
 
   Map<String, dynamic> toJson() {
     return {
-      "productIds": productsIds,
+      "productsIds": productsIds,
       'id': id,
       'phone': phone,
       'companyName': companyName,
@@ -33,7 +33,7 @@ class Merchant extends AppUser {
 
   factory Merchant.fromJson(Map<String, dynamic> json) {
     return Merchant(
-        productsIds: (json['productIds'] as List).cast<String>(),
+        productsIds: (json['productsIds'] as List).cast<String>(),
         companyName: json['companyName'],
         city: json['city'],
         area: json['area'],

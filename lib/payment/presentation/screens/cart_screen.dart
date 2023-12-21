@@ -19,7 +19,6 @@ class CartScreen extends StatelessWidget {
       return {entry.key: entry.value};
     }).toList();
     MainBloc mainBloc = sl();
-
     PaymentBloc bloc = PaymentBloc.get(context);
     return Scaffold(
         appBar: AppBar(

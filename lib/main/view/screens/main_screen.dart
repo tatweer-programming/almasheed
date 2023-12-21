@@ -16,12 +16,19 @@ class MainScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     MainBloc bloc = sl();
-    return BlocBuilder<MainBloc, MainState>(
+    return BlocConsumer<MainBloc, MainState>(
+      listener: (context, state) {
+        if (state is GetProductsSuccessfullyState) {
+          bloc.add(GetOffersEvent());
+          bloc.add(GetCategoriesEvent());
+          bloc.add(GetBestSalesEvent());
+        }
+      },
       builder: (context, state) {
         return Scaffold(
           backgroundColor: ColorManager.secondary,
           bottomNavigationBar: ResponsiveNavigationBar(
-            navigationBarButtons: [
+            navigationBarButtons: const [
               NavigationBarButton(
                   text: 'Home',
                   icon: Icons.home_outlined,
@@ -55,9 +62,8 @@ class MainScreen extends StatelessWidget {
           ):null,
           body: RefreshIndicator(
               onRefresh: () async {
-                bloc.add(GetOffersEvent());
-                bloc.add(GetCategoriesEvent());
-                bloc.add(GetBestSalesEvent());
+                bloc.add(GetProductsEvent());
+                bloc.add(GetMerchantsEvent());
               },
               child: bloc.pages[bloc.pageIndex]),
         );

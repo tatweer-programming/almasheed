@@ -42,7 +42,6 @@ dependencies:
   shared_preferences:
   responsive_navigation_bar:
   carousel_slider:
-  dropdown_search:
   pin_code_fields:
   fluttertoast:
   image_picker: ^1.0.5

@@ -1,6 +1,8 @@
+import 'package:almasheed/core/utils/navigation_manager.dart';
 import 'package:almasheed/main/data/models/category.dart';
 import 'package:almasheed/main/data/models/product.dart';
 import 'package:almasheed/main/data/repositories/main_repository.dart';
+import 'package:almasheed/main/view/screens/modify_screen.dart';
 import 'package:almasheed/main/view/screens/profile_screen.dart';
 import 'package:almasheed/main/view/screens/support_screen.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -28,6 +30,7 @@ class MainBloc extends Bloc<MainEvent, MainState> {
   List<Category> categories = [];
   List<XFile> imagesFiles = [];
   Product? selectedProduct;
+  String? selectedProductCategory;
   String? selectedCity;
   List<Product> sortedProducts = [];
   List<Widget> pages = [
@@ -69,6 +72,15 @@ class MainBloc extends Bloc<MainEvent, MainState> {
           emit(UpdateProductErrorState(l));
         }, (r) {
           emit(UpdateProductSuccessfullyState());
+        });
+      } else if (event is SetCategoryEvent) {
+        emit(SetCategoryLoadingState());
+        var result =
+            await MainRepository(sl()).setCategory(category: event.category);
+        result.fold((l) {
+          emit(SetCategoryErrorState(l));
+        }, (r) {
+          emit(SetCategorySuccessfullyState());
         });
       } else if (event is DeleteProductEvent) {
         emit(DeleteProductLoadingState());
@@ -132,6 +144,9 @@ class MainBloc extends Bloc<MainEvent, MainState> {
       } else if (event is SelectProductEvent) {
         selectedProduct = event.product;
         emit(SelectProductState());
+      } else if (event is SelectProductCategoryEvent) {
+        selectedProductCategory = event.selectedProductCategory;
+        emit(SelectProductCategoryState());
       } else if (event is SelectCityEvent) {
         selectedCity = event.selectedCity;
         sortedProducts = sortedProducts
@@ -160,7 +175,7 @@ class MainBloc extends Bloc<MainEvent, MainState> {
               .where((product) =>
                   bestSales.map((e) => e.productId).contains(product.productId))
               .toList();
-        }else if (event.type == "Offers") {
+        } else if (event.type == "Offers") {
           sortedProducts = event.products
               .where((product) =>
                   offers.map((e) => e.productId).contains(product.productId))
@@ -177,16 +192,22 @@ class MainBloc extends Bloc<MainEvent, MainState> {
         emit(RemoveImageState());
         imagesFiles.remove(event.image);
         emit(RemovePickedImageState(imagesFiles: imagesFiles));
-      }else if (event is RemoveImageEvent) {
+      } else if (event is RemoveImageEvent) {
         emit(AddImageUrlDeletedState());
         event.imagesUrlDelete.add(event.image);
         event.imagesUrl.remove(event.image);
         emit(RemoveImageState());
+      } else if (event is MakeImagesFilesEmptyEvent) {
+        imagesFiles = [];
+        emit(MakeImagesFilesEmptyState(imagesFiles));
+      } else if (event is SelectEditOrDeleteProductEvent) {
+        if (event.selected == "Edit") {
+          event.context.push(ModifyProductScreen(product: event.product));
+        } else {
+          DeleteProductEvent(product: event.product);
+        }
+        emit(SelectEditOrDeleteProductState(event.product));
       }
     });
-  }
-  FirebaseException? isErrorState({required MainState state}) {
-    if (state is DeleteProductErrorState) return state.error;
-    return null;
   }
 }

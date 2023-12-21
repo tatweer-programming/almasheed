@@ -1,7 +1,6 @@
 import 'package:almasheed/main/data/models/category.dart';
 import 'package:almasheed/main/data/models/product.dart';
 import 'package:carousel_slider/carousel_slider.dart';
-import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:sizer/sizer.dart';
@@ -55,69 +54,87 @@ defaultFormField(
       validator: validator,
     );
 
-Widget searchProductDropdownBuilder(
-    {required Product? value,
-    required String text,
-    required BuildContext context,
-    required Function(Product? value) onChanged,
-    required List<Product> items}) {
-  return DropdownSearch<Product>(
-    itemAsString: (Product p) => p.productName,
-    popupProps: PopupProps.menu(
-      showSearchBox: true,
-      itemBuilder: (context, product, isSelected) {
-        return searchWidget(product: product, isSelected: isSelected);
-      },
-    ),
-    dropdownDecoratorProps: DropDownDecoratorProps(
-      dropdownSearchDecoration: InputDecoration(
-          filled: true,
-          enabledBorder:
-              OutlineInputBorder(borderRadius: BorderRadius.circular(10.sp)),
-          focusedBorder:
-              OutlineInputBorder(borderRadius: BorderRadius.circular(10.sp)),
-          contentPadding: EdgeInsetsDirectional.all(5.sp),
-          fillColor: ColorManager.white,
-          prefixIcon: const Icon(Icons.search),
-          hintText: text,
-          hintStyle: TextStyle(
-            fontSize: 10.sp,
-          )),
-    ),
-    items: items,
-    onChanged: onChanged,
-    selectedItem: value,
-  );
-}
-
 Widget searchDropdownBuilder(
-    {required String? value,
-    required String text,
+    {required String text,
     IconData? icon,
     required Function(String? value) onChanged,
     required List<String> items}) {
-  return DropdownSearch<String>(
-      popupProps:
-          const PopupProps.menu(showSelectedItems: true, showSearchBox: true),
-      dropdownDecoratorProps: DropDownDecoratorProps(
-        dropdownSearchDecoration: InputDecoration(
-            labelText: text,
-            filled: true,
-            enabledBorder:
-                OutlineInputBorder(borderRadius: BorderRadius.circular(10.sp)),
-            focusedBorder:
-                OutlineInputBorder(borderRadius: BorderRadius.circular(10.sp)),
-            prefixIcon: Icon(
-              icon ?? Icons.search,
-            ),
-            contentPadding: EdgeInsetsDirectional.symmetric(horizontal: 3.w),
-            labelStyle: TextStyle(
-              fontSize: 10.sp,
-            )),
+  return DropdownMenu<String>(
+    enableFilter: true,
+    requestFocusOnTap: true,
+    expandedInsets: EdgeInsets.zero,
+    leadingIcon: const Icon(Icons.search),
+    inputDecorationTheme: InputDecorationTheme(
+      filled: true,
+      fillColor: ColorManager.white,
+      enabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(10.sp)
       ),
-      items: items,
-      onChanged: onChanged,
-      selectedItem: value);
+      focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(10.sp)
+      ),
+      contentPadding: EdgeInsets.symmetric(horizontal: 1.w),
+    ),
+    onSelected: onChanged,
+    dropdownMenuEntries:
+    items.map<DropdownMenuEntry<String>>(
+          (String value) {
+        return DropdownMenuEntry<String>(
+          value: value,
+          label: value,
+        );
+      },
+    ).toList(),
+  );
+}
+
+Widget searchProductDropdownBuilder(
+    {required String text,
+      required BuildContext context,
+      required Function(Product? value) onChanged,
+      required List<Product> items}) {
+  return DropdownMenu<Product>(
+    enableFilter: true,
+    requestFocusOnTap: true,
+    expandedInsets: EdgeInsets.zero,
+    leadingIcon: const Icon(Icons.search),
+    inputDecorationTheme: InputDecorationTheme(
+      filled: true,
+      fillColor: ColorManager.white,
+      enabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(10.sp)
+      ),
+      focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(10.sp)
+      ),
+      contentPadding: EdgeInsets.symmetric(horizontal: 1.w),
+    ),
+    onSelected: onChanged,
+    dropdownMenuEntries:
+    items.map<DropdownMenuEntry<Product>>(
+          (Product product) {
+        return DropdownMenuEntry<Product>(
+          value: product,
+          label: product.productName,
+          leadingIcon: Container(
+            clipBehavior: Clip.antiAliasWithSaveLayer,
+            width: 15.w,
+            height: 6.h,
+            decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(5.sp),
+                image: product.productsImagesUrl!.isNotEmpty
+                    ? DecorationImage(
+                  fit: BoxFit.cover,
+                  image: NetworkImage(
+                    product.productsImagesUrl!.first,
+                  ),
+                )
+                    : null),
+          ),
+        );
+      },
+    ).toList(),
+  );
 }
 
 Widget searchWidget({required Product product, required bool isSelected}) =>
@@ -131,14 +148,18 @@ Widget searchWidget({required Product product, required bool isSelected}) =>
         children: [
           Container(
             clipBehavior: Clip.antiAliasWithSaveLayer,
-            decoration:
-                BoxDecoration(borderRadius: BorderRadius.circular(5.sp)),
-            child: Image.network(
-              product.productsImagesUrl!.first,
-              width: 15.w,
-              height: 6.h,
-              fit: BoxFit.cover,
-            ),
+            width: 15.w,
+            height: 6.h,
+            decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(5.sp),
+                image: product.productsImagesUrl!.isNotEmpty
+                    ? DecorationImage(
+                        fit: BoxFit.cover,
+                        image: NetworkImage(
+                          product.productsImagesUrl!.first,
+                        ),
+                      )
+                    : null),
           ),
           SizedBox(
             width: 4.w,
@@ -154,11 +175,10 @@ Widget searchWidget({required Product product, required bool isSelected}) =>
       ),
     );
 
-Widget defaultCarousel({
-  required List<String> list,
-  required CarouselController controller,
-  double? height
-}) {
+Widget defaultCarousel(
+    {required List<String> list,
+    required CarouselController controller,
+    double? height}) {
   MainBloc bloc = sl();
   return Stack(
     alignment: Alignment.bottomCenter,
@@ -182,7 +202,7 @@ Widget defaultCarousel({
           onPageChanged: (index, reason) {
             bloc.add(ChangeCarouselIndicatorEvent(index: index));
           },
-          height: height??22.h,
+          height: height ?? 22.h,
           autoPlay: true,
           viewportFraction: 1,
           autoPlayInterval: const Duration(seconds: 2),
@@ -237,66 +257,71 @@ Widget textContainerWidget(String text) => Container(
       ),
     ));
 
-Widget merchantsWidget({required Merchant merchant}) => Card(
-      shape: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(10.sp),
-          borderSide: BorderSide.none),
-      elevation: 4.sp,
-      child: Container(
-          width: double.infinity,
-          height: 6.h,
-          decoration: BoxDecoration(
-              color: ColorManager.white,
-              gradient:
-                  const LinearGradient(begin: Alignment.topCenter, colors: [
-                Color(0xffd7b58e),
-                Color(0xffca9d68),
-                Color(0xffca9d68),
-                Color(0xffbc8443),
-              ]),
-              borderRadius: BorderRadiusDirectional.circular(10.sp)),
-          child: Padding(
-            padding: EdgeInsets.symmetric(horizontal: 4.w, vertical: 1.h),
-            child: Row(
-              children: [
-                Expanded(
-                  child: Row(
-                    children: [
-                      const Icon(Icons.drive_file_rename_outline),
-                      SizedBox(
-                        width: 2.w,
-                      ),
-                      Expanded(
-                        child: Text(
-                          merchant.companyName,
-                          style: TextStyle(
-                              fontSize: 14.sp, fontWeight: FontWeight.w500),
+Widget merchantsWidget(
+        {required Merchant merchant, required VoidCallback onTap}) =>
+    InkWell(
+      onTap: onTap,
+      child: Card(
+        shape: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(10.sp),
+            borderSide: BorderSide.none),
+        elevation: 4.sp,
+        child: Container(
+            width: double.infinity,
+            height: 6.h,
+            decoration: BoxDecoration(
+                color: ColorManager.white,
+                gradient:
+                    const LinearGradient(begin: Alignment.topCenter, colors: [
+                  Color(0xffd7b58e),
+                  Color(0xffca9d68),
+                  Color(0xffca9d68),
+                  Color(0xffbc8443),
+                ]),
+                borderRadius: BorderRadiusDirectional.circular(10.sp)),
+            child: Padding(
+              padding: EdgeInsets.symmetric(horizontal: 4.w, vertical: 1.h),
+              child: Row(
+                children: [
+                  Expanded(
+                    child: Row(
+                      children: [
+                        const Icon(Icons.drive_file_rename_outline),
+                        SizedBox(
+                          width: 2.w,
                         ),
-                      ),
-                    ],
-                  ),
-                ),
-                Expanded(
-                  child: Row(
-                    children: [
-                      const Icon(Icons.location_city),
-                      SizedBox(
-                        width: 2.w,
-                      ),
-                      Expanded(
-                        child: Text(
-                          merchant.city,
-                          style: TextStyle(
-                              fontSize: 14.sp, fontWeight: FontWeight.w500),
+                        Expanded(
+                          child: Text(
+                            merchant.companyName,
+                            style: TextStyle(
+                                fontSize: 14.sp, fontWeight: FontWeight.w500),
+                          ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
-                ),
-                const Icon(Icons.arrow_forward_ios_sharp),
-              ],
-            ),
-          )),
+                  Expanded(
+                    child: Row(
+                      children: [
+                        const Icon(Icons.location_city),
+                        SizedBox(
+                          width: 2.w,
+                        ),
+                        Expanded(
+                          child: Text(
+                            merchant.city,
+                            style: TextStyle(
+                                fontSize: 14.sp, fontWeight: FontWeight.w500),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  const Icon(Icons.arrow_forward_ios_sharp),
+                ],
+              ),
+            )),
+      ),
     );
 
 Widget categoryWidget(
@@ -308,7 +333,7 @@ Widget categoryWidget(
           CircleAvatar(
             radius: 40,
             backgroundColor: ColorManager.grey1,
-            backgroundImage: NetworkImage(category.categoryImage),
+            backgroundImage: NetworkImage(category.categoryImage!),
           ),
           Text(
             category.categoryName,
@@ -346,9 +371,11 @@ Widget productWidget({
                     height: 20.h,
                     decoration: BoxDecoration(
                       color: ColorManager.grey1,
-                      image: product.productsImagesUrl != null && product.productsImagesUrl!.isNotEmpty
+                      image: product.productsImagesUrl != null &&
+                              product.productsImagesUrl!.isNotEmpty
                           ? DecorationImage(
-                              image: NetworkImage(product.productsImagesUrl!.first),
+                              image: NetworkImage(
+                                  product.productsImagesUrl!.first),
                               fit: BoxFit.cover,
                             )
                           : null,
@@ -427,25 +454,22 @@ Widget defaultButton({
 Widget iconContainer({
   required VoidCallback onPressed,
   required IconData icon,
-  double? horizontal,
-  double? vertical,
+  double? padding,
   double? size,
 }) =>
     Container(
-      padding: EdgeInsets.symmetric(
-          horizontal: horizontal??1.w, vertical: vertical??1.h),
-      decoration: BoxDecoration(
-          shape: BoxShape.circle,
-          color: ColorManager.primary),
+      padding: EdgeInsets.all(padding??5.sp),
+      decoration:
+          BoxDecoration(shape: BoxShape.circle, color: ColorManager.primary),
       child: InkWell(
         onTap: onPressed,
-        child: Icon(icon,
+        child: Icon(
+          icon,
           color: ColorManager.white,
-          size: size??12.sp,
+          size: size ?? 12.sp,
         ),
       ),
     );
-
 
 void defaultToast({
   required String msg,

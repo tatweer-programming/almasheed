@@ -6,8 +6,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sizer/sizer.dart';
+import '../../../authentication/data/models/merchant.dart';
 import '../../../core/error/remote_error.dart';
 import '../../../core/services/dep_injection.dart';
+import '../../../core/utils/constance_manager.dart';
 import '../../data/models/product.dart';
 import '../widgets/widgets.dart';
 
@@ -29,7 +31,7 @@ class ModifyProductScreen extends StatelessWidget {
     bloc.imagesFiles = [];
     product.productsImagesDelete ??= [];
     product.productsImagesUrl ??= [];
-    // Merchant merchant = ConstantsManager.appUser as Merchant;
+    Merchant merchant = ConstantsManager.appUser as Merchant;
     return BlocConsumer<MainBloc, MainState>(
       listener: (context, state) {
         if (state is GetProductsSuccessfullyState) {
@@ -44,30 +46,29 @@ class ModifyProductScreen extends StatelessWidget {
             barrierDismissible: false,
             builder: (context) {
               return AlertDialog(
-                shape: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(5.sp)
-                ),
+                  shape: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(5.sp)),
                   content: const Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Center(child: CircularProgressIndicator()),
-                ],
-              ));
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Center(child: CircularProgressIndicator()),
+                    ],
+                  ));
             },
           );
         }
         if (state is UpdateProductSuccessfullyState) {
           bloc.add(GetProductsEvent());
+          bloc.add(MakeImagesFilesEmptyEvent());
           context.pop();
           context.pop();
           context.pop();
           showDialog(
             context: context,
             builder: (context) {
-              return  AlertDialog(
+              return AlertDialog(
                 shape: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(5.sp)
-                ),
+                    borderRadius: BorderRadius.circular(5.sp)),
                 content: const Text(
                   "The product has been modified successfully",
                   style: TextStyle(
@@ -219,9 +220,9 @@ class ModifyProductScreen extends StatelessWidget {
                                     discountController.text == ""
                                         ? "0"
                                         : discountController.text),
-                                productCity: "merchant.city",
+                                productCity: merchant.city,
                                 productDescription: descriptionController.text,
-                                merchantName: "merchant.companyName")));
+                                merchantName: merchant.companyName)));
                       },
                       text: "Modify Product",
                       height: 6.h),

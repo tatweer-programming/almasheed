@@ -39,6 +39,11 @@ class MainRepository {
     return await mainRemoteDataSource.modifyProduct(product: product);
   }
 
+  Future<Either<FirebaseException, Unit>> setCategory(
+      {required Category category}) async {
+    return await mainRemoteDataSource.setCategory(category: category);
+  }
+
   Future<Either<FirebaseException, Unit>> deleteProduct(
       {required Product product}) async {
     return await mainRemoteDataSource.deleteProduct(product: product);

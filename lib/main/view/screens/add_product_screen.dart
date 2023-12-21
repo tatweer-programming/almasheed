@@ -1,31 +1,37 @@
 import 'dart:io';
+import 'package:almasheed/core/utils/color_manager.dart';
 import 'package:almasheed/core/utils/navigation_manager.dart';
 import 'package:almasheed/main/data/models/product.dart';
 import 'package:almasheed/main/view/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sizer/sizer.dart';
+import '../../../authentication/data/models/merchant.dart';
 import '../../../core/error/remote_error.dart';
 import '../../../core/services/dep_injection.dart';
+import '../../../core/utils/constance_manager.dart';
 import '../../bloc/main_bloc.dart';
+import 'add_category_screen.dart';
 
 class AddProductScreen extends StatelessWidget {
   const AddProductScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
+    MainBloc bloc = sl();
     TextEditingController nameController = TextEditingController();
     TextEditingController priceController = TextEditingController();
     TextEditingController descriptionController = TextEditingController();
-    TextEditingController productCategoryController = TextEditingController();
     TextEditingController discountController = TextEditingController();
     discountController.text = "0";
-    // Merchant merchant = ConstantsManager.appUser as Merchant;
-    MainBloc bloc = sl();
+    bloc.imagesFiles = [];
+    bloc.selectedProductCategory = null;
+    Merchant merchant = ConstantsManager.appUser as Merchant;
     var formKey = GlobalKey<FormState>();
     return BlocConsumer<MainBloc, MainState>(
       listener: (context, state) {
         if (state is SetProductErrorState) {
+          bloc.add(MakeImagesFilesEmptyEvent());
           errorToast(msg: ExceptionManager(state.error).translatedMessage());
         }
         if (state is SetProductLoadingState) {
@@ -35,8 +41,7 @@ class AddProductScreen extends StatelessWidget {
             builder: (context) {
               return AlertDialog(
                   shape: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(5.sp)
-                  ),
+                      borderRadius: BorderRadius.circular(5.sp)),
                   content: const Column(
                     mainAxisSize: MainAxisSize.min,
                     children: [
@@ -48,6 +53,7 @@ class AddProductScreen extends StatelessWidget {
         }
         if (state is SetProductSuccessfullyState) {
           bloc.add(GetProductsEvent());
+          bloc.add(MakeImagesFilesEmptyEvent());
           context.pop();
           context.pop();
           showDialog(
@@ -55,8 +61,7 @@ class AddProductScreen extends StatelessWidget {
             builder: (context) {
               return AlertDialog(
                 shape: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(5.sp)
-                ),
+                    borderRadius: BorderRadius.circular(5.sp)),
                 content: const Text(
                   "The product has been added successfully",
                   style: TextStyle(
@@ -71,6 +76,22 @@ class AddProductScreen extends StatelessWidget {
       builder: (context, state) {
         return Scaffold(
           appBar: AppBar(
+            actions: [
+              Padding(
+                padding: EdgeInsetsDirectional.only(end: 3.w),
+                child: TextButton(
+                    onPressed: () {
+                      context.push(const AddCategoryScreen());
+                    },
+                    child: Text(
+                      "Add Category",
+                      style: TextStyle(
+                          fontWeight: FontWeight.w500,
+                          color: ColorManager.white,
+                          fontSize: 14.sp),
+                    )),
+              ),
+            ],
             leading: IconButton(
                 onPressed: () {
                   context.pop();
@@ -88,7 +109,9 @@ class AddProductScreen extends StatelessWidget {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          SizedBox(height: 1.h,),
+                          SizedBox(
+                            height: 1.h,
+                          ),
                           defaultFormField(
                               validator: (value) {
                                 if (value!.isEmpty) {
@@ -134,9 +157,17 @@ class AddProductScreen extends StatelessWidget {
                           SizedBox(
                             height: 1.h,
                           ),
-                          defaultFormField(
-                              controller: productCategoryController,
-                              label: "Product Category"),
+                          searchDropdownBuilder(
+                            text: "Product Category",
+                            onChanged: (selectedProductCategory) {
+                              bloc.add(SelectProductCategoryEvent(
+                                  selectedProductCategory:
+                                      selectedProductCategory!));
+                            },
+                            items: bloc.categories
+                                .map((category) => category.categoryName)
+                                .toList(),
+                          ),
                           SizedBox(
                             height: 1.h,
                           ),
@@ -187,21 +218,31 @@ class AddProductScreen extends StatelessWidget {
                   ),
                   defaultButton(
                       onPressed: () {
-                        if (formKey.currentState!.validate()) {
-                          bloc.add(SetProductEvent(
-                              product: Product(
+                        if (bloc.selectedProductCategory == null) {
+                          errorToast(msg: "Please select a category");
+                        } else {
+                          if (formKey.currentState!.validate()) {
+                            bloc.add(
+                              SetProductEvent(
+                                product: Product(
                                   productName: nameController.text,
-                                  productCategory: productCategoryController.text,
+                                  productCategory: bloc.selectedProductCategory,
                                   productsImagesFile: bloc.imagesFiles,
                                   productId: DateTime.now().toString(),
                                   productOldPrice:
                                       double.parse(priceController.text),
                                   productNewPrice: newPriceAfterDiscount(
-                                    price: double.parse(priceController.text),
-                                      discount: double.parse(discountController.text)),
-                                  productCity: "city",
-                                  productDescription: discountController.text,
-                                  merchantName: "companyName")));
+                                      price: double.parse(priceController.text),
+                                      discount: double.parse(
+                                          discountController.text)),
+                                  productCity: merchant.city,
+                                  productDescription:
+                                      descriptionController.text,
+                                  merchantName: merchant.companyName,
+                                ),
+                              ),
+                            );
+                          }
                         }
                       },
                       text: "Add Product",
@@ -215,10 +256,10 @@ class AddProductScreen extends StatelessWidget {
     );
   }
 }
+
 double newPriceAfterDiscount({
   required double price,
   required double discount,
-}){
-  return (price *
-      (100 - discount ) / 100);
+}) {
+  return (price * (100 - discount) / 100);
 }

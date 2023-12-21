@@ -36,14 +36,16 @@ class MainRemoteDataSource {
           String imageUrl = await _uploadImageToFirebaseStorage(
               imageFile: imageFile,
               fileName:
-                  "${product.productName}/${Uri.file(imageFile.path).pathSegments.last}");
+                  "products/${product.productName}/${Uri.file(imageFile.path).pathSegments.last}");
           product.productsImagesUrl!.add(imageUrl);
         }
       }
       var products =
           firebaseInstance.collection("products").doc(product.productId);
       var offers = firebaseInstance.collection("offers").doc("offers");
-      var merchants = firebaseInstance.collection("merchants").doc(ConstantsManager.appUser!.id);
+      var merchants = firebaseInstance
+          .collection("merchants")
+          .doc(ConstantsManager.appUser!.id);
       var bestSales =
           firebaseInstance.collection("best_sales").doc("best_sales");
       var categories = firebaseInstance
@@ -105,7 +107,7 @@ class MainRemoteDataSource {
           String imageUrl = await _uploadImageToFirebaseStorage(
               imageFile: imageFile,
               fileName:
-                  "${product.productName}/${Uri.file(imageFile.path).pathSegments.last}");
+                  "products/${product.productName}/${Uri.file(imageFile.path).pathSegments.last}");
           product.productsImagesUrl!.add(imageUrl);
         }
       }
@@ -113,6 +115,29 @@ class MainRemoteDataSource {
           .collection("products")
           .doc(product.productId)
           .update(product.toJson());
+      return const Right(unit);
+    } on FirebaseException catch (error) {
+      return Left(error);
+    }
+  }
+
+  Future<Either<FirebaseException, Unit>> setCategory({
+    required Category category,
+  }) async {
+    try {
+      if (category.categoryImageFile != null) {
+        await _uploadImageToFirebaseStorage(
+                imageFile: category.categoryImageFile!,
+                fileName:
+                    "categories/${category.categoryName}/${Uri.file(category.categoryImageFile!.path).pathSegments.last}")
+            .then((categoryImage) {
+          category.categoryImage = categoryImage;
+        });
+      }
+      await firebaseInstance
+          .collection("categories")
+          .doc(category.categoryName)
+          .set(category.toJson());
       return const Right(unit);
     } on FirebaseException catch (error) {
       return Left(error);
@@ -190,8 +215,7 @@ class MainRemoteDataSource {
 
   Future<String> _uploadImageToFirebaseStorage(
       {required XFile imageFile, required String fileName}) async {
-    Reference reference =
-        FirebaseStorage.instance.ref().child("products/$fileName");
+    Reference reference = FirebaseStorage.instance.ref().child(fileName);
     await reference.putFile(File(imageFile.path));
     return reference.getDownloadURL();
   }

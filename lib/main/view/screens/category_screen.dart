@@ -19,19 +19,20 @@ class CategoryScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     MainBloc bloc = sl();
-    bloc.sortedProducts = category.products!;
+    bloc.sortedProducts = category.products??[];
     return BlocConsumer<MainBloc, MainState>(
       listener: (context, state) {
         if (state is GetProductsSuccessfullyState) {
+          bloc.add(GetOffersEvent());
           bloc.add(GetCategoriesEvent());
+          bloc.add(GetBestSalesEvent());
         }
       },
       builder: (context, state) {
         return RefreshIndicator(
           onRefresh: () async {
-            bloc.add(GetOffersEvent());
-            bloc.add(GetCategoriesEvent());
-            bloc.add(GetBestSalesEvent());
+            bloc.add(GetProductsEvent());
+            bloc.add(GetMerchantsEvent());
           },
           child: Scaffold(
             body: SingleChildScrollView(
@@ -55,7 +56,7 @@ class CategoryScreen extends StatelessWidget {
                             onPressed: () {
                               context.pop();
                             },
-                            icon: Icon(
+                            icon: const Icon(
                               Icons.arrow_back_ios_new,
                               color: ColorManager.white,
                             ),
@@ -74,7 +75,6 @@ class CategoryScreen extends StatelessWidget {
                             child: SizedBox(
                               height: 7.h,
                               child: searchProductDropdownBuilder(
-                                  value: bloc.selectedProduct,
                                   text: "search ...",
                                   onChanged: (product) {
                                     bloc.add(
@@ -89,7 +89,7 @@ class CategoryScreen extends StatelessWidget {
                           SizedBox(
                             width: 3.w,
                           ),
-                          Icon(
+                          const Icon(
                             Icons.shopping_cart_outlined,
                             color: ColorManager.white,
                           ),
@@ -135,24 +135,28 @@ class CategoryScreen extends StatelessWidget {
                                             },
                                             child: const Text("Okay")),
                                       ],
-                                      content: searchDropdownBuilder(
-                                          value: bloc.selectedCity,
-                                          text: "City",
-                                          onChanged: (city) {
-                                            bloc.add(CancelSortProductsEvent(
-                                                products: category.products!));
-                                            bloc.add(SelectCityEvent(
-                                                selectedCity: city!));
-                                          },
-                                          items: ConstantsManager
-                                              .saudiCitiesEnglish),
+                                      content: Column(
+                                        mainAxisSize: MainAxisSize.min,
+                                        children: [
+                                          searchDropdownBuilder(
+                                              text: "City",
+                                              onChanged: (city) {
+                                                bloc.add(CancelSortProductsEvent(
+                                                    products: category.products!));
+                                                bloc.add(SelectCityEvent(
+                                                    selectedCity: city!));
+                                              },
+                                              items: ConstantsManager
+                                                  .saudiCitiesEnglish),
+                                        ],
+                                      ),
                                     );
                                   },
                                 );
                               },
                               child: Row(
                                 children: [
-                                  Icon(
+                                  const Icon(
                                     Icons.sort,
                                     color: ColorManager.white,
                                   ),
@@ -288,7 +292,7 @@ class CategoryScreen extends StatelessWidget {
                               },
                               child: Row(
                                 children: [
-                                  Icon(
+                                  const Icon(
                                     Icons.layers,
                                     color: ColorManager.white,
                                   ),

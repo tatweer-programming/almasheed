@@ -18,7 +18,7 @@ class AuthService {
   Future<Either<FirebaseAuthException, String>> verifyPhoneNumber(
       String phoneNumber) async {
     Completer<Either<FirebaseAuthException, String>> completer =
-        Completer<Either<FirebaseAuthException, String>>();
+    Completer<Either<FirebaseAuthException, String>>();
     try {
       await _auth.verifyPhoneNumber(
         phoneNumber: phoneNumber,
@@ -74,9 +74,9 @@ class AuthService {
   }
 
   Future<bool> _isUserExists(
-    String id,
-    String userType,
-  ) async {
+      String id,
+      String userType,
+      ) async {
     late bool isExists;
     print(")))))))))))))))))))))))))))))))))))))))))))))))))");
     await _fireStore.collection("${userType}s/").doc(id).get().then((value) {
@@ -111,7 +111,7 @@ class AuthService {
   Future _createCustomer(Customer customer) async {
     try {
       await _fireStore
-          .doc("customers/${customer.id})")
+          .doc("customers/${customer.id}")
           .set(customer.toJson())
           .then((value) {
         print("objectKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKK");
@@ -126,7 +126,7 @@ class AuthService {
   Future _createMerchant(Merchant merchant) async {
     try {
       await _fireStore
-          .doc("merchants/${merchant.id})")
+          .doc("merchants/${merchant.id}")
           .set(merchant.toJson())
           .then((value) {
         print("objectKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKK");
