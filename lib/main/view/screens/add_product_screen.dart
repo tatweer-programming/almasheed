@@ -32,6 +32,7 @@ class AddProductScreen extends StatelessWidget {
       listener: (context, state) {
         if (state is SetProductErrorState) {
           bloc.add(MakeImagesFilesEmptyEvent());
+          context.pop();
           errorToast(msg: ExceptionManager(state.error).translatedMessage());
         }
         if (state is SetProductLoadingState) {

@@ -341,91 +341,96 @@ Widget categoryWidget(
 
 Widget productWidget({
   required Product product,
-  required Customer customer,
   required VoidCallback addCardPressed,
   required VoidCallback openProductPressed,
-}) =>
-    InkWell(
-      onTap: openProductPressed,
-      child: Card(
-        shape: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(5.sp),
-            borderSide: BorderSide.none),
-        elevation: 4.sp,
-        child: Stack(
-          children: [
-            Container(
-              width: 42.w,
-              clipBehavior: Clip.antiAliasWithSaveLayer,
-              decoration: BoxDecoration(
-                  color: ColorManager.white,
-                  borderRadius: BorderRadiusDirectional.circular(5.sp)),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Container(
-                    height: 20.h,
-                    decoration: BoxDecoration(
-                      color: ColorManager.grey1,
-                      image: product.productsImagesUrl != null &&
-                              product.productsImagesUrl!.isNotEmpty
-                          ? DecorationImage(
-                              image: NetworkImage(
-                                  product.productsImagesUrl!.first),
-                              fit: BoxFit.cover,
-                            )
-                          : null,
-                    ),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 2.w),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        SizedBox(
-                          height: 0.5.h,
-                        ),
-                        Text(
-                          product.productName,
-                          style: TextStyle(
-                              fontWeight: FontWeight.w600, fontSize: 12.sp),
-                        ),
-                        SizedBox(
-                          height: 0.5.h,
-                        ),
-                        Text(
-                          "${product.productOldPrice} SAR",
-                          style: TextStyle(
-                              fontWeight: FontWeight.w500, fontSize: 12.sp),
-                        ),
-                        SizedBox(
-                          height: 1.h,
-                        ),
-                        ConstantsManager.appUser is Customer
-                            ? defaultButton(
-                                onPressed: addCardPressed,
-                                height: 4.h,
-                                text: "Add To Cart")
-                            : const SizedBox()
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            Padding(
-              padding: EdgeInsets.all(5.sp),
-              child: Icon(
-                customer.favorites.contains(product.productId)
-                    ? Icons.favorite_sharp
-                    : Icons.favorite_border,
+}) {
+  Customer? customer;
+  if(ConstantsManager.appUser is Customer) {
+    customer = ConstantsManager.appUser as Customer;
+  }
+  return InkWell(
+    onTap: openProductPressed,
+    child: Card(
+      shape: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(5.sp),
+          borderSide: BorderSide.none),
+      elevation: 4.sp,
+      child: Stack(
+        children: [
+          Container(
+            width: 42.w,
+            clipBehavior: Clip.antiAliasWithSaveLayer,
+            decoration: BoxDecoration(
                 color: ColorManager.white,
-              ),
-            )
-          ],
-        ),
+                borderRadius: BorderRadiusDirectional.circular(5.sp)),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Container(
+                  height: 20.h,
+                  decoration: BoxDecoration(
+                    color: ColorManager.grey1,
+                    image: product.productsImagesUrl != null &&
+                        product.productsImagesUrl!.isNotEmpty
+                        ? DecorationImage(
+                      image: NetworkImage(
+                          product.productsImagesUrl!.first),
+                      fit: BoxFit.cover,
+                    )
+                        : null,
+                  ),
+                ),
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 2.w),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      SizedBox(
+                        height: 0.5.h,
+                      ),
+                      Text(
+                        product.productName,
+                        style: TextStyle(
+                            fontWeight: FontWeight.w600, fontSize: 12.sp),
+                      ),
+                      SizedBox(
+                        height: 0.5.h,
+                      ),
+                      Text(
+                        "${product.productOldPrice} SAR",
+                        style: TextStyle(
+                            fontWeight: FontWeight.w500, fontSize: 12.sp),
+                      ),
+                      SizedBox(
+                        height: 1.h,
+                      ),
+                      ConstantsManager.appUser is Customer
+                          ? defaultButton(
+                          onPressed: addCardPressed,
+                          height: 4.h,
+                          text: "Add To Cart")
+                          : const SizedBox()
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
+          ConstantsManager.appUser is Customer ?
+          Padding(
+            padding: EdgeInsets.all(5.sp),
+            child: Icon(
+              customer!.favorites.contains(product.productId)
+                  ? Icons.favorite_sharp
+                  : Icons.favorite_border,
+              color: ColorManager.red,
+            ),
+          ): const SizedBox()
+        ],
       ),
-    );
+    ),
+  );
+}
 
 Widget defaultButton({
   required VoidCallback onPressed,
@@ -456,16 +461,17 @@ Widget iconContainer({
   required IconData icon,
   double? padding,
   double? size,
+  Color? color,
 }) =>
     Container(
       padding: EdgeInsets.all(padding ?? 5.sp),
       decoration:
-          BoxDecoration(shape: BoxShape.circle, color: ColorManager.primary),
+          const BoxDecoration(shape: BoxShape.circle, color: ColorManager.primary),
       child: InkWell(
         onTap: onPressed,
         child: Icon(
           icon,
-          color: ColorManager.white,
+          color: color??ColorManager.white,
           size: size ?? 12.sp,
         ),
       ),

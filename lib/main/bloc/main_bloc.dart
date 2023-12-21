@@ -53,6 +53,8 @@ class MainBloc extends Bloc<MainEvent, MainState> {
           emit(GetProductsErrorState(l));
         }, (r) {
           products = r;
+          products.sort((a, b) => DateTime.parse(a.productId)
+              .compareTo(DateTime.parse(b.productId)));
           emit(GetProductsSuccessfullyState());
         });
       } else if (event is SetProductEvent) {
@@ -143,8 +145,10 @@ class MainBloc extends Bloc<MainEvent, MainState> {
         });
       } else if (event is AddAndRemoveFromFavoritesEvent) {
         emit(AddAndRemoveFromFavoritesLoadingState());
-        List<String> favorites = getFavorites(productId: event.productId,favorites: event.favorites);
-        var result = await MainRepository(sl()).addAndRemoveFromFavorites(favorites: favorites);
+        List<String> favorites = getFavorites(
+            productId: event.productId, favorites: event.favorites);
+        var result = await MainRepository(sl())
+            .addAndRemoveFromFavorites(favorites: favorites);
         result.fold((l) {
           emit(AddAndRemoveFromFavoritesErrorState(l));
         }, (r) {
@@ -223,10 +227,10 @@ class MainBloc extends Bloc<MainEvent, MainState> {
   List<String> getFavorites({
     required String productId,
     required List<String> favorites,
-}){
-    if(favorites.contains(productId)){
+  }) {
+    if (favorites.contains(productId)) {
       favorites.remove(productId);
-    }else {
+    } else {
       favorites.add(productId);
     }
     return favorites;

@@ -24,6 +24,7 @@ class AddCategoryScreen extends StatelessWidget {
       listener: (context, state) {
         if (state is SetCategoryErrorState) {
           bloc.add(MakeImagesFilesEmptyEvent());
+          context.pop();
           errorToast(msg: ExceptionManager(state.error).translatedMessage());
         }
         if (state is SetCategoryLoadingState) {

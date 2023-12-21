@@ -52,7 +52,7 @@ class MainRemoteDataSource {
           .collection("categories")
           .doc(product.productCategory);
       batch.set(products, product.toJson());
-      batch.set(bestSales, {product.productId: 0});
+      batch.set(bestSales, {product.productId.replaceAll(".", "*") : 0});
       batch.update(categories, {
         "productsIds": FieldValue.arrayUnion([product.productId])
       });
@@ -75,16 +75,26 @@ class MainRemoteDataSource {
     required Product product,
   }) async {
     try {
-      await firebaseInstance
-          .collection("products")
-          .doc(product.productId)
-          .delete()
-          .then((_) {
-            if(product.productsImagesUrl!.isNotEmpty) {
-              _deleteImageFromFirebaseStorage(
-            fileName: "products/${product.productName}");
-            }
+      var batch = FirebaseFirestore.instance.batch();
+      var bestSales = firebaseInstance.collection("best_sales").doc("best_sales");
+      var offers = firebaseInstance.collection("offers").doc("offers");
+      var products = firebaseInstance.collection("products").doc(product.productId);
+      var categories = firebaseInstance.collection("categories").doc(product.productCategory);
+      var merchants = firebaseInstance.collection("merchants").doc(ConstantsManager.appUser!.id);
+      batch.delete(products,);
+      batch.update(bestSales, {product.productId.replaceAll(".", "*"): FieldValue.delete()});
+      batch.update(categories, {
+        "productsIds": FieldValue.arrayRemove([product.productId])
       });
+      batch.update(merchants, {
+        "productsIds": FieldValue.arrayRemove([product.productId])
+      });
+      if (product.productNewPrice != product.productOldPrice) {
+        batch.update(offers, {
+          "productsIds": FieldValue.arrayRemove([product.productId])
+        });
+      }
+      await batch.commit();
       return const Right(unit);
     } on FirebaseException catch (error) {
       return Left(error);
@@ -205,7 +215,7 @@ class MainRemoteDataSource {
         data = value.data() as Map<String, dynamic>;
       });
       Map<String, int> bestSales = data.map(
-        (key, value) => MapEntry(key, value is int ? value : 0),
+        (key, value) => MapEntry(key.replaceAll("*", "."), value is int ? value : 0),
       );
       return Right(bestSales);
     } on FirebaseException catch (error) {
