@@ -5,9 +5,11 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:sizer/sizer.dart';
 
+import '../../../authentication/data/models/customer.dart';
 import '../../../authentication/data/models/merchant.dart';
 import '../../../core/services/dep_injection.dart';
 import '../../../core/utils/color_manager.dart';
+import '../../../core/utils/constance_manager.dart';
 import '../../bloc/main_bloc.dart';
 
 defaultFormField(
@@ -67,18 +69,15 @@ Widget searchDropdownBuilder(
     inputDecorationTheme: InputDecorationTheme(
       filled: true,
       fillColor: ColorManager.white,
-      enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(10.sp)
-      ),
-      focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(10.sp)
-      ),
+      enabledBorder:
+          OutlineInputBorder(borderRadius: BorderRadius.circular(10.sp)),
+      focusedBorder:
+          OutlineInputBorder(borderRadius: BorderRadius.circular(10.sp)),
       contentPadding: EdgeInsets.symmetric(horizontal: 1.w),
     ),
     onSelected: onChanged,
-    dropdownMenuEntries:
-    items.map<DropdownMenuEntry<String>>(
-          (String value) {
+    dropdownMenuEntries: items.map<DropdownMenuEntry<String>>(
+      (String value) {
         return DropdownMenuEntry<String>(
           value: value,
           label: value,
@@ -90,9 +89,9 @@ Widget searchDropdownBuilder(
 
 Widget searchProductDropdownBuilder(
     {required String text,
-      required BuildContext context,
-      required Function(Product? value) onChanged,
-      required List<Product> items}) {
+    required BuildContext context,
+    required Function(Product? value) onChanged,
+    required List<Product> items}) {
   return DropdownMenu<Product>(
     enableFilter: true,
     requestFocusOnTap: true,
@@ -101,18 +100,15 @@ Widget searchProductDropdownBuilder(
     inputDecorationTheme: InputDecorationTheme(
       filled: true,
       fillColor: ColorManager.white,
-      enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(10.sp)
-      ),
-      focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(10.sp)
-      ),
+      enabledBorder:
+          OutlineInputBorder(borderRadius: BorderRadius.circular(10.sp)),
+      focusedBorder:
+          OutlineInputBorder(borderRadius: BorderRadius.circular(10.sp)),
       contentPadding: EdgeInsets.symmetric(horizontal: 1.w),
     ),
     onSelected: onChanged,
-    dropdownMenuEntries:
-    items.map<DropdownMenuEntry<Product>>(
-          (Product product) {
+    dropdownMenuEntries: items.map<DropdownMenuEntry<Product>>(
+      (Product product) {
         return DropdownMenuEntry<Product>(
           value: product,
           label: product.productName,
@@ -124,11 +120,11 @@ Widget searchProductDropdownBuilder(
                 borderRadius: BorderRadius.circular(5.sp),
                 image: product.productsImagesUrl!.isNotEmpty
                     ? DecorationImage(
-                  fit: BoxFit.cover,
-                  image: NetworkImage(
-                    product.productsImagesUrl!.first,
-                  ),
-                )
+                        fit: BoxFit.cover,
+                        image: NetworkImage(
+                          product.productsImagesUrl!.first,
+                        ),
+                      )
                     : null),
           ),
         );
@@ -345,6 +341,7 @@ Widget categoryWidget(
 
 Widget productWidget({
   required Product product,
+  required Customer customer,
   required VoidCallback addCardPressed,
   required VoidCallback openProductPressed,
 }) =>
@@ -358,7 +355,6 @@ Widget productWidget({
         child: Stack(
           children: [
             Container(
-              height: 33.h,
               width: 42.w,
               clipBehavior: Clip.antiAliasWithSaveLayer,
               decoration: BoxDecoration(
@@ -405,10 +401,12 @@ Widget productWidget({
                         SizedBox(
                           height: 1.h,
                         ),
-                        defaultButton(
-                            onPressed: addCardPressed,
-                            height: 4.h,
-                            text: "Add To Cart")
+                        ConstantsManager.appUser is Customer
+                            ? defaultButton(
+                                onPressed: addCardPressed,
+                                height: 4.h,
+                                text: "Add To Cart")
+                            : const SizedBox()
                       ],
                     ),
                   ),
@@ -418,7 +416,9 @@ Widget productWidget({
             Padding(
               padding: EdgeInsets.all(5.sp),
               child: Icon(
-                Icons.favorite_border,
+                customer.favorites.contains(product.productId)
+                    ? Icons.favorite_sharp
+                    : Icons.favorite_border,
                 color: ColorManager.white,
               ),
             )
@@ -458,7 +458,7 @@ Widget iconContainer({
   double? size,
 }) =>
     Container(
-      padding: EdgeInsets.all(padding??5.sp),
+      padding: EdgeInsets.all(padding ?? 5.sp),
       decoration:
           BoxDecoration(shape: BoxShape.circle, color: ColorManager.primary),
       child: InkWell(

@@ -41,7 +41,7 @@ class Masheed extends StatelessWidget {
         child: MaterialApp(
             title: 'Al Masheed',
             theme: getAppTheme(),
-            home: const AccountTypeScreen()),
+            home: const MainScreen()),
       );
     });
   }

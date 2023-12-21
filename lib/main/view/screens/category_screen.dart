@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sizer/sizer.dart';
 
+import '../../../authentication/data/models/customer.dart';
 import '../../../core/services/dep_injection.dart';
 import '../../bloc/main_bloc.dart';
 import '../widgets/widgets.dart';
@@ -20,6 +21,7 @@ class CategoryScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     MainBloc bloc = sl();
     bloc.sortedProducts = category.products??[];
+    Customer customer = ConstantsManager.appUser as Customer;
     return BlocConsumer<MainBloc, MainState>(
       listener: (context, state) {
         if (state is GetProductsSuccessfullyState) {
@@ -319,6 +321,7 @@ class CategoryScreen extends StatelessWidget {
                     child: Wrap(
                       children: bloc.sortedProducts.map((product) {
                         return productWidget(
+                          customer: customer,
                             openProductPressed: () {
                               context
                                   .push(DetailsProductScreen(product: product));

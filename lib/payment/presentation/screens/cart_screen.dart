@@ -1,5 +1,6 @@
 import 'package:almasheed/authentication/data/models/customer.dart';
 import 'package:almasheed/core/utils/constance_manager.dart';
+import 'package:almasheed/core/utils/navigation_manager.dart';
 import 'package:almasheed/main/bloc/main_bloc.dart';
 import 'package:almasheed/payment/bloc/payment_bloc.dart';
 import 'package:almasheed/payment/presentation/components.dart';
@@ -23,6 +24,11 @@ class CartScreen extends StatelessWidget {
     return Scaffold(
         appBar: AppBar(
           title: const Text("Cart"),
+          leading: IconButton(
+              onPressed: () {
+                context.pop();
+              },
+              icon: const Icon(Icons.arrow_back_ios_new)),
         ),
         body: ListView.separated(
           itemBuilder: (context, index) => CartItem(

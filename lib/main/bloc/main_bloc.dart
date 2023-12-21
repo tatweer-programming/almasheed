@@ -141,6 +141,15 @@ class MainBloc extends Bloc<MainEvent, MainState> {
           }
           emit(GetCategoriesSuccessfullyState());
         });
+      } else if (event is AddAndRemoveFromFavoritesEvent) {
+        emit(AddAndRemoveFromFavoritesLoadingState());
+        List<String> favorites = getFavorites(productId: event.productId,favorites: event.favorites);
+        var result = await MainRepository(sl()).addAndRemoveFromFavorites(favorites: favorites);
+        result.fold((l) {
+          emit(AddAndRemoveFromFavoritesErrorState(l));
+        }, (r) {
+          emit(AddAndRemoveFromFavoritesSuccessfullyState());
+        });
       } else if (event is SelectProductEvent) {
         selectedProduct = event.product;
         emit(SelectProductState());
@@ -202,12 +211,24 @@ class MainBloc extends Bloc<MainEvent, MainState> {
         emit(MakeImagesFilesEmptyState(imagesFiles));
       } else if (event is SelectEditOrDeleteProductEvent) {
         if (event.selected == "Edit") {
-          event.context.push(ModifyProductScreen(product: event.product));
+          emit(SelectEditProductState(event.product));
         } else {
-          DeleteProductEvent(product: event.product);
+          sortedProducts.remove(event.product);
+          products.remove(event.product);
+          emit(SelectDeleteProductState(event.product));
         }
-        emit(SelectEditOrDeleteProductState(event.product));
       }
     });
+  }
+  List<String> getFavorites({
+    required String productId,
+    required List<String> favorites,
+}){
+    if(favorites.contains(productId)){
+      favorites.remove(productId);
+    }else {
+      favorites.add(productId);
+    }
+    return favorites;
   }
 }

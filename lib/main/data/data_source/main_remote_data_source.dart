@@ -80,8 +80,10 @@ class MainRemoteDataSource {
           .doc(product.productId)
           .delete()
           .then((_) {
-        _deleteImageFromFirebaseStorage(
+            if(product.productsImagesUrl!.isNotEmpty) {
+              _deleteImageFromFirebaseStorage(
             fileName: "products/${product.productName}");
+            }
       });
       return const Right(unit);
     } on FirebaseException catch (error) {
@@ -138,6 +140,22 @@ class MainRemoteDataSource {
           .collection("categories")
           .doc(category.categoryName)
           .set(category.toJson());
+      return const Right(unit);
+    } on FirebaseException catch (error) {
+      return Left(error);
+    }
+  }
+
+  Future<Either<FirebaseException, Unit>> addAndRemoveFromFavorites({
+    required List<String> favorites,
+  }) async {
+    try {
+      await firebaseInstance
+          .collection("customers")
+          .doc(ConstantsManager.appUser!.id)
+          .update({
+        "favorites": favorites
+      });
       return const Right(unit);
     } on FirebaseException catch (error) {
       return Left(error);

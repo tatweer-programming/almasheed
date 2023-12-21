@@ -61,6 +61,14 @@ class GetCategoriesEvent extends MainEvent {
   List<Object?> get props => [];
 }
 
+class AddAndRemoveFromFavoritesEvent extends MainEvent {
+  final List<String> favorites;
+  final String productId;
+  const AddAndRemoveFromFavoritesEvent({required this.favorites,required this.productId});
+  @override
+  List<Object?> get props => [favorites,productId];
+}
+
 class GetOffersEvent extends MainEvent {
   @override
   List<Object?> get props => [];

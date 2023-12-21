@@ -54,7 +54,7 @@ class MainScreen extends StatelessWidget {
             padding: EdgeInsets.zero,
             inactiveIconColor: Colors.black,
           ),
-          floatingActionButton: ConstantsManager.appUser is! Merchant ? FloatingActionButton(
+          floatingActionButton: ConstantsManager.appUser is Merchant ? FloatingActionButton(
             onPressed: () {
               context.push(const AddProductScreen());
             },

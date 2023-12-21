@@ -1,3 +1,4 @@
+import 'package:almasheed/authentication/data/models/customer.dart';
 import 'package:almasheed/core/utils/color_manager.dart';
 import 'package:almasheed/core/utils/navigation_manager.dart';
 import 'package:almasheed/main/data/models/category.dart';
@@ -11,6 +12,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sizer/sizer.dart';
 import '../../../core/error/remote_error.dart';
 import '../../../core/services/dep_injection.dart';
+import '../../../core/utils/constance_manager.dart';
 import '../../bloc/main_bloc.dart';
 
 List<String> list = [
@@ -142,37 +144,51 @@ class HomePageScreen extends StatelessWidget {
                                   ],
                                 )
                               : const SizedBox(),
-                          SizedBox(
-                            height: 1.h,
-                          ),
-                          textContainerWidget("Merchants"),
-                          SizedBox(
-                            height: 1.h,
-                          ),
-                          ListView.separated(
-                              padding: EdgeInsets.zero,
-                              shrinkWrap: true,
-                              physics: const NeverScrollableScrollPhysics(),
-                              itemBuilder: (context, index) => merchantsWidget(
-                                  merchant: bloc.merchants[index],
-                                  onTap: () {
-                                    context.push(CategoryScreen(
-                                        category: Category(
-                                            categoryName: "",
-                                            products: bloc.products
-                                                .where((product) => bloc
-                                                    .merchants[index]
-                                                    .productsIds
-                                                    .contains(
-                                                        product.productId))
-                                                .toList(),
-                                            productsIds: bloc.merchants[index]
-                                                .productsIds)));
-                                  }),
-                              separatorBuilder: (context, index) => SizedBox(
-                                    height: 1.h,
-                                  ),
-                              itemCount: bloc.merchants.length)
+                          ConstantsManager.appUser is Customer ?
+                          bloc.merchants.isNotEmpty
+                              ? Column(
+                                  children: [
+                                    SizedBox(
+                                      height: 1.h,
+                                    ),
+                                    textContainerWidget("Merchants"),
+                                    SizedBox(
+                                      height: 1.h,
+                                    ),
+                                    ListView.separated(
+                                        padding: EdgeInsets.zero,
+                                        shrinkWrap: true,
+                                        physics:
+                                            const NeverScrollableScrollPhysics(),
+                                        itemBuilder: (context, index) =>
+                                            merchantsWidget(
+                                                merchant: bloc.merchants[index],
+                                                onTap: () {
+                                                  context.push(CategoryScreen(
+                                                      category: Category(
+                                                          categoryName: "",
+                                                          products: bloc
+                                                              .products
+                                                              .where((product) => bloc
+                                                                  .merchants[
+                                                                      index]
+                                                                  .productsIds
+                                                                  .contains(product
+                                                                      .productId))
+                                                              .toList(),
+                                                          productsIds: bloc
+                                                              .merchants[index]
+                                                              .productsIds)));
+                                                }),
+                                        separatorBuilder: (context, index) =>
+                                            SizedBox(
+                                              height: 1.h,
+                                            ),
+                                        itemCount: bloc.merchants.length),
+                                  ],
+                                )
+                              : const SizedBox()
+                              : const SizedBox(),
                         ],
                       ),
                     ),

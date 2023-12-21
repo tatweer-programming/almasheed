@@ -48,4 +48,9 @@ class MainRepository {
       {required Product product}) async {
     return await mainRemoteDataSource.deleteProduct(product: product);
   }
+  Future<Either<FirebaseException, Unit>> addAndRemoveFromFavorites({
+    required List<String> favorites,
+  }) async {
+    return await mainRemoteDataSource.addAndRemoveFromFavorites(favorites: favorites);
+  }
 }

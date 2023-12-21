@@ -1,8 +1,9 @@
 
+import 'package:almasheed/authentication/data/models/customer.dart';
 import 'package:almasheed/authentication/data/models/user.dart';
 
 class ConstantsManager {
-  static AppUser? appUser;
+  static AppUser? appUser = Customer(id: "oVtWmHhUWJcVfi7MT1GyVvANHIA2",phone: "", cartItems: {}, favorites: [], orders: []);
   static final List<String> saudiCitiesArabic = [
     'الرياض',
     'جدة',

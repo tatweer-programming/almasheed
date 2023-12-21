@@ -151,6 +151,24 @@ class GetCategoriesErrorState extends MainState {
   List<Object?> get props => [error];
 }
 
+// Add And Remove From Favorites
+class AddAndRemoveFromFavoritesSuccessfullyState extends MainState {
+  @override
+  List<Object?> get props => [];
+}
+
+class AddAndRemoveFromFavoritesLoadingState extends MainState {
+  @override
+  List<Object?> get props => [];
+}
+
+class AddAndRemoveFromFavoritesErrorState extends MainState {
+  final FirebaseException error;
+  const AddAndRemoveFromFavoritesErrorState(this.error);
+  @override
+  List<Object?> get props => [error];
+}
+
 // get best sales
 class GetBestSalesSuccessfullyState extends MainState {
   @override
@@ -240,9 +258,15 @@ class RemovePickedImageState extends MainState {
   @override
   List<Object> get props => [imagesFiles];
 }
-class SelectEditOrDeleteProductState extends MainState {
+class SelectDeleteProductState extends MainState {
   final Product product;
-  const SelectEditOrDeleteProductState(this.product);
+  const SelectDeleteProductState(this.product);
+  @override
+  List<Object> get props => [product];
+}
+class SelectEditProductState extends MainState {
+  final Product product;
+  const SelectEditProductState(this.product);
   @override
   List<Object> get props => [product];
 }

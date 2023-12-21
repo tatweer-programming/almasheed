@@ -1,4 +1,6 @@
+import 'package:almasheed/authentication/data/models/customer.dart';
 import 'package:almasheed/core/utils/color_manager.dart';
+import 'package:almasheed/core/utils/constance_manager.dart';
 import 'package:almasheed/core/utils/navigation_manager.dart';
 import 'package:almasheed/main/data/models/product.dart';
 import 'package:almasheed/main/view/widgets/widgets.dart';
@@ -7,9 +9,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sizer/sizer.dart';
 
+import '../../../authentication/data/models/merchant.dart';
 import '../../../core/error/remote_error.dart';
 import '../../../core/services/dep_injection.dart';
 import '../../bloc/main_bloc.dart';
+import 'modify_screen.dart';
 
 class DetailsProductScreen extends StatelessWidget {
   final Product product;
@@ -19,9 +23,15 @@ class DetailsProductScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     CarouselController carouselController = CarouselController();
     MainBloc bloc = sl();
+    Customer customer = ConstantsManager.appUser as Customer;
     return BlocConsumer<MainBloc, MainState>(
       listener: (context, state) {
-        if(state is DeleteProductErrorState){
+        if (state is SelectEditProductState) {
+          context.push(ModifyProductScreen(product: product));
+        } else if (state is SelectDeleteProductState) {
+          bloc.add(DeleteProductEvent(product: product));
+        }
+        if (state is DeleteProductErrorState) {
           errorToast(msg: ExceptionManager(state.error).translatedMessage());
         }
         if (state is DeleteProductLoadingState) {
@@ -42,7 +52,6 @@ class DetailsProductScreen extends StatelessWidget {
           );
         }
         if (state is DeleteProductSuccessfullyState) {
-          bloc.add(GetProductsEvent());
           context.pop();
           context.pop();
           showDialog(
@@ -105,71 +114,73 @@ class DetailsProductScreen extends StatelessWidget {
                                         },
                                         icon: Icons.arrow_back_ios_new),
                                   ),
-                                  // Align(
-                                  //   alignment: Alignment.center,
-                                  //   child: Padding(
-                                  //     padding: EdgeInsets.symmetric(
-                                  //         horizontal: 2.w, vertical: 1.h),
-                                  //     child: iconContainer(
-                                  //         horizontal: 3.w,
-                                  //         size: 20.sp,
-                                  //         onPressed: () {
-                                  //
-                                  //         },
-                                  //         icon: Icons.more_horiz),
-                                  //   ),
-                                  // ),
-                                  Align(
-                                    alignment: Alignment.topRight,
-                                    child: Padding(
-                                      padding: EdgeInsets.symmetric(
-                                          horizontal: 2.w, vertical: 1.h),
-                                      child: CircleAvatar(
-                                        radius: 20,
-                                        backgroundColor: ColorManager.primary,
-                                        child: PopupMenuButton<String>(
-                                          icon: const Icon(
-                                            Icons.more_horiz,
-                                            color: ColorManager.white,
+                                  ConstantsManager.appUser is Merchant
+                                      ? Align(
+                                          alignment: Alignment.topRight,
+                                          child: Padding(
+                                            padding: EdgeInsets.symmetric(
+                                                horizontal: 2.w, vertical: 1.h),
+                                            child: CircleAvatar(
+                                              radius: 20,
+                                              backgroundColor:
+                                                  ColorManager.primary,
+                                              child: PopupMenuButton<String>(
+                                                icon: const Icon(
+                                                  Icons.more_horiz,
+                                                  color: ColorManager.white,
+                                                ),
+                                                onSelected: (String value) {
+                                                  bloc.add(
+                                                      SelectEditOrDeleteProductEvent(
+                                                          context: context,
+                                                          product: product,
+                                                          selected: value));
+                                                },
+                                                itemBuilder: (
+                                                  BuildContext context,
+                                                ) =>
+                                                    <PopupMenuEntry<String>>[
+                                                  const PopupMenuItem<String>(
+                                                    value: 'Edit',
+                                                    child: Text("Edit"),
+                                                  ),
+                                                  const PopupMenuItem<String>(
+                                                    value: 'Delete',
+                                                    child: Text('Delete'),
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
                                           ),
-                                          onSelected: (String value) {
-                                            bloc.add(
-                                                SelectEditOrDeleteProductEvent(
-                                                    context: context,
-                                                    product: product,
-                                                    selected: value));
-                                          },
-                                          itemBuilder: (
-                                            BuildContext context,
-                                          ) =>
-                                              <PopupMenuEntry<String>>[
-                                            const PopupMenuItem<String>(
-                                              value: 'Edit',
-                                              child: Text("Edit"),
-                                            ),
-                                            const PopupMenuItem<String>(
-                                              value: 'Delete',
-                                              child: Text('Delete'),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                    ),
-                                  ),
+                                        )
+                                      : const SizedBox(),
                                 ],
                               ),
-                              Align(
-                                alignment: Alignment.bottomLeft,
-                                child: Padding(
-                                  padding: EdgeInsets.symmetric(
-                                      horizontal: 2.w, vertical: 1.h),
-                                  child: iconContainer(
-                                      padding: 5.sp,
-                                      size: 20.sp,
-                                      onPressed: () {},
-                                      icon: Icons.favorite_border),
-                                ),
-                              ),
+                              ConstantsManager.appUser is! Merchant
+                                  ? Align(
+                                      alignment: Alignment.bottomLeft,
+                                      child: Padding(
+                                        padding: EdgeInsets.symmetric(
+                                            horizontal: 2.w, vertical: 1.h),
+                                        child: iconContainer(
+                                          padding: 5.sp,
+                                          size: 20.sp,
+                                          onPressed: () {
+                                            bloc.add(
+                                                AddAndRemoveFromFavoritesEvent(
+                                                    favorites:
+                                                        customer.favorites,
+                                                    productId:
+                                                        product.productId));
+                                          },
+                                          icon: customer.favorites
+                                                  .contains(product.productId)
+                                              ? Icons.favorite_sharp
+                                              : Icons.favorite_border,
+                                        ),
+                                      ),
+                                    )
+                                  : const SizedBox(),
                             ],
                           ),
                         ),
@@ -256,10 +267,12 @@ class DetailsProductScreen extends StatelessWidget {
                     ),
                   ),
                 ),
-                Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 6.w),
-                    child:
-                        defaultButton(onPressed: () {}, text: "Add To Cart")),
+                ConstantsManager.appUser is! Merchant
+                    ? Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 6.w),
+                        child: defaultButton(
+                            onPressed: () {}, text: "Add To Cart"))
+                    : const SizedBox(),
                 SizedBox(
                   height: 2.h,
                 )
