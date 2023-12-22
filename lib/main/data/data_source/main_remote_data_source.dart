@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:almasheed/authentication/data/models/user.dart';
 import 'package:almasheed/core/utils/constance_manager.dart';
 import 'package:almasheed/main/data/models/category.dart';
 import 'package:almasheed/main/data/models/product.dart';
@@ -11,6 +12,7 @@ import '../../../authentication/data/models/merchant.dart';
 
 class MainRemoteDataSource {
   final FirebaseFirestore firebaseInstance = FirebaseFirestore.instance;
+
   Future<Either<FirebaseException, List<Product>>> getProducts() async {
     try {
       List<Product> products = [];
@@ -36,23 +38,26 @@ class MainRemoteDataSource {
           String imageUrl = await _uploadImageToFirebaseStorage(
               imageFile: imageFile,
               fileName:
-                  "products/${product.productName}/${Uri.file(imageFile.path).pathSegments.last}");
+              "products/${product.productName}/${Uri
+                  .file(imageFile.path)
+                  .pathSegments
+                  .last}");
           product.productsImagesUrl!.add(imageUrl);
         }
       }
       var products =
-          firebaseInstance.collection("products").doc(product.productId);
+      firebaseInstance.collection("products").doc(product.productId);
       var offers = firebaseInstance.collection("offers").doc("offers");
       var merchants = firebaseInstance
           .collection("merchants")
           .doc(ConstantsManager.appUser!.id);
       var bestSales =
-          firebaseInstance.collection("best_sales").doc("best_sales");
+      firebaseInstance.collection("best_sales").doc("best_sales");
       var categories = firebaseInstance
           .collection("categories")
           .doc(product.productCategory);
       batch.set(products, product.toJson());
-      batch.set(bestSales, {product.productId.replaceAll(".", "*") : 0});
+      batch.set(bestSales, {product.productId.replaceAll(".", "*"): 0});
       batch.update(categories, {
         "productsIds": FieldValue.arrayUnion([product.productId])
       });
@@ -76,13 +81,18 @@ class MainRemoteDataSource {
   }) async {
     try {
       var batch = FirebaseFirestore.instance.batch();
-      var bestSales = firebaseInstance.collection("best_sales").doc("best_sales");
+      var bestSales = firebaseInstance.collection("best_sales").doc(
+          "best_sales");
       var offers = firebaseInstance.collection("offers").doc("offers");
-      var products = firebaseInstance.collection("products").doc(product.productId);
-      var categories = firebaseInstance.collection("categories").doc(product.productCategory);
-      var merchants = firebaseInstance.collection("merchants").doc(ConstantsManager.appUser!.id);
+      var products = firebaseInstance.collection("products").doc(
+          product.productId);
+      var categories = firebaseInstance.collection("categories").doc(
+          product.productCategory);
+      var merchants = firebaseInstance.collection("merchants").doc(
+          ConstantsManager.appUser!.id);
       batch.delete(products,);
-      batch.update(bestSales, {product.productId.replaceAll(".", "*"): FieldValue.delete()});
+      batch.update(bestSales,
+          {product.productId.replaceAll(".", "*"): FieldValue.delete()});
       batch.update(categories, {
         "productsIds": FieldValue.arrayRemove([product.productId])
       });
@@ -109,7 +119,10 @@ class MainRemoteDataSource {
           product.productsImagesDelete!.isNotEmpty) {
         for (String productImage in product.productsImagesDelete!) {
           _deleteImageFromFirebaseStorage(
-              fileName: Uri.parse(productImage).pathSegments.last);
+              fileName: Uri
+                  .parse(productImage)
+                  .pathSegments
+                  .last);
         }
         product.productsImagesDelete!.clear();
       }
@@ -119,7 +132,10 @@ class MainRemoteDataSource {
           String imageUrl = await _uploadImageToFirebaseStorage(
               imageFile: imageFile,
               fileName:
-                  "products/${product.productName}/${Uri.file(imageFile.path).pathSegments.last}");
+              "products/${product.productName}/${Uri
+                  .file(imageFile.path)
+                  .pathSegments
+                  .last}");
           product.productsImagesUrl!.add(imageUrl);
         }
       }
@@ -139,9 +155,12 @@ class MainRemoteDataSource {
     try {
       if (category.categoryImageFile != null) {
         await _uploadImageToFirebaseStorage(
-                imageFile: category.categoryImageFile!,
-                fileName:
-                    "categories/${category.categoryName}/${Uri.file(category.categoryImageFile!.path).pathSegments.last}")
+            imageFile: category.categoryImageFile!,
+            fileName:
+            "categories/${category.categoryName}/${Uri
+                .file(category.categoryImageFile!.path)
+                .pathSegments
+                .last}")
             .then((categoryImage) {
           category.categoryImage = categoryImage;
         });
@@ -215,13 +234,15 @@ class MainRemoteDataSource {
         data = value.data() as Map<String, dynamic>;
       });
       Map<String, int> bestSales = data.map(
-        (key, value) => MapEntry(key.replaceAll("*", "."), value is int ? value : 0),
+            (key, value) =>
+            MapEntry(key.replaceAll("*", "."), value is int ? value : 0),
       );
       return Right(bestSales);
     } on FirebaseException catch (error) {
       return Left(error);
     }
   }
+
 
   Future<Either<FirebaseException, List<Merchant>>> getMerchants() async {
     try {
@@ -236,6 +257,22 @@ class MainRemoteDataSource {
       return Left(error);
     }
   }
+
+  Future<Either<FirebaseException, Unit>> getUserData() async {
+    try {
+      firebaseInstance.
+      collection("${ConstantsManager.userType}s/")
+          .doc("${ConstantsManager.userId}").get().then((value) {
+        ConstantsManager.appUser = AppUser.fromJson(value.data()!,
+            "${ConstantsManager.userType}");
+      });
+      return const Right(unit);
+    }
+    on FirebaseException catch (e) {
+      return Left(e);
+    }
+  }
+
 
   void _deleteImageFromFirebaseStorage({required String fileName}) async {
     FirebaseStorage.instance.ref().child(fileName).delete();

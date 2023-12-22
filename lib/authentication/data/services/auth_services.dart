@@ -3,6 +3,8 @@ import 'dart:async';
 import 'package:almasheed/authentication/data/models/customer.dart';
 import 'package:almasheed/authentication/data/models/merchant.dart';
 import 'package:almasheed/authentication/data/models/user.dart';
+import 'package:almasheed/core/local/shared_prefrences.dart';
+import 'package:almasheed/core/utils/constance_manager.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dartz/dartz.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -87,9 +89,10 @@ class AuthService {
     return isExists;
   }
 
-  Future<Either<FirebaseException, bool>> createUser(AppUser user) async {
+  Future<Either<FirebaseException, bool>> createUser(AppUser user)
+  async {
     try {
-      bool isCustomer = user is Customer;
+
       String userType = (user is Customer) ? "customer" : "merchant";
 
       bool isUserExists = await _isUserExists(user.id, userType);
@@ -98,9 +101,11 @@ class AuthService {
           print(isUserExists);
         }
 
-        isCustomer
-            ? await _createCustomer(user)
-            : await _createMerchant(user as Merchant);
+       await _createUser(user, userType).then((value) async {
+         await CacheHelper.saveData(key: "userId", value: user.id);
+         await CacheHelper.saveData(key: "userType", value: userType);
+         ConstantsManager.appUser = user ;
+       });
       }
       return Right(isUserExists);
     } on FirebaseException catch (e) {
@@ -108,12 +113,43 @@ class AuthService {
     }
   }
 
-  Future _createCustomer(Customer customer) async {
+  // Future _createCustomer(Customer customer) async {
+  //   try {
+  //     await _fireStore
+  //         .doc("customers/${customer.id}")
+  //         .set(customer.toJson())
+  //         .then((value) {
+  //       print("objectKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKK");
+  //     });
+  //   } catch (e) {
+  //     if (kDebugMode) {
+  //       print(e);
+  //     }
+  //   }
+  // }
+  //
+  // Future _createMerchant(Merchant merchant) async {
+  //   try {
+  //     await _fireStore
+  //         .doc("merchants/${merchant.id}")
+  //         .set(merchant.toJson())
+  //         .then((value) {
+  //       print("objectKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKK");
+  //     });
+  //   } catch (e) {
+  //     if (kDebugMode) {
+  //       print(e);
+  //     }
+  //   }
+  // }
+
+  Future _createUser(AppUser user, String userType ) async {
     try {
       await _fireStore
-          .doc("customers/${customer.id}")
-          .set(customer.toJson())
-          .then((value) {
+          .doc("${userType}s/${user.id}")
+          .set(user.toJson())
+          .then((value) async {
+
         print("objectKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKK");
       });
     } catch (e) {
@@ -123,18 +159,4 @@ class AuthService {
     }
   }
 
-  Future _createMerchant(Merchant merchant) async {
-    try {
-      await _fireStore
-          .doc("merchants/${merchant.id}")
-          .set(merchant.toJson())
-          .then((value) {
-        print("objectKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKK");
-      });
-    } catch (e) {
-      if (kDebugMode) {
-        print(e);
-      }
-    }
-  }
 }

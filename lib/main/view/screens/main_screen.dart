@@ -1,4 +1,3 @@
-
 import 'package:almasheed/authentication/data/models/merchant.dart';
 import 'package:almasheed/core/utils/color_manager.dart';
 import 'package:almasheed/core/utils/constance_manager.dart';
@@ -16,7 +15,12 @@ class MainScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     MainBloc bloc = sl();
+    print(bloc.hashCode);
+    ConstantsManager.appUser == null
+        ? bloc.add(GetUserDataEvent())
+        : DoNothingAction();
     return BlocConsumer<MainBloc, MainState>(
+      bloc: bloc,
       listener: (context, state) {
         if (state is GetProductsSuccessfullyState) {
           bloc.add(GetOffersEvent());
@@ -54,12 +58,14 @@ class MainScreen extends StatelessWidget {
             padding: EdgeInsets.zero,
             inactiveIconColor: Colors.black,
           ),
-          floatingActionButton: ConstantsManager.appUser is Merchant ? FloatingActionButton(
-            onPressed: () {
-              context.push(const AddProductScreen());
-            },
-            child: const Icon(Icons.add),
-          ):null,
+          floatingActionButton: ConstantsManager.appUser is Merchant
+              ? FloatingActionButton(
+                  onPressed: () {
+                    context.push(const AddProductScreen());
+                  },
+                  child: const Icon(Icons.add),
+                )
+              : null,
           body: RefreshIndicator(
               onRefresh: () async {
                 bloc.add(GetProductsEvent());

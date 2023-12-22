@@ -1,3 +1,4 @@
+import 'package:almasheed/core/utils/color_manager.dart';
 import 'package:almasheed/core/utils/font_manager.dart';
 import 'package:almasheed/main/data/models/product.dart';
 import 'package:almasheed/payment/bloc/payment_bloc.dart';
@@ -36,67 +37,102 @@ class _CartItemState extends State<CartItem> {
             Row(
               children: [
                 Container(
-                  width: 20.w,
+                  width: 30.w,
+                  height: double.infinity,
                   decoration: BoxDecoration(
                     image: DecorationImage(
+                        fit: BoxFit.cover,
                         image:
                             NetworkImage(widget.product.productsImagesUrl![0])),
                   ),
                 ),
                 Expanded(
-                    child: Column(
-                  children: [
-                    Text(
-                      widget.product.merchantName,
-                      style: TextStyle(
-                          fontWeight: FontWeightManager.bold, fontSize: 17.sp),
-                    ),
-                    Text(
-                      widget.product.productNewPrice.toString(),
-                      style: TextStyle(fontSize: 15.sp),
-                    ),
-                    Text(
-                      "SAR",
-                      style: TextStyle(fontSize: 15.sp),
-                    ),
-                  ],
+                    child: Padding(
+                  padding: EdgeInsets.all(5.sp),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        widget.product.merchantName,
+                        style: TextStyle(
+                            fontWeight: FontWeightManager.bold,
+                            fontSize: 17.sp),
+                      ),
+                      Row(
+                        children: [
+                          Text(
+                            widget.product.productNewPrice.toString(),
+                            style: TextStyle(
+                                fontSize: 15.sp, color: ColorManager.grey2),
+                          ),
+                          Text(
+                            "  SAR",
+                            style: TextStyle(
+                                fontSize: 15.sp, color: ColorManager.grey2),
+                          )
+                        ],
+                      ),
+                      Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Expanded(
+                            child: SizedBox(
+                              width: 50.w,
+                              child: widget.isQuantityEditingEnabled
+                                  ? TextField(
+                                      decoration: InputDecoration(),
+                                      keyboardType: TextInputType.number,
+                                      onEditingComplete: () {
+                                        _editingCompleted();
+                                      },
+                                      onSubmitted: (value) {
+                                        _editingCompleted();
+                                      },
+                                      enabled: widget.isQuantityEditingEnabled,
+                                      controller: widget.quantityController)
+                                  : Center(
+                                      child: Text(
+                                        widget.quantity.toString(),
+                                        style: TextStyle(
+                                            fontWeight: FontWeightManager.bold,
+                                            fontSize: 15.sp),
+                                      ),
+                                    ),
+                            ),
+                          ),
+                          SizedBox(
+                            width: 10.sp,
+                          ),
+                          if (!widget.isQuantityEditingEnabled)
+                            widget.bloc.state is RemoveFromCartLoadingState
+                                ? const CircularProgressIndicator()
+                                : IconButton(
+                                    onPressed: () {
+                                      widget.bloc.add(RemoveFromCart(
+                                          productId: widget.product.productId));
+                                      setState(() {
+                                        widget.isQuantityEditingEnabled = true;
+                                      });
+                                    },
+                                    icon: const Icon(Icons.edit))
+                        ],
+                      )
+                    ],
+                  ),
                 )),
-                Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    TextField(
-                        onEditingComplete: () {
-                          _editingCompleted();
-                        },
-                        onSubmitted: (value) {
-                          _editingCompleted();
-                        },
-                        enabled: widget.isQuantityEditingEnabled,
-                        controller: widget.quantityController),
-                    SizedBox(
-                      width: 10.sp,
-                    ),
-                    if (!widget.isQuantityEditingEnabled)
-                      widget.bloc.state is RemoveFromCartLoadingState
-                          ? const CircularProgressIndicator()
-                          : IconButton(
-                              onPressed: () {
-                                widget.bloc.add(RemoveFromCart(
-                                    productId: widget.product.productId));
-                                setState(() {
-                                  widget.isQuantityEditingEnabled = true;
-                                });
-                              },
-                              icon: const Icon(Icons.edit))
-                  ],
-                )
               ],
             ),
             Align(
               alignment: AlignmentDirectional.topStart,
               child: IconButton(
-                  onPressed: () {},
-                  icon: const Icon(Icons.remove_shopping_cart)),
+                  onPressed: () {
+                    widget.bloc.add(
+                        RemoveFromCart(productId: widget.product.productId));
+                  },
+                  icon: Icon(
+                    Icons.remove_shopping_cart,
+                    color: ColorManager.error,
+                  )),
             )
           ],
         ),

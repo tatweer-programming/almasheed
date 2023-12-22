@@ -8,7 +8,9 @@ import '../data_source/main_remote_data_source.dart';
 
 class MainRepository {
   final MainRemoteDataSource mainRemoteDataSource;
+
   MainRepository(this.mainRemoteDataSource);
+
   Future<Either<FirebaseException, List<Product>>> getProducts() async {
     return await mainRemoteDataSource.getProducts();
   }
@@ -48,9 +50,15 @@ class MainRepository {
       {required Product product}) async {
     return await mainRemoteDataSource.deleteProduct(product: product);
   }
+
   Future<Either<FirebaseException, Unit>> addAndRemoveFromFavorites({
     required List<String> favorites,
   }) async {
-    return await mainRemoteDataSource.addAndRemoveFromFavorites(favorites: favorites);
+    return await mainRemoteDataSource.addAndRemoveFromFavorites(
+        favorites: favorites);
+  }
+
+  Future<Either<FirebaseException, Unit>> getUserData() {
+    return mainRemoteDataSource.getUserData();
   }
 }

@@ -6,14 +6,18 @@ abstract class MainEvent extends Equatable {
 
 class ChangeBottomNavEvent extends MainEvent {
   final int index;
+
   const ChangeBottomNavEvent({required this.index});
+
   @override
   List<Object?> get props => [index];
 }
 
 class ChangeCarouselIndicatorEvent extends MainEvent {
   final int index;
+
   const ChangeCarouselIndicatorEvent({required this.index});
+
   @override
   List<Object?> get props => [index];
 }
@@ -25,33 +29,46 @@ class GetProductsEvent extends MainEvent {
 
 class SetProductEvent extends MainEvent {
   final Product product;
+
   const SetProductEvent({required this.product});
+
   @override
   List<Object?> get props => [product];
 }
 
 class UpdateProductEvent extends MainEvent {
   final Product product;
+
   const UpdateProductEvent({required this.product});
+
   @override
   List<Object?> get props => [product];
 }
 
 class SetCategoryEvent extends MainEvent {
   final Category category;
+
   const SetCategoryEvent({required this.category});
+
   @override
   List<Object?> get props => [category];
 }
 
 class DeleteProductEvent extends MainEvent {
   final Product product;
+
   const DeleteProductEvent({required this.product});
+
   @override
   List<Object?> get props => [product];
 }
 
 class GetMerchantsEvent extends MainEvent {
+  @override
+  List<Object?> get props => [];
+}
+
+class GetUserDataEvent extends MainEvent {
   @override
   List<Object?> get props => [];
 }
@@ -64,9 +81,12 @@ class GetCategoriesEvent extends MainEvent {
 class AddAndRemoveFromFavoritesEvent extends MainEvent {
   final List<String> favorites;
   final String productId;
-  const AddAndRemoveFromFavoritesEvent({required this.favorites,required this.productId});
+
+  const AddAndRemoveFromFavoritesEvent(
+      {required this.favorites, required this.productId});
+
   @override
-  List<Object?> get props => [favorites,productId];
+  List<Object?> get props => [favorites, productId];
 }
 
 class GetOffersEvent extends MainEvent {
@@ -81,36 +101,48 @@ class GetBestSalesEvent extends MainEvent {
 
 class SelectProductEvent extends MainEvent {
   final Product product;
+
   const SelectProductEvent({required this.product});
+
   @override
   List<Object?> get props => [product];
 }
 
 class SelectCityEvent extends MainEvent {
   final String selectedCity;
+
   const SelectCityEvent({required this.selectedCity});
+
   @override
   List<Object?> get props => [selectedCity];
 }
+
 class SelectEditOrDeleteProductEvent extends MainEvent {
   final String selected;
   final BuildContext context;
   final Product product;
-  const SelectEditOrDeleteProductEvent({required this.selected,required this.product,required this.context});
+
+  const SelectEditOrDeleteProductEvent(
+      {required this.selected, required this.product, required this.context});
+
   @override
-  List<Object?> get props => [selected,product,context];
+  List<Object?> get props => [selected, product, context];
 }
 
 class SelectProductCategoryEvent extends MainEvent {
   final String selectedProductCategory;
+
   const SelectProductCategoryEvent({required this.selectedProductCategory});
+
   @override
   List<Object?> get props => [selectedProductCategory];
 }
 
 class CancelSortProductsEvent extends MainEvent {
   final List<Product> products;
+
   const CancelSortProductsEvent({required this.products});
+
   @override
   List<Object?> get props => [products];
 }
@@ -118,9 +150,11 @@ class CancelSortProductsEvent extends MainEvent {
 class SortProductsEvent extends MainEvent {
   final String type;
   final List<Product> products;
-  const SortProductsEvent({required this.type,required this.products});
+
+  const SortProductsEvent({required this.type, required this.products});
+
   @override
-  List<Object?> get props => [type,products];
+  List<Object?> get props => [type, products];
 }
 
 class PickImagesEvent extends MainEvent {
@@ -135,7 +169,9 @@ class MakeImagesFilesEmptyEvent extends MainEvent {
 
 class RemovePickedImageEvent extends MainEvent {
   final XFile image;
+
   const RemovePickedImageEvent({required this.image});
+
   @override
   List<Object?> get props => [image];
 }
@@ -144,7 +180,12 @@ class RemoveImageEvent extends MainEvent {
   final String image;
   final List<String> imagesUrlDelete;
   final List<String> imagesUrl;
-  const RemoveImageEvent({required this.image,required this.imagesUrlDelete,required this.imagesUrl});
+
+  const RemoveImageEvent(
+      {required this.image,
+      required this.imagesUrlDelete,
+      required this.imagesUrl});
+
   @override
-  List<Object?> get props => [image,imagesUrl,imagesUrlDelete];
+  List<Object?> get props => [image, imagesUrl, imagesUrlDelete];
 }

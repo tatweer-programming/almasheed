@@ -1,5 +1,6 @@
 import 'package:almasheed/authentication/data/models/merchant.dart';
 import 'package:almasheed/authentication/presentation/screens/otp_screen.dart';
+import 'package:almasheed/authentication/presentation/screens/terms_and_conditions_screen.dart';
 import 'package:almasheed/core/utils/navigation_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -168,7 +169,10 @@ class MerchantLoginScreen extends StatelessWidget {
                               style: TextStyle(fontSize: 14.sp),
                             ),
                             TextButton(
-                                onPressed: () {},
+                                onPressed: () {
+                                  context.push(TermsAndConditionsScreen(
+                                      userType: "merchant"));
+                                },
                                 child: Text(
                                   "Terms & conditions",
                                   style: TextStyle(
