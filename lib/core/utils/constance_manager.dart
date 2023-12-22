@@ -3,7 +3,13 @@ import 'package:almasheed/authentication/data/models/merchant.dart';
 import 'package:almasheed/authentication/data/models/user.dart';
 
 class ConstantsManager {
-  static AppUser? appUser = Customer(id: "oVtWmHhUWJcVfi7MT1GyVvANHIA2",phone: "", cartItems: {}, favorites: [], orders: []);
+  static AppUser? appUser = Customer(
+      id: "oVtWmHhUWJcVfi7MT1GyVvANHIA2",
+      phone: "",
+      cartItems: {"2023-12-21 20:16:42.743056": 4},
+      favorites: [],
+      orders: []);
+
   // static AppUser? appUser = Merchant(
   //     id: "oVtWmHhUWJcVfi7MT1GyVvANHIA2",
   //     phone: "",

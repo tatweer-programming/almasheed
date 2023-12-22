@@ -18,6 +18,7 @@ class Merchant extends AppUser {
       required super.phone,
       required this.productsIds});
 
+  @override
   Map<String, dynamic> toJson() {
     return {
       "productsIds": productsIds,

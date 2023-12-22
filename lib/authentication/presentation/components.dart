@@ -8,6 +8,7 @@ import '../../core/utils/color_manager.dart';
 class AccountTypeItem extends StatelessWidget {
   final String type;
   final Widget nextScreen;
+
   const AccountTypeItem(
       {super.key, required this.type, required this.nextScreen});
 
@@ -39,6 +40,7 @@ class AccountTypeItem extends StatelessWidget {
 
 class PhoneNumberInput extends StatelessWidget {
   final TextEditingController controller;
+
   const PhoneNumberInput({super.key, required this.controller});
 
   @override
@@ -54,6 +56,7 @@ class PhoneNumberInput extends StatelessWidget {
         ),
         Expanded(
           child: defaultFormField(
+              type: TextInputType.phone,
               validator: (value) {
                 if (value!.isEmpty) {
                   return 'please enter phone number';
@@ -84,7 +87,8 @@ Widget defaultFormField(
       keyboardType: type,
       cursorColor: ColorManager.primary,
       decoration: InputDecoration(
-          isDense: true, // Added this
+          isDense: true,
+          // Added this
           contentPadding: EdgeInsets.all(15.sp),
           filled: true,
           fillColor: ColorManager.white,

@@ -2,6 +2,7 @@ import 'package:almasheed/authentication/data/models/customer.dart';
 import 'package:almasheed/core/utils/constance_manager.dart';
 import 'package:almasheed/core/utils/navigation_manager.dart';
 import 'package:almasheed/main/bloc/main_bloc.dart';
+import 'package:almasheed/main/data/models/product.dart';
 import 'package:almasheed/payment/bloc/payment_bloc.dart';
 import 'package:almasheed/payment/presentation/components.dart';
 import 'package:flutter/material.dart';
@@ -16,10 +17,12 @@ class CartScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Customer _customer = ConstantsManager.appUser as Customer;
-    List<Map<String, int>> itemsMaps = _customer.cartItems.entries.map((entry) {
-      return {entry.key: entry.value};
-    }).toList();
     MainBloc mainBloc = sl();
+    List<Product> items = mainBloc.products
+        .where((element) => _customer.cartItems.containsKey(element.productId))
+        .toList();
+    print(_customer.cartItems.toString() + "(((((((((((((((((((((((((((((");
+    print(items.toString() + "))))))))))))))))))))))))))");
     PaymentBloc bloc = PaymentBloc.get(context);
     return Scaffold(
         appBar: AppBar(
@@ -33,16 +36,14 @@ class CartScreen extends StatelessWidget {
         body: ListView.separated(
           itemBuilder: (context, index) => CartItem(
             bloc: bloc,
-            product: mainBloc.products.firstWhere((element) {
-              return element.productId == itemsMaps[index].keys.first;
-            }),
-            quantity: itemsMaps[index].values.first,
+            product: items[index],
+            quantity: _customer.cartItems[items[index].productId]!,
             quantityController: TextEditingController(text: ""),
           ),
           separatorBuilder: (context, index) => SizedBox(
             height: 5.sp,
           ),
-          itemCount: itemsMaps.length,
+          itemCount: items.length,
         ));
   }
 }

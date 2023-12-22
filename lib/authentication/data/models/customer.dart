@@ -5,8 +5,14 @@ class Customer extends AppUser {
   List<String> favorites;
   List<String> orders;
 
-  Customer({required this.cartItems, required this.favorites, required this.orders, required super.id, required super.phone});
+  Customer(
+      {required this.cartItems,
+      required this.favorites,
+      required this.orders,
+      required super.id,
+      required super.phone});
 
+  @override
   Map<String, dynamic> toJson() {
     return {
       'id': id,
@@ -16,11 +22,19 @@ class Customer extends AppUser {
       'orders': orders,
     };
   }
+
   factory Customer.fromJson(Map<String, dynamic> json) {
+    Map<String, dynamic> cart = json['cartItems'];
+    print(cart);
+    Map<String, int> cartItems = cart.map(
+      (key, value) => MapEntry(key, value is int ? value : 0),
+    );
     return Customer(
-      cartItems: json['cartItems'] ,
+      cartItems: cartItems,
       favorites: (json['favorites'] as List).cast<String>(),
-      orders: (json['orders'] as List).cast<String>(), id:  json['id'], phone: json['phone'],
+      orders: (json['orders'] as List).cast<String>(),
+      id: json['id'],
+      phone: json['phone'],
     );
   }
 }
