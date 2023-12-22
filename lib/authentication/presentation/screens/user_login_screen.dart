@@ -2,6 +2,7 @@ import 'package:almasheed/authentication/bloc/auth_bloc.dart';
 import 'package:almasheed/authentication/data/models/customer.dart';
 import 'package:almasheed/authentication/presentation/components.dart';
 import 'package:almasheed/authentication/presentation/screens/otp_screen.dart';
+import 'package:almasheed/authentication/presentation/screens/terms_and_conditions_screen.dart';
 import 'package:almasheed/core/utils/color_manager.dart';
 import 'package:almasheed/core/utils/navigation_manager.dart';
 import 'package:flutter/material.dart';
@@ -103,7 +104,10 @@ class CustomerLoginScreen extends StatelessWidget {
                             style: TextStyle(fontSize: 14.sp),
                           ),
                           TextButton(
-                              onPressed: () {},
+                              onPressed: () {
+                                context.push(TermsAndConditionsScreen(
+                                    userType: "customer"));
+                              },
                               child: Text(
                                 "Terms & conditions",
                                 style: TextStyle(
