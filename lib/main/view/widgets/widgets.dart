@@ -32,7 +32,7 @@ defaultFormField(
       keyboardType: type,
       enabled: enabled,
       obscureText: obscureText,
-      style: TextStyle(color: ColorManager.black),
+      style: const TextStyle(color: ColorManager.black),
       decoration: InputDecoration(
           disabledBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(10.sp),
@@ -50,7 +50,7 @@ defaultFormField(
           suffixIcon: suffix,
           labelText: label,
           helperText: hint,
-          labelStyle: TextStyle(
+          labelStyle: const TextStyle(
             color: ColorManager.black,
           )),
       validator: validator,

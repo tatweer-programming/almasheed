@@ -19,7 +19,7 @@ class OTPScreen extends StatelessWidget {
     AuthBloc bloc = AuthBloc.get(context);
     return BlocConsumer<AuthBloc, AuthState>(
       bloc: bloc,
-      listenWhen: (AuthState, authState) {
+      listenWhen: (previous, current) {
         return (bloc.state is Authenticated);
       },
       listener: (context, state) {
@@ -55,12 +55,12 @@ class OTPScreen extends StatelessWidget {
                             children: [
                               TextSpan(
                                   text: bloc.user?.phone,
-                                  style: TextStyle(
+                                  style: const TextStyle(
                                       color: ColorManager.grey2,
                                       fontWeight: FontWeight.bold,
                                       fontSize: 15)),
                             ],
-                            style: TextStyle(
+                            style: const TextStyle(
                                 color: ColorManager.black, fontSize: 15)),
                         textAlign: TextAlign.center,
                       ),
@@ -111,14 +111,14 @@ class OTPScreen extends StatelessWidget {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Text(
+                        const Text(
                           "Didn't receive the code? ",
                           style: TextStyle(
                               color: ColorManager.black, fontSize: 15),
                         ),
                         TextButton(
                             onPressed: () {},
-                            child: Text(
+                            child: const Text(
                               "RESEND",
                               style: TextStyle(
                                   color: ColorManager.primary,
@@ -148,7 +148,7 @@ class OTPScreen extends StatelessWidget {
                           child: Center(
                               child: Text(
                             "VERIFY".toUpperCase(),
-                            style: TextStyle(
+                            style: const TextStyle(
                                 color: ColorManager.white,
                                 fontSize: 18,
                                 fontWeight: FontWeight.bold),

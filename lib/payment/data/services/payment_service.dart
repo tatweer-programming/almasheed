@@ -1,6 +1,5 @@
 import 'package:almasheed/authentication/data/models/customer.dart';
 import 'package:almasheed/core/utils/constance_manager.dart';
-import 'package:almasheed/main/data/models/product.dart';
 import 'package:almasheed/payment/data/models/order.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dartz/dartz.dart';

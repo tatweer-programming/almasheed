@@ -1,12 +1,13 @@
-import 'package:almasheed/authentication/presentation/screens/account_type_screen.dart';
+import 'package:almasheed/chat/cubit/chat_cubit.dart';
 import 'package:almasheed/core/utils/constance_manager.dart';
-import 'package:almasheed/main/view/screens/main_screen.dart';
 import 'package:almasheed/payment/bloc/payment_bloc.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sizer/sizer.dart';
 import 'authentication/bloc/auth_bloc.dart';
+import 'authentication/presentation/screens/account_type_screen.dart';
+import 'chat/presentation/screens/chat_screen.dart';
 import 'core/local/shared_prefrences.dart';
 import 'core/services/dep_injection.dart';
 import 'core/services/firebase_options.dart';
@@ -18,11 +19,10 @@ Future<void> main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  var l = ServiceLocator()..init();
+  ServiceLocator().init();
   await CacheHelper.init();
   ConstantsManager.userId = await CacheHelper.getData(key: "userId");
   ConstantsManager.userType = await CacheHelper.getData(key: "userType");
-
   runApp(const Masheed());
 }
 
@@ -41,14 +41,16 @@ class Masheed extends StatelessWidget {
             BlocProvider<AuthBloc>(
                 create: (BuildContext context) => AuthBloc()),
             BlocProvider<PaymentBloc>(
-                create: (BuildContext context) => PaymentBloc())
+                create: (BuildContext context) => PaymentBloc()),
+            BlocProvider<ChatCubit>(
+                create: (BuildContext context) => ChatCubit())
           ],
           child: MaterialApp(
             title: 'Al Masheed',
             theme: getAppTheme(),
             home: ConstantsManager.userType != null &&
                     ConstantsManager.userId != null
-                ? const MainScreen()
+                ? const ChatScreen()
                 : const AccountTypeScreen(),
           ));
     });

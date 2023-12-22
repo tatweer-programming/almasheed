@@ -4,14 +4,13 @@ import 'package:almasheed/main/data/models/product.dart';
 import 'package:almasheed/payment/bloc/payment_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
-
+//ignore: must_be_immutable
 class CartItem extends StatefulWidget {
   Product product;
   int quantity;
   PaymentBloc bloc;
   TextEditingController quantityController;
   bool isQuantityEditingEnabled = false;
-
   CartItem({
     super.key,
     required this.bloc,
@@ -80,7 +79,7 @@ class _CartItemState extends State<CartItem> {
                               width: 50.w,
                               child: widget.isQuantityEditingEnabled
                                   ? TextField(
-                                      decoration: InputDecoration(),
+                                      decoration: const InputDecoration(),
                                       keyboardType: TextInputType.number,
                                       onEditingComplete: () {
                                         _editingCompleted();

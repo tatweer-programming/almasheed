@@ -1,14 +1,9 @@
-import 'package:almasheed/authentication/data/models/customer.dart';
-import 'package:almasheed/authentication/data/models/merchant.dart';
 import 'package:almasheed/authentication/data/models/user.dart';
 
 class ConstantsManager {
   static AppUser? appUser;
-
   static String? userId;
-
   static String? userType;
-
   // static AppUser? appUser = Merchant(
   //     id: "oVtWmHhUWJcVfi7MT1GyVvANHIA2",
   //     phone: "",

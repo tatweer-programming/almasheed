@@ -3,10 +3,10 @@ import 'package:equatable/equatable.dart';
 import '../../../main/data/models/product.dart';
 
 class OrderModel extends Equatable {
-  List<Product> products;
-  double totalPrice;
+  final List<Product> products;
+  final double totalPrice;
 
-  OrderModel({required this.totalPrice, required this.products});
+  const OrderModel({required this.totalPrice, required this.products});
 
   static OrderModel create(List<Product> products) {
     double totalPrice = 0;

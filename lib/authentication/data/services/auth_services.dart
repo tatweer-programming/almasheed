@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:almasheed/authentication/data/models/customer.dart';
-import 'package:almasheed/authentication/data/models/merchant.dart';
 import 'package:almasheed/authentication/data/models/user.dart';
 import 'package:almasheed/core/local/shared_prefrences.dart';
 import 'package:almasheed/core/utils/constance_manager.dart';
@@ -149,9 +148,7 @@ class AuthService {
           .doc("${userType}s/${user.id}")
           .set(user.toJson())
           .then((value) async {
-
-        print("objectKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKK");
-      });
+          });
     } catch (e) {
       if (kDebugMode) {
         print(e);

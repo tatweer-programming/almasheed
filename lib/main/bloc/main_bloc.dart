@@ -1,10 +1,8 @@
 import 'package:almasheed/authentication/presentation/components.dart';
 import 'package:almasheed/core/error/remote_error.dart';
-import 'package:almasheed/core/utils/navigation_manager.dart';
 import 'package:almasheed/main/data/models/category.dart';
 import 'package:almasheed/main/data/models/product.dart';
 import 'package:almasheed/main/data/repositories/main_repository.dart';
-import 'package:almasheed/main/view/screens/modify_screen.dart';
 import 'package:almasheed/main/view/screens/profile_screen.dart';
 import 'package:almasheed/main/view/screens/support_screen.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';

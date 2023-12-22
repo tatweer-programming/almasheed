@@ -57,7 +57,7 @@ class CustomerLoginScreen extends StatelessWidget {
                       state is SendCodeLoadingState
                           ? const Center(child: CircularProgressIndicator())
                           : Container(
-                              decoration: BoxDecoration(
+                              decoration: const BoxDecoration(
                                   color: ColorManager.primary,
                                   borderRadius: BorderRadius.all(
                                       Radius.elliptical(10, 20))),
@@ -80,7 +80,7 @@ class CustomerLoginScreen extends StatelessWidget {
                                             "You must agree to the terms and conditions");
                                   }
                                 },
-                                child: Center(
+                                child: const Center(
                                   child: Text(
                                     " Send code ",
                                     style: TextStyle(color: ColorManager.white),
@@ -105,7 +105,7 @@ class CustomerLoginScreen extends StatelessWidget {
                           ),
                           TextButton(
                               onPressed: () {
-                                context.push(TermsAndConditionsScreen(
+                                context.push(const TermsAndConditionsScreen(
                                     userType: "customer"));
                               },
                               child: Text(

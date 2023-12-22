@@ -3,9 +3,7 @@ import 'package:almasheed/authentication/data/models/user.dart';
 import 'package:almasheed/authentication/data/services/auth_services.dart';
 import 'package:almasheed/authentication/presentation/components.dart';
 import 'package:almasheed/core/error/remote_error.dart';
-import 'package:almasheed/core/local/shared_prefrences.dart';
 import 'package:almasheed/core/utils/constance_manager.dart';
-import 'package:dartz/dartz.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -60,6 +58,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
           defaultToast(msg: "Code Verified Successfully");
           user?.id = r;
           await _createUser();
+          emit(Authenticated());
         });
       }
     });
@@ -78,7 +77,6 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         if (kDebugMode) {
           print(ConstantsManager.appUser);
         }
-        emit(Authenticated());
       } else {
         defaultToast(msg: "user created Successfully");
         authCompleted = true;
@@ -87,7 +85,6 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         if (kDebugMode) {
           print(ConstantsManager.appUser);
         }
-        emit(Authenticated());
       }
     });
   }

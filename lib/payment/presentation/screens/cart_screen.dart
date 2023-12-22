@@ -16,10 +16,10 @@ class CartScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Customer _customer = ConstantsManager.appUser as Customer;
+    Customer customer = ConstantsManager.appUser as Customer;
     MainBloc mainBloc = sl();
 
-    print(_customer.cartItems.toString() + "(((((((((((((((((((((((((((((");
+    print(customer.cartItems.toString() + "(((((((((((((((((((((((((((((");
 
     PaymentBloc bloc = PaymentBloc.get(context);
     return Scaffold(
@@ -36,7 +36,7 @@ class CartScreen extends StatelessWidget {
           builder: (context, state) {
             List<Product> items = mainBloc.products
                 .where((element) =>
-                _customer.cartItems.containsKey(element.productId))
+                customer.cartItems.containsKey(element.productId))
                 .toList();
             return items.isEmpty
                 ? const Center(child: Text("there is no items here"))
@@ -46,7 +46,7 @@ class CartScreen extends StatelessWidget {
                 itemBuilder: (context, index) => CartItem(
                   bloc: bloc,
                   product: items[index],
-                  quantity: _customer.cartItems[items[index].productId]!,
+                  quantity: customer.cartItems[items[index].productId]!,
                   quantityController: TextEditingController(text: ""),
                 ),
                 separatorBuilder: (context, index) => SizedBox(

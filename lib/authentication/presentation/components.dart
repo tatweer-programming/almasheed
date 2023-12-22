@@ -94,7 +94,7 @@ Widget defaultFormField(
           fillColor: ColorManager.white,
           border: OutlineInputBorder(borderRadius: BorderRadius.circular(5.sp)),
           labelText: label,
-          labelStyle: TextStyle(
+          labelStyle: const TextStyle(
             color: ColorManager.black,
           )),
       validator: validator,

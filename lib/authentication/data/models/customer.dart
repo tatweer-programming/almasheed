@@ -25,7 +25,6 @@ class Customer extends AppUser {
 
   factory Customer.fromJson(Map<String, dynamic> json) {
     Map<String, dynamic> cart = json['cartItems'];
-    print(cart);
     Map<String, int> cartItems = cart.map(
       (key, value) => MapEntry(key, value is int ? value : 0),
     );

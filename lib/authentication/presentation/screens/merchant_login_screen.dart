@@ -26,7 +26,7 @@ class MerchantLoginScreen extends StatelessWidget {
 
     return BlocConsumer<AuthBloc, AuthState>(
       bloc: bloc,
-      listenWhen: (AuthState, authState) {
+      listenWhen: (previous, current) {
         return (bloc.verificationId != null);
       },
       listener: (context, state) {
@@ -116,9 +116,9 @@ class MerchantLoginScreen extends StatelessWidget {
                         state is SendCodeLoadingState
                             ? const Center(child: CircularProgressIndicator())
                             : Container(
-                                decoration: BoxDecoration(
+                                decoration: const BoxDecoration(
                                     color: ColorManager.primary,
-                                    borderRadius: const BorderRadius.all(
+                                    borderRadius: BorderRadius.all(
                                         Radius.elliptical(10, 20))),
                                 width: 25.w,
                                 height: 30.sp,
@@ -144,7 +144,7 @@ class MerchantLoginScreen extends StatelessWidget {
                                               "You must agree to the terms and conditions");
                                     }
                                   },
-                                  child: Center(
+                                  child: const Center(
                                     child: Text(
                                       " Send code ",
                                       style:
@@ -170,7 +170,7 @@ class MerchantLoginScreen extends StatelessWidget {
                             ),
                             TextButton(
                                 onPressed: () {
-                                  context.push(TermsAndConditionsScreen(
+                                  context.push(const TermsAndConditionsScreen(
                                       userType: "merchant"));
                                 },
                                 child: Text(

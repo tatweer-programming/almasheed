@@ -10,7 +10,6 @@ class ServiceLocator {
   void init() {
     /// bloc
     MainBloc mainBloc = MainBloc(MainInitial());
-    print("LLLLLL");
     sl.registerLazySingleton(() => mainBloc);
 
     /// main
