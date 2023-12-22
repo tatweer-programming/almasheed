@@ -16,13 +16,11 @@ class CartScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Customer _customer = ConstantsManager.appUser as Customer;
+    Customer customer = ConstantsManager.appUser as Customer;
     MainBloc mainBloc = sl();
     List<Product> items = mainBloc.products
-        .where((element) => _customer.cartItems.containsKey(element.productId))
+        .where((element) => customer.cartItems.containsKey(element.productId))
         .toList();
-    print(_customer.cartItems.toString() + "(((((((((((((((((((((((((((((");
-    print(items.toString() + "))))))))))))))))))))))))))");
     PaymentBloc bloc = PaymentBloc.get(context);
     return Scaffold(
         appBar: AppBar(
@@ -37,7 +35,7 @@ class CartScreen extends StatelessWidget {
           itemBuilder: (context, index) => CartItem(
             bloc: bloc,
             product: items[index],
-            quantity: _customer.cartItems[items[index].productId]!,
+            quantity: customer.cartItems[items[index].productId]!,
             quantityController: TextEditingController(text: ""),
           ),
           separatorBuilder: (context, index) => SizedBox(

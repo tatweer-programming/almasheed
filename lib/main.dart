@@ -39,7 +39,9 @@ class Masheed extends StatelessWidget {
               create: (BuildContext context) => PaymentBloc())
         ],
         child: MaterialApp(
-            title: 'Al Masheed', theme: getAppTheme(), home: MainScreen()),
+            title: 'Al Masheed',
+            theme: getAppTheme(),
+            home: const MainScreen()),
       );
     });
   }

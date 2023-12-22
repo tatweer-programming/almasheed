@@ -117,6 +117,7 @@ class HomePageScreen extends StatelessWidget {
               ),
             ),
             SizedBox(width: 3.w),
+            if(ConstantsManager.appUser is Customer)
             IconButton(
               onPressed: () => context.push(const CartScreen()),
               icon: const Icon(
