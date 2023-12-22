@@ -46,7 +46,7 @@ dependencies:
   fluttertoast:
   image_picker: ^1.0.5
   my_fatoorah:
-
+  chat_bubbles:
   #bloc
   bloc:
   flutter_bloc:
