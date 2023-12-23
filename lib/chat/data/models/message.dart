@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:equatable/equatable.dart';
 
@@ -5,8 +7,10 @@ class Message extends Equatable {
   final Timestamp createdTime;
   final String message;
   final String senderId;
+  File? voiceNoteFile;
   final String receiverId;
-  const Message({
+  Message({
+    this.voiceNoteFile,
     required this.createdTime,
     required this.message,
     required this.senderId,

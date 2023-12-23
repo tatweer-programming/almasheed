@@ -1,15 +1,18 @@
-// part of 'chat_bloc.dart';
-//
-// abstract class ChatState {
-//   const ChatState();
-// }
-//
-// class ChatInitial extends ChatState {}
-//
-// class GetMessagesSuccess extends ChatState {
-//   final List<Message> messages;
-//
-//   const GetMessagesSuccess(this.messages);
-// }
-//
-// class SendMessagesSuccess extends ChatState {}
+part of 'chat_bloc.dart';
+
+abstract class ChatState {
+  const ChatState();
+}
+
+class ChatInitial extends ChatState {}
+
+class GetMessagesSuccessState extends ChatState {
+  final Stream<List<Message>> messages;
+
+  const GetMessagesSuccessState(this.messages);
+}
+
+class SendMessagesSuccessState extends ChatState {}
+
+class StartRecordState extends ChatState {}
+class EndRecordState extends ChatState {}

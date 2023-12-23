@@ -1,4 +1,7 @@
+import 'package:almasheed/authentication/data/models/customer.dart';
 import 'package:almasheed/authentication/data/models/user.dart';
+
+import '../../authentication/data/models/merchant.dart';
 
 class ConstantsManager {
   static AppUser? appUser;

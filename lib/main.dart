@@ -1,4 +1,4 @@
-import 'package:almasheed/chat/cubit/chat_cubit.dart';
+import 'package:almasheed/chat/bloc/chat_bloc.dart';
 import 'package:almasheed/core/utils/constance_manager.dart';
 import 'package:almasheed/payment/bloc/payment_bloc.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -42,12 +42,13 @@ class Masheed extends StatelessWidget {
                 create: (BuildContext context) => AuthBloc()),
             BlocProvider<PaymentBloc>(
                 create: (BuildContext context) => PaymentBloc()),
-            BlocProvider<ChatCubit>(
-                create: (BuildContext context) => ChatCubit())
+            BlocProvider<ChatBloc>(
+                create: (BuildContext context) => ChatBloc(ChatInitial()))
           ],
           child: MaterialApp(
             title: 'Al Masheed',
             theme: getAppTheme(),
+            // home: const ChatScreen(),
             home: ConstantsManager.userType != null &&
                     ConstantsManager.userId != null
                 ? const ChatScreen()
