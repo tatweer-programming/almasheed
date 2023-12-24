@@ -11,7 +11,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../data/models/merchant.dart';
 
 class LoginScreen  extends StatelessWidget {
-   LoginScreen ({super.key});
+   const LoginScreen ({super.key});
 
   @override
   Widget build(BuildContext context) {
