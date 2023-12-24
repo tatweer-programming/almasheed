@@ -48,11 +48,11 @@ class Masheed extends StatelessWidget {
           child: MaterialApp(
             title: 'Al Masheed',
             theme: getAppTheme(),
-            // home: const ChatScreen(),
-            home: ConstantsManager.userType != null &&
-                    ConstantsManager.userId != null
-                ? const ChatScreen()
-                : const AccountTypeScreen(),
+            home: const ChatScreen(),
+            // home: ConstantsManager.userType != null &&
+            //         ConstantsManager.userId != null
+            //     ? const ChatScreen()
+            //     : const AccountTypeScreen(),
           ));
     });
   }

@@ -1,8 +1,11 @@
+import 'dart:io';
+
 import 'package:almasheed/authentication/data/models/customer.dart';
 import 'package:almasheed/chat/data/models/message.dart';
 import 'package:almasheed/core/utils/constance_manager.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dartz/dartz.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 
 class ChatService {
   FirebaseFirestore firebaseInstance = FirebaseFirestore.instance;
@@ -98,6 +101,13 @@ class ChatService {
     required String receiverId,
     required Message message,
   }) async {
+    if(message.voiceNoteFilePath != null){
+      message.voiceNoteUrl = await _uploadImageToFirebaseStorage(filePath: message.voiceNoteFilePath!,fileName:
+      "audios/${message.senderId}/${Uri
+          .file(message.voiceNoteFilePath!)
+          .pathSegments
+          .last}");
+    }
     await firebaseInstance
         .collection(userType)
         .doc(userId)
@@ -105,5 +115,11 @@ class ChatService {
         .doc(receiverId)
         .collection('messages')
         .add(message.toJson());
+  }
+  Future<String> _uploadImageToFirebaseStorage(
+      {required String filePath, required String fileName}) async {
+    Reference reference = FirebaseStorage.instance.ref().child(fileName);
+    await reference.putFile(File(filePath));
+    return reference.getDownloadURL();
   }
 }

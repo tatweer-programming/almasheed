@@ -1,7 +1,5 @@
 import 'dart:io';
-
 import 'package:audioplayers/audioplayers.dart';
-import 'package:dartz/dartz.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:path_provider/path_provider.dart';
@@ -18,8 +16,10 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
   static ChatBloc get(BuildContext context) =>
       BlocProvider.of<ChatBloc>(context);
   ChatRepository chatRepository = ChatRepository();
+  AudioPlayer audioPlayer = AudioPlayer();
   String statusText = "Message";
-  String? recordFilePath;
+  String? voiceNoteFilePath;
+  double voiceDuration = 0;
   bool isComplete = false;
 
   ChatBloc(ChatInitial chatInitial) : super(ChatInitial()) {
@@ -30,18 +30,33 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
           emit(GetMessagesSuccessState(r));
         });
       } else if (event is SendMessageEvent) {
+        print(voiceDuration);
+        print("*************************");
         await chatRepository.sendMessage(message: event.message);
         emit(SendMessagesSuccessState());
-      }else if (event is StartRecordEvent) {
+      } else if (event is StartRecordingEvent) {
         await startRecord();
         emit(StartRecordState());
-      }else if (event is EndRecordEvent) {
+      } else if (event is EndRecordingEvent) {
         stopRecord();
-        play();
         emit(EndRecordState());
+      } else if (event is TurnOnRecordEvent) {
+        await audioPlayer.play(UrlSource(event.voiceNoteUrl));
+        event.isPlaying = true;
+        emit(PlayRecordState(
+            voiceNoteUrl: event.voiceNoteUrl, isPlaying: event.isPlaying));
+        audioPlayer.onPlayerComplete.listen((_) {
+          add(CompleteRecordEvent(
+              voiceNoteUrl: event.voiceNoteUrl, isPlaying: event.isPlaying));
+        });
+      } else if (event is CompleteRecordEvent) {
+        event.isPlaying = false;
+        emit(CompleteRecordState(
+            voiceNoteUrl: event.voiceNoteUrl, isPlaying: event.isPlaying));
       }
     });
   }
+
   Future<bool> checkPermission() async {
     if (!await Permission.microphone.isGranted) {
       PermissionStatus status = await Permission.microphone.request();
@@ -51,6 +66,7 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
     }
     return true;
   }
+
   Future<String> getFilePath() async {
     Directory storageDirectory = await getApplicationDocumentsDirectory();
     String sdPath = "${storageDirectory.path}/record";
@@ -58,38 +74,37 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
     if (!d.existsSync()) {
       d.createSync(recursive: true);
     }
-    return "$sdPath/1.mp3";
+    return "$sdPath/${DateTime.now().millisecondsSinceEpoch.toString()}.mp3";
   }
 
   Future<void> startRecord() async {
     bool hasPermission = await checkPermission();
     if (hasPermission) {
-      statusText = "Recording...";
-      recordFilePath = await getFilePath();
-      print(recordFilePath);
-      isComplete = false;
-      RecordMp3.instance.start(recordFilePath!, (type) {
-        statusText = "Record error--->$type";
+      await audioPlayer
+          .play(AssetSource("audios/notiication_start_recording.wav"));
+      audioPlayer.onPlayerComplete.listen((_) async {
+        statusText = "Recording...";
+        voiceNoteFilePath = await getFilePath();
+        isComplete = false;
+        RecordMp3.instance.start(voiceNoteFilePath!, (type) {
+          statusText = "Record error--->$type";
+        });
       });
     } else {
       statusText = "No microphone permission";
     }
   }
 
-  void stopRecord() {
-    bool s = RecordMp3.instance.stop();
-    if (s) {
-      statusText = "Record complete";
-      isComplete = true;
-    }
-  }
+  Future<void> stopRecord() async {
+    await audioPlayer
+        .play(AssetSource("audios/notiication_end_recording.wav"));
+    audioPlayer.onPlayerComplete.listen((_) {
+      bool s = RecordMp3.instance.stop();
+      if (s) {
+        statusText = "Message";
+        isComplete = true;
+      }
+    });
 
-  void play() {
-    if (recordFilePath != null && File(recordFilePath!).existsSync()) {
-      AudioPlayer audioPlayer = AudioPlayer();
-      print("recordFilePath $recordFilePath");
-      audioPlayer.play(DeviceFileSource(recordFilePath!));
-    }
   }
-
 }

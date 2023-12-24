@@ -5,14 +5,18 @@ import 'package:equatable/equatable.dart';
 
 class Message extends Equatable {
   final Timestamp createdTime;
-  final String message;
+  String? message;
+  int? voiceDuration;
   final String senderId;
-  File? voiceNoteFile;
+  String? voiceNoteUrl;
+  String? voiceNoteFilePath;
   final String receiverId;
   Message({
-    this.voiceNoteFile,
+    this.voiceNoteFilePath,
+    this.voiceNoteUrl,
     required this.createdTime,
-    required this.message,
+    this.message,
+    this.voiceDuration,
     required this.senderId,
     required this.receiverId,
   });
@@ -23,11 +27,15 @@ class Message extends Equatable {
       message: json["message"],
       senderId: json["senderId"],
       receiverId: json["receiverId"],
+      voiceNoteUrl: json["voiceNoteUrl"],
+      voiceDuration: json["voiceDuration"],
     );
   }
   Map<String, dynamic> toJson() {
     return {
+      "voiceDuration":voiceDuration,
       "senderId":senderId,
+      "voiceNoteUrl":voiceNoteUrl,
       "createdTime":createdTime,
       "message":message,
       "receiverId":receiverId,
