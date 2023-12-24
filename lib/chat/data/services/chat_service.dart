@@ -108,6 +108,13 @@ class ChatService {
           .pathSegments
           .last}");
     }
+    if(message.imageFilePath != null){
+      message.imageUrl = await _uploadImageToFirebaseStorage(filePath: message.imageFilePath!,fileName:
+    "images/${message.senderId}/${Uri
+        .file(message.imageFilePath!)
+        .pathSegments
+        .last}");
+    }
     await firebaseInstance
         .collection(userType)
         .doc(userId)

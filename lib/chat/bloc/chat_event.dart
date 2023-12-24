@@ -16,6 +16,8 @@ class SendMessageEvent extends ChatEvent {
   const SendMessageEvent({required this.message});
 }
 
+class PickImageEvent extends ChatEvent {}
+
 class StartRecordingEvent extends ChatEvent {}
 
 class EndRecordingEvent extends ChatEvent {}
@@ -23,14 +25,13 @@ class EndRecordingEvent extends ChatEvent {}
 class TurnOnRecordEvent extends ChatEvent {
   final String voiceNoteUrl;
   bool isPlaying;
-  TurnOnRecordEvent({required this.voiceNoteUrl,required this.isPlaying});
+
+  TurnOnRecordEvent({required this.voiceNoteUrl, required this.isPlaying});
 }
+
 class CompleteRecordEvent extends ChatEvent {
   bool isPlaying;
   final String voiceNoteUrl;
-  CompleteRecordEvent({required this.voiceNoteUrl,required this.isPlaying});
-}
-class OnSeekChangedEvent extends ChatEvent {
-  final double duration;
-  OnSeekChangedEvent({required this.duration});
+
+  CompleteRecordEvent({required this.voiceNoteUrl, required this.isPlaying});
 }

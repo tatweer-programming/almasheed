@@ -6,7 +6,8 @@ import 'package:equatable/equatable.dart';
 class Message extends Equatable {
   final Timestamp createdTime;
   String? message;
-  int? voiceDuration;
+  String? imageUrl;
+  String? imageFilePath;
   final String senderId;
   String? voiceNoteUrl;
   String? voiceNoteFilePath;
@@ -14,28 +15,29 @@ class Message extends Equatable {
   Message({
     this.voiceNoteFilePath,
     this.voiceNoteUrl,
-    required this.createdTime,
+    this.imageUrl,
     this.message,
-    this.voiceDuration,
+    this.imageFilePath,
+    required this.createdTime,
     required this.senderId,
     required this.receiverId,
   });
 
   factory Message.fromJson(Map<String, dynamic> json) {
     return Message(
+      imageUrl: json["imageUrl"],
       createdTime: json["createdTime"],
       message: json["message"],
       senderId: json["senderId"],
       receiverId: json["receiverId"],
       voiceNoteUrl: json["voiceNoteUrl"],
-      voiceDuration: json["voiceDuration"],
     );
   }
   Map<String, dynamic> toJson() {
     return {
-      "voiceDuration":voiceDuration,
       "senderId":senderId,
       "voiceNoteUrl":voiceNoteUrl,
+      "imageUrl":imageUrl,
       "createdTime":createdTime,
       "message":message,
       "receiverId":receiverId,

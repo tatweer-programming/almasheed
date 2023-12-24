@@ -4,6 +4,7 @@ import 'package:almasheed/core/utils/color_manager.dart';
 import 'package:almasheed/core/utils/constance_manager.dart';
 import 'package:audioplayers/audioplayers.dart';
 import 'package:chat_bubbles/bubbles/bubble_normal_audio.dart';
+import 'package:chat_bubbles/bubbles/bubble_normal_image.dart';
 import 'package:chat_bubbles/bubbles/bubble_special_three.dart';
 import 'package:chat_bubbles/message_bars/message_bar.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -110,7 +111,17 @@ class ChatScreen extends StatelessWidget {
                       color: Colors.black,
                       size: 22.sp,
                     ),
-                    onTap: () {},
+                    onTap: () {
+                      bloc.add(PickImageEvent());
+                      bloc.add(SendMessageEvent(
+                        message: Message(
+                          createdTime: Timestamp.now(),
+                          imageFilePath: bloc.imageFilePath,
+                          senderId: "oVtWmHhUWJcVfi7MT1GyVvANHIA2",
+                          receiverId: "oVtWmHhUWJcVfi7MT1GyVvANHIA2",
+                        ),
+                      ));
+                    },
                   ),
                   Padding(
                     padding: EdgeInsets.symmetric(horizontal: 2.w),
@@ -128,7 +139,6 @@ class ChatScreen extends StatelessWidget {
                         bloc.add(SendMessageEvent(
                           message: Message(
                             createdTime: Timestamp.now(),
-                            voiceDuration: bloc.voiceDuration.toInt(),
                             voiceNoteFilePath: bloc.voiceNoteFilePath!,
                             senderId: "oVtWmHhUWJcVfi7MT1GyVvANHIA2",
                             receiverId: "oVtWmHhUWJcVfi7MT1GyVvANHIA2",
@@ -157,40 +167,26 @@ Widget messageWidget(
     if (message.voiceNoteUrl != null &&
         playAudio != null &&
         onSeekChanged != null) {
-      return voiceWidget(
-          isSender: true, playAudio: playAudio, isPlaying: isPlaying!);
+      return _voiceWidget(
+          isSender: false, playAudio: playAudio, isPlaying: isPlaying!);
+    } else if (message.imageUrl != null) {
+      return _imageWidget(image: message.imageUrl!, isSender: false);
     } else {
-      return BubbleSpecialThree(
-        text: message.message ?? "",
-        color: ColorManager.primary,
-        tail: true,
-        textStyle: TextStyle(
-          color: Colors.white,
-          fontSize: 14.sp,
-        ),
-        isSender: false,
-      );
+      return _textWidget(message: message.message ?? "", isSender: false);
     }
   } else {
     if (message.voiceNoteUrl != null && playAudio != null) {
-      return voiceWidget(
-          isSender: false, playAudio: playAudio, isPlaying: isPlaying!);
+      return _voiceWidget(
+          isSender: true, playAudio: playAudio, isPlaying: isPlaying!);
+    } else if (message.imageUrl != null) {
+      return _imageWidget(image: message.imageUrl!, isSender: true);
     } else {
-      return BubbleSpecialThree(
-        text: message.message ?? "",
-        color: const Color(0xff7A470B),
-        tail: true,
-        textStyle: TextStyle(
-          color: Colors.white,
-          fontSize: 14.sp,
-        ),
-        isSender: true,
-      );
+      return _textWidget(message: message.message ?? "", isSender: true);
     }
   }
 }
 
-Widget voiceWidget({
+Widget _voiceWidget({
   required VoidCallback playAudio,
   required bool isPlaying,
   required bool isSender,
@@ -198,12 +194,12 @@ Widget voiceWidget({
   return Padding(
     padding: EdgeInsets.symmetric(horizontal: 2.w),
     child: Align(
-      alignment: isSender
+      alignment: !isSender
           ? AlignmentDirectional.topStart
           : AlignmentDirectional.topEnd,
       child: Container(
         decoration: BoxDecoration(
-            color: isSender ? ColorManager.primary : const Color(0xff7A470B),
+            color: !isSender ? ColorManager.primary : const Color(0xff7A470B),
             shape: BoxShape.circle),
         padding: EdgeInsetsDirectional.all(5.sp),
         child: IconButton(
@@ -217,5 +213,30 @@ Widget voiceWidget({
             )),
       ),
     ),
+  );
+}
+
+Widget _imageWidget({required bool isSender, required String image}) {
+  return BubbleNormalImage(
+    id: image,
+    image: Image.network(image),
+    isSender: isSender,
+    color: !isSender ? ColorManager.primary : const Color(0xff7A470B),
+  );
+}
+
+Widget _textWidget({
+  required String message,
+  required bool isSender,
+}) {
+  return BubbleSpecialThree(
+    text: message,
+    color: !isSender ? ColorManager.primary : const Color(0xff7A470B),
+    tail: true,
+    textStyle: TextStyle(
+      color: Colors.white,
+      fontSize: 14.sp,
+    ),
+    isSender: isSender,
   );
 }
