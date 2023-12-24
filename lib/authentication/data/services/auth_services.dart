@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'package:almasheed/authentication/data/models/customer.dart';
 import 'package:almasheed/authentication/data/models/user.dart';
 import 'package:almasheed/core/local/shared_prefrences.dart';
@@ -7,6 +6,7 @@ import 'package:almasheed/core/utils/constance_manager.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dartz/dartz.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
 
 class AuthService {
@@ -21,6 +21,7 @@ class AuthService {
     Completer<Either<FirebaseAuthException, String>> completer =
     Completer<Either<FirebaseAuthException, String>>();
     try {
+
       await _auth.verifyPhoneNumber(
         phoneNumber: phoneNumber,
         verificationCompleted: (PhoneAuthCredential credential) async {
@@ -87,7 +88,21 @@ class AuthService {
     });
     return isExists;
   }
+  Future<Either<FirebaseAuthException, String>> loginByPhone(
+      String phoneNumber , String userType ) async {
+     try {
+       bool exists =
+       await searchUsersByPhoneNumber(phoneNumber, userType);
+       if(exists){
+           return verifyPhoneNumber(phoneNumber);
 
+       }
+       return const Right("NOT_FOUND");
+     }
+         on FirebaseAuthException catch (e){
+       return Left(e);
+         }
+  }
   Future<Either<FirebaseException, bool>> createUser(AppUser user)
   async {
     try {
@@ -110,37 +125,8 @@ class AuthService {
     } on FirebaseException catch (e) {
       return Left(e);
     }
-  }
 
-  // Future _createCustomer(Customer customer) async {
-  //   try {
-  //     await _fireStore
-  //         .doc("customers/${customer.id}")
-  //         .set(customer.toJson())
-  //         .then((value) {
-  //       print("objectKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKK");
-  //     });
-  //   } catch (e) {
-  //     if (kDebugMode) {
-  //       print(e);
-  //     }
-  //   }
-  // }
-  //
-  // Future _createMerchant(Merchant merchant) async {
-  //   try {
-  //     await _fireStore
-  //         .doc("merchants/${merchant.id}")
-  //         .set(merchant.toJson())
-  //         .then((value) {
-  //       print("objectKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKK");
-  //     });
-  //   } catch (e) {
-  //     if (kDebugMode) {
-  //       print(e);
-  //     }
-  //   }
-  // }
+  }
 
   Future _createUser(AppUser user, String userType ) async {
     try {
@@ -155,5 +141,9 @@ class AuthService {
       }
     }
   }
-
+  Future<bool> searchUsersByPhoneNumber(String phone , String userType)async{
+   var res =await _fireStore.collection("${userType}s").
+   where("phone" , isEqualTo: phone).get();
+    return res.docs.isNotEmpty;
+  }
 }

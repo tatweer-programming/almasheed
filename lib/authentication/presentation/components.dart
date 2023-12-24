@@ -1,3 +1,7 @@
+import 'package:almasheed/authentication/bloc/auth_bloc.dart';
+import 'package:almasheed/authentication/presentation/screens/account_type_screen.dart';
+import 'package:almasheed/authentication/presentation/screens/login_screen.dart';
+import 'package:almasheed/authentication/presentation/screens/terms_and_conditions_screen.dart';
 import 'package:almasheed/core/utils/navigation_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -7,30 +11,50 @@ import '../../core/utils/color_manager.dart';
 
 class AccountTypeItem extends StatelessWidget {
   final String type;
-  final Widget nextScreen;
+  final AuthBloc bloc ;
+  final int index ;
+  final IconData iconData ;
 
   const AccountTypeItem(
-      {super.key, required this.type, required this.nextScreen});
+      {super.key, required this.type, required this.bloc, required this.index, required this.iconData,});
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        context.push(nextScreen);
+        bloc.add(SelectAccountTypeEvent(index: index));
       },
       child: SizedBox(
         height: 35.w,
         width: 35.w,
         child: Card(
+          color: index == bloc.selectedAccountTypeIndex ? ColorManager.primary : ColorManager.white,
           elevation: 5,
-          child: Center(
-            child: Text(
-              type,
-              style: TextStyle(
-                fontSize: 16.sp,
-                fontWeight: FontWeight.bold,
-              ),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+            Icon (iconData , size: 40.sp,
+            color: index == bloc.selectedAccountTypeIndex ? ColorManager.white : ColorManager.black,
+
             ),
+              SizedBox(
+                height: 6.sp,
+              ),
+              Center(
+                child: Column(
+                  children: [
+                    Text(
+                      type,
+                      style: TextStyle(
+                        fontSize: 16.sp,
+                        color: index == bloc.selectedAccountTypeIndex ? ColorManager.white : ColorManager.black,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
           ),
         ),
       ),
@@ -120,4 +144,99 @@ void errorToast({
     textColor: ColorManager.white,
     toastLength: Toast.LENGTH_SHORT,
   );
+}
+
+class TermsAgreementWidget extends StatelessWidget {
+ final AuthBloc bloc ;
+ final String userType ;
+  const TermsAgreementWidget({super.key, required this.bloc, required this.userType});
+
+  @override
+  Widget build(BuildContext context) {
+    return   Row (
+      children: [
+        Checkbox(
+            value: bloc.agreeToTerms,
+            onChanged: (value) {
+              bloc.add(ChangeAgreeToTermsStateEvent(
+                  state: value!));
+            }),
+        Text(
+          "I Agree to",
+          style: TextStyle(fontSize: 14.sp),
+        ),
+        TextButton(
+            onPressed: () {
+              context.push( TermsAndConditionsScreen(
+                  userType: userType));
+            },
+            child: Text(
+              "Terms & conditions",
+              style: TextStyle(
+                fontSize: 15.sp,
+                decoration: TextDecoration.underline,
+              ),
+            ))
+      ],
+    );
+  }
+}
+
+class RegisterNowWidget extends StatelessWidget {
+  const RegisterNowWidget({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return  FittedBox(
+      child: Row (
+        children: [
+          Text(
+            "You don't have an account ?",
+            style: TextStyle(fontSize: 12.sp),
+          ),
+          TextButton(
+              onPressed: () {
+                context.push( const AccountTypeScreen());
+              },
+              child: Text(
+                "Register now",
+                style: TextStyle(
+                  fontSize: 13.sp,
+                  decoration: TextDecoration.underline,
+                ),
+              ))
+        ],
+      ),
+    );
+  }
+}
+
+
+class LoginNowWidget extends StatelessWidget {
+  const LoginNowWidget({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return  FittedBox(
+      child: Row (
+        children: [
+          Text(
+            "Already have account ?",
+            style: TextStyle(fontSize: 12.sp),
+          ),
+          TextButton(
+              onPressed: () {
+                context.pushAndRemove( LoginScreen());
+              },
+              child: Text(
+                "Login now",
+                style: TextStyle(
+                  fontSize: 13.sp,
+                  decoration: TextDecoration.underline,
+                ),
+              ))
+        ],
+      ),
+    );
+  }
 }

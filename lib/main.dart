@@ -1,6 +1,8 @@
+import 'package:almasheed/authentication/presentation/screens/login_screen.dart';
 import 'package:almasheed/chat/bloc/chat_bloc.dart';
 import 'package:almasheed/core/utils/constance_manager.dart';
 import 'package:almasheed/payment/bloc/payment_bloc.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -23,6 +25,9 @@ Future<void> main() async {
   await CacheHelper.init();
   ConstantsManager.userId = await CacheHelper.getData(key: "userId");
   ConstantsManager.userType = await CacheHelper.getData(key: "userType");
+  var res = await FirebaseFirestore.instance.collection("customers").
+  where("phone" , isEqualTo: "+966551234567").get() ;
+ print(res.docs.length);
   runApp(const Masheed());
 }
 
@@ -48,7 +53,7 @@ class Masheed extends StatelessWidget {
           child: MaterialApp(
             title: 'Al Masheed',
             theme: getAppTheme(),
-            home: const ChatScreen(),
+            home:  LoginScreen(),
             // home: ConstantsManager.userType != null &&
             //         ConstantsManager.userId != null
             //     ? const ChatScreen()

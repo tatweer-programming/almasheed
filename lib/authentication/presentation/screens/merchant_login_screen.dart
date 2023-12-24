@@ -156,32 +156,8 @@ class MerchantLoginScreen extends StatelessWidget {
                         SizedBox(
                           height: 10.sp,
                         ),
-                        Row(
-                          children: [
-                            Checkbox(
-                                value: bloc.agreeToTerms,
-                                onChanged: (value) {
-                                  bloc.add(ChangeAgreeToTermsStateEvent(
-                                      state: value!));
-                                }),
-                            Text(
-                              "I Agree to",
-                              style: TextStyle(fontSize: 14.sp),
-                            ),
-                            TextButton(
-                                onPressed: () {
-                                  context.push(const TermsAndConditionsScreen(
-                                      userType: "merchant"));
-                                },
-                                child: Text(
-                                  "Terms & conditions",
-                                  style: TextStyle(
-                                    fontSize: 15.sp,
-                                    decoration: TextDecoration.underline,
-                                  ),
-                                ))
-                          ],
-                        )
+                        TermsAgreementWidget(bloc: bloc,
+                            userType: "merchant")
                       ],
                     ),
                   ),

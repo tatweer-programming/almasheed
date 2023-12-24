@@ -13,6 +13,13 @@ class SendCodeEvent extends AuthEvent {
   List<Object?> get props => [user];
 }
 
+class LoginByPhoneEvent extends AuthEvent {
+  final AppUser user;
+  const LoginByPhoneEvent(this.user);
+  @override
+  List<Object?> get props => [user];
+}
+
 class VerifyCodeEvent extends AuthEvent {
   final String code;
 
@@ -30,6 +37,32 @@ class ChangeAgreeToTermsStateEvent extends AuthEvent {
   final bool state;
 
   const ChangeAgreeToTermsStateEvent({required this.state});
+
+  @override
+  List<Object?> get props => [];
+}
+
+class ChangeIsMerchantTypeStateEvent extends AuthEvent {
+  final bool state;
+
+  const ChangeIsMerchantTypeStateEvent({required this.state});
+
+  @override
+  List<Object?> get props => [];
+}
+
+class SelectAccountTypeEvent extends AuthEvent {
+  final int index;
+
+  const SelectAccountTypeEvent({required this.index});
+
+  @override
+  List<Object?> get props => [];
+}
+
+class NavigateToRegisterScreenEvent extends AuthEvent {
+final BuildContext context ;
+  const NavigateToRegisterScreenEvent(this.context);
 
   @override
   List<Object?> get props => [];

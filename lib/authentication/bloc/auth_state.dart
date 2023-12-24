@@ -17,17 +17,18 @@ class SendCodeErrorState extends AuthState {
   @override
   List<Object?> get props => [];
 }
-
 class CodeSent extends AuthState {
   @override
   List<Object?> get props => [];
 }
-
 class CodeVerified extends AuthState {
   @override
   List<Object?> get props => [];
 }
-
+class UserNotFoundState extends AuthState {
+  @override
+  List<Object?> get props => [];
+}
 
 class Authenticated extends AuthState {
   @override
@@ -49,4 +50,19 @@ class ChangeAgreeToTermsState  extends AuthState {
   const ChangeAgreeToTermsState ({required this.state});
   @override
   List<Object?> get props => [state];
+}
+
+class ChangeIsMerchantTypeState  extends AuthState {
+  final bool state;
+
+  const ChangeIsMerchantTypeState ({required this.state});
+  @override
+  List<Object?> get props => [state];
+}
+class SelectAccountTypeState  extends AuthState {
+  final int index;
+
+  const SelectAccountTypeState ({required this.index});
+  @override
+  List<Object?> get props => [index];
 }

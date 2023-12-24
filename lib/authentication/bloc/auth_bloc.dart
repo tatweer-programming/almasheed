@@ -2,8 +2,11 @@ import 'dart:async';
 import 'package:almasheed/authentication/data/models/user.dart';
 import 'package:almasheed/authentication/data/services/auth_services.dart';
 import 'package:almasheed/authentication/presentation/components.dart';
+import 'package:almasheed/authentication/presentation/screens/merchant_login_screen.dart';
+import 'package:almasheed/authentication/presentation/screens/user_login_screen.dart';
 import 'package:almasheed/core/error/remote_error.dart';
 import 'package:almasheed/core/utils/constance_manager.dart';
+import 'package:almasheed/core/utils/navigation_manager.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -20,12 +23,17 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   static AuthBloc get(BuildContext context) =>
       BlocProvider.of<AuthBloc>(context);
   bool agreeToTerms = false;
+  bool isMerchant = false ;
   bool codeSent = false;
   bool authCompleted = false;
   String? verificationId = AuthService.verificationID;
   AppUser? user;
+  int ? selectedAccountTypeIndex ;
   late AuthRepository repository;
-
+  List<Widget> registerScreens = const [
+    MerchantLoginScreen() ,
+    CustomerLoginScreen()
+  ];
   AuthBloc() : super(AuthInitial()) {
     repository = AuthRepository();
 
@@ -43,10 +51,40 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
           defaultToast(msg: "Code Sent Successfully ");
           emit(CodeSent());
         });
-      } else if (event is ChangeAgreeToTermsStateEvent) {
+      }
+      if (event is LoginByPhoneEvent) {
+        String  userType = event.user is Customer ? "customer":"merchant" ;
+        emit(SendCodeLoadingState());
+        user = event.user;
+        final result = await repository.loginByPhone(event.user.phone,
+            userType);
+        result.fold((l) {
+          errorToast(msg: ExceptionManager(l).translatedMessage());
+          emit(SendCodeErrorState());
+        }, (r) {
+      if (r == "NOT_FOUND"){
+        errorToast(msg: "User not found");
+        emit(UserNotFoundState());
+      }
+      else{
+        codeSent = true;
+        verificationId = r;
+        defaultToast(msg: "Code Sent Successfully ");
+        emit(CodeSent());
+      }
+        });
+      }
+      else if (event is ChangeAgreeToTermsStateEvent) {
         agreeToTerms = !agreeToTerms;
         emit(ChangeAgreeToTermsState(state: agreeToTerms));
-      } else if (event is VerifyCodeEvent) {
+      }
+
+      else if (event is ChangeIsMerchantTypeStateEvent) {
+        isMerchant = !isMerchant;
+        emit(ChangeIsMerchantTypeState(state: isMerchant));
+      }
+
+      else if (event is VerifyCodeEvent) {
         if (kDebugMode) {
           print(user);
         }
@@ -60,6 +98,13 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
           await _createUser();
           emit(Authenticated());
         });
+      }
+      else if (event is SelectAccountTypeEvent) {
+        selectedAccountTypeIndex = event.index ;
+        emit(SelectAccountTypeState(index: event.index));
+      }
+      else if (event is NavigateToRegisterScreenEvent) {
+     event.context.push(registerScreens[selectedAccountTypeIndex!]);
       }
     });
   }

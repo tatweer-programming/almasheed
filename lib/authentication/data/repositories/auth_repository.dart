@@ -10,11 +10,17 @@ final AuthService _service = AuthService();
 Future<Either<FirebaseAuthException, String>> verifyPhoneNumber(String phoneNumber) async {
 return _service.verifyPhoneNumber(phoneNumber);
   }
+
 Future<Either<FirebaseAuthException, String>> verifyCode(String code , String userType) {
 
     return _service.verifyCode(code , userType );
 }
 Future<Either<FirebaseException, bool>> createUser(AppUser user){
   return  _service.createUser(user);
+}
+
+Future<Either<FirebaseException, String>> loginByPhone
+    (String phoneNumber , String userType) async {
+  return _service.loginByPhone(phoneNumber, userType);
 }
 }
