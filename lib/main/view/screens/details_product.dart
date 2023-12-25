@@ -1,3 +1,4 @@
+import 'package:almasheed/payment/bloc/payment_bloc.dart';
 import 'package:carousel_slider/carousel_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -23,9 +24,12 @@ class DetailsProductScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final CarouselController carouselController = CarouselController();
-    final MainBloc bloc = sl();
+    TextEditingController quantityController = TextEditingController();
+    final MainBloc mainBloc = sl();
+    quantityController.text = "1";
+    final PaymentBloc paymentBloc = PaymentBloc();
     return BlocConsumer<MainBloc, MainState>(
-      listener: (context, state) => _handleBlocState(context, bloc, state),
+      listener: (context, state) => _handleBlocState(context, mainBloc, state),
       builder: (context, state) {
         return DefaultTabController(
           initialIndex: 1,
@@ -40,7 +44,7 @@ class DetailsProductScreen extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         _buildCarouselAndHeader(
-                            context, bloc, carouselController),
+                            context, mainBloc, carouselController),
                         SizedBox(height: 2.h),
                         Padding(
                           padding: EdgeInsets.symmetric(horizontal: 6.w),
@@ -50,7 +54,21 @@ class DetailsProductScreen extends StatelessWidget {
                     ),
                   ),
                 ),
-                _buildFooter(context, bloc),
+                _buildFooter(
+                  quantityController: quantityController,
+                  onPressed: () {
+                    if (quantityController.text != "") {
+                      paymentBloc.add(
+                        AddToCartEvent(
+                          productId: product.productId,
+                          quantity: int.parse(quantityController.text),
+                        ),
+                      );
+                    } else {
+                      errorToast(msg: "You must determine quantity");
+                    }
+                  },
+                ),
                 SizedBox(height: 2.h),
               ],
             ),
@@ -186,6 +204,7 @@ class DetailsProductScreen extends StatelessWidget {
         ),
         SizedBox(height: 1.h),
         Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text(
               "Price ${product.productNewPrice.toStringAsFixed(2)} SAR",
@@ -195,36 +214,44 @@ class DetailsProductScreen extends StatelessWidget {
                 color: const Color(0xff496591),
               ),
             ),
-            SizedBox(
-              width: 2.w,
-            ),
             if (product.productNewPrice != product.productOldPrice)
-              Expanded(
-                child: Text(
-                  "${product.productOldPrice.toStringAsFixed(2)} SAR",
-                  style: TextStyle(
-                      decoration: TextDecoration.lineThrough,
-                      fontWeight: FontWeight.w500,
-                      color: ColorManager.red,
-                      fontSize: 13.sp),
-                ),
+              Text(
+                "${product.productOldPrice.toStringAsFixed(2)} SAR",
+                style: TextStyle(
+                    decoration: TextDecoration.lineThrough,
+                    fontWeight: FontWeight.w500,
+                    color: ColorManager.red,
+                    fontSize: 13.sp),
               ),
           ],
         ),
         SizedBox(height: 1.h),
-        Text(
-          "Seller : ${product.merchantName}",
-          style: TextStyle(
-            fontWeight: FontWeight.w500,
-            fontSize: 13.sp,
-            color: Colors.grey[600],
-          ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(
+              "Seller : ${product.merchantName}",
+              style: TextStyle(
+                fontWeight: FontWeight.w500,
+                fontSize: 13.sp,
+                color: Colors.grey[600],
+              ),
+            ),
+            Text(
+              "City : ${product.productCity}",
+              style: TextStyle(
+                fontWeight: FontWeight.w500,
+                fontSize: 13.sp,
+                color: Colors.grey[600],
+              ),
+            ),
+          ],
         ),
-        TabBar(
+        const TabBar(
           indicatorColor: ColorManager.primary,
-          unselectedLabelColor: Colors.grey[600],
+          unselectedLabelColor: ColorManager.grey2,
           labelColor: ColorManager.primary,
-          tabs: const <Widget>[
+          tabs: <Widget>[
             Tab(child: Text("Description")),
             Tab(child: Text("Evaluation")),
           ],
@@ -248,7 +275,7 @@ class DetailsProductScreen extends StatelessWidget {
         physics: const BouncingScrollPhysics(),
         child: Text(
           productDescription.isEmpty ? "Not Found" : productDescription,
-          style: TextStyle(color: Colors.grey[600]),
+          style: const TextStyle(color: ColorManager.grey2),
         ),
       ),
     );
@@ -267,16 +294,30 @@ class DetailsProductScreen extends StatelessWidget {
   }
 
   Widget _buildFooter(
-    BuildContext context,
-    MainBloc bloc,
-  ) {
+      {required VoidCallback onPressed,
+      required TextEditingController quantityController}) {
     final isNotMerchant = ConstantsManager.appUser is! Merchant;
     return isNotMerchant
         ? Padding(
-            padding: EdgeInsets.symmetric(horizontal: 6.w),
-            child: defaultButton(
-              onPressed: () {},
-              text: "Add To Cart",
+            padding: EdgeInsets.symmetric(horizontal: 4.w),
+            child: Row(
+              children: [
+                defaultFormField(
+                    controller: quantityController,
+                    width: 30.w,
+                    textAlign: TextAlign.center,
+                    type: TextInputType.number,
+                    label: "Quantity"),
+                SizedBox(
+                  width: 2.w,
+                ),
+                Expanded(
+                  child: defaultButton(
+                    onPressed: onPressed,
+                    text: "Add To Cart",
+                  ),
+                ),
+              ],
             ),
           )
         : const SizedBox();

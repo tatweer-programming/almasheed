@@ -129,7 +129,7 @@ void defaultToast({
 }) {
   Fluttertoast.showToast(
     msg: msg,
-    backgroundColor: ColorManager.primary,
+    backgroundColor: Colors.green,
     textColor: ColorManager.white,
     toastLength: Toast.LENGTH_SHORT,
   );

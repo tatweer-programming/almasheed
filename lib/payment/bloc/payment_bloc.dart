@@ -27,7 +27,7 @@ class PaymentBloc extends Bloc<PaymentEvent, PaymentState> {
           emit(AddToCartErrorState());
           errorToast(msg: "");
         }, (r) {
-          defaultToast(msg: "added Successfully");
+          defaultToast(msg: "Added Successfully");
           emit(AddToCartSuccessState());
         });
       } else if (event is RemoveFromCart) {
@@ -39,7 +39,7 @@ class PaymentBloc extends Bloc<PaymentEvent, PaymentState> {
           emit(RemoveFromCartErrorState());
           errorToast(msg: "");
         }, (r) {
-          defaultToast(msg: "added Successfully");
+          defaultToast(msg: "Removed Successfully");
           emit(RemoveFromCartSuccessState());
         });
       } else if (event is EditQuantityInCart) {
@@ -50,7 +50,7 @@ class PaymentBloc extends Bloc<PaymentEvent, PaymentState> {
           emit(EditQuantityInCartErrorState());
           errorToast(msg: "");
         }, (r) {
-          defaultToast(msg: "added Successfully");
+          defaultToast(msg: "Updated Successfully");
           emit(EditQuantityInCartSuccessState());
         });
       } else if (event is ClearCart) {
@@ -60,7 +60,7 @@ class PaymentBloc extends Bloc<PaymentEvent, PaymentState> {
           emit(ClearCartErrorState());
           errorToast(msg: "");
         }, (r) {
-          defaultToast(msg: "added Successfully");
+          defaultToast(msg: "Deleted Successfully");
           emit(ClearCartSuccessState());
         });
       } else if (event is CompletePaymentCart) {

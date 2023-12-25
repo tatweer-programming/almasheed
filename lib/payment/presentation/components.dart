@@ -4,6 +4,7 @@ import 'package:almasheed/main/data/models/product.dart';
 import 'package:almasheed/payment/bloc/payment_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
+
 //ignore: must_be_immutable
 class CartItem extends StatefulWidget {
   Product product;
@@ -11,6 +12,7 @@ class CartItem extends StatefulWidget {
   PaymentBloc bloc;
   TextEditingController quantityController;
   bool isQuantityEditingEnabled = false;
+
   CartItem({
     super.key,
     required this.bloc,
@@ -26,19 +28,33 @@ class CartItem extends StatefulWidget {
 class _CartItemState extends State<CartItem> {
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
+    return Container(
       height: 20.h,
       width: double.infinity,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(
+          10.sp,
+        ),
+      ),
       child: Card(
         elevation: 5,
+        shape: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(10.sp),
+          borderSide: BorderSide.none,
+        ),
         child: Stack(
           children: [
             Row(
               children: [
                 Container(
                   width: 30.w,
+                  clipBehavior: Clip.antiAliasWithSaveLayer,
                   height: double.infinity,
                   decoration: BoxDecoration(
+                    color: ColorManager.grey1,
+                    borderRadius: BorderRadius.circular(
+                      10.sp,
+                    ),
                     image: DecorationImage(
                         fit: BoxFit.cover,
                         image:
@@ -50,6 +66,7 @@ class _CartItemState extends State<CartItem> {
                   padding: EdgeInsets.all(5.sp),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
                         widget.product.merchantName,

@@ -1,4 +1,5 @@
 import 'package:almasheed/core/utils/navigation_manager.dart';
+import 'package:almasheed/payment/bloc/payment_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sizer/sizer.dart';
@@ -20,12 +21,13 @@ class CategoryScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final MainBloc bloc = sl()..sortedProducts = category.products ?? [];
-
+    final MainBloc mainBloc = sl()..sortedProducts = category.products ?? [];
+    final PaymentBloc paymentBloc = PaymentBloc();
+    TextEditingController quantityController = TextEditingController();
     return BlocConsumer<MainBloc, MainState>(
       listener: (context, state) {
         if (state is GetProductsSuccessfullyState) {
-          bloc
+          mainBloc
             ..add(GetOffersEvent())
             ..add(GetCategoriesEvent())
             ..add(GetBestSalesEvent());
@@ -34,7 +36,7 @@ class CategoryScreen extends StatelessWidget {
       builder: (context, state) {
         return RefreshIndicator(
           onRefresh: () async {
-            bloc
+            mainBloc
               ..add(GetProductsEvent())
               ..add(GetMerchantsEvent());
           },
@@ -43,9 +45,14 @@ class CategoryScreen extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  _buildAppBar(context, bloc),
-                  _buildSortBar(context, bloc),
-                  _buildProductList(context, bloc),
+                  _buildAppBar(context, mainBloc),
+                  _buildSortBar(context, mainBloc),
+                  _buildProductList(
+                    paymentBloc: paymentBloc,
+                    context: context,
+                    mainBloc: mainBloc,
+                    quantityController: quantityController,
+                  ),
                 ],
               ),
             ),
@@ -332,17 +339,28 @@ class CategoryScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildProductList(BuildContext context, MainBloc bloc) {
+  Widget _buildProductList({
+    required BuildContext context,
+    required MainBloc mainBloc,
+    required PaymentBloc paymentBloc,
+    required TextEditingController quantityController,
+  }) {
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 4.w, vertical: 2.h),
       child: Wrap(
-        children: bloc.sortedProducts.map((product) {
+        children: mainBloc.sortedProducts.map((product) {
           return productWidget(
             openProductPressed: () {
               context.push(DetailsProductScreen(product: product));
             },
             product: product,
-            addCardPressed: () {},
+            addCardPressed: () {
+              paymentBloc.add(
+                AddToCartEvent(
+                  productId: product.productId,
+                ),
+              );
+            },
           );
         }).toList(),
       ),

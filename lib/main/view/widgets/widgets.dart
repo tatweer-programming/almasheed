@@ -23,37 +23,45 @@ defaultFormField(
         void Function()? suffixFunction,
         FormFieldValidator? validator,
         bool obscureText = false,
+        double? width,
+        TextStyle? labelStyle,
+        TextAlign? textAlign,
         required TextEditingController controller}) =>
-    TextFormField(
-      onTapOutside: (event) {
-        FocusManager.instance.primaryFocus?.unfocus();
-      },
-      controller: controller,
-      keyboardType: type,
-      enabled: enabled,
-      obscureText: obscureText,
-      style: const TextStyle(color: ColorManager.black),
-      decoration: InputDecoration(
-          disabledBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(10.sp),
-          ),
-          contentPadding: EdgeInsetsDirectional.symmetric(horizontal: 2.w),
-          focusedBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(10.sp),
-          ),
-          enabledBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(10.sp),
-          ),
-          errorStyle: TextStyle(color: ColorManager.error),
-          fillColor: ColorManager.white,
-          filled: true,
-          suffixIcon: suffix,
-          labelText: label,
-          helperText: hint,
-          labelStyle: const TextStyle(
-            color: ColorManager.black,
-          )),
-      validator: validator,
+    SizedBox(
+      width: width ?? double.infinity,
+      child: TextFormField(
+        textAlign: textAlign!,
+        onTapOutside: (event) {
+          FocusManager.instance.primaryFocus?.unfocus();
+        },
+        controller: controller,
+        keyboardType: type,
+        enabled: enabled,
+        obscureText: obscureText,
+        style: const TextStyle(color: ColorManager.black),
+        decoration: InputDecoration(
+            disabledBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(10.sp),
+            ),
+            contentPadding: EdgeInsetsDirectional.symmetric(horizontal: 2.w),
+            focusedBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(10.sp),
+            ),
+            enabledBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(10.sp),
+            ),
+            errorStyle: TextStyle(color: ColorManager.error),
+            fillColor: ColorManager.white,
+            filled: true,
+            suffixIcon: suffix,
+            labelText: label,
+            helperText: hint,
+            labelStyle: labelStyle ??
+                const TextStyle(
+                  color: ColorManager.black,
+                )),
+        validator: validator,
+      ),
     );
 
 Widget searchDropdownBuilder(
@@ -399,7 +407,9 @@ Widget productWidget({
                             style: TextStyle(
                                 fontWeight: FontWeight.w500, fontSize: 11.sp),
                           ),
-                          SizedBox(width: 2.w,),
+                          SizedBox(
+                            width: 2.w,
+                          ),
                           if (product.productNewPrice !=
                               product.productOldPrice)
                             Expanded(
@@ -457,7 +467,7 @@ Widget defaultButton({
     Container(
       clipBehavior: Clip.antiAliasWithSaveLayer,
       decoration: BoxDecoration(
-        borderRadius: BorderRadiusDirectional.circular(5.sp),
+        borderRadius: BorderRadiusDirectional.circular(10.sp),
       ),
       child: MaterialButton(
         onPressed: onPressed,
