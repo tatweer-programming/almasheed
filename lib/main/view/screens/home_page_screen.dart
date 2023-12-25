@@ -179,7 +179,7 @@ class HomePageScreen extends StatelessWidget {
           padding: EdgeInsets.zero,
           shrinkWrap: true,
           physics: const NeverScrollableScrollPhysics(),
-          itemBuilder: (context, index) => merchantsWidget(
+          itemBuilder: (context, index) => merchantWidget(
             merchant: bloc.merchants[index],
             onTap: () => context.push(CategoryScreen(
               category: Category(

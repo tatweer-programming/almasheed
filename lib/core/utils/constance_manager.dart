@@ -5,17 +5,23 @@ import '../../authentication/data/models/merchant.dart';
 
 class ConstantsManager {
   // static AppUser? appUser;
+  static AppUser? appUser = Customer(
+    cartItems: {},
+    favorites: [],
+    orders: [],
+    id: "oVtWmHhUWJcVfi7MT1GyVvANHIA2",
+    phone: "+2056520552",);
   static String? userId;
   static String? userType;
-  static AppUser? appUser = Merchant(
-      id: "oVtWmHhUWJcVfi7MT1GyVvANHIA2",
-      phone: "",
-      orders: [],
-      companyName: 'Ahmed',
-      city: '',
-      area: '',
-      registrationNumber: '',
-      productsIds: []);
+  // static AppUser? appUser = Merchant(
+  //     id: "oVtWmHhUWJcVfi7MT1GyVvANHIA2",
+  //     phone: "",
+  //     orders: [],
+  //     companyName: 'Ahmed',
+  //     city: 'Riyadh',
+  //     area: '',
+  //     registrationNumber: '',
+  //     productsIds: []);
   static final List<String> saudiCitiesArabic = [
     'الرياض',
     'جدة',

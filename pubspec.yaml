@@ -43,7 +43,7 @@ dependencies:
   responsive_navigation_bar:
   carousel_slider:
   pin_code_fields:
-  fluttertoast:
+  fluttertoast: ^8.2.4
   image_picker:
   my_fatoorah:
 

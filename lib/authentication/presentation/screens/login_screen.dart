@@ -45,7 +45,7 @@ class LoginScreen  extends StatelessWidget {
                       mainAxisSize: MainAxisSize.min,
                       children: [
                         Text(
-                          "Welcome back to almasheed",
+                          "Welcome back to Almasheed",
                           style: TextStyle(
                               fontWeight: FontWeight.bold, fontSize: 16.sp),
                         ),

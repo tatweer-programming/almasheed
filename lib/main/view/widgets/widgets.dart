@@ -253,7 +253,7 @@ Widget textContainerWidget(String text) => Container(
       ),
     ));
 
-Widget merchantsWidget(
+Widget merchantWidget(
         {required Merchant merchant, required VoidCallback onTap}) =>
     InkWell(
       onTap: onTap,
@@ -344,10 +344,6 @@ Widget productWidget({
   required VoidCallback addCardPressed,
   required VoidCallback openProductPressed,
 }) {
-  Customer? customer;
-  if(ConstantsManager.appUser is Customer) {
-    customer = ConstantsManager.appUser as Customer;
-  }
   return InkWell(
     onTap: openProductPressed,
     child: Card(
@@ -371,12 +367,12 @@ Widget productWidget({
                   decoration: BoxDecoration(
                     color: ColorManager.grey1,
                     image: product.productsImagesUrl != null &&
-                        product.productsImagesUrl!.isNotEmpty
+                            product.productsImagesUrl!.isNotEmpty
                         ? DecorationImage(
-                      image: NetworkImage(
-                          product.productsImagesUrl!.first),
-                      fit: BoxFit.cover,
-                    )
+                            image:
+                                NetworkImage(product.productsImagesUrl!.first),
+                            fit: BoxFit.cover,
+                          )
                         : null,
                   ),
                 ),
@@ -396,19 +392,36 @@ Widget productWidget({
                       SizedBox(
                         height: 0.5.h,
                       ),
-                      Text(
-                        "${product.productOldPrice} SAR",
-                        style: TextStyle(
-                            fontWeight: FontWeight.w500, fontSize: 12.sp),
+                      Row(
+                        children: [
+                          Text(
+                            "${product.productNewPrice.toStringAsFixed(2)} SAR",
+                            style: TextStyle(
+                                fontWeight: FontWeight.w500, fontSize: 11.sp),
+                          ),
+                          SizedBox(width: 2.w,),
+                          if (product.productNewPrice !=
+                              product.productOldPrice)
+                            Expanded(
+                              child: Text(
+                                "${product.productOldPrice.toStringAsFixed(2)} SAR",
+                                style: TextStyle(
+                                    decoration: TextDecoration.lineThrough,
+                                    fontWeight: FontWeight.w500,
+                                    color: ColorManager.red,
+                                    fontSize: 8.sp),
+                              ),
+                            ),
+                        ],
                       ),
                       SizedBox(
-                        height: 1.h,
+                        height: 0.5.h,
                       ),
                       ConstantsManager.appUser is Customer
                           ? defaultButton(
-                          onPressed: addCardPressed,
-                          height: 4.h,
-                          text: "Add To Cart")
+                              onPressed: addCardPressed,
+                              height: 4.h,
+                              text: "Add To Cart")
                           : const SizedBox()
                     ],
                   ),
@@ -416,16 +429,19 @@ Widget productWidget({
               ],
             ),
           ),
-          ConstantsManager.appUser is Customer ?
-          Padding(
-            padding: EdgeInsets.all(5.sp),
-            child: Icon(
-              customer!.favorites.contains(product.productId)
-                  ? Icons.favorite_sharp
-                  : Icons.favorite_border,
-              color: ColorManager.red,
-            ),
-          ): const SizedBox()
+          ConstantsManager.appUser is Customer
+              ? Padding(
+                  padding: EdgeInsets.all(5.sp),
+                  child: Icon(
+                    (ConstantsManager.appUser as Customer)
+                            .favorites
+                            .contains(product.productId)
+                        ? Icons.favorite_sharp
+                        : Icons.favorite_border,
+                    color: ColorManager.red,
+                  ),
+                )
+              : const SizedBox()
         ],
       ),
     ),
@@ -465,13 +481,13 @@ Widget iconContainer({
 }) =>
     Container(
       padding: EdgeInsets.all(padding ?? 5.sp),
-      decoration:
-          const BoxDecoration(shape: BoxShape.circle, color: ColorManager.primary),
+      decoration: const BoxDecoration(
+          shape: BoxShape.circle, color: ColorManager.primary),
       child: InkWell(
         onTap: onPressed,
         child: Icon(
           icon,
-          color: color??ColorManager.white,
+          color: color ?? ColorManager.white,
           size: size ?? 12.sp,
         ),
       ),
