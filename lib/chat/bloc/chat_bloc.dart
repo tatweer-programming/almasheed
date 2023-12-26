@@ -22,6 +22,7 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
   String? voiceNoteFilePath;
   double voiceDuration = 0;
   bool isComplete = false;
+  bool isPlaying = false;
   String? imageFilePath;
 
   ChatBloc(ChatInitial chatInitial) : super(ChatInitial()) {
@@ -33,7 +34,6 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
         });
       } else if (event is SendMessageEvent) {
         await chatRepository.sendMessage(message: event.message);
-        imageFilePath = null;
         emit(SendMessagesSuccessState());
       } else if (event is StartRecordingEvent) {
         await startRecord();
@@ -41,26 +41,49 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
       } else if (event is EndRecordingEvent) {
         await stopRecord();
         emit(EndRecordState());
-      } else if (event is TurnOnRecordEvent) {
+      } else if (event is TurnOnRecordUrlEvent) {
         await audioPlayer.play(UrlSource(event.voiceNoteUrl));
         event.isPlaying = true;
-        emit(PlayRecordState(
+        emit(PlayRecordUrlState(
             voiceNoteUrl: event.voiceNoteUrl, isPlaying: event.isPlaying));
         audioPlayer.onPlayerComplete.listen((_) {
           add(CompleteRecordEvent(
-              voiceNoteUrl: event.voiceNoteUrl, isPlaying: event.isPlaying));
+              isFile: false,
+              voiceNote: event.voiceNoteUrl,
+              isPlaying: event.isPlaying));
+        });
+      } else if (event is TurnOnRecordFileEvent) {
+        await audioPlayer.play(DeviceFileSource(voiceNoteFilePath!));
+        isPlaying = true;
+        emit(PlayRecordFileState());
+        audioPlayer.onPlayerComplete.listen((_) {
+          add(CompleteRecordEvent(
+              isFile: true,
+              voiceNote: voiceNoteFilePath!,
+              isPlaying: isPlaying));
         });
       } else if (event is CompleteRecordEvent) {
-        event.isPlaying = false;
-        emit(CompleteRecordState(
-            voiceNoteUrl: event.voiceNoteUrl, isPlaying: event.isPlaying));
-      }
-      else if (event is PickImageEvent) {
-        final pickedFile = await ImagePicker().pickImage(source: ImageSource.gallery);
+        if (event.isFile) {
+          isPlaying = false;
+          emit(CompleteRecordFileState());
+        } else {
+          event.isPlaying = false;
+          emit(CompleteRecordUrlState(
+              voiceNoteUrl: event.voiceNote, isPlaying: event.isPlaying));
+        }
+      } else if (event is PickImageEvent) {
+        final pickedFile =
+            await ImagePicker().pickImage(source: ImageSource.gallery);
         if (pickedFile != null) {
           imageFilePath = pickedFile.path;
           emit(PickImageState());
         }
+      } else if (event is RemovePickedImageEvent) {
+        imageFilePath = null;
+        emit(RemovePickedImageState());
+      }else if (event is RemoveRecordEvent) {
+        voiceNoteFilePath = null;
+        emit(RemoveRecordState());
       }
     });
   }
@@ -91,9 +114,10 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
       AudioPlayer audioPlayer = AudioPlayer();
       await audioPlayer
           .play(AssetSource("audios/notiication_start_recording.wav"));
+      statusText = "Recording...";
       audioPlayer.onPlayerComplete.listen((_) async {
-        statusText = "Recording...";
         voiceNoteFilePath = await getFilePath();
+        statusText = "Message";
         isComplete = false;
         RecordMp3.instance.start(voiceNoteFilePath!, (type) {
           statusText = "Record error--->$type";
@@ -106,15 +130,13 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
 
   Future<void> stopRecord() async {
     AudioPlayer audioPlayer = AudioPlayer();
-    await audioPlayer
-        .play(AssetSource("audios/notiication_end_recording.wav"));
+    bool s = RecordMp3.instance.stop();
+    await audioPlayer.play(AssetSource("audios/notiication_end_recording.wav"));
     audioPlayer.onPlayerComplete.listen((_) {
-      bool s = RecordMp3.instance.stop();
       if (s) {
         statusText = "Message";
         isComplete = true;
       }
     });
-
   }
 }

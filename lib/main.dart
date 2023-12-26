@@ -67,7 +67,7 @@ class Masheed extends StatelessWidget {
             title: 'Al Masheed',
             debugShowCheckedModeBanner: false,
             theme: getAppTheme(),
-            home: const MainScreen(),
+            home: const ChatScreen(receiverId: "oVtWmHhUWJcVfi7MT1GyVvANHIA2"),
             // home: ConstantsManager.userType != null &&
             //         ConstantsManager.userId != null
             //     ? const MainScreen()

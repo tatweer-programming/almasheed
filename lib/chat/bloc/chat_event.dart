@@ -18,20 +18,33 @@ class SendMessageEvent extends ChatEvent {
 
 class PickImageEvent extends ChatEvent {}
 
+class RemovePickedImageEvent extends ChatEvent {}
+
+class RemoveRecordEvent extends ChatEvent {}
+
 class StartRecordingEvent extends ChatEvent {}
 
 class EndRecordingEvent extends ChatEvent {}
 
-class TurnOnRecordEvent extends ChatEvent {
+class TurnOnRecordUrlEvent extends ChatEvent {
   final String voiceNoteUrl;
   bool isPlaying;
 
-  TurnOnRecordEvent({required this.voiceNoteUrl, required this.isPlaying});
+  TurnOnRecordUrlEvent({required this.voiceNoteUrl, required this.isPlaying});
+}
+
+class TurnOnRecordFileEvent extends ChatEvent {
+  final String voiceNoteUrl;
+  bool isPlaying;
+
+  TurnOnRecordFileEvent({required this.voiceNoteUrl, required this.isPlaying});
 }
 
 class CompleteRecordEvent extends ChatEvent {
   bool isPlaying;
-  final String voiceNoteUrl;
+  final bool isFile;
+  final String voiceNote;
 
-  CompleteRecordEvent({required this.voiceNoteUrl, required this.isPlaying});
+  CompleteRecordEvent(
+      {required this.voiceNote, required this.isFile, required this.isPlaying});
 }
