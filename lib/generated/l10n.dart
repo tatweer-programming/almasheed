@@ -32,7 +32,6 @@ class S {
     final localeName = Intl.canonicalizedLocale(name);
     return initializeMessages(localeName).then((_) {
       Intl.defaultLocale = localeName;
-
       final instance = S();
       S._current = instance;
 
