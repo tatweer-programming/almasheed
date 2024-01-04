@@ -29,7 +29,7 @@ class CartItem extends StatefulWidget {
 class _CartItemState extends State<CartItem> {
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
+    return Container(
       height: 20.h,
       width: double.infinity,
       decoration: BoxDecoration(
