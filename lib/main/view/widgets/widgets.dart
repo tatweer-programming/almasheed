@@ -1,5 +1,6 @@
 import 'package:almasheed/main/data/models/category.dart';
 import 'package:almasheed/main/data/models/product.dart';
+import 'package:almasheed/main/view/screens/home_page_screen.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -183,10 +184,9 @@ Widget searchWidget({required Product product, required bool isSelected}) =>
 Widget defaultCarousel(
     {required List<String> list,
     required CarouselController controller,
+    required MainBloc bloc,
     double? height}) {
-  MainBloc bloc = sl();
-  return Stack(
-    alignment: Alignment.bottomCenter,
+  return Column(
     children: [
       CarouselSlider(
         carouselController: controller,
@@ -195,6 +195,7 @@ Widget defaultCarousel(
                   width: double.infinity,
                   decoration: BoxDecoration(
                       color: ColorManager.grey1,
+                      borderRadius: BorderRadius.circular(40.sp),
                       image: DecorationImage(
                         fit: BoxFit.cover,
                         image: NetworkImage(
@@ -241,7 +242,7 @@ Widget indicator(
             decoration: BoxDecoration(
                 shape: BoxShape.circle,
                 color: current != entry.key
-                    ? ColorManager.white
+                    ? Color(0xfff5ebe0)
                     : ColorManager.primary),
           ),
         );
@@ -250,15 +251,15 @@ Widget indicator(
 
 Widget textContainerWidget(String text) => Container(
     width: double.infinity,
-    height: 6.h,
+    height: 7.h,
     decoration: BoxDecoration(
-        color: ColorManager.white,
+        color: const Color(0xfff5ebe0),
         borderRadius: BorderRadiusDirectional.circular(10.sp)),
     child: Padding(
       padding: EdgeInsets.all(10.sp),
       child: Text(
         text,
-        style: TextStyle(fontSize: 15.sp, fontWeight: FontWeight.w500),
+        style: TextStyle(fontSize: 12.sp, fontWeight: FontWeight.w500),
       ),
     ));
 
@@ -348,7 +349,7 @@ Widget categoryWidget(
       ),
     );
 
-Widget productWidget({
+Widget productVerticalWidget({
   required BuildContext context ,
   required Product product,
   required VoidCallback addCardPressed,
@@ -424,6 +425,104 @@ Widget productWidget({
                   ),
                 ),
               ],
+            ),
+          ),
+          ConstantsManager.appUser is Customer
+              ? Padding(
+                  padding: EdgeInsets.all(5.sp),
+                  child: Icon(
+                    (ConstantsManager.appUser as Customer)
+                            .favorites
+                            .contains(product.productId)
+                        ? Icons.favorite_sharp
+                        : Icons.favorite_border,
+                    color: ColorManager.red,
+                  ),
+                )
+              : const SizedBox()
+        ],
+      ),
+    ),
+  );
+}
+
+Widget productHorizontalWidget({
+  required Product product,
+  required VoidCallback openProductPressed,
+}) {
+  return Padding(
+    padding: EdgeInsets.symmetric(vertical: 0.5.h),
+    child: InkWell(
+      onTap: openProductPressed,
+      child: Row(
+        children: [
+          Expanded(
+            child: Container(
+              width: double.infinity,
+              clipBehavior: Clip.antiAliasWithSaveLayer,
+              decoration: BoxDecoration(
+                  color: Colors.grey[350],
+                  borderRadius: BorderRadiusDirectional.circular(5.sp)),
+              child: Row(
+                // crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 2.w),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          product.productName,
+                          overflow: TextOverflow.ellipsis,
+                          maxLines: 1,
+                          style: TextStyle(
+                            fontWeight: FontWeight.w600,
+                            fontSize: 14.sp,
+                          ),
+                        ),
+                        SizedBox(
+                          height: 0.5.h,
+                        ),
+                        Text(
+                          "${product.productNewPrice.toStringAsFixed(2)} SAR",
+                          style: TextStyle(
+                              fontWeight: FontWeight.w500, fontSize: 12.sp),
+                        ),
+                        SizedBox(
+                          height: 1.h,
+                        ),
+                        if (product.productNewPrice != product.productOldPrice)
+                          Text(
+                            "${product.productOldPrice.toStringAsFixed(2)} SAR",
+                            style: TextStyle(
+                                decoration: TextDecoration.lineThrough,
+                                fontWeight: FontWeight.w500,
+                                color: ColorManager.red,
+                                fontSize: 10.sp),
+                          ),
+                      ],
+                    ),
+                  ),
+                  const Spacer(),
+                  Container(
+                    height: 13.h,
+                    width: 30.w,
+                    decoration: BoxDecoration(
+                      color: ColorManager.grey1,
+                      image: product.productsImagesUrl != null &&
+                              product.productsImagesUrl!.isNotEmpty
+                          ? DecorationImage(
+                              image: NetworkImage(
+                                product.productsImagesUrl!.first,
+                              ),
+                              fit: BoxFit.cover,
+                            )
+                          : null,
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
           ConstantsManager.appUser is Customer

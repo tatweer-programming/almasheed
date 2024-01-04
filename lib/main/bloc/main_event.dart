@@ -13,6 +13,15 @@ class ChangeBottomNavEvent extends MainEvent {
   List<Object?> get props => [index];
 }
 
+class ChangeShowingProductsEvent extends MainEvent {
+  bool isHorizontal;
+
+  ChangeShowingProductsEvent({required this.isHorizontal});
+
+  @override
+  List<Object?> get props => [];
+}
+
 class ChangeCarouselIndicatorEvent extends MainEvent {
   final int index;
 

@@ -120,6 +120,13 @@ class GetMerchantsLoadingState extends MainState {
   List<Object?> get props => [];
 }
 
+class ChangeShowingProductsState extends MainState {
+  final bool isHorizontal;
+  const ChangeShowingProductsState({required this.isHorizontal});
+  @override
+  List<Object?> get props => [isHorizontal];
+}
+
 class GetMerchantsErrorState extends MainState {
   final FirebaseException error;
 

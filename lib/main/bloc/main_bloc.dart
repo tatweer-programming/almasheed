@@ -232,6 +232,9 @@ class MainBloc extends Bloc<MainEvent, MainState> {
         }, (r) {
           emit(GetUserDataSuccessfullyState());
         });
+      } else if (event is ChangeShowingProductsEvent) {
+        event.isHorizontal = !event.isHorizontal;
+        emit(ChangeShowingProductsState(isHorizontal: event.isHorizontal));
       }
     });
   }

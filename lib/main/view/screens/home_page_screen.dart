@@ -48,24 +48,23 @@ class HomePageScreen extends StatelessWidget {
             Expanded(
               child: SingleChildScrollView(
                 physics: const BouncingScrollPhysics(),
-                child: Column(
-                  children: [
-                    defaultCarousel(list: list, controller: carouselController),
-                    Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 6.w),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          SizedBox(height: 1.h),
-                          if (bloc.categories.isNotEmpty)
-                            _buildCategoriesList(context, bloc),
-                          if (ConstantsManager.appUser is Customer &&
-                              bloc.merchants.isNotEmpty)
-                            _buildMerchantsList(context, bloc),
-                        ],
-                      ),
-                    ),
-                  ],
+                child: Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 6.w),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      defaultCarousel(
+                          bloc: bloc,
+                          list: list,
+                          controller: carouselController),
+                      SizedBox(height: 1.h),
+                      if (bloc.categories.isNotEmpty)
+                        _buildCategoriesList(context, bloc),
+                      if (ConstantsManager.appUser is Customer &&
+                          bloc.merchants.isNotEmpty)
+                        _buildMerchantsList(context, bloc),
+                    ],
+                  ),
                 ),
               ),
             ),
@@ -88,53 +87,83 @@ class HomePageScreen extends StatelessWidget {
   }
 
   Widget _buildAppBar(BuildContext context, MainBloc bloc) {
-    return Container(
-      height: 16.h,
-      decoration: BoxDecoration(
-        color: ColorManager.primary,
-        borderRadius: BorderRadius.only(
-          bottomLeft: Radius.circular(20.sp),
-          bottomRight: Radius.circular(20.sp),
-        ),
-      ),
-      child: Padding(
-        padding: EdgeInsetsDirectional.only(start: 8.w, end: 8.w, top: 5.h),
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.center,
+    return Stack(
+      alignment: const Alignment(0,0.7),
+      children: [
+        Stack(
+          alignment: Alignment.bottomCenter,
           children: [
-            Expanded(
-              child: SizedBox(
-                height: 7.h,
-                child: searchProductDropdownBuilder(
-                  text: S.of(context).search,
-                  onChanged: (product) {
-                    bloc.add(SelectProductEvent(product: product!));
-                    context.push(DetailsProductScreen(product: product));
-                  },
-                  items: bloc.products,
-                  context: context,
+            ClipPath(
+              clipper: CurveClipper1(18.h),
+              child: Container(
+                height: 35.h,
+                color: ColorManager.primary,
+                child: Padding(
+                  padding:
+                      EdgeInsetsDirectional.only(start: 8.w, end: 8.w, top: 1.h),
+                  child: Column(
+                    children: [
+                      SizedBox(height: 8.h,),
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Expanded(
+                            child: SizedBox(
+                              height: 7.h,
+                              child: searchProductDropdownBuilder(
+                                text:S.of(context).search,
+                                onChanged: (product) {
+                                  bloc.add(SelectProductEvent(product: product!));
+                                  context.push(DetailsProductScreen(product: product));
+                                },
+                                items: bloc.products,
+                                context: context,
+                              ),
+                            ),
+                          ),
+                          SizedBox(width: 3.w),
+                          if (ConstantsManager.appUser is Customer)
+                            IconButton(
+                              onPressed: () => context.push(const CartScreen()),
+                              icon: const Icon(
+                                Icons.shopping_cart_outlined,
+                                color: ColorManager.white,
+                              ),
+                            ),
+                        ],
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),
-            SizedBox(width: 3.w),
-            if(ConstantsManager.appUser is Customer)
-            IconButton(
-              onPressed: () => context.push(const CartScreen()),
-              icon: const Icon(
-                Icons.shopping_cart_outlined,
-                color: ColorManager.white,
+            ClipPath(
+              clipper: CurveClipper1(13.h),
+              child: ClipPath(
+                clipper: CurveClipper2(),
+                child: Container(
+                  height: 15.h,
+                  color: ColorManager.primary,
+                ),
               ),
-            ),
+            )
           ],
         ),
-      ),
+        CircleAvatar(
+          radius: 50,
+          backgroundColor: ColorManager.grey2,
+          backgroundImage: AssetImage("assets/images/building_1.png"),
+        )
+      ],
     );
   }
 
   Widget _buildCategoriesList(
-      BuildContext context, MainBloc bloc,) {
+    BuildContext context,
+    MainBloc bloc,
+  ) {
     Merchant? merchant;
-    if(ConstantsManager.appUser is Merchant) {
+    if (ConstantsManager.appUser is Merchant) {
       merchant = ConstantsManager.appUser as Merchant;
     }
     return Column(
@@ -151,13 +180,13 @@ class HomePageScreen extends StatelessWidget {
                 category: ConstantsManager.appUser is Customer
                     ? bloc.categories[index]
                     : Category(
-                  categoryName: "",
-                  products: bloc.categories[index].products!
-                      .where((product) => merchant!.productsIds
-                      .contains(product.productId))
-                      .toList(),
-                  productsIds: merchant!.productsIds,
-                ),
+                        categoryName: "",
+                        products: bloc.categories[index].products!
+                            .where((product) => merchant!.productsIds
+                                .contains(product.productId))
+                            .toList(),
+                        productsIds: merchant!.productsIds,
+                      ),
               )),
               category: bloc.categories[index],
             ),
@@ -185,8 +214,8 @@ class HomePageScreen extends StatelessWidget {
               category: Category(
                 categoryName: "",
                 products: bloc.products
-                    .where((product) =>
-                    bloc.merchants[index].productsIds.contains(product.productId))
+                    .where((product) => bloc.merchants[index].productsIds
+                        .contains(product.productId))
                     .toList(),
                 productsIds: bloc.merchants[index].productsIds,
               ),
@@ -199,3 +228,79 @@ class HomePageScreen extends StatelessWidget {
     );
   }
 }
+
+class CurveClipper1 extends CustomClipper<Path> {
+  final double height;
+
+  CurveClipper1(this.height);
+
+  @override
+  Path getClip(Size size) {
+    Path path = Path();
+    path
+      ..lineTo(0, size.height - height )
+      ..quadraticBezierTo(
+          size.width / 2, size.height, size.width, size.height - height)
+      ..lineTo(size.width, 0)
+      ..close();
+    return path;
+  }
+
+  @override
+  bool shouldReclip(covariant CustomClipper<Path> oldClipper) {
+    return true;
+  }
+}
+
+class CurveClipper2 extends CustomClipper<Path> {
+  @override
+  Path getClip(Size size) {
+    Path path = Path();
+    path.quadraticBezierTo(size.width / 2, size.height, size.width, 0);
+    path.lineTo(size.width, 0);
+    path.lineTo(size.width, size.height);
+    path.lineTo(0, size.height);
+    path.close();
+    return path;
+  }
+
+  @override
+  bool shouldReclip(covariant CustomClipper<Path> oldClipper) {
+    return true;
+  }
+}
+
+// class CurveClipper2 extends CustomClipper<Path> {
+//   @override
+//   Path getClip(Size size) {
+//     Path path = Path();
+//     path
+//       ..moveTo(size.width / 2, size.height)  // Move to the bottom center
+//       ..arcToPoint(
+//         Offset(size.width, 0),  // Top-right corner
+//         radius: Radius.circular(50.w),
+//         clockwise: false,  // Counter-clockwise arc
+//       )
+//       ..lineTo(0, 0)  // Top-left corner
+//       ..arcToPoint(
+//         Offset(size.width / 2, size.height),  // Bottom center
+//         radius: Radius.circular(50.w),
+//         clockwise: false,  // Counter-clockwise arc
+//       )
+//       ..moveTo(size.width / 2, 0)
+//       ..arcToPoint(Offset(size.width, size.height),
+//           radius: Radius.circular(50.w))
+//       ..lineTo(0, size.height)
+//       ..arcToPoint(
+//         Offset(size.width / 2, 0),
+//         radius: Radius.circular(50.w),
+//       )
+//       ..close();
+//     return path;
+//   }
+//
+//   @override
+//   bool shouldReclip(covariant CustomClipper<Path> oldClipper) {
+//     return true;
+//   }
+// }

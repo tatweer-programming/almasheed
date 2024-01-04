@@ -21,7 +21,7 @@ ThemeData getAppTheme() {
       primaryColorLight: const Color(0xfff2e6d9),
       primaryColorDark: const Color(0xff714f28),
       canvasColor: const Color(0xfffafafa),
-      scaffoldBackgroundColor: ColorManager.secondary,
+      scaffoldBackgroundColor: ColorManager.white,
       cardColor: const Color(0xffffffff),
       dividerColor: const Color(0x1f000000),
       highlightColor: const Color(0x66bcbcbc),

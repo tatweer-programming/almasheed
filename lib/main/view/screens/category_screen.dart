@@ -24,6 +24,7 @@ class CategoryScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final MainBloc mainBloc = sl()..sortedProducts = category.products ?? [];
     final PaymentBloc paymentBloc = PaymentBloc();
+    bool isHorizontal = false;
     TextEditingController quantityController = TextEditingController();
     return BlocConsumer<MainBloc, MainState>(
       listener: (context, state) {
@@ -32,6 +33,9 @@ class CategoryScreen extends StatelessWidget {
             ..add(GetOffersEvent())
             ..add(GetCategoriesEvent())
             ..add(GetBestSalesEvent());
+        }
+        if (state is ChangeShowingProductsState) {
+          isHorizontal = state.isHorizontal;
         }
       },
       builder: (context, state) {
@@ -47,10 +51,14 @@ class CategoryScreen extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   _buildAppBar(context, mainBloc),
-                  _buildSortBar(context, mainBloc),
+                  SizedBox(
+                    height: 0.5.h,
+                  ),
+                  _buildSortBar(context, mainBloc, isHorizontal),
                   _buildProductList(
                     paymentBloc: paymentBloc,
                     context: context,
+                    isHorizontal: isHorizontal,
                     mainBloc: mainBloc,
                     quantityController: quantityController,
                   ),
@@ -66,13 +74,7 @@ class CategoryScreen extends StatelessWidget {
   Widget _buildAppBar(BuildContext context, MainBloc bloc) {
     return Container(
       height: 16.h,
-      decoration: BoxDecoration(
-        color: ColorManager.primary,
-        borderRadius: BorderRadius.only(
-          bottomLeft: Radius.circular(20.sp),
-          bottomRight: Radius.circular(20.sp),
-        ),
-      ),
+      color: ColorManager.primary,
       child: Padding(
         padding: EdgeInsetsDirectional.only(end: 8.w, top: 5.h),
         child: Row(
@@ -127,20 +129,27 @@ class CategoryScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildSortBar(BuildContext context, MainBloc bloc) {
+  Widget _buildSortBar(BuildContext context, MainBloc bloc, bool isHorizontal) {
     return Container(
       height: 7.h,
-      decoration: BoxDecoration(
-        color: const Color(0xffb08968),
-        borderRadius: BorderRadius.only(
-          bottomLeft: Radius.circular(20.sp),
-          bottomRight: Radius.circular(20.sp),
-        ),
-      ),
+      color: ColorManager.secondary,
       child: Padding(
         padding: EdgeInsets.symmetric(horizontal: 6.w),
         child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
+            IconButton(
+              onPressed: () {
+                bloc.add(
+                    ChangeShowingProductsEvent(isHorizontal: isHorizontal));
+              },
+              icon: Icon(
+                isHorizontal
+                    ? Icons.horizontal_distribute
+                    : Icons.vertical_distribute,
+                color: ColorManager.white,
+              ),
+            ),
             Expanded(child: _buildSortByCity(context, bloc)),
             Expanded(child: _buildOrderBy(context, bloc)),
           ],
@@ -156,17 +165,22 @@ class CategoryScreen extends StatelessWidget {
       },
       child: Row(
         children: [
-          const Icon(
-            Icons.sort,
-            color: ColorManager.white,
+          const Expanded(
+            child: Icon(
+              Icons.sort,
+              color: ColorManager.white,
+            ),
           ),
           SizedBox(width: 1.w),
-          Text(
-            S.of(context).sortByCity,
-            style: TextStyle(
-              color: ColorManager.white,
-              fontSize: 12.sp,
-              fontWeight: FontWeight.w500,
+          Expanded(
+            child: Text(
+              S.of(context).sortByCity,
+              maxLines: 2,overflow: TextOverflow.ellipsis,
+              style: TextStyle(
+                color: ColorManager.white,
+                fontSize: 9.sp,
+                fontWeight: FontWeight.w500,
+              ),
             ),
           ),
         ],
@@ -223,17 +237,22 @@ class CategoryScreen extends StatelessWidget {
       },
       child: Row(
         children: [
-          const Icon(
-            Icons.layers,
-            color: ColorManager.white,
+          const Expanded(
+            child: Icon(
+              Icons.layers,
+              color: ColorManager.white,
+            ),
           ),
           SizedBox(width: 1.w),
-          Text(
-            S.of(context).orderBy,
-            style: TextStyle(
-              color: ColorManager.white,
-              fontSize: 12.sp,
-              fontWeight: FontWeight.w500,
+          Expanded(
+            child: Text(
+              S.of(context).orderBy,
+              maxLines: 2,overflow: TextOverflow.ellipsis,
+              style: TextStyle(
+                color: ColorManager.white,
+                fontSize: 9.sp,
+                fontWeight: FontWeight.w500,
+              ),
             ),
           ),
         ],
@@ -271,7 +290,7 @@ class CategoryScreen extends StatelessWidget {
                       products: category.products!);
                 },
                 text: S.of(context).offers,
-                icon: Icons.sort_by_alpha,
+                icon: Icons.local_offer,
               ),
               SizedBox(height: 1.h),
               _buildIconText(
@@ -283,7 +302,7 @@ class CategoryScreen extends StatelessWidget {
                       products: category.products!);
                 },
                 text: S.of(context).bestSales,
-                icon: Icons.sort_by_alpha,
+                icon: Icons.vertical_align_top_outlined,
               ),
               SizedBox(height: 1.h),
               _buildIconText(
@@ -344,14 +363,23 @@ class CategoryScreen extends StatelessWidget {
     required BuildContext context,
     required MainBloc mainBloc,
     required PaymentBloc paymentBloc,
+    required bool isHorizontal,
     required TextEditingController quantityController,
   }) {
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 4.w, vertical: 2.h),
       child: Wrap(
+        direction: Axis.horizontal,
         children: mainBloc.sortedProducts.map((product) {
-          return productWidget(
-            context: context,
+          if (isHorizontal) {
+            return productHorizontalWidget(
+              openProductPressed: () {
+                context.push(DetailsProductScreen(product: product));
+              },
+              product: product,
+            );
+          }
+          return productVerticalWidget(
             openProductPressed: () {
               context.push(DetailsProductScreen(product: product));
             },
@@ -362,7 +390,7 @@ class CategoryScreen extends StatelessWidget {
                   productId: product.productId,
                 ),
               );
-            },
+            }, context: context,
           );
         }).toList(),
       ),

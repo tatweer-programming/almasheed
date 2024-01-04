@@ -47,30 +47,40 @@ class DetailsProductScreen extends StatelessWidget {
                         _buildCarouselAndHeader(
                             context, mainBloc, carouselController),
                         SizedBox(height: 2.h),
+                        _buildAddtoCart(
+                          quantityController: quantityController,
+                          onPressed: () {
+                            if (quantityController.text != "") {
+                              paymentBloc.add(
+                                AddToCartEvent(
+                                  productId: product.productId,
+                                  quantity: int.parse(quantityController.text),
+                                ),
+                              );
+                            } else {
+                              errorToast(msg: "You must determine quantity");
+                            }
+                          },
+                          context: context,
+                        ),
+                        SizedBox(height: 3.h),
                         Padding(
                           padding: EdgeInsets.symmetric(horizontal: 6.w),
-                          child: _buildProductDetailsTabs(context, product),
+                          child: Center(
+                            child: Text(
+                              product.productDescription.isEmpty
+                                  ? "Not Found"
+                                  : product.productDescription,
+                              style:
+                                  const TextStyle(color: ColorManager.primary),
+                            ),
+                          ),
                         ),
                       ],
                     ),
                   ),
                 ),
-                _buildFooter(
-                  quantityController: quantityController,
-                  onPressed: () {
-                    if (quantityController.text != "") {
-                      paymentBloc.add(
-                        AddToCartEvent(
-                          productId: product.productId,
-                          quantity: int.parse(quantityController.text),
-                        ),
-                      );
-                    } else {
-                      errorToast(msg: "You must determine quantity");
-                    }
-                  },
-                ),
-                SizedBox(height: 2.h),
+                SizedBox(height: 3.h),
               ],
             ),
           ),
@@ -104,22 +114,26 @@ class DetailsProductScreen extends StatelessWidget {
     return Padding(
       padding: EdgeInsetsDirectional.only(top: 5.h),
       child: Stack(
-        alignment: Alignment.bottomLeft,
+        alignment: Alignment.bottomCenter,
         children: [
           Stack(
             alignment: Alignment.topLeft,
             children: [
-              Container(
-                clipBehavior: Clip.antiAliasWithSaveLayer,
-                decoration: BoxDecoration(
-                  color: ColorManager.grey1,
-                  borderRadius: BorderRadius.circular(10.sp),
-                ),
-                child: defaultCarousel(
-                  height: 45.h,
-                  list: product.productsImagesUrl ?? [],
-                  controller: carouselController,
-                ),
+              Column(
+                children: [
+                  Container(
+                    color: ColorManager.grey1,
+                    child: defaultCarousel(
+                      height: 45.h,
+                      bloc: bloc,
+                      list: product.productsImagesUrl ?? [],
+                      controller: carouselController,
+                    ),
+                  ),
+                  SizedBox(
+                    height: 20.h,
+                  ),
+                ],
               ),
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: 2.w, vertical: 1.h),
@@ -155,11 +169,11 @@ class DetailsProductScreen extends StatelessWidget {
                         },
                         itemBuilder: (BuildContext context) =>
                             <PopupMenuEntry<String>>[
-                           PopupMenuItem<String>(
+                          PopupMenuItem<String>(
                             value: 'Edit',
                             child: Text(S.of(context).edit),
                           ),
-                           PopupMenuItem<String>(
+                          PopupMenuItem<String>(
                             value: 'Delete',
                             child: Text(S.of(context).delete),
                           ),
@@ -170,114 +184,127 @@ class DetailsProductScreen extends StatelessWidget {
                 )
             ],
           ),
-          if (isCustomer)
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: 2.w, vertical: 1.h),
-              child: iconContainer(
-                padding: 5.sp,
-                size: 20.sp,
-                onPressed: () {
-                  bloc.add(
-                    AddAndRemoveFromFavoritesEvent(
-                      favorites: customer!.favorites,
-                      productId: product.productId,
+          Card(
+            elevation: 7.sp,
+            shape: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(20.sp),
+              borderSide: BorderSide.none,
+            ),
+            child: Container(
+              width: 80.w,
+              height: 30.h,
+              decoration: BoxDecoration(
+                  color: ColorManager.white,
+                  borderRadius: BorderRadiusDirectional.circular(20.sp)),
+              child: Padding(
+                padding: EdgeInsets.symmetric(horizontal: 4.w, vertical: 3.h),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      product.productName,
+                      style: TextStyle(
+                          fontWeight: FontWeight.w600, fontSize: 17.sp),
                     ),
-                  );
-                },
-                icon: customer!.favorites.contains(product.productId)
-                    ? Icons.favorite_sharp
-                    : Icons.favorite_border,
-                color: ColorManager.red,
+                    SizedBox(height: 1.h),
+                    Text(
+                      "${S.of(context).price} ${product.productOldPrice} ${S.of(context).sar}",
+                      style: TextStyle(
+                        fontWeight: FontWeight.w500,
+                        fontSize: 14.sp,
+                        color: const Color(0xff496591),
+                      ),
+                    ),
+                    SizedBox(height: 1.h),
+                    Text(
+                      "${S.of(context).seller} : ${product.merchantName}",
+                      style: TextStyle(
+                        fontWeight: FontWeight.w500,
+                        fontSize: 13.sp,
+                        color: Colors.grey[600],
+                      ),
+                    ),
+                    SizedBox(height: 1.h),
+                    if (isCustomer)
+                      Row(
+                        children: [
+                          Expanded(
+                            child: iconContainer(
+                              color:ColorManager.white,
+                              padding: 5.sp,
+                              size: 20.sp,
+                              onPressed: () {
+                                bloc.add(
+                                  AddAndRemoveFromFavoritesEvent(
+                                    favorites: customer!.favorites,
+                                    productId: product.productId,
+                                  ),
+                                );
+                              },
+                              icon: customer!.favorites.contains(product.productId)
+                                  ? Icons.favorite_sharp
+                                  : Icons.favorite_border,
+                            ),
+                          ),
+                          Expanded(
+                            child: iconContainer(
+                              color:ColorManager.white,
+                              padding: 5.sp,
+                              size: 20.sp,
+                              onPressed: () {
+                              },
+                              icon: Icons.share_outlined,
+                            ),
+                          ),
+                        ],
+                      ),
+                  ],
+                ),
               ),
             ),
+          ),
         ],
       ),
     );
   }
 
-  Widget _buildProductDetailsTabs(BuildContext context, Product product) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          product.productName,
-          style: TextStyle(fontWeight: FontWeight.w600, fontSize: 17.sp),
-        ),
-        SizedBox(height: 1.h),
-        Text(
-          "${S.of(context).price} ${product.productOldPrice} ${S.of(context).sar}",
-          style: TextStyle(
-            fontWeight: FontWeight.w500,
-            fontSize: 14.sp,
-            color: const Color(0xff496591),
-          ),
-        ),
-        SizedBox(height: 1.h),
-        Text(
-          "${S.of(context).seller} : ${product.merchantName}",
-          style: TextStyle(
-            fontWeight: FontWeight.w500,
-            fontSize: 13.sp,
-            color: Colors.grey[600],
-          ),
-        ),
-        TabBar(
-          indicatorColor: ColorManager.primary,
-          unselectedLabelColor: Colors.grey[600],
-          labelColor: ColorManager.primary,
-          tabs:  <Widget>[
-            Tab(child: Text(S.of(context).description)),
-            Tab(child: Text(S.of(context).evaluation)),
-          ],
-        ),
-        SizedBox(
-          height: 30.h,
-          child: TabBarView(
-            children: [
-              _buildDescriptionTab(product.productDescription, context),
-              _buildEvaluationTab(context),
-            ],
-          ),
-        ),
-      ],
-    );
-  }
-
-  Widget _buildDescriptionTab(String productDescription, BuildContext context) {
-    return Center(
-      child: SingleChildScrollView(
-        physics: const BouncingScrollPhysics(),
-        child: Text(
-          productDescription.isEmpty ? "Not Found" : productDescription,
-          style: TextStyle(color: Colors.grey[600]),
-        ),
-      ),
-    );
-  }
-
-  Widget _buildEvaluationTab(BuildContext context) {
-    return Center(
-      child: SingleChildScrollView(
-        physics: const BouncingScrollPhysics(),
-        child: Text(
-          S.of(context).notFound,
-          style: TextStyle(color: Colors.grey[600]),
-        ),
-      ),
-    );
-  }
-
-  Widget _buildFooter(
-    BuildContext context,
-    MainBloc bloc,
-  ) {
+  Widget _buildAddtoCart(
+      {required BuildContext context,
+      required VoidCallback onPressed,
+      required TextEditingController quantityController}) {
     final isNotMerchant = ConstantsManager.appUser is! Merchant;
     return isNotMerchant
         ? Padding(
             padding: EdgeInsets.symmetric(horizontal: 6.w),
-            child: defaultButton(
-              onPressed: () {},
-              text: S.of(context).addToCart,
+            child: Row(
+              children: [
+                SizedBox(
+                  width: 20.w,
+                  child: TextFormField(
+                    textAlign: TextAlign.center,
+                    decoration: InputDecoration(
+                        hintText: 'Quantity',
+                        hintStyle: TextStyle(
+                          fontSize: 8.sp,
+                        ),
+                        enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10.sp),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10.sp),
+                        )),
+                  ),
+                ),
+                SizedBox(
+                  width: 2.w,
+                ),
+                Expanded(
+                  child: defaultButton(
+                    onPressed: onPressed,
+                    text: S.of(context).addToCart,
+                  ),
+                ),
+              ],
             ),
           )
         : const SizedBox();
@@ -309,7 +336,7 @@ class DetailsProductScreen extends StatelessWidget {
       builder: (context) {
         return AlertDialog(
           shape: OutlineInputBorder(borderRadius: BorderRadius.circular(5.sp)),
-          content:  Text(
+          content: Text(
             S.of(context).productAdded,
             style: const TextStyle(fontWeight: FontWeight.w500),
           ),

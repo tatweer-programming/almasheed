@@ -30,7 +30,6 @@ class MainScreen extends StatelessWidget {
       },
       builder: (context, state) {
         return Scaffold(
-          backgroundColor: ColorManager.secondary,
           bottomNavigationBar: ResponsiveNavigationBar(
             navigationBarButtons:  [
               NavigationBarButton(
