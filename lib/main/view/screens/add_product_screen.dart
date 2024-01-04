@@ -10,6 +10,7 @@ import '../../../authentication/data/models/merchant.dart';
 import '../../../core/error/remote_error.dart';
 import '../../../core/services/dep_injection.dart';
 import '../../../core/utils/constance_manager.dart';
+import '../../../generated/l10n.dart';
 import '../../bloc/main_bloc.dart';
 import 'add_category_screen.dart';
 
@@ -63,8 +64,8 @@ class AddProductScreen extends StatelessWidget {
               return AlertDialog(
                 shape: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(5.sp)),
-                content: const Text(
-                  "The product has been added successfully",
+                content: Text(
+                  S.of(context).productAdded ,
                   style: TextStyle(
                     fontWeight: FontWeight.w500,
                   ),
@@ -85,7 +86,7 @@ class AddProductScreen extends StatelessWidget {
                       context.push(const AddCategoryScreen());
                     },
                     child: Text(
-                      "Add Category",
+                      S.of(context).addCategory,
                       style: TextStyle(
                           fontWeight: FontWeight.w500,
                           color: ColorManager.white,
@@ -116,12 +117,12 @@ class AddProductScreen extends StatelessWidget {
                           defaultFormField(
                               validator: (value) {
                                 if (value!.isEmpty) {
-                                  return "Please enter a name";
+                                  return S.of(context).enterName;
                                 }
                                 return null;
                               },
                               controller: nameController,
-                              label: "Name"),
+                              label: S.of(context).name),
                           SizedBox(
                             height: 1.h,
                           ),
@@ -129,12 +130,12 @@ class AddProductScreen extends StatelessWidget {
                               type: TextInputType.number,
                               validator: (value) {
                                 if (value!.isEmpty) {
-                                  return "Please enter a price";
+                                  return S.of(context).enterPrice;
                                 }
                                 return null;
                               },
                               controller: priceController,
-                              label: "Price"),
+                              label: S.of(context).price),
                           SizedBox(
                             height: 1.h,
                           ),
@@ -143,23 +144,23 @@ class AddProductScreen extends StatelessWidget {
                               validator: (value) {
                                 if (double.parse(value) > 100 ||
                                     double.parse(value) < 0) {
-                                  return "Please enter a valid discount from 0% to 100%";
+                                  return S.of(context).enterValidDiscount;
                                 }
                                 return null;
                               },
                               controller: discountController,
-                              label: "Discount"),
+                              label: S.of(context).discount),
                           SizedBox(
                             height: 1.h,
                           ),
                           defaultFormField(
                               controller: descriptionController,
-                              label: "Description"),
+                              label: S.of(context).description),
                           SizedBox(
                             height: 1.h,
                           ),
                           searchDropdownBuilder(
-                            text: "Product Category",
+                            text: S.of(context).productCategory,
                             onChanged: (selectedProductCategory) {
                               bloc.add(SelectProductCategoryEvent(
                                   selectedProductCategory:
@@ -176,7 +177,7 @@ class AddProductScreen extends StatelessWidget {
                               onPressed: () {
                                 bloc.add(PickImagesEvent());
                               },
-                              text: "Add Image",
+                              text: S.of(context).addImage,
                               height: 6.h),
                           SizedBox(
                             height: 1.h,
@@ -220,7 +221,7 @@ class AddProductScreen extends StatelessWidget {
                   defaultButton(
                       onPressed: () {
                         if (bloc.selectedProductCategory == null) {
-                          errorToast(msg: "Please select a category");
+                          errorToast(msg: S.of(context).enterSelectedCategory);
                         } else {
                           if (formKey.currentState!.validate()) {
                             bloc.add(
@@ -246,7 +247,7 @@ class AddProductScreen extends StatelessWidget {
                           }
                         }
                       },
-                      text: "Add Product",
+                      text: S.of(context).addProduct,
                       height: 6.h),
                 ],
               ),

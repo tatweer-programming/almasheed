@@ -6,6 +6,7 @@ import '../../../authentication/data/models/customer.dart';
 import '../../../core/services/dep_injection.dart';
 import '../../../core/utils/color_manager.dart';
 import '../../../core/utils/constance_manager.dart';
+import '../../../generated/l10n.dart';
 import '../../../payment/presentation/screens/cart_screen.dart';
 import '../../bloc/main_bloc.dart';
 import '../../data/models/category.dart';
@@ -109,7 +110,7 @@ class CategoryScreen extends StatelessWidget {
 
   Widget _buildSearchDropdown(BuildContext context, MainBloc bloc) {
     return searchProductDropdownBuilder(
-      text: "search ...",
+      text: S.of(context).search,
       onChanged: (product) {
         bloc.add(SelectProductEvent(product: product!));
         context.push(DetailsProductScreen(product: product));
@@ -154,7 +155,7 @@ class CategoryScreen extends StatelessWidget {
           ),
           SizedBox(width: 1.w),
           Text(
-            "Sort by city",
+            S.of(context).sortByCity,
             style: TextStyle(
               color: ColorManager.white,
               fontSize: 12.sp,
@@ -180,20 +181,20 @@ class CategoryScreen extends StatelessWidget {
                 bloc.add(CancelSortProductsEvent(products: category.products!));
                 context.pop();
               },
-              child: const Text("Cancel"),
+              child:  Text(S.of(context).cancel),
             ),
             TextButton(
               onPressed: () {
                 context.pop();
               },
-              child: const Text("Okay"),
+              child:  Text(S.of(context).ok),
             ),
           ],
           content: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
               searchDropdownBuilder(
-                text: "City",
+                text: S.of(context).city,
                 onChanged: (city) {
                   bloc.add(
                       CancelSortProductsEvent(products: category.products!));
@@ -221,7 +222,7 @@ class CategoryScreen extends StatelessWidget {
           ),
           SizedBox(width: 1.w),
           Text(
-            "Order by ..",
+            S.of(context).orderBy,
             style: TextStyle(
               color: ColorManager.white,
               fontSize: 12.sp,
@@ -247,7 +248,7 @@ class CategoryScreen extends StatelessWidget {
                 bloc.add(CancelSortProductsEvent(products: category.products!));
                 context.pop();
               },
-              child: const Text("Cancel"),
+              child:  Text(S.of(context).cancel),
             ),
           ],
           content: Column(
@@ -262,7 +263,7 @@ class CategoryScreen extends StatelessWidget {
                       type: "Offers",
                       products: category.products!);
                 },
-                text: "Offers",
+                text: S.of(context).offers,
                 icon: Icons.sort_by_alpha,
               ),
               SizedBox(height: 1.h),
@@ -274,7 +275,7 @@ class CategoryScreen extends StatelessWidget {
                       type: "Best Sales",
                       products: category.products!);
                 },
-                text: "Best Sales",
+                text: S.of(context).bestSales,
                 icon: Icons.sort_by_alpha,
               ),
               SizedBox(height: 1.h),
@@ -286,7 +287,7 @@ class CategoryScreen extends StatelessWidget {
                       type: "Alphabet",
                       products: category.products!);
                 },
-                text: "Alphabet",
+                text: S.of(context).alphabet,
                 icon: Icons.sort_by_alpha,
               ),
               SizedBox(height: 1.h),
@@ -298,7 +299,7 @@ class CategoryScreen extends StatelessWidget {
                       type: "Lowest to highest price",
                       products: category.products!);
                 },
-                text: "Lowest to highest price",
+                text: S.of(context).lowestToHighestPrice,
                 icon: Icons.arrow_upward_rounded,
               ),
               SizedBox(height: 1.h),
@@ -310,7 +311,7 @@ class CategoryScreen extends StatelessWidget {
                       type: "Highest to lowest price",
                       products: category.products!);
                 },
-                text: "Highest to lowest price",
+                text: S.of(context).highestToLowestPrice,
                 icon: Icons.arrow_downward_rounded,
               ),
             ],
@@ -338,6 +339,7 @@ class CategoryScreen extends StatelessWidget {
       child: Wrap(
         children: bloc.sortedProducts.map((product) {
           return productWidget(
+            context: context,
             openProductPressed: () {
               context.push(DetailsProductScreen(product: product));
             },

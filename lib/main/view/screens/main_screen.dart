@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:responsive_navigation_bar/responsive_navigation_bar.dart';
 import '../../../core/services/dep_injection.dart';
+import '../../../generated/l10n.dart';
 import '../../bloc/main_bloc.dart';
 import 'add_product_screen.dart';
 
@@ -31,19 +32,19 @@ class MainScreen extends StatelessWidget {
         return Scaffold(
           backgroundColor: ColorManager.secondary,
           bottomNavigationBar: ResponsiveNavigationBar(
-            navigationBarButtons: const [
+            navigationBarButtons:  [
               NavigationBarButton(
-                  text: 'Home',
+                  text: S.of(context).home,
                   icon: Icons.home_outlined,
                   backgroundColor: ColorManager.primary,
                   textColor: ColorManager.white),
               NavigationBarButton(
-                  text: 'Profile',
+                  text: S.of(context).profile,
                   icon: Icons.person,
                   backgroundColor: ColorManager.primary,
                   textColor: ColorManager.white),
               NavigationBarButton(
-                  text: 'Support',
+                  text: S.of(context).support,
                   icon: Icons.support,
                   backgroundColor: ColorManager.primary,
                   textColor: ColorManager.white),

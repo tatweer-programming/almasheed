@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sizer/sizer.dart';
-
 import 'package:almasheed/authentication/data/models/customer.dart';
 import 'package:almasheed/authentication/data/models/merchant.dart';
 import 'package:almasheed/core/error/remote_error.dart';
@@ -14,6 +13,7 @@ import 'package:almasheed/main/view/screens/category_screen.dart';
 import 'package:almasheed/main/view/screens/details_product.dart';
 import 'package:almasheed/main/view/widgets/widgets.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import '../../../generated/l10n.dart';
 import '../../../payment/presentation/screens/cart_screen.dart';
 import '../../bloc/main_bloc.dart';
 List<String> list = [
@@ -106,7 +106,7 @@ class HomePageScreen extends StatelessWidget {
               child: SizedBox(
                 height: 7.h,
                 child: searchProductDropdownBuilder(
-                  text: "search ...",
+                  text: S.of(context).search,
                   onChanged: (product) {
                     bloc.add(SelectProductEvent(product: product!));
                     context.push(DetailsProductScreen(product: product));
@@ -140,7 +140,7 @@ class HomePageScreen extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        textContainerWidget("Categories"),
+        textContainerWidget(S.of(context).categories),
         SizedBox(height: 1.h),
         SizedBox(
           height: 14.h,
@@ -173,7 +173,7 @@ class HomePageScreen extends StatelessWidget {
     return Column(
       children: [
         SizedBox(height: 1.h),
-        textContainerWidget("Merchants"),
+        textContainerWidget(S.of(context).merchants),
         SizedBox(height: 1.h),
         ListView.separated(
           padding: EdgeInsets.zero,

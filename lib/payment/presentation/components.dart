@@ -4,6 +4,8 @@ import 'package:almasheed/main/data/models/product.dart';
 import 'package:almasheed/payment/bloc/payment_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
+
+import '../../generated/l10n.dart';
 //ignore: must_be_immutable
 class CartItem extends StatefulWidget {
   Product product;
@@ -65,7 +67,7 @@ class _CartItemState extends State<CartItem> {
                                 fontSize: 15.sp, color: ColorManager.grey2),
                           ),
                           Text(
-                            "  SAR",
+                            S.of(context).sar,
                             style: TextStyle(
                                 fontSize: 15.sp, color: ColorManager.grey2),
                           )

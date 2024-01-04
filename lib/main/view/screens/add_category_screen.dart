@@ -7,6 +7,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sizer/sizer.dart';
 import '../../../core/error/remote_error.dart';
 import '../../../core/services/dep_injection.dart';
+import '../../../generated/l10n.dart';
 import '../../bloc/main_bloc.dart';
 
 class AddCategoryScreen extends StatelessWidget {
@@ -53,9 +54,9 @@ class AddCategoryScreen extends StatelessWidget {
               return AlertDialog(
                 shape: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(5.sp)),
-                content: const Text(
-                  "The Category has been added successfully",
-                  style: TextStyle(
+                content:  Text(
+                  S.of(context).categoryAdded,
+                  style: const TextStyle(
                     fontWeight: FontWeight.w500,
                   ),
                 ),
@@ -96,12 +97,12 @@ class AddCategoryScreen extends StatelessWidget {
                             defaultFormField(
                                 validator: (value) {
                                   if (value!.isEmpty) {
-                                    return "Please enter a name";
+                                    return S.of(context).enterName;
                                   }
                                   return null;
                                 },
                                 controller: nameController,
-                                label: "Name"),
+                                label: S.of(context).name),
                             SizedBox(
                               height: 1.h,
                             ),
@@ -109,7 +110,7 @@ class AddCategoryScreen extends StatelessWidget {
                                 onPressed: () {
                                   bloc.add(PickImagesEvent());
                                 },
-                                text: "Add Image",
+                                text: S.of(context).addImage,
                                 height: 6.h),
                             SizedBox(
                               height: 1.h,
@@ -152,7 +153,7 @@ class AddCategoryScreen extends StatelessWidget {
                                     productsIds: const [])));
                           }
                         },
-                        text: "Add Category",
+                        text: S.of(context).addCategory,
                         height: 6.h),
                   ],
                 ),

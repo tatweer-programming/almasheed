@@ -10,6 +10,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sizer/sizer.dart';
 
 import '../../../core/services/dep_injection.dart';
+import '../../../generated/l10n.dart';
 
 class CartScreen extends StatelessWidget {
   const CartScreen({super.key});
@@ -24,7 +25,12 @@ class CartScreen extends StatelessWidget {
     PaymentBloc bloc = PaymentBloc.get(context);
     return Scaffold(
         appBar: AppBar(
-          title: const Text("Cart"),
+          title:  InkWell(
+              onTap: (){
+                S.load(Locale("en"));
+
+              },
+              child: Text(S.of(context).cart)),
           leading: IconButton(
               onPressed: () {
                 context.pop();
@@ -39,7 +45,7 @@ class CartScreen extends StatelessWidget {
                 customer.cartItems.containsKey(element.productId))
                 .toList();
             return items.isEmpty
-                ? const Center(child: Text("there is no items here"))
+                ?  Center(child: Text(S.of(context).noItems))
                 : Padding(
               padding: EdgeInsets.all(8.0.sp),
               child: ListView.separated(

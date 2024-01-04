@@ -2,8 +2,8 @@ import 'dart:async';
 import 'package:almasheed/authentication/data/models/user.dart';
 import 'package:almasheed/authentication/data/services/auth_services.dart';
 import 'package:almasheed/authentication/presentation/components.dart';
-import 'package:almasheed/authentication/presentation/screens/merchant_login_screen.dart';
-import 'package:almasheed/authentication/presentation/screens/user_login_screen.dart';
+import 'package:almasheed/authentication/presentation/screens/merchant_register_screen.dart';
+import 'package:almasheed/authentication/presentation/screens/customer_register_screen.dart';
 import 'package:almasheed/core/error/remote_error.dart';
 import 'package:almasheed/core/utils/constance_manager.dart';
 import 'package:almasheed/core/utils/navigation_manager.dart';
@@ -39,6 +39,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
     on<AuthEvent>((event, emit) async {
       if (event is SendCodeEvent) {
+
         emit(SendCodeLoadingState());
         user = event.user;
         final result = await repository.verifyPhoneNumber(user!.phone);

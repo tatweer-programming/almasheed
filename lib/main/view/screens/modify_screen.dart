@@ -8,6 +8,7 @@ import '../../../authentication/data/models/merchant.dart';
 import '../../../core/error/remote_error.dart';
 import '../../../core/services/dep_injection.dart';
 import '../../../core/utils/constance_manager.dart';
+import '../../../generated/l10n.dart';
 import '../../data/models/product.dart';
 import '../widgets/widgets.dart';
 
@@ -67,9 +68,9 @@ class ModifyProductScreen extends StatelessWidget {
               return AlertDialog(
                 shape: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(5.sp)),
-                content: const Text(
-                  "The product has been modified successfully",
-                  style: TextStyle(
+                content:  Text(
+                  S.of(context).productModified,
+                  style: const TextStyle(
                     fontWeight: FontWeight.w500,
                   ),
                 ),
@@ -100,24 +101,24 @@ class ModifyProductScreen extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           defaultFormField(
-                              controller: nameController, label: "Name"),
+                              controller: nameController, label: S.of(context).name),
                           SizedBox(
                             height: 1.h,
                           ),
                           defaultFormField(
-                              controller: priceController, label: "Price"),
+                              controller: priceController, label: S.of(context).price),
                           SizedBox(
                             height: 1.h,
                           ),
                           defaultFormField(
                               controller: discountController,
-                              label: "Discount"),
+                              label: S.of(context).discount),
                           SizedBox(
                             height: 1.h,
                           ),
                           defaultFormField(
                               controller: descriptionController,
-                              label: "Description"),
+                              label: S.of(context).description),
                           SizedBox(
                             height: 1.h,
                           ),
@@ -125,7 +126,7 @@ class ModifyProductScreen extends StatelessWidget {
                               onPressed: () {
                                 bloc.add(PickImagesEvent());
                               },
-                              text: "Add Image",
+                              text: S.of(context).addImage,
                               height: 6.h),
                           SizedBox(
                             height: 1.h,
@@ -222,7 +223,7 @@ class ModifyProductScreen extends StatelessWidget {
                                 productDescription: descriptionController.text,
                                 merchantName: merchant.companyName)));
                       },
-                      text: "Modify Product",
+                      text: S.of(context).modifyProduct,
                       height: 6.h),
                 ],
               ),

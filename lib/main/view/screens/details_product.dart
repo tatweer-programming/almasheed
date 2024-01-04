@@ -2,7 +2,6 @@ import 'package:carousel_slider/carousel_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sizer/sizer.dart';
-
 import 'package:almasheed/authentication/data/models/customer.dart';
 import 'package:almasheed/authentication/data/models/merchant.dart';
 import 'package:almasheed/core/error/remote_error.dart';
@@ -13,6 +12,7 @@ import 'package:almasheed/core/utils/navigation_manager.dart';
 import 'package:almasheed/main/bloc/main_bloc.dart';
 import 'package:almasheed/main/data/models/product.dart';
 import 'package:almasheed/main/view/widgets/widgets.dart';
+import '../../../generated/l10n.dart';
 import 'modify_screen.dart';
 
 class DetailsProductScreen extends StatelessWidget {
@@ -136,13 +136,13 @@ class DetailsProductScreen extends StatelessWidget {
                         },
                         itemBuilder: (BuildContext context) =>
                             <PopupMenuEntry<String>>[
-                          const PopupMenuItem<String>(
+                           PopupMenuItem<String>(
                             value: 'Edit',
-                            child: Text("Edit"),
+                            child: Text(S.of(context).edit),
                           ),
-                          const PopupMenuItem<String>(
+                           PopupMenuItem<String>(
                             value: 'Delete',
-                            child: Text('Delete'),
+                            child: Text(S.of(context).delete),
                           ),
                         ],
                       ),
@@ -186,7 +186,7 @@ class DetailsProductScreen extends StatelessWidget {
         ),
         SizedBox(height: 1.h),
         Text(
-          "Price ${product.productOldPrice} SAR",
+          "${S.of(context).price} ${product.productOldPrice} ${S.of(context).sar}",
           style: TextStyle(
             fontWeight: FontWeight.w500,
             fontSize: 14.sp,
@@ -195,7 +195,7 @@ class DetailsProductScreen extends StatelessWidget {
         ),
         SizedBox(height: 1.h),
         Text(
-          "Seller : ${product.merchantName}",
+          "${S.of(context).seller} : ${product.merchantName}",
           style: TextStyle(
             fontWeight: FontWeight.w500,
             fontSize: 13.sp,
@@ -206,17 +206,17 @@ class DetailsProductScreen extends StatelessWidget {
           indicatorColor: ColorManager.primary,
           unselectedLabelColor: Colors.grey[600],
           labelColor: ColorManager.primary,
-          tabs: const <Widget>[
-            Tab(child: Text("Description")),
-            Tab(child: Text("Evaluation")),
+          tabs:  <Widget>[
+            Tab(child: Text(S.of(context).description)),
+            Tab(child: Text(S.of(context).evaluation)),
           ],
         ),
         SizedBox(
           height: 30.h,
           child: TabBarView(
             children: [
-              _buildDescriptionTab(product.productDescription),
-              _buildEvaluationTab(),
+              _buildDescriptionTab(product.productDescription, context),
+              _buildEvaluationTab(context),
             ],
           ),
         ),
@@ -224,24 +224,24 @@ class DetailsProductScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildDescriptionTab(String productDescription) {
+  Widget _buildDescriptionTab(String productDescription, BuildContext context) {
     return Center(
       child: SingleChildScrollView(
         physics: const BouncingScrollPhysics(),
         child: Text(
-          productDescription.isEmpty ? "Not Found" : productDescription,
+          productDescription.isEmpty ? S.of(context).notFound : productDescription,
           style: TextStyle(color: Colors.grey[600]),
         ),
       ),
     );
   }
 
-  Widget _buildEvaluationTab() {
+  Widget _buildEvaluationTab(BuildContext context) {
     return Center(
       child: SingleChildScrollView(
         physics: const BouncingScrollPhysics(),
         child: Text(
-          "Not Found",
+          S.of(context).notFound,
           style: TextStyle(color: Colors.grey[600]),
         ),
       ),
@@ -258,7 +258,7 @@ class DetailsProductScreen extends StatelessWidget {
             padding: EdgeInsets.symmetric(horizontal: 6.w),
             child: defaultButton(
               onPressed: () {},
-              text: "Add To Cart",
+              text: S.of(context).addToCart,
             ),
           )
         : const SizedBox();
@@ -290,9 +290,9 @@ class DetailsProductScreen extends StatelessWidget {
       builder: (context) {
         return AlertDialog(
           shape: OutlineInputBorder(borderRadius: BorderRadius.circular(5.sp)),
-          content: const Text(
-            "The product has been deleted successfully",
-            style: TextStyle(fontWeight: FontWeight.w500),
+          content:  Text(
+            S.of(context).productAdded,
+            style: const TextStyle(fontWeight: FontWeight.w500),
           ),
         );
       },

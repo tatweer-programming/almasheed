@@ -1,3 +1,5 @@
+
+
 import 'package:almasheed/authentication/bloc/auth_bloc.dart';
 import 'package:almasheed/authentication/presentation/screens/account_type_screen.dart';
 import 'package:almasheed/authentication/presentation/screens/login_screen.dart';
@@ -8,6 +10,8 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:sizer/sizer.dart';
 
 import '../../core/utils/color_manager.dart';
+import '../../core/utils/font_manager.dart';
+import '../../generated/l10n.dart';
 
 class AccountTypeItem extends StatelessWidget {
   final String type;
@@ -28,13 +32,13 @@ class AccountTypeItem extends StatelessWidget {
         height: 35.w,
         width: 35.w,
         child: Card(
-          color: index == bloc.selectedAccountTypeIndex ? ColorManager.primary : ColorManager.white,
+          color: index == bloc.selectedAccountTypeIndex ? ColorManager.secondary : ColorManager.white,
           elevation: 5,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
             Icon (iconData , size: 40.sp,
-            color: index == bloc.selectedAccountTypeIndex ? ColorManager.white : ColorManager.black,
+            color: ColorManager.black,
 
             ),
               SizedBox(
@@ -47,7 +51,7 @@ class AccountTypeItem extends StatelessWidget {
                       type,
                       style: TextStyle(
                         fontSize: 16.sp,
-                        color: index == bloc.selectedAccountTypeIndex ? ColorManager.white : ColorManager.black,
+                        color: ColorManager.black,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
@@ -73,21 +77,27 @@ class PhoneNumberInput extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        Text("+966",
-            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14.sp)),
         SizedBox(
           width: 5.sp,
         ),
         Expanded(
           child: defaultFormField(
+            prefixIcon: SizedBox(
+              width: 50.sp,
+              child: Align(
+                alignment: AlignmentDirectional.centerStart,
+                child: Text(" +966",
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14.sp)),
+              ),
+            ),
               type: TextInputType.phone,
               validator: (value) {
                 if (value!.isEmpty) {
-                  return 'please enter phone number';
+                  return  S.of(context).enterPhone;
                 }
                 return null;
               },
-              label: "Phone Number",
+              label: S.of(context).phoneNumber,
               controller: controller),
         ),
       ],
@@ -102,6 +112,7 @@ Widget defaultFormField(
         // bool? enabled = true,
         //String? validatorText,
         TextInputType? type,
+          Widget ? prefixIcon,
         //   void Function()? suffixFunction,
         FormFieldValidator? validator,
         // bool obscureText = false,
@@ -112,11 +123,22 @@ Widget defaultFormField(
       cursorColor: ColorManager.primary,
       decoration: InputDecoration(
           isDense: true,
+          errorStyle: const TextStyle(color: ColorManager.white),
+          prefixIcon: prefixIcon ,
+
           // Added this
           contentPadding: EdgeInsets.all(15.sp),
           filled: true,
-          fillColor: ColorManager.white,
-          border: OutlineInputBorder(borderRadius: BorderRadius.circular(5.sp)),
+          fillColor: ColorManager.secondary,
+           enabledBorder: OutlineInputBorder(
+               borderSide: BorderSide.none,
+               borderRadius: BorderRadius.circular(10.sp)),
+          focusedBorder:OutlineInputBorder(
+              borderSide: BorderSide.none,
+              borderRadius: BorderRadius.circular(10.sp)),
+          border: OutlineInputBorder(
+              borderSide: BorderSide.none,
+              borderRadius: BorderRadius.circular(10.sp)),
           labelText: label,
           labelStyle: const TextStyle(
             color: ColorManager.black,
@@ -156,14 +178,17 @@ class TermsAgreementWidget extends StatelessWidget {
     return   Row (
       children: [
         Checkbox(
+            activeColor: ColorManager.white,
+            checkColor: ColorManager.black,
+            focusColor: ColorManager.white,
             value: bloc.agreeToTerms,
             onChanged: (value) {
               bloc.add(ChangeAgreeToTermsStateEvent(
                   state: value!));
             }),
         Text(
-          "I Agree to",
-          style: TextStyle(fontSize: 14.sp),
+          S.of(context).agreeTo,
+          style: TextStyle(fontSize: 14.sp , color: ColorManager.white ),
         ),
         TextButton(
             onPressed: () {
@@ -171,8 +196,9 @@ class TermsAgreementWidget extends StatelessWidget {
                   userType: userType));
             },
             child: Text(
-              "Terms & conditions",
+              S.of(context).termsAndConditions,
               style: TextStyle(
+                color: ColorManager.white,
                 fontSize: 15.sp,
                 decoration: TextDecoration.underline,
               ),
@@ -191,17 +217,20 @@ class RegisterNowWidget extends StatelessWidget {
       child: Row (
         children: [
           Text(
-            "You don't have an account ?",
-            style: TextStyle(fontSize: 12.sp),
+            S.of(context).doNotHaveAccount,
+            style: TextStyle(fontSize: 12.sp,
+
+            color: ColorManager.white),
           ),
           TextButton(
               onPressed: () {
                 context.push( const AccountTypeScreen());
               },
               child: Text(
-                "Register now",
+                S.of(context).registerNow,
                 style: TextStyle(
                   fontSize: 13.sp,
+                  color: ColorManager.white,
                   decoration: TextDecoration.underline,
                 ),
               ))
@@ -221,20 +250,55 @@ class LoginNowWidget extends StatelessWidget {
       child: Row (
         children: [
           Text(
-            "Already have account ?",
-            style: TextStyle(fontSize: 12.sp),
+            S.of(context).alreadyHaveAccount,
+            style: TextStyle(fontSize: 12.sp , color: ColorManager.white),
           ),
           TextButton(
               onPressed: () {
                 context.pushAndRemove( LoginScreen());
               },
               child: Text(
-                "Login now",
+                S.of(context).loginNow,
                 style: TextStyle(
                   fontSize: 13.sp,
+                  color: ColorManager.white,
                   decoration: TextDecoration.underline,
                 ),
               ))
+        ],
+      ),
+    );
+  }
+}
+
+class AuthBackground extends StatelessWidget {
+final String imagePath ;
+final Widget child ;
+  const AuthBackground({super.key, required this.imagePath, required this.child});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container (
+      height: 65.h,
+      alignment: AlignmentDirectional.bottomCenter,
+      decoration: BoxDecoration(
+         // image: DecorationImage(image: AssetImage(imagePath , ) , opacity: 10),
+          color: ColorManager.primary,
+          borderRadius: BorderRadiusDirectional.vertical(
+              top: Radius.circular(120.sp)
+          )
+      ),
+      child: Stack(
+        children: [
+          Align(
+              alignment: AlignmentDirectional.bottomCenter,
+              child:
+          Opacity(opacity: .35,
+
+              child: Image(image: AssetImage(imagePath ,)  , ))
+          ),
+
+          child
         ],
       ),
     );

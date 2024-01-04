@@ -10,6 +10,7 @@ import '../../../authentication/data/models/merchant.dart';
 import '../../../core/services/dep_injection.dart';
 import '../../../core/utils/color_manager.dart';
 import '../../../core/utils/constance_manager.dart';
+import '../../../generated/l10n.dart';
 import '../../bloc/main_bloc.dart';
 
 defaultFormField(
@@ -340,6 +341,7 @@ Widget categoryWidget(
     );
 
 Widget productWidget({
+  required BuildContext context ,
   required Product product,
   required VoidCallback addCardPressed,
   required VoidCallback openProductPressed,
@@ -397,7 +399,7 @@ Widget productWidget({
                         height: 0.5.h,
                       ),
                       Text(
-                        "${product.productOldPrice} SAR",
+                        "${product.productOldPrice} ${S.of(context).sar}",
                         style: TextStyle(
                             fontWeight: FontWeight.w500, fontSize: 12.sp),
                       ),
@@ -408,7 +410,7 @@ Widget productWidget({
                           ? defaultButton(
                           onPressed: addCardPressed,
                           height: 4.h,
-                          text: "Add To Cart")
+                          text: S.of(context).addToCart)
                           : const SizedBox()
                     ],
                   ),
