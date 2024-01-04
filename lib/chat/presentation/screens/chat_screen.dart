@@ -1,38 +1,38 @@
+import 'dart:io';
+
 import 'package:almasheed/chat/bloc/chat_bloc.dart';
 import 'package:almasheed/chat/data/models/message.dart';
 import 'package:almasheed/core/utils/color_manager.dart';
 import 'package:almasheed/core/utils/constance_manager.dart';
-import 'package:audioplayers/audioplayers.dart';
-import 'package:chat_bubbles/bubbles/bubble_normal_audio.dart';
 import 'package:chat_bubbles/bubbles/bubble_normal_image.dart';
 import 'package:chat_bubbles/bubbles/bubble_special_three.dart';
-import 'package:chat_bubbles/message_bars/message_bar.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:dartz/dartz.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sizer/sizer.dart';
 
+import '../../../authentication/data/models/customer.dart';
+
 class ChatScreen extends StatelessWidget {
-  const ChatScreen({
-    super.key,
-  });
+  final String receiverId;
+
+  const ChatScreen({super.key, required this.receiverId});
 
   @override
   Widget build(BuildContext context) {
     Map<String, bool> isPlayingMap = {};
-    print(isPlayingMap);
+    TextEditingController messageController = TextEditingController();
     Stream<List<Message>> messagesStream = const Stream.empty();
     ChatBloc bloc = ChatBloc.get(context)
-      ..add(const GetMessagesEvent(receiverId: "oVtWmHhUWJcVfi7MT1GyVvANHIA2"));
+      ..add(GetMessagesEvent(receiverId: receiverId));
     return BlocConsumer<ChatBloc, ChatState>(
       listener: (context, state) {
+        print(bloc.isPlaying);
         if (state is GetMessagesSuccessState) {
           messagesStream = state.messages;
         }
-        if (state is PlayRecordState) {
-          isPlayingMap[state.voiceNoteUrl] = state.isPlaying;
-        }
-        if (state is CompleteRecordState) {
+        if (state is PlayRecordUrlState) {
           isPlayingMap[state.voiceNoteUrl] = state.isPlaying;
         }
       },
@@ -63,9 +63,8 @@ class ChatScreen extends StatelessWidget {
                                               messages[index].voiceNoteUrl] ??
                                           false,
                                       position: bloc.voiceDuration,
-                                      onSeekChanged: (value) {},
                                       playAudio: () {
-                                        bloc.add(TurnOnRecordEvent(
+                                        bloc.add(TurnOnRecordUrlEvent(
                                             isPlaying: isPlayingMap[
                                                     messages[index]
                                                         .voiceNoteUrl] ??
@@ -91,41 +90,77 @@ class ChatScreen extends StatelessWidget {
                   ],
                 ),
               ),
-              MessageBar(
-                onSend: (message) {
-                  bloc.add(SendMessageEvent(
-                    message: Message(
-                      createdTime: Timestamp.now(),
-                      message: message,
-                      senderId: "oVtWmHhUWJcVfi7MT1GyVvANHIA2",
-                      receiverId: "oVtWmHhUWJcVfi7MT1GyVvANHIA2",
-                    ),
-                  ));
-                },
-                messageBarHitText: bloc.statusText,
-                sendButtonColor: ColorManager.primary,
-                actions: [
-                  InkWell(
-                    child: Icon(
-                      Icons.camera_alt,
-                      color: Colors.black,
-                      size: 22.sp,
-                    ),
-                    onTap: () {
-                      bloc.add(PickImageEvent());
-                      bloc.add(SendMessageEvent(
-                        message: Message(
-                          createdTime: Timestamp.now(),
-                          imageFilePath: bloc.imageFilePath,
-                          senderId: "oVtWmHhUWJcVfi7MT1GyVvANHIA2",
-                          receiverId: "oVtWmHhUWJcVfi7MT1GyVvANHIA2",
+              if (bloc.imageFilePath != null || bloc.voiceNoteFilePath != null)
+                Container(
+                  color: ColorManager.white,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Container(
+                        width: double.infinity,
+                        height: 0.2.h,
+                        color: ColorManager.grey2,
+                      ),
+                      Padding(
+                        padding: EdgeInsets.symmetric(vertical: 1.h),
+                        child: Row(
+                          children: [
+                            if (bloc.imageFilePath != null)
+                              Image.file(
+                                File(bloc.imageFilePath!),
+                                height: 10.h,
+                                width: 40.w,
+                              ),
+                            if (bloc.voiceNoteFilePath != null)
+                              _voiceWidget(
+                                isSender: false,
+                                isPlaying: bloc.isPlaying,
+                                playAudio: () {
+                                  bloc.add(TurnOnRecordFileEvent(
+                                    isPlaying: bloc.isPlaying,
+                                    voiceNoteUrl: bloc.voiceNoteFilePath!,
+                                  ));
+                                },
+                              ),
+                            const Spacer(),
+                            IconButton(
+                              onPressed: () {
+                                bloc.add(RemoveRecordEvent());
+                              },
+                              icon: const Icon(Icons.close),
+                            ),
+                          ],
                         ),
-                      ));
-                    },
+                      ),
+                    ],
                   ),
-                  Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 2.w),
-                    child: GestureDetector(
+                ),
+              Container(
+                padding: EdgeInsets.symmetric(vertical: 2.h, horizontal: 2.w),
+                decoration: BoxDecoration(
+                  color: Colors.grey[300],
+                  border: Border(
+                    top: BorderSide(
+                      color: ColorManager.grey1,
+                    ),
+                  ),
+                ),
+                child: Row(
+                  children: [
+                    InkWell(
+                      child: Icon(
+                        Icons.camera_alt,
+                        color: Colors.black,
+                        size: 22.sp,
+                      ),
+                      onTap: () {
+                        bloc.add(PickImageEvent());
+                      },
+                    ),
+                    SizedBox(
+                      width: 2.w,
+                    ),
+                    GestureDetector(
                       child: Icon(
                         Icons.mic,
                         color: Colors.black,
@@ -136,18 +171,58 @@ class ChatScreen extends StatelessWidget {
                       },
                       onLongPressEnd: (_) {
                         bloc.add(EndRecordingEvent());
-                        bloc.add(SendMessageEvent(
-                          message: Message(
-                            createdTime: Timestamp.now(),
-                            voiceNoteFilePath: bloc.voiceNoteFilePath!,
-                            senderId: "oVtWmHhUWJcVfi7MT1GyVvANHIA2",
-                            receiverId: "oVtWmHhUWJcVfi7MT1GyVvANHIA2",
-                          ),
-                        ));
                       },
                     ),
-                  ),
-                ],
+                    SizedBox(
+                      width: 2.w,
+                    ),
+                    Expanded(
+                      child: TextField(
+                        controller: messageController,
+                        onChanged: (value) {
+                          messageController.text = value;
+                        },
+                        decoration: InputDecoration(
+                          contentPadding: EdgeInsets.symmetric(horizontal: 2.w),
+                          hintText: 'Type a message...',
+                          enabledBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(
+                            25.sp,
+                          )),
+                          focusedBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(
+                            25.sp,
+                          )),
+                        ),
+                      ),
+                    ),
+                    IconButton(
+                      icon: const Icon(
+                        Icons.send,
+                        color: ColorManager.primary,
+                      ),
+                      onPressed: () {
+                        if (messageController.text != "" ||
+                            bloc.voiceNoteFilePath != null ||
+                            bloc.imageFilePath != null) {
+                          bloc.add(RemovePickedImageEvent());
+                          bloc.add(RemoveRecordEvent());
+                          bloc.add(SendMessageEvent(
+                            message: Message(
+                              createdTime: Timestamp.now(),
+                              message: messageController.text,
+                              imageFilePath: bloc.imageFilePath,
+                              voiceNoteFilePath: bloc.voiceNoteFilePath,
+                              senderId:
+                                  (ConstantsManager.appUser as Customer).id,
+                              receiverId: receiverId,
+                            ),
+                          ));
+                        }
+                      },
+                    ),
+                  ],
+                ),
               ),
             ],
           ),
@@ -160,13 +235,11 @@ class ChatScreen extends StatelessWidget {
 Widget messageWidget(
     {required Message message,
     void Function()? playAudio,
-    void Function(double)? onSeekChanged,
     bool? isPlaying,
     double? position}) {
   if (ConstantsManager.appUser!.id == message.senderId) {
     if (message.voiceNoteUrl != null &&
-        playAudio != null &&
-        onSeekChanged != null) {
+        playAudio != null) {
       return _voiceWidget(
           isSender: false, playAudio: playAudio, isPlaying: isPlaying!);
     } else if (message.imageUrl != null) {

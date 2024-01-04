@@ -9,6 +9,15 @@ class ConstantsManager {
   static String? userType;
   static AppUser? appUser = Customer(cartItems: {},
       favorites: [], orders: [], id: "", phone: "");
+  // static AppUser? appUser = Merchant(
+  //     id: "oVtWmHhUWJcVfi7MT1GyVvANHIA2",
+  //     phone: "",
+  //     orders: [],
+  //     companyName: 'Ahmed',
+  //     city: 'Riyadh',
+  //     area: '',
+  //     registrationNumber: '',
+  //     productsIds: []);
   static final List<String> saudiCitiesArabic = [
     'الرياض',
     'جدة',

@@ -1,19 +1,23 @@
 import 'package:almasheed/authentication/presentation/screens/login_screen.dart';
 import 'package:almasheed/chat/bloc/chat_bloc.dart';
-import 'package:almasheed/main/view/screens/main_screen.dart';
+import 'package:almasheed/core/utils/constance_manager.dart';
 import 'package:almasheed/payment/bloc/payment_bloc.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:sizer/sizer.dart';
 import 'authentication/bloc/auth_bloc.dart';
+import 'authentication/presentation/screens/account_type_screen.dart';
+import 'chat/presentation/screens/chat_screen.dart';
 import 'core/local/shared_prefrences.dart';
 import 'core/services/dep_injection.dart';
 import 'core/services/firebase_options.dart';
 import 'core/utils/theme_manager.dart';
 import 'generated/l10n.dart';
 import 'main/bloc/main_bloc.dart';
+import 'main/view/screens/main_screen.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -72,33 +76,3 @@ class Masheed extends StatelessWidget {
     });
   }
 }
-/*
-POST /sms.do?access_token=%3CREQUIRED%3E HTTP/1.1
-Content-Type: application/json
-X-Rapidapi-Key: SIGN-UP-FOR-KEY
-X-Rapidapi-Host: smsapi-com3.p.rapidapi.com
-Host: smsapi-com3.p.rapidapi.com
-Content-Length: 343
-
-{
-  "to": "",
-  "message": "",
-  "from": "",
-  "normalize": "",
-  "group": "",
-  "encoding": "",
-  "flash": "",
-  "test": "",
-  "details": "",
-  "date": "",
-  "date_validate": "",
-  "time_restriction": "follow",
-  "allow_duplicates": "",
-  "idx": "",
-  "check_idx": "",
-  "max_parts": "",
-  "fast": "",
-  "notify_url": "",
-  "format": "json"
-}
- */

@@ -11,8 +11,7 @@ class AddToCartEvent extends PaymentEvent {
   const AddToCartEvent({required this.productId, this.quantity = 1});
 
   @override
-  List<Object?> get props =>
-      [
+  List<Object?> get props => [
         productId,
       ];
 }

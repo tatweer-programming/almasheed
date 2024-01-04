@@ -57,7 +57,7 @@ class MainRemoteDataSource {
           .collection("categories")
           .doc(product.productCategory);
       batch.set(products, product.toJson());
-      batch.set(bestSales, {product.productId.replaceAll(".", "*"): 0});
+      batch.update(bestSales, {product.productId.replaceAll(".", "*"): 0});
       batch.update(categories, {
         "productsIds": FieldValue.arrayUnion([product.productId])
       });

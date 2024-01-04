@@ -1,7 +1,9 @@
+import 'package:almasheed/payment/bloc/payment_bloc.dart';
 import 'package:carousel_slider/carousel_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sizer/sizer.dart';
+
 import 'package:almasheed/authentication/data/models/customer.dart';
 import 'package:almasheed/authentication/data/models/merchant.dart';
 import 'package:almasheed/core/error/remote_error.dart';
@@ -23,9 +25,12 @@ class DetailsProductScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final CarouselController carouselController = CarouselController();
-    final MainBloc bloc = sl();
+    TextEditingController quantityController = TextEditingController();
+    final MainBloc mainBloc = sl();
+    quantityController.text = "1";
+    final PaymentBloc paymentBloc = PaymentBloc();
     return BlocConsumer<MainBloc, MainState>(
-      listener: (context, state) => _handleBlocState(context, bloc, state),
+      listener: (context, state) => _handleBlocState(context, mainBloc, state),
       builder: (context, state) {
         return DefaultTabController(
           initialIndex: 1,
@@ -40,7 +45,7 @@ class DetailsProductScreen extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         _buildCarouselAndHeader(
-                            context, bloc, carouselController),
+                            context, mainBloc, carouselController),
                         SizedBox(height: 2.h),
                         Padding(
                           padding: EdgeInsets.symmetric(horizontal: 6.w),
@@ -50,7 +55,21 @@ class DetailsProductScreen extends StatelessWidget {
                     ),
                   ),
                 ),
-                _buildFooter(context, bloc),
+                _buildFooter(
+                  quantityController: quantityController,
+                  onPressed: () {
+                    if (quantityController.text != "") {
+                      paymentBloc.add(
+                        AddToCartEvent(
+                          productId: product.productId,
+                          quantity: int.parse(quantityController.text),
+                        ),
+                      );
+                    } else {
+                      errorToast(msg: "You must determine quantity");
+                    }
+                  },
+                ),
                 SizedBox(height: 2.h),
               ],
             ),
@@ -229,7 +248,7 @@ class DetailsProductScreen extends StatelessWidget {
       child: SingleChildScrollView(
         physics: const BouncingScrollPhysics(),
         child: Text(
-          productDescription.isEmpty ? S.of(context).notFound : productDescription,
+          productDescription.isEmpty ? "Not Found" : productDescription,
           style: TextStyle(color: Colors.grey[600]),
         ),
       ),
