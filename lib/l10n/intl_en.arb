@@ -76,5 +76,9 @@
   "verify": "verify",
   "welcome": "Welcome",
   "welcomeToAlmasheed": "Welcome to almasheed",
-  "determineQuantity" :"You must determine quantity"
+  "determineQuantity": "You must determine quantity",
+  "codeVerified": "Code Verified Successfully",
+  "userNotFound": "User not found",
+  "codeSent": "Code Sent Successfully",
+  "userCreated": "user created Successfully"
 }

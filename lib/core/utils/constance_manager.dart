@@ -7,8 +7,8 @@ class ConstantsManager {
   // static AppUser? appUser;
   static String? userId;
   static String? userType;
-  static AppUser? appUser = Customer(cartItems: {},
-      favorites: [], orders: [], id: "", phone: "");
+  static AppUser? appUser;
+
   // static AppUser? appUser = Merchant(
   //     id: "oVtWmHhUWJcVfi7MT1GyVvANHIA2",
   //     phone: "",

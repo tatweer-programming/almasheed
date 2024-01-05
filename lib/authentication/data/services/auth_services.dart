@@ -13,7 +13,6 @@ class AuthService {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final FirebaseFirestore _fireStore = FirebaseFirestore.instance;
   static String? verificationID;
-
   static Completer<String> verificationIdCompleter = Completer<String>();
 
   Future<Either<FirebaseAuthException, String>> verifyPhoneNumber(
@@ -21,13 +20,9 @@ class AuthService {
     Completer<Either<FirebaseAuthException, String>> completer =
     Completer<Either<FirebaseAuthException, String>>();
     try {
-
       await _auth.verifyPhoneNumber(
         phoneNumber: phoneNumber,
-        verificationCompleted: (PhoneAuthCredential credential) async {
-          print("a completed ");
-          // يتم إكمال التحقق تلقائيًا في هذا المكان إذا تم استخدام رقم هاتف موثوق به مسبقًا
-        },
+        verificationCompleted: (PhoneAuthCredential credential) async {},
         verificationFailed: (FirebaseAuthException e) {
           print('فشل التحقق ${e.message}');
           completer.complete(Left(e));
@@ -52,11 +47,10 @@ class AuthService {
     return verificationIdCompleter.future;
   }
 
-  Future<Either<FirebaseAuthException, String>> verifyCode(
-      String code, String userType) async {
+  Future<Either<FirebaseAuthException, String>> verifyCode(String code,
+      String userType) async {
     try {
       late String id;
-      print(code);
       final String verificationId = await waitForVerificationID();
 
       final PhoneAuthCredential credential = PhoneAuthProvider.credential(
@@ -75,38 +69,38 @@ class AuthService {
     }
   }
 
-  Future<bool> _isUserExists(
-      String id,
-      String userType,
-      ) async {
+  Future<bool> _isUserExists(String id,
+      String userType,) async {
     late bool isExists;
-    print(")))))))))))))))))))))))))))))))))))))))))))))))))");
-    await _fireStore.collection("${userType}s/").doc(id).get().then((value) {
+    await _fireStore
+        .collection("${userType}s/")
+        .doc(id)
+        .get()
+        .then((value) async {
       isExists = value.data()?["id"] == id;
-
-      print("****************************" + value.reference.path);
+      if (isExists) {
+        AppUser user = AppUser.fromJson(value.data()!, userType);
+        await _saveUser(user, userType);
+      }
     });
     return isExists;
   }
-  Future<Either<FirebaseAuthException, String>> loginByPhone(
-      String phoneNumber , String userType ) async {
-     try {
-       bool exists =
-       await searchUsersByPhoneNumber(phoneNumber, userType);
-       if(exists){
-           return verifyPhoneNumber(phoneNumber);
 
-       }
-       return const Right("NOT_FOUND");
-     }
-         on FirebaseAuthException catch (e){
-       return Left(e);
-         }
-  }
-  Future<Either<FirebaseException, bool>> createUser(AppUser user)
-  async {
+  Future<Either<FirebaseAuthException, String>> loginByPhone(String phoneNumber,
+      String userType) async {
     try {
+      bool exists = await _searchUsersByPhoneNumber(phoneNumber, userType);
+      if (exists) {
+        return await verifyPhoneNumber(phoneNumber);
+      }
+      return const Right("NOT_FOUND");
+    } on FirebaseAuthException catch (e) {
+      return Left(e);
+    }
+  }
 
+  Future<Either<FirebaseException, bool>> createUser(AppUser user) async {
+    try {
       String userType = (user is Customer) ? "customer" : "merchant";
 
       bool isUserExists = await _isUserExists(user.id, userType);
@@ -115,35 +109,42 @@ class AuthService {
           print(isUserExists);
         }
 
-       await _createUser(user, userType).then((value) async {
-         await CacheHelper.saveData(key: "userId", value: user.id);
-         await CacheHelper.saveData(key: "userType", value: userType);
-         ConstantsManager.appUser = user ;
-       });
+        await _createUser(user, userType).then((value) async {
+
+        });
       }
       return Right(isUserExists);
     } on FirebaseException catch (e) {
       return Left(e);
     }
-
   }
 
-  Future _createUser(AppUser user, String userType ) async {
+  Future _createUser(AppUser user, String userType) async {
     try {
       await _fireStore
           .doc("${userType}s/${user.id}")
           .set(user.toJson())
           .then((value) async {
-          });
+        await _saveUser(user, userType);
+      });
     } catch (e) {
       if (kDebugMode) {
         print(e);
       }
     }
   }
-  Future<bool> searchUsersByPhoneNumber(String phone , String userType)async{
-   var res =await _fireStore.collection("${userType}s").
-   where("phone" , isEqualTo: phone).get();
+
+  Future<bool> _searchUsersByPhoneNumber(String phone, String userType) async {
+    var res = await _fireStore
+        .collection("${userType}s")
+        .where("phone", isEqualTo: phone)
+        .get();
     return res.docs.isNotEmpty;
+  }
+
+  Future <void> _saveUser(AppUser user, String userType) async {
+    await CacheHelper.saveData(key: "userId", value: user.id);
+    await CacheHelper.saveData(key: "userType", value: userType);
+    ConstantsManager.appUser = user;
   }
 }

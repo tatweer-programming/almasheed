@@ -76,5 +76,9 @@
   "verify": "التحقق",
   "welcome": "مرحبًا",
   "welcomeToAlmasheed": "مرحبًا بك في المشيد",
-  "determineQuantity" :"يجب تحديد الكمية"
+  "determineQuantity": "يجب تحديد الكمية",
+  "codeVerified": "تم تأكيد الرمز بنجاح",
+  "userNotFound": "المستخدم عير موجود",
+  "codeSent": "تم ارسال الرمز بنجاح",
+  "userCreated": "تم انشاء المستخدم بنجاح"
 }

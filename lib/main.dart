@@ -29,8 +29,9 @@ Future<void> main() async {
   await CacheHelper.init();
   await LocalizationManager.init();
 
-  //  ConstantsManager.userId = await CacheHelper.getData(key: "userId");
-  //  ConstantsManager.userType = await CacheHelper.getData(key: "userType");
+  ConstantsManager.userId = await CacheHelper.getData(key: "userId");
+  ConstantsManager.userType = await CacheHelper.getData(key: "userType");
+
   //  var res = await FirebaseFirestore.instance.collection("customers").
   //  where("phone" , isEqualTo: "+966551234567").get() ;
   // print(res.docs.length);
@@ -42,42 +43,41 @@ class Masheed extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Sizer(
-        builder: (context, orientation, deviceType) {
-          return MultiBlocProvider(
-              providers: [
-                BlocProvider<MainBloc>(
-                    create: (BuildContext context) =>
-                    sl()
-                      ..add(GetProductsEvent())..add(GetMerchantsEvent())),
-                BlocProvider<AuthBloc>(
-                    create: (BuildContext context) => AuthBloc()),
-                BlocProvider<PaymentBloc>(
-                    create: (BuildContext context) => PaymentBloc()),
-                BlocProvider<ChatBloc>(
-                    create: (BuildContext context) => ChatBloc(ChatInitial()))
-              ],
-              child: BlocBuilder<MainBloc, MainState>(
-                builder: (context, state) {
-                  return MaterialApp(
-                    localizationsDelegates: const [
-                      S.delegate,
-                      GlobalMaterialLocalizations.delegate,
-                      GlobalWidgetsLocalizations.delegate,
-                      GlobalCupertinoLocalizations.delegate,
-                    ],
-                    supportedLocales: S.delegate.supportedLocales,
-                    title: 'Al Masheed',
-                    locale: LocalizationManager.getCurrentLocale(),
-                    theme: getAppTheme(),
-                    home: const MainScreen(),
-                    // home: ConstantsManager.userType != null &&
-                    //         ConstantsManager.userId != null
-                    //     ? const ChatScreen()
-                    //     : const LoginScreen(),
-                  );
-                },
-              ));
-        });
+    return Sizer(builder: (context, orientation, deviceType) {
+      return MultiBlocProvider(
+          providers: [
+            BlocProvider<MainBloc>(
+                create: (BuildContext context) => sl()
+                  ..add(GetProductsEvent())
+                  ..add(GetMerchantsEvent())),
+            BlocProvider<AuthBloc>(
+                create: (BuildContext context) => AuthBloc()),
+            BlocProvider<PaymentBloc>(
+                create: (BuildContext context) => PaymentBloc()),
+            BlocProvider<ChatBloc>(
+                create: (BuildContext context) => ChatBloc(ChatInitial()))
+          ],
+          child: BlocBuilder<MainBloc, MainState>(
+            builder: (context, state) {
+              return MaterialApp(
+                localizationsDelegates: const [
+                  S.delegate,
+                  GlobalMaterialLocalizations.delegate,
+                  GlobalWidgetsLocalizations.delegate,
+                  GlobalCupertinoLocalizations.delegate,
+                ],
+                supportedLocales: S.delegate.supportedLocales,
+                title: 'Al Masheed',
+                locale: LocalizationManager.getCurrentLocale(),
+                theme: getAppTheme(),
+                // home: const MainScreen(),
+                home: ConstantsManager.userType != null &&
+                        ConstantsManager.userId != null
+                    ? const MainScreen()
+                    : const LoginScreen(),
+              );
+            },
+          ));
+    });
   }
 }

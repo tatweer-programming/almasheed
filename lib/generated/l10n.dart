@@ -821,6 +821,46 @@ class S {
       args: [],
     );
   }
+
+  /// `Code Verified Successfully`
+  String get codeVerified {
+    return Intl.message(
+      'Code Verified Successfully',
+      name: 'codeVerified',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `User not found`
+  String get userNotFound {
+    return Intl.message(
+      'User not found',
+      name: 'userNotFound',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Code Sent Successfully`
+  String get codeSent {
+    return Intl.message(
+      'Code Sent Successfully',
+      name: 'codeSent',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `user created Successfully`
+  String get userCreated {
+    return Intl.message(
+      'user created Successfully',
+      name: 'userCreated',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {
