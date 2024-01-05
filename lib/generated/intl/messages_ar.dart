@@ -46,6 +46,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "customer": MessageLookupByLibrary.simpleMessage("عميل"),
         "delete": MessageLookupByLibrary.simpleMessage("حذف"),
         "description": MessageLookupByLibrary.simpleMessage("الوصف"),
+        "determineQuantity":
+            MessageLookupByLibrary.simpleMessage("يجب تحديد الكمية"),
         "didNotReceiveCode":
             MessageLookupByLibrary.simpleMessage("لم تستلم الرمز؟"),
         "discount": MessageLookupByLibrary.simpleMessage("الخصم"),
@@ -104,6 +106,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "productModified":
             MessageLookupByLibrary.simpleMessage("تم تعديل المنتج بنجاح"),
         "profile": MessageLookupByLibrary.simpleMessage("الملف الشخصي"),
+        "quantity": MessageLookupByLibrary.simpleMessage("الكمية"),
         "reSend": MessageLookupByLibrary.simpleMessage("إعادة الإرسال"),
         "registerNow": MessageLookupByLibrary.simpleMessage("سجل الآن"),
         "registrationNumber":

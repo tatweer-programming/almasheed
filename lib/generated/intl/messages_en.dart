@@ -46,6 +46,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "customer": MessageLookupByLibrary.simpleMessage("Customer"),
         "delete": MessageLookupByLibrary.simpleMessage("Delete"),
         "description": MessageLookupByLibrary.simpleMessage("Description"),
+        "determineQuantity":
+            MessageLookupByLibrary.simpleMessage("You must determine quantity"),
         "didNotReceiveCode":
             MessageLookupByLibrary.simpleMessage("Didn\'t receive the code?"),
         "discount": MessageLookupByLibrary.simpleMessage("Discount"),
@@ -107,6 +109,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "productModified": MessageLookupByLibrary.simpleMessage(
             "The product has been modified successfully"),
         "profile": MessageLookupByLibrary.simpleMessage("Profile"),
+        "quantity": MessageLookupByLibrary.simpleMessage("Quantity"),
         "reSend": MessageLookupByLibrary.simpleMessage("RESEND"),
         "registerNow": MessageLookupByLibrary.simpleMessage("Register now"),
         "registrationNumber":

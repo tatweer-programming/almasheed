@@ -3,7 +3,6 @@ import 'package:carousel_slider/carousel_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sizer/sizer.dart';
-
 import 'package:almasheed/authentication/data/models/customer.dart';
 import 'package:almasheed/authentication/data/models/merchant.dart';
 import 'package:almasheed/core/error/remote_error.dart';
@@ -47,7 +46,7 @@ class DetailsProductScreen extends StatelessWidget {
                         _buildCarouselAndHeader(
                             context, mainBloc, carouselController),
                         SizedBox(height: 2.h),
-                        _buildAddtoCart(
+                        _buildAddToCart(
                           quantityController: quantityController,
                           onPressed: () {
                             if (quantityController.text != "") {
@@ -58,7 +57,7 @@ class DetailsProductScreen extends StatelessWidget {
                                 ),
                               );
                             } else {
-                              errorToast(msg: "You must determine quantity");
+                              errorToast(msg: S.of(context).determineQuantity);
                             }
                           },
                           context: context,
@@ -69,7 +68,7 @@ class DetailsProductScreen extends StatelessWidget {
                           child: Center(
                             child: Text(
                               product.productDescription.isEmpty
-                                  ? "Not Found"
+                                  ? S.of(context).notFound
                                   : product.productDescription,
                               style:
                                   const TextStyle(color: ColorManager.primary),
@@ -268,7 +267,7 @@ class DetailsProductScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildAddtoCart(
+  Widget _buildAddToCart(
       {required BuildContext context,
       required VoidCallback onPressed,
       required TextEditingController quantityController}) {
@@ -283,7 +282,7 @@ class DetailsProductScreen extends StatelessWidget {
                   child: TextFormField(
                     textAlign: TextAlign.center,
                     decoration: InputDecoration(
-                        hintText: 'Quantity',
+                        hintText: S.of(context).quantity,
                         hintStyle: TextStyle(
                           fontSize: 8.sp,
                         ),

@@ -1,5 +1,6 @@
 import 'package:almasheed/authentication/data/models/customer.dart';
 import 'package:almasheed/core/utils/constance_manager.dart';
+import 'package:almasheed/core/utils/localization_manager.dart';
 import 'package:almasheed/core/utils/navigation_manager.dart';
 import 'package:almasheed/main/bloc/main_bloc.dart';
 import 'package:almasheed/main/data/models/product.dart';
@@ -26,8 +27,8 @@ class CartScreen extends StatelessWidget {
     return Scaffold(
         appBar: AppBar(
           title:  InkWell(
-              onTap: (){
-                S.load(Locale("en"));
+              onTap: () async {
+               mainBloc.add( ChangeLocaleEvent(LocalizationManager.currentLocale == 0 ? 1 : 0));
 
               },
               child: Text(S.of(context).cart)),

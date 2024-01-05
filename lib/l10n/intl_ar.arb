@@ -23,6 +23,7 @@
   "discount": "الخصم",
   "doNotHaveAccount": "ليس لديك حساب؟",
   "edit": "تعديل",
+  "enterAllCode": "يجب أن تقوم بإدخال جميع أكواد الرسائل النصية (SMS)",
   "enterArea": "الرجاء إدخال اسم المنطقة",
   "enterCity": "الرجاء إدخال اسم المدينة",
   "enterCompanyName": "من فضلك ادخل اسم الشركة",
@@ -31,6 +32,7 @@
   "enterPrice": "الرجاء إدخال السعر",
   "enterRegistration": "الرجاء إدخال رقم التسجيل",
   "enterSelectedCategory": "الرجاء تحديد فئة",
+  "enterSentCode": "أدخل الرمز المرسل الى",
   "enterTheCodeSentTo": "أدخل الكود المرسل إلى",
   "enterValidDiscount": "الرجاء إدخال خصم صالح من 0% إلى 100%",
   "evaluation": "التقييم",
@@ -57,6 +59,7 @@
   "productCategory": "فئة المنتج",
   "productModified": "تم تعديل المنتج بنجاح",
   "profile": "الملف الشخصي",
+  "quantity": "الكمية",
   "reSend": "إعادة الإرسال",
   "registerNow": "سجل الآن",
   "registrationNumber": "رقم التسجيل",
@@ -73,6 +76,5 @@
   "verify": "التحقق",
   "welcome": "مرحبًا",
   "welcomeToAlmasheed": "مرحبًا بك في المشيد",
-  "enterSentCode" : "أدخل الرمز المرسل الى",
-  "enterAllCode": "يجب أن تقوم بإدخال جميع أكواد الرسائل النصية (SMS)"
+  "determineQuantity" :"يجب تحديد الكمية"
 }

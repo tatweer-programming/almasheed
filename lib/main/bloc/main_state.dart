@@ -348,3 +348,10 @@ class SelectEditProductState extends MainState {
   @override
   List<Object> get props => [product];
 }
+
+class ChangeLocaleState extends MainState {
+  final int index ;
+  const ChangeLocaleState(this.index);
+  @override
+  List<Object?> get props => [index];
+}

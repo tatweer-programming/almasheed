@@ -1,6 +1,7 @@
 import 'package:almasheed/authentication/presentation/screens/login_screen.dart';
 import 'package:almasheed/chat/bloc/chat_bloc.dart';
 import 'package:almasheed/core/utils/constance_manager.dart';
+import 'package:almasheed/core/utils/localization_manager.dart';
 import 'package:almasheed/payment/bloc/payment_bloc.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -26,13 +27,13 @@ Future<void> main() async {
   );
   ServiceLocator().init();
   await CacheHelper.init();
+  await LocalizationManager.init();
 
-
- //  ConstantsManager.userId = await CacheHelper.getData(key: "userId");
- //  ConstantsManager.userType = await CacheHelper.getData(key: "userType");
- //  var res = await FirebaseFirestore.instance.collection("customers").
- //  where("phone" , isEqualTo: "+966551234567").get() ;
- // print(res.docs.length);
+  //  ConstantsManager.userId = await CacheHelper.getData(key: "userId");
+  //  ConstantsManager.userType = await CacheHelper.getData(key: "userType");
+  //  var res = await FirebaseFirestore.instance.collection("customers").
+  //  where("phone" , isEqualTo: "+966551234567").get() ;
+  // print(res.docs.length);
   runApp(const Masheed());
 }
 
@@ -43,36 +44,40 @@ class Masheed extends StatelessWidget {
   Widget build(BuildContext context) {
     return Sizer(
         builder: (context, orientation, deviceType) {
-      return MultiBlocProvider(
-          providers: [
-            BlocProvider<MainBloc>(
-                create: (BuildContext context) => sl()
-                  ..add(GetProductsEvent())
-                  ..add(GetMerchantsEvent())),
-            BlocProvider<AuthBloc>(
-                create: (BuildContext context) => AuthBloc()),
-            BlocProvider<PaymentBloc>(
-                create: (BuildContext context) => PaymentBloc()),
-            BlocProvider<ChatBloc>(
-                create: (BuildContext context) => ChatBloc(ChatInitial()))
-          ],
-          child: MaterialApp(
-            localizationsDelegates: const [
-              S.delegate,
-              GlobalMaterialLocalizations.delegate,
-              GlobalWidgetsLocalizations.delegate,
-              GlobalCupertinoLocalizations.delegate,
-            ],
-            supportedLocales: S.delegate.supportedLocales,
-            title: 'Al Masheed',
-            locale: Locale("ar"),
-            theme: getAppTheme(),
-            home:  const MainScreen(),
-            // home: ConstantsManager.userType != null &&
-            //         ConstantsManager.userId != null
-            //     ? const ChatScreen()
-            //     : const LoginScreen(),
-          ));
-    });
+          return MultiBlocProvider(
+              providers: [
+                BlocProvider<MainBloc>(
+                    create: (BuildContext context) =>
+                    sl()
+                      ..add(GetProductsEvent())..add(GetMerchantsEvent())),
+                BlocProvider<AuthBloc>(
+                    create: (BuildContext context) => AuthBloc()),
+                BlocProvider<PaymentBloc>(
+                    create: (BuildContext context) => PaymentBloc()),
+                BlocProvider<ChatBloc>(
+                    create: (BuildContext context) => ChatBloc(ChatInitial()))
+              ],
+              child: BlocBuilder<MainBloc, MainState>(
+                builder: (context, state) {
+                  return MaterialApp(
+                    localizationsDelegates: const [
+                      S.delegate,
+                      GlobalMaterialLocalizations.delegate,
+                      GlobalWidgetsLocalizations.delegate,
+                      GlobalCupertinoLocalizations.delegate,
+                    ],
+                    supportedLocales: S.delegate.supportedLocales,
+                    title: 'Al Masheed',
+                    locale: LocalizationManager.getCurrentLocale(),
+                    theme: getAppTheme(),
+                    home: const MainScreen(),
+                    // home: ConstantsManager.userType != null &&
+                    //         ConstantsManager.userId != null
+                    //     ? const ChatScreen()
+                    //     : const LoginScreen(),
+                  );
+                },
+              ));
+        });
   }
 }

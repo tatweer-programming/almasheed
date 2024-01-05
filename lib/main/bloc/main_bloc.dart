@@ -1,5 +1,6 @@
 import 'package:almasheed/authentication/presentation/components.dart';
 import 'package:almasheed/core/error/remote_error.dart';
+import 'package:almasheed/core/utils/localization_manager.dart';
 import 'package:almasheed/main/data/models/category.dart';
 import 'package:almasheed/main/data/models/product.dart';
 import 'package:almasheed/main/data/repositories/main_repository.dart';
@@ -235,6 +236,9 @@ class MainBloc extends Bloc<MainEvent, MainState> {
       } else if (event is ChangeShowingProductsEvent) {
         event.isHorizontal = !event.isHorizontal;
         emit(ChangeShowingProductsState(isHorizontal: event.isHorizontal));
+      }else if (event is ChangeLocaleEvent){
+       await LocalizationManager.setLocale(event.index);
+       emit(ChangeLocaleState(event.index));
       }
     });
   }
@@ -250,4 +254,6 @@ class MainBloc extends Bloc<MainEvent, MainState> {
     }
     return favorites;
   }
+
+
 }
