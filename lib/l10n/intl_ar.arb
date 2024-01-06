@@ -10,7 +10,7 @@
   "bestSales": "أفضل المبيعات",
   "cancel": "إلغاء",
   "cart": "السلة",
-  "categories": "الفئات",
+  "categories": "الأقسام",
   "categoryAdded": "تمت إضافة الفئة بنجاح",
   "chooseAccountType": "يرجى اختيار نوع الحساب",
   "city": "المدينة",
@@ -81,4 +81,5 @@
   "userNotFound": "المستخدم عير موجود",
   "codeSent": "تم ارسال الرمز بنجاح",
   "userCreated": "تم انشاء المستخدم بنجاح"
+  "favourites": "المفضلة"
 }

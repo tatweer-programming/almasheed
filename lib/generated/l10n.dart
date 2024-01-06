@@ -169,6 +169,15 @@ class S {
       args: [],
     );
   }
+  /// `Favourites`
+  String get favourites {
+    return Intl.message(
+      'Favourites',
+      name: 'favourites',
+      desc: '',
+      args: [],
+    );
+  }
 
   /// `The Category has been added successfully`
   String get categoryAdded {
@@ -641,7 +650,6 @@ class S {
       args: [],
     );
   }
-
   /// `Quantity`
   String get quantity {
     return Intl.message(

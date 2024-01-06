@@ -94,7 +94,7 @@ class HomePageScreen extends StatelessWidget {
           alignment: Alignment.bottomCenter,
           children: [
             ClipPath(
-              clipper: CurveClipper1(18.h),
+              clipper: HalfCircleCurve(18.h),
               child: Container(
                 height: 35.h,
                 color: ColorManager.primary,
@@ -138,9 +138,9 @@ class HomePageScreen extends StatelessWidget {
               ),
             ),
             ClipPath(
-              clipper: CurveClipper1(13.h),
+              clipper: HalfCircleCurve(13.h),
               child: ClipPath(
-                clipper: CurveClipper2(),
+                clipper: RainBowCurve(),
                 child: Container(
                   height: 15.h,
                   color: ColorManager.primary,
@@ -149,7 +149,7 @@ class HomePageScreen extends StatelessWidget {
             )
           ],
         ),
-        CircleAvatar(
+        const CircleAvatar(
           radius: 50,
           backgroundColor: ColorManager.grey2,
           backgroundImage: AssetImage("assets/images/building_1.png"),
@@ -229,30 +229,8 @@ class HomePageScreen extends StatelessWidget {
   }
 }
 
-class CurveClipper1 extends CustomClipper<Path> {
-  final double height;
 
-  CurveClipper1(this.height);
-
-  @override
-  Path getClip(Size size) {
-    Path path = Path();
-    path
-      ..lineTo(0, size.height - height )
-      ..quadraticBezierTo(
-          size.width / 2, size.height, size.width, size.height - height)
-      ..lineTo(size.width, 0)
-      ..close();
-    return path;
-  }
-
-  @override
-  bool shouldReclip(covariant CustomClipper<Path> oldClipper) {
-    return true;
-  }
-}
-
-class CurveClipper2 extends CustomClipper<Path> {
+class RainBowCurve extends CustomClipper<Path> {
   @override
   Path getClip(Size size) {
     Path path = Path();

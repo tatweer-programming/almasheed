@@ -70,11 +70,11 @@ class Masheed extends StatelessWidget {
                 title: 'Al Masheed',
                 locale: LocalizationManager.getCurrentLocale(),
                 theme: getAppTheme(),
-                // home: const MainScreen(),
-                home: ConstantsManager.userType != null &&
-                        ConstantsManager.userId != null
-                    ? const MainScreen()
-                    : const LoginScreen(),
+                home: const MainScreen(),
+                // home: ConstantsManager.userType != null &&
+                //         ConstantsManager.userId != null
+                //     ? const MainScreen()
+                //     : const LoginScreen(),
               );
             },
           ));

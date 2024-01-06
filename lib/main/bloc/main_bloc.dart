@@ -13,6 +13,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
 import '../../authentication/data/models/merchant.dart';
 import '../../core/services/dep_injection.dart';
+import '../view/screens/favourite_screen.dart';
 import '../view/screens/home_page_screen.dart';
 
 part 'main_event.dart';
@@ -38,6 +39,8 @@ class MainBloc extends Bloc<MainEvent, MainState> {
   List<Widget> pages = [
     const HomePageScreen(),
     const ProfileScreen(),
+    const FavouriteScreen(),
+    const ProfileScreen(),
     const SupportScreen(),
   ];
 
@@ -56,15 +59,14 @@ class MainBloc extends Bloc<MainEvent, MainState> {
           emit(GetProductsErrorState(l));
         }, (r) {
           products = r;
-          products.sort((a, b) =>
-              DateTime.parse(a.productId)
-                  .compareTo(DateTime.parse(b.productId)));
+          products.sort((a, b) => DateTime.parse(a.productId)
+              .compareTo(DateTime.parse(b.productId)));
           emit(GetProductsSuccessfullyState());
         });
       } else if (event is SetProductEvent) {
         emit(SetProductLoadingState());
         var result =
-        await MainRepository(sl()).setProduct(product: event.product);
+            await MainRepository(sl()).setProduct(product: event.product);
         result.fold((l) {
           emit(SetProductErrorState(l));
         }, (r) {
@@ -73,7 +75,7 @@ class MainBloc extends Bloc<MainEvent, MainState> {
       } else if (event is UpdateProductEvent) {
         emit(UpdateProductLoadingState());
         var result =
-        await MainRepository(sl()).modifyProduct(product: event.product);
+            await MainRepository(sl()).modifyProduct(product: event.product);
         result.fold((l) {
           emit(UpdateProductErrorState(l));
         }, (r) {
@@ -82,7 +84,7 @@ class MainBloc extends Bloc<MainEvent, MainState> {
       } else if (event is SetCategoryEvent) {
         emit(SetCategoryLoadingState());
         var result =
-        await MainRepository(sl()).setCategory(category: event.category);
+            await MainRepository(sl()).setCategory(category: event.category);
         result.fold((l) {
           emit(SetCategoryErrorState(l));
         }, (r) {
@@ -91,7 +93,7 @@ class MainBloc extends Bloc<MainEvent, MainState> {
       } else if (event is DeleteProductEvent) {
         emit(DeleteProductLoadingState());
         var result =
-        await MainRepository(sl()).deleteProduct(product: event.product);
+            await MainRepository(sl()).deleteProduct(product: event.product);
         result.fold((l) {
           emit(DeleteProductErrorState(l));
         }, (r) {
@@ -142,7 +144,7 @@ class MainBloc extends Bloc<MainEvent, MainState> {
           for (Category category in categories) {
             category.products = products
                 .where((product) =>
-                category.productsIds.contains(product.productId))
+                    category.productsIds.contains(product.productId))
                 .toList();
           }
           emit(GetCategoriesSuccessfullyState());
@@ -190,12 +192,12 @@ class MainBloc extends Bloc<MainEvent, MainState> {
         } else if (event.type == "Best Sales") {
           sortedProducts = event.products
               .where((product) =>
-              bestSales.map((e) => e.productId).contains(product.productId))
+                  bestSales.map((e) => e.productId).contains(product.productId))
               .toList();
         } else if (event.type == "Offers") {
           sortedProducts = event.products
               .where((product) =>
-              offers.map((e) => e.productId).contains(product.productId))
+                  offers.map((e) => e.productId).contains(product.productId))
               .toList();
         }
         emit(SortProductsState(products: sortedProducts));
@@ -254,6 +256,4 @@ class MainBloc extends Bloc<MainEvent, MainState> {
     }
     return favorites;
   }
-
-
 }

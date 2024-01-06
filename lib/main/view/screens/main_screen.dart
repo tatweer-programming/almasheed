@@ -4,7 +4,6 @@ import 'package:almasheed/core/utils/constance_manager.dart';
 import 'package:almasheed/core/utils/navigation_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:responsive_navigation_bar/responsive_navigation_bar.dart';
 import '../../../authentication/presentation/components.dart';
 import '../../../core/error/remote_error.dart';
 import '../../../core/services/dep_injection.dart';
@@ -34,32 +33,42 @@ class MainScreen extends StatelessWidget {
       },
       builder: (context, state) {
         return Scaffold(
-          bottomNavigationBar: ResponsiveNavigationBar(
-            navigationBarButtons: [
-              NavigationBarButton(
-                  text: S.of(context).home,
-                  icon: Icons.home_outlined,
-                  backgroundColor: ColorManager.primary,
-                  textColor: ColorManager.white),
-              NavigationBarButton(
-                  text: S.of(context).profile,
-                  icon: Icons.person,
-                  backgroundColor: ColorManager.primary,
-                  textColor: ColorManager.white),
-              NavigationBarButton(
-                  text: S.of(context).support,
-                  icon: Icons.support,
-                  backgroundColor: ColorManager.primary,
-                  textColor: ColorManager.white),
-            ],
-            onTabChange: (index) {
+          bottomNavigationBar: BottomNavigationBar(
+            currentIndex: bloc.pageIndex,
+            selectedItemColor: ColorManager.white,
+            unselectedItemColor: ColorManager.grey2,
+            backgroundColor: ColorManager.primary,
+            onTap: (index) {
               bloc.add(ChangeBottomNavEvent(index: index));
             },
-            activeIconColor: ColorManager.white,
-            backgroundColor: ColorManager.grey1,
-            selectedIndex: bloc.pageIndex,
-            padding: EdgeInsets.zero,
-            inactiveIconColor: Colors.black,
+            items: [
+              BottomNavigationBarItem(
+                  label: S.of(context).home,
+                  icon: const Icon(
+                    Icons.home_outlined,
+                  )),
+              BottomNavigationBarItem(
+                  label: S.of(context).categories,
+                  icon: const Icon(
+                    Icons.category_outlined,
+                  )),
+              BottomNavigationBarItem(
+                  label: S.of(context).favourites,
+                  icon: const Icon(
+                    Icons.favorite_outline_rounded,
+                  )),
+              BottomNavigationBarItem(
+                  label: S.of(context).profile,
+                  icon: const Icon(
+                    Icons.person,
+                  )),
+
+              BottomNavigationBarItem(
+                  label: S.of(context).support,
+                  icon: const Icon(
+                    Icons.support,
+                  )),
+            ],
           ),
           floatingActionButton: ConstantsManager.appUser is Merchant
               ? FloatingActionButton(

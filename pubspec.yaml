@@ -40,7 +40,6 @@ dependencies:
   equatable:
   sizer:
   shared_preferences:
-  responsive_navigation_bar:
   carousel_slider:
   pin_code_fields:
   fluttertoast: ^8.2.4

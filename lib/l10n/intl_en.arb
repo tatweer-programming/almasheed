@@ -80,5 +80,6 @@
   "codeVerified": "Code Verified Successfully",
   "userNotFound": "User not found",
   "codeSent": "Code Sent Successfully",
-  "userCreated": "user created Successfully"
+  "userCreated": "user created Successfully",
+  "favourites": "Favourites"
 }

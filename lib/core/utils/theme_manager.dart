@@ -66,6 +66,9 @@ ThemeData getAppTheme() {
           brightness: Brightness.light,
         ),
       ),
+      bottomNavigationBarTheme: const BottomNavigationBarThemeData(
+        type: BottomNavigationBarType.fixed, // Fixed
+      ),
       inputDecorationTheme: const InputDecorationTheme(
         labelStyle: TextStyle(
           color: Color(0xdd000000),

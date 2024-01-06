@@ -7,17 +7,16 @@ class ConstantsManager {
   // static AppUser? appUser;
   static String? userId;
   static String? userType;
-  static AppUser? appUser;
 
-  // static AppUser? appUser = Merchant(
-  //     id: "oVtWmHhUWJcVfi7MT1GyVvANHIA2",
-  //     phone: "",
-  //     orders: [],
-  //     companyName: 'Ahmed',
-  //     city: 'Riyadh',
-  //     area: '',
-  //     registrationNumber: '',
-  //     productsIds: []);
+  // static AppUser? appUser;
+
+  static AppUser? appUser = Customer(
+    id: "oVtWmHhUWJcVfi7MT1GyVvANHIA2",
+    phone: "",
+    orders: [],
+    cartItems: {},
+    favorites: [],
+  );
   static final List<String> saudiCitiesArabic = [
     'الرياض',
     'جدة',
@@ -62,7 +61,7 @@ class ConstantsManager {
     'المزاحمية',
     'المويه',
   ];
-  static List<String> saudiCitiesEnglish = [
+  static final List<String> saudiCitiesEnglish = [
     'Riyadh',
     'Jeddah',
     'Mecca',

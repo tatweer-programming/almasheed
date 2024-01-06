@@ -122,20 +122,25 @@ Widget searchProductDropdownBuilder(
         return DropdownMenuEntry<Product>(
           value: product,
           label: product.productName,
-          leadingIcon: Container(
-            clipBehavior: Clip.antiAliasWithSaveLayer,
-            width: 15.w,
-            height: 6.h,
-            decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(5.sp),
-                image: product.productsImagesUrl!.isNotEmpty
-                    ? DecorationImage(
-                        fit: BoxFit.cover,
-                        image: NetworkImage(
-                          product.productsImagesUrl!.first,
-                        ),
-                      )
-                    : null),
+          leadingIcon: Column(
+            children: [
+              Container(
+                clipBehavior: Clip.antiAliasWithSaveLayer,
+                width: 15.w,
+                height: 6.h,
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(5.sp),
+                    image: product.productsImagesUrl!.isNotEmpty
+                        ? DecorationImage(
+                            fit: BoxFit.cover,
+                            image: NetworkImage(
+                              product.productsImagesUrl!.first,
+                            ),
+                          )
+                        : null),
+              ),
+              SizedBox(height: 1.h,)
+            ],
           ),
         );
       },
@@ -242,7 +247,7 @@ Widget indicator(
             decoration: BoxDecoration(
                 shape: BoxShape.circle,
                 color: current != entry.key
-                    ? Color(0xfff5ebe0)
+                    ? ColorManager.secondary
                     : ColorManager.primary),
           ),
         );
@@ -253,7 +258,7 @@ Widget textContainerWidget(String text) => Container(
     width: double.infinity,
     height: 7.h,
     decoration: BoxDecoration(
-        color: const Color(0xfff5ebe0),
+        color: ColorManager.secondary,
         borderRadius: BorderRadiusDirectional.circular(10.sp)),
     child: Padding(
       padding: EdgeInsets.all(10.sp),
@@ -369,7 +374,7 @@ Widget productVerticalWidget({
       child: Stack(
         children: [
           Container(
-            width: 42.w,
+            width: 44.w,
             clipBehavior: Clip.antiAliasWithSaveLayer,
             decoration: BoxDecoration(
                 color: ColorManager.white,
@@ -609,4 +614,26 @@ void errorToast({
     textColor: ColorManager.white,
     toastLength: Toast.LENGTH_SHORT,
   );
+}
+class HalfCircleCurve extends CustomClipper<Path> {
+  final double height;
+
+  HalfCircleCurve(this.height);
+
+  @override
+  Path getClip(Size size) {
+    Path path = Path();
+    path
+      ..lineTo(0, size.height - height )
+      ..quadraticBezierTo(
+          size.width / 2, size.height, size.width, size.height - height)
+      ..lineTo(size.width, 0)
+      ..close();
+    return path;
+  }
+
+  @override
+  bool shouldReclip(covariant CustomClipper<Path> oldClipper) {
+    return true;
+  }
 }

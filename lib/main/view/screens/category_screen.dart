@@ -48,7 +48,7 @@ class CategoryScreen extends StatelessWidget {
           child: Scaffold(
             body: SingleChildScrollView(
               child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   _buildAppBar(context, mainBloc),
                   SizedBox(
@@ -367,7 +367,7 @@ class CategoryScreen extends StatelessWidget {
     required TextEditingController quantityController,
   }) {
     return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 4.w, vertical: 2.h),
+      padding: EdgeInsets.symmetric(horizontal: 2.w, vertical: 2.h),
       child: Wrap(
         direction: Axis.horizontal,
         children: mainBloc.sortedProducts.map((product) {

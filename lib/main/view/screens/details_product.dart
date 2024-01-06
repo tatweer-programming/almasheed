@@ -121,7 +121,7 @@ class DetailsProductScreen extends StatelessWidget {
               Column(
                 children: [
                   Container(
-                    color: ColorManager.grey1,
+                    color: ColorManager.white,
                     child: defaultCarousel(
                       height: 45.h,
                       bloc: bloc,
@@ -130,7 +130,7 @@ class DetailsProductScreen extends StatelessWidget {
                     ),
                   ),
                   SizedBox(
-                    height: 20.h,
+                    height: 15.h,
                   ),
                 ],
               ),
@@ -191,7 +191,7 @@ class DetailsProductScreen extends StatelessWidget {
             ),
             child: Container(
               width: 80.w,
-              height: 30.h,
+              // height: 30.h,
               decoration: BoxDecoration(
                   color: ColorManager.white,
                   borderRadius: BorderRadiusDirectional.circular(20.sp)),
@@ -229,7 +229,7 @@ class DetailsProductScreen extends StatelessWidget {
                         children: [
                           Expanded(
                             child: iconContainer(
-                              color:ColorManager.white,
+                              color: ColorManager.white,
                               padding: 5.sp,
                               size: 20.sp,
                               onPressed: () {
@@ -240,18 +240,18 @@ class DetailsProductScreen extends StatelessWidget {
                                   ),
                                 );
                               },
-                              icon: customer!.favorites.contains(product.productId)
+                              icon: customer!.favorites
+                                      .contains(product.productId)
                                   ? Icons.favorite_sharp
                                   : Icons.favorite_border,
                             ),
                           ),
                           Expanded(
                             child: iconContainer(
-                              color:ColorManager.white,
+                              color: ColorManager.white,
                               padding: 5.sp,
                               size: 20.sp,
-                              onPressed: () {
-                              },
+                              onPressed: () {},
                               icon: Icons.share_outlined,
                             ),
                           ),
