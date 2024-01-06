@@ -304,3 +304,45 @@ final Widget child ;
     );
   }
 }
+
+class ProfileItemBuilder extends StatelessWidget {
+  final String label;
+  final IconData iconData;
+  final Widget nextScreen;
+  const ProfileItemBuilder({super.key, required this.label, required this.iconData, required this.nextScreen});
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      height: 6.5.h,
+      width: 90.w,
+      child: InkWell(
+        onTap: () {
+          context.push(nextScreen);
+        },
+        child: Card(
+          elevation: 5,
+           color: ColorManager.primary,
+          child: Row(
+            children: [
+              Icon(iconData , color: ColorManager.white,),
+              SizedBox(
+                width: 5.sp,
+              ),
+              Expanded(
+                child: Text(
+                  label,
+                  style: TextStyle(
+                    fontSize: 14.sp,
+                    color: ColorManager.white,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+              const Icon(Icons.arrow_forward_ios , color: ColorManager.white,),
+            ],
+          ),
+        ),
+      )
+    );
+  }
+}

@@ -149,7 +149,7 @@ class HomePageScreen extends StatelessWidget {
             )
           ],
         ),
-        CircleAvatar(
+        const CircleAvatar(
           radius: 50,
           backgroundColor: ColorManager.grey2,
           backgroundImage: AssetImage("assets/images/building_1.png"),

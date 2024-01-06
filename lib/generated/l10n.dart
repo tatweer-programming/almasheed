@@ -861,6 +861,56 @@ class S {
       args: [],
     );
   }
+
+  /// `My Orders`
+  String get myOrders {
+    return Intl.message(
+      'My Orders',
+      name: 'myOrders',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `My account`
+  String get myAccount {
+    return Intl.message(
+      'My account',
+      name: 'myAccount',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Addresses List`
+  String get addressesList {
+    return Intl.message(
+      'Addresses List',
+      name: 'addressesList',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Favorites`
+  String get favourites {
+    return Intl.message(
+      'Favorites',
+      name: 'favourites',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `FAQ`
+  String get faq {
+    return Intl.message(
+      'FAQ',
+      name: 'faq',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

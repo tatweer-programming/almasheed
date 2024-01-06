@@ -22,19 +22,12 @@ import 'main/view/screens/main_screen.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
-  );
-  ServiceLocator().init();
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   await CacheHelper.init();
+  ServiceLocator().init();
   await LocalizationManager.init();
-
   ConstantsManager.userId = await CacheHelper.getData(key: "userId");
   ConstantsManager.userType = await CacheHelper.getData(key: "userType");
-
-  //  var res = await FirebaseFirestore.instance.collection("customers").
-  //  where("phone" , isEqualTo: "+966551234567").get() ;
-  // print(res.docs.length);
   runApp(const Masheed());
 }
 
@@ -77,6 +70,7 @@ class Masheed extends StatelessWidget {
                     : const LoginScreen(),
               );
             },
+
           ));
     });
   }

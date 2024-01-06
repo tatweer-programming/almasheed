@@ -42,64 +42,69 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   AuthBloc() : super(AuthInitial()) {
     repository = AuthRepository();
 
-    on<AuthEvent>((event, emit) async {
-      if (event is SendCodeEvent) {
-        emit(SendCodeLoadingState());
-        ConstantsManager.appUser = event.user;
-        final result =
-            await repository.verifyPhoneNumber(ConstantsManager.appUser!.phone);
-        result.fold((l) {
-          emit(SendCodeErrorState(l));
-        }, (r) {
-          codeSent = true;
-          verificationId = r;
+    on<AuthEvent>(_handleEvents);
+  }
+
+
+
+
+  _handleEvents (event, emit) async {
+    if (event is SendCodeEvent) {
+      emit(SendCodeLoadingState());
+      ConstantsManager.appUser = event.user;
+      final result =
+      await repository.verifyPhoneNumber(ConstantsManager.appUser!.phone);
+      result.fold((l) {
+        emit(SendCodeErrorState(l));
+      }, (r) {
+        codeSent = true;
+        verificationId = r;
+        emit(CodeSent());
+      });
+    }
+    if (event is LoginByPhoneEvent) {
+      ConstantsManager.appUser = event.user;
+      String userType = event.user is Customer ? "customer" : "merchant";
+      emit(SendCodeLoadingState());
+      final result =
+      await repository.loginByPhone(event.user.phone, userType);
+      result.fold((l) {
+        emit(SendCodeErrorState(l));
+      }, (r) {
+        if (r == "NOT_FOUND") {
+          emit(UserNotFoundState());
+        } else {
+          add(SendCodeEvent(ConstantsManager.appUser!));
           emit(CodeSent());
-        });
-      }
-      if (event is LoginByPhoneEvent) {
-        ConstantsManager.appUser = event.user;
-        String userType = event.user is Customer ? "customer" : "merchant";
-        emit(SendCodeLoadingState());
-        final result =
-            await repository.loginByPhone(event.user.phone, userType);
-        result.fold((l) {
-          emit(SendCodeErrorState(l));
-        }, (r) {
-          if (r == "NOT_FOUND") {
-            emit(UserNotFoundState());
-          } else {
-            add(SendCodeEvent(ConstantsManager.appUser!));
-            emit(CodeSent());
-          }
-        });
-      } else if (event is ChangeAgreeToTermsStateEvent) {
-        agreeToTerms = !agreeToTerms;
-        emit(ChangeAgreeToTermsState(state: agreeToTerms));
-      } else if (event is ChangeIsMerchantTypeStateEvent) {
-        isMerchant = !isMerchant;
-        emit(ChangeIsMerchantTypeState(state: isMerchant));
-      } else if (event is VerifyCodeEvent) {
-        emit(VerifyCodeLoadingState());
-        if (kDebugMode) {
-          print(ConstantsManager.appUser);
         }
-        String userType =
-            (ConstantsManager.appUser is Customer) ? "customer" : "merchant";
-        var result = await repository.verifyCode(event.code, userType);
-        result.fold((l) {
-          emit(VerifyCodeErrorState(l));
-        }, (r) async {
-          emit(CodeVerified());
-          ConstantsManager.appUser?.id = r;
-          await _createUser();
-        });
-      } else if (event is SelectAccountTypeEvent) {
-        selectedAccountTypeIndex = event.index;
-        emit(SelectAccountTypeState(index: event.index));
-      } else if (event is NavigateToRegisterScreenEvent) {
-        event.context.push(registerScreens[selectedAccountTypeIndex!]);
+      });
+    } else if (event is ChangeAgreeToTermsStateEvent) {
+      agreeToTerms = !agreeToTerms;
+      emit(ChangeAgreeToTermsState(state: agreeToTerms));
+    } else if (event is ChangeIsMerchantTypeStateEvent) {
+      isMerchant = !isMerchant;
+      emit(ChangeIsMerchantTypeState(state: isMerchant));
+    } else if (event is VerifyCodeEvent) {
+      emit(VerifyCodeLoadingState());
+      if (kDebugMode) {
+        print(ConstantsManager.appUser);
       }
-    });
+      String userType =
+      (ConstantsManager.appUser is Customer) ? "customer" : "merchant";
+      var result = await repository.verifyCode(event.code, userType);
+      result.fold((l) {
+        emit(VerifyCodeErrorState(l));
+      }, (r) async {
+        emit(CodeVerified());
+        ConstantsManager.appUser?.id = r;
+        await _createUser();
+      });
+    } else if (event is SelectAccountTypeEvent) {
+      selectedAccountTypeIndex = event.index;
+      emit(SelectAccountTypeState(index: event.index));
+    } else if (event is NavigateToRegisterScreenEvent) {
+      event.context.push(registerScreens[selectedAccountTypeIndex!]);
+    }
   }
 
   Future _createUser() async {

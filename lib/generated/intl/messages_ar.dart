@@ -26,6 +26,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "addImage": MessageLookupByLibrary.simpleMessage("إضافة صورة"),
         "addProduct": MessageLookupByLibrary.simpleMessage("إضافة منتج"),
         "addToCart": MessageLookupByLibrary.simpleMessage("إضافة إلى السلة"),
+        "addressesList": MessageLookupByLibrary.simpleMessage("قائمة العناوين"),
         "agreeTo": MessageLookupByLibrary.simpleMessage("أوافق على"),
         "alphabet": MessageLookupByLibrary.simpleMessage("الأبجدية"),
         "alreadyHaveAccount":
@@ -80,6 +81,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "enterValidDiscount": MessageLookupByLibrary.simpleMessage(
             "الرجاء إدخال خصم صالح من 0% إلى 100%"),
         "evaluation": MessageLookupByLibrary.simpleMessage("التقييم"),
+        "faq": MessageLookupByLibrary.simpleMessage("الأسئلة الشائعة"),
+        "favourites": MessageLookupByLibrary.simpleMessage("المفضلة"),
         "highestToLowestPrice":
             MessageLookupByLibrary.simpleMessage("من الأعلى إلى الأقل سعرًا"),
         "home": MessageLookupByLibrary.simpleMessage("الرئيسية"),
@@ -93,6 +96,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "modifyProduct": MessageLookupByLibrary.simpleMessage("تعديل المنتج"),
         "mustAgreeToTerms": MessageLookupByLibrary.simpleMessage(
             "يجب أن توافق على الشروط والأحكام"),
+        "myAccount": MessageLookupByLibrary.simpleMessage("حسابي"),
+        "myOrders": MessageLookupByLibrary.simpleMessage("طلباتي"),
         "name": MessageLookupByLibrary.simpleMessage("الاسم"),
         "next": MessageLookupByLibrary.simpleMessage("التالي"),
         "noItems": MessageLookupByLibrary.simpleMessage("لا توجد عناصر هنا"),

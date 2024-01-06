@@ -26,6 +26,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "addImage": MessageLookupByLibrary.simpleMessage("Add Image"),
         "addProduct": MessageLookupByLibrary.simpleMessage("Add Product"),
         "addToCart": MessageLookupByLibrary.simpleMessage("Add To Cart"),
+        "addressesList": MessageLookupByLibrary.simpleMessage("Addresses List"),
         "agreeTo": MessageLookupByLibrary.simpleMessage("I Agree to"),
         "alphabet": MessageLookupByLibrary.simpleMessage("Alphabet"),
         "alreadyHaveAccount":
@@ -81,6 +82,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "enterValidDiscount": MessageLookupByLibrary.simpleMessage(
             "Please enter a valid discount from 0% to 100%"),
         "evaluation": MessageLookupByLibrary.simpleMessage("Evaluation"),
+        "faq": MessageLookupByLibrary.simpleMessage("FAQ"),
+        "favourites": MessageLookupByLibrary.simpleMessage("Favorites"),
         "highestToLowestPrice":
             MessageLookupByLibrary.simpleMessage("Highest to lowest price"),
         "home": MessageLookupByLibrary.simpleMessage("Home"),
@@ -94,6 +97,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "modifyProduct": MessageLookupByLibrary.simpleMessage("Modify Product"),
         "mustAgreeToTerms": MessageLookupByLibrary.simpleMessage(
             "You must agree to the terms and conditions"),
+        "myAccount": MessageLookupByLibrary.simpleMessage("My account"),
+        "myOrders": MessageLookupByLibrary.simpleMessage("My Orders"),
         "name": MessageLookupByLibrary.simpleMessage("Name"),
         "next": MessageLookupByLibrary.simpleMessage("Next"),
         "noItems":

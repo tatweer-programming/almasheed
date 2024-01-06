@@ -1,6 +1,8 @@
 
 import 'package:almasheed/authentication/presentation/components.dart';
 import 'package:almasheed/payment/data/models/order.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:dartz/dartz.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -66,7 +68,18 @@ class PaymentBloc extends Bloc<PaymentEvent, PaymentState> {
       } else if (event is CompletePaymentCart) {
         var response = await _repository.completePayment(
             context: event.context, order: event.order);
+      if(response.isSuccess){
+
+          }
+
       }
     });
+
   }
+
+    Future<Either<FirebaseException , Unit>> _completeOrder(OrderModel order) async
+    {
+      //TODO: complete order
+      throw UnimplementedError();
+    }
 }
