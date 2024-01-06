@@ -64,13 +64,19 @@ class _CartItemState extends State<CartItem> {
                   ),
                 ),
                 SizedBox(
-                  width: 2.w,
+                  width: 4.w,
                 ),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
+                    SizedBox(
+                      height: 1.h,
+                    ),
+
                     Text(
-                      widget.product.merchantName,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      widget.product.productName,
                       style: TextStyle(
                           color: ColorManager.white,
                           fontWeight: FontWeightManager.bold,
@@ -84,7 +90,7 @@ class _CartItemState extends State<CartItem> {
                         Text(
                           "${S.of(context).price}: ",
                           style: TextStyle(
-
+                              fontWeight: FontWeightManager.semiBold,
                               fontSize: 15.sp,
                               color: ColorManager.white),
                         ),
@@ -92,25 +98,28 @@ class _CartItemState extends State<CartItem> {
                           "${widget.product.productNewPrice} ",
                           style: TextStyle(
                               fontWeight: FontWeightManager.bold,
-                              fontSize: 15.sp, color: ColorManager.white),
+                              fontSize: 15.sp,
+                              color: ColorManager.secondary),
                         ),
                         Text(
                           S.of(context).sar,
                           style: TextStyle(
+                              fontWeight: FontWeightManager.semiBold,
                               fontSize: 15.sp,
                               color: ColorManager.white),
                         )
                       ],
                     ),
-                    SizedBox(
-                      height: 1.h,
-                    ),
+                    // SizedBox(
+                    //   height: 1.h,
+                    // ),
                     Row(
                       mainAxisSize: MainAxisSize.min,
                       children: [
                         Text(
                           "${S.of(context).quantity}: ",
                           style: TextStyle(
+                              fontWeight: FontWeightManager.semiBold,
                               fontSize: 15.sp,
                               color: ColorManager.white),
                         ),
@@ -120,7 +129,7 @@ class _CartItemState extends State<CartItem> {
                             style: TextStyle(
                                 fontWeight: FontWeightManager.bold,
                                 fontSize: 15.sp,
-                                color: ColorManager.white),
+                                color: ColorManager.secondary),
                           ),
                         SizedBox(
                           width: 10.sp,
@@ -162,7 +171,7 @@ class _CartItemState extends State<CartItem> {
                     if (!widget.isQuantityEditingEnabled)
                       Expanded(
                         child: Column(
-                            mainAxisSize: MainAxisSize.min,
+                          mainAxisSize: MainAxisSize.min,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Row(
@@ -171,6 +180,7 @@ class _CartItemState extends State<CartItem> {
                                 Text(
                                   "${S.of(context).totalPrice}: ",
                                   style: TextStyle(
+                                      fontWeight: FontWeightManager.semiBold,
                                       fontSize: 15.sp,
                                       color: ColorManager.white),
                                 ),
@@ -186,19 +196,18 @@ class _CartItemState extends State<CartItem> {
                                     style: TextStyle(
                                         fontWeight: FontWeightManager.bold,
                                         fontSize: 15.sp,
-                                        color: ColorManager.white),
-                        
+                                        color: ColorManager.secondary),
                                   ),
                                 ),
                                 Text(
                                   S.of(context).sar,
                                   style: TextStyle(
+                                      fontWeight: FontWeightManager.semiBold,
                                       fontSize: 15.sp,
                                       color: ColorManager.white),
                                 )
                               ],
                             ),
-                        
                           ],
                         ),
                       ),

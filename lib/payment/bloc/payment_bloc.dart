@@ -32,7 +32,6 @@ class PaymentBloc extends Bloc<PaymentEvent, PaymentState> {
             productId: event.productId, quantity: event.quantity);
         response.fold((l) {
           emit(AddToCartErrorState());
-          errorToast(msg: "");
         }, (r) {
           defaultToast(msg: "Added Successfully");
           emit(AddToCartSuccessState());
