@@ -43,4 +43,9 @@ class Merchant extends AppUser {
         id: json['id'],
         phone: json['phone']);
   }
+
+  @override
+  String getType() {
+    return "merchant";
+  }
 }

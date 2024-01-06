@@ -17,4 +17,6 @@ abstract class AppUser {
     }
     throw ArgumentError('Invalid user type');
   }
+
+  String getType();
 }
