@@ -31,7 +31,7 @@ class ProfileScreen extends StatelessWidget {
                   child: Column(
                     children: [
                       SizedBox(height: 5.h,),
-                      Text(S.of(context).welcome, style: TextStyle(color: ColorManager.white, fontSize: 30.sp,fontWeight: FontWeight.bold),),
+                      Text(S.of(context).myAccount, style: TextStyle(color: ColorManager.white, fontSize: 30.sp,fontWeight: FontWeight.bold),),
                           SizedBox(width: 3.h),
                        Icon(Icons.person_outline_rounded , color: ColorManager.white, size: 40.sp,),
                           SizedBox(width: 3.h),
