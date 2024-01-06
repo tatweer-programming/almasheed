@@ -139,7 +139,9 @@ Widget searchProductDropdownBuilder(
                           )
                         : null),
               ),
-              SizedBox(height: 1.h,)
+              SizedBox(
+                height: 1.h,
+              )
             ],
           ),
         );
@@ -355,13 +357,13 @@ Widget categoryWidget(
     );
 
 Widget productVerticalWidget({
-  required BuildContext context ,
+  required BuildContext context,
   required Product product,
   required VoidCallback addCardPressed,
   required VoidCallback openProductPressed,
 }) {
   Customer? customer;
-  if(ConstantsManager.appUser is Customer) {
+  if (ConstantsManager.appUser is Customer) {
     customer = ConstantsManager.appUser as Customer;
   }
   return InkWell(
@@ -422,9 +424,9 @@ Widget productVerticalWidget({
                       ),
                       ConstantsManager.appUser is Customer
                           ? defaultButton(
-                          onPressed: addCardPressed,
-                          height: 4.h,
-                          text: S.of(context).addToCart)
+                              onPressed: addCardPressed,
+                              height: 4.h,
+                              text: S.of(context).addToCart)
                           : const SizedBox()
                     ],
                   ),
@@ -615,6 +617,7 @@ void errorToast({
     toastLength: Toast.LENGTH_SHORT,
   );
 }
+
 class HalfCircleCurve extends CustomClipper<Path> {
   final double height;
 
@@ -624,7 +627,7 @@ class HalfCircleCurve extends CustomClipper<Path> {
   Path getClip(Size size) {
     Path path = Path();
     path
-      ..lineTo(0, size.height - height )
+      ..lineTo(0, size.height - height)
       ..quadraticBezierTo(
           size.width / 2, size.height, size.width, size.height - height)
       ..lineTo(size.width, 0)
@@ -636,4 +639,51 @@ class HalfCircleCurve extends CustomClipper<Path> {
   bool shouldReclip(covariant CustomClipper<Path> oldClipper) {
     return true;
   }
+}
+
+Widget settingItemBuilder({
+  required String label,
+  required IconData iconData,
+  Widget? suffixWidget,
+}) {
+  return SizedBox(
+      height: 7.h,
+      width: 90.w,
+      child: Card(
+        elevation: 5,
+        color: ColorManager.primary,
+        shape: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(20.sp),
+          borderSide: BorderSide.none,
+        ),
+        child: Padding(
+          padding: EdgeInsets.symmetric(horizontal: 2.w),
+          child: Row(
+            children: [
+              Icon(
+                iconData,
+                color: ColorManager.white,
+              ),
+              SizedBox(
+                width: 5.sp,
+              ),
+              Expanded(
+                child: Text(
+                  label,
+                  style: TextStyle(
+                    fontSize: 13.sp,
+                    color: ColorManager.white,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+              suffixWidget ??
+                  const Icon(
+                    Icons.arrow_forward_ios,
+                    color: ColorManager.white,
+                  ),
+            ],
+          ),
+        ),
+      ));
 }

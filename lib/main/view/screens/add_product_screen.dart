@@ -230,6 +230,7 @@ class AddProductScreen extends StatelessWidget {
                                   productName: nameController.text,
                                   productCategory: bloc.selectedProductCategory,
                                   productsImagesFile: bloc.imagesFiles,
+                                  merchantId: merchant.id,
                                   productId: DateTime.now().toString(),
                                   productOldPrice:
                                       double.parse(priceController.text),

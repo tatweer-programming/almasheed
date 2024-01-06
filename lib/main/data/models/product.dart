@@ -11,6 +11,7 @@ class Product extends Equatable {
   final double productOldPrice;
   final double productNewPrice;
   final String productDescription;
+  final String merchantId;
   final String merchantName;
   final String productCity;
   Product(
@@ -21,6 +22,7 @@ class Product extends Equatable {
       required this.productOldPrice,
       required this.productNewPrice,
       required this.productCity,
+      required this.merchantId,
       this.productsImagesFile,
       this.productsImagesDelete,
       required this.productDescription,
@@ -36,11 +38,13 @@ class Product extends Equatable {
         productName: json['productName'],
         productOldPrice: json['productOldPrice'].toDouble(),
         merchantName: json['merchantName'],
+        merchantId: json['merchantId'],
       );
   Map<String, dynamic> toJson() {
     return {
       'productDescription': productDescription,
       "productId": productId,
+      "merchantId": merchantId,
       "productCity": productCity,
       "productNewPrice": productNewPrice,
       "productsImages": productsImagesUrl,

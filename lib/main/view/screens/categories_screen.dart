@@ -30,7 +30,7 @@ class CategoriesScreen extends StatelessWidget {
               ClipPath(
                 clipper: HalfCircleCurve(10.h),
                 child: Container(
-                  height: 25.h,
+                  height: 28.h,
                   color: ColorManager.primary,
                   width: double.infinity,
                   child: Column(

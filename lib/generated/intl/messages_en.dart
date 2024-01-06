@@ -22,6 +22,7 @@ class MessageLookup extends MessageLookupByLibrary {
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
+        "aboutApp": MessageLookupByLibrary.simpleMessage("About App"),
         "addCategory": MessageLookupByLibrary.simpleMessage("Add Category"),
         "addImage": MessageLookupByLibrary.simpleMessage("Add Image"),
         "addProduct": MessageLookupByLibrary.simpleMessage("Add Product"),
@@ -38,6 +39,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "categories": MessageLookupByLibrary.simpleMessage("Categories"),
         "categoryAdded": MessageLookupByLibrary.simpleMessage(
             "The Category has been added successfully"),
+        "chat": MessageLookupByLibrary.simpleMessage("Chats"),
         "chooseAccountType":
             MessageLookupByLibrary.simpleMessage("please choose account type"),
         "city": MessageLookupByLibrary.simpleMessage("City"),
@@ -46,6 +48,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "codeVerified":
             MessageLookupByLibrary.simpleMessage("Code Verified Successfully"),
         "companyName": MessageLookupByLibrary.simpleMessage("Company name"),
+        "contactUs": MessageLookupByLibrary.simpleMessage("Contact Us"),
         "createYourAccountNow":
             MessageLookupByLibrary.simpleMessage("Create your account now"),
         "customer": MessageLookupByLibrary.simpleMessage("Customer"),
@@ -87,6 +90,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "highestToLowestPrice":
             MessageLookupByLibrary.simpleMessage("Highest to lowest price"),
         "home": MessageLookupByLibrary.simpleMessage("Home"),
+        "language": MessageLookupByLibrary.simpleMessage("Language"),
         "loginAsMerchant":
             MessageLookupByLibrary.simpleMessage("Login as merchant"),
         "loginNow": MessageLookupByLibrary.simpleMessage("Login now"),
@@ -104,6 +108,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "noItems":
             MessageLookupByLibrary.simpleMessage("There is no items here"),
         "notFound": MessageLookupByLibrary.simpleMessage("Not Found"),
+        "notifications": MessageLookupByLibrary.simpleMessage("Notifications"),
         "offers": MessageLookupByLibrary.simpleMessage("Offers"),
         "ok": MessageLookupByLibrary.simpleMessage("Ok"),
         "orderBy": MessageLookupByLibrary.simpleMessage("Order by .."),
@@ -128,6 +133,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "search": MessageLookupByLibrary.simpleMessage("search ..."),
         "seller": MessageLookupByLibrary.simpleMessage("Seller"),
         "sendCode": MessageLookupByLibrary.simpleMessage("Send code"),
+        "services": MessageLookupByLibrary.simpleMessage("Services"),
+        "setting": MessageLookupByLibrary.simpleMessage("Setting"),
         "signInNow": MessageLookupByLibrary.simpleMessage("Sign in now"),
         "sortByCity": MessageLookupByLibrary.simpleMessage("Sort by city"),
         "support": MessageLookupByLibrary.simpleMessage("Support"),
@@ -144,6 +151,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "verify": MessageLookupByLibrary.simpleMessage("verify"),
         "welcome": MessageLookupByLibrary.simpleMessage("Welcome"),
         "welcomeToAlmasheed":
-            MessageLookupByLibrary.simpleMessage("Welcome to almasheed")
+            MessageLookupByLibrary.simpleMessage("Welcome to almasheed"),
+        "whoAreWe": MessageLookupByLibrary.simpleMessage("Who Are We")
       };
 }

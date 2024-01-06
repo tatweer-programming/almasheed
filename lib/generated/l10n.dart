@@ -169,15 +169,6 @@ class S {
       args: [],
     );
   }
-  /// `Favourites`
-  String get favourites {
-    return Intl.message(
-      'Favourites',
-      name: 'favourites',
-      desc: '',
-      args: [],
-    );
-  }
 
   /// `The Category has been added successfully`
   String get categoryAdded {
@@ -650,6 +641,7 @@ class S {
       args: [],
     );
   }
+
   /// `Quantity`
   String get quantity {
     return Intl.message(
@@ -935,6 +927,86 @@ class S {
     return Intl.message(
       'Pay deposit',
       name: 'payDeposit',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `About App`
+  String get aboutApp {
+    return Intl.message(
+      'About App',
+      name: 'aboutApp',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Services`
+  String get services {
+    return Intl.message(
+      'Services',
+      name: 'services',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Who Are We`
+  String get whoAreWe {
+    return Intl.message(
+      'Who Are We',
+      name: 'whoAreWe',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Setting`
+  String get setting {
+    return Intl.message(
+      'Setting',
+      name: 'setting',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Language`
+  String get language {
+    return Intl.message(
+      'Language',
+      name: 'language',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Notifications`
+  String get notifications {
+    return Intl.message(
+      'Notifications',
+      name: 'notifications',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Contact Us`
+  String get contactUs {
+    return Intl.message(
+      'Contact Us',
+      name: 'contactUs',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Chats`
+  String get chat {
+    return Intl.message(
+      'Chats',
+      name: 'chat',
       desc: '',
       args: [],
     );

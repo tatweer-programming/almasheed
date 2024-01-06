@@ -22,6 +22,7 @@ class MessageLookup extends MessageLookupByLibrary {
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
+        "aboutApp": MessageLookupByLibrary.simpleMessage("حول التطبيق"),
         "addCategory": MessageLookupByLibrary.simpleMessage("إضافة فئة"),
         "addImage": MessageLookupByLibrary.simpleMessage("إضافة صورة"),
         "addProduct": MessageLookupByLibrary.simpleMessage("إضافة منتج"),
@@ -35,9 +36,10 @@ class MessageLookup extends MessageLookupByLibrary {
         "bestSales": MessageLookupByLibrary.simpleMessage("أفضل المبيعات"),
         "cancel": MessageLookupByLibrary.simpleMessage("إلغاء"),
         "cart": MessageLookupByLibrary.simpleMessage("السلة"),
-        "categories": MessageLookupByLibrary.simpleMessage("الفئات"),
+        "categories": MessageLookupByLibrary.simpleMessage("الأقسام"),
         "categoryAdded":
             MessageLookupByLibrary.simpleMessage("تمت إضافة الفئة بنجاح"),
+        "chat": MessageLookupByLibrary.simpleMessage("الدردشة"),
         "chooseAccountType":
             MessageLookupByLibrary.simpleMessage("يرجى اختيار نوع الحساب"),
         "city": MessageLookupByLibrary.simpleMessage("المدينة"),
@@ -46,6 +48,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "codeVerified":
             MessageLookupByLibrary.simpleMessage("تم تأكيد الرمز بنجاح"),
         "companyName": MessageLookupByLibrary.simpleMessage("اسم الشركة"),
+        "contactUs": MessageLookupByLibrary.simpleMessage("تواصل معنا"),
         "createYourAccountNow":
             MessageLookupByLibrary.simpleMessage("أنشئ حسابك الآن"),
         "customer": MessageLookupByLibrary.simpleMessage("عميل"),
@@ -86,6 +89,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "highestToLowestPrice":
             MessageLookupByLibrary.simpleMessage("من الأعلى إلى الأقل سعرًا"),
         "home": MessageLookupByLibrary.simpleMessage("الرئيسية"),
+        "language": MessageLookupByLibrary.simpleMessage("اللغة"),
         "loginAsMerchant":
             MessageLookupByLibrary.simpleMessage("تسجيل الدخول كتاجر"),
         "loginNow": MessageLookupByLibrary.simpleMessage("تسجيل الدخول الآن"),
@@ -102,6 +106,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "next": MessageLookupByLibrary.simpleMessage("التالي"),
         "noItems": MessageLookupByLibrary.simpleMessage("لا توجد عناصر هنا"),
         "notFound": MessageLookupByLibrary.simpleMessage("غير موجود"),
+        "notifications": MessageLookupByLibrary.simpleMessage("الاشعارات"),
         "offers": MessageLookupByLibrary.simpleMessage("العروض"),
         "ok": MessageLookupByLibrary.simpleMessage("موافق"),
         "orderBy": MessageLookupByLibrary.simpleMessage("ترتيب حسب..."),
@@ -125,6 +130,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "search": MessageLookupByLibrary.simpleMessage("البحث..."),
         "seller": MessageLookupByLibrary.simpleMessage("البائع"),
         "sendCode": MessageLookupByLibrary.simpleMessage("إرسال الكود"),
+        "services": MessageLookupByLibrary.simpleMessage("خدمات"),
+        "setting": MessageLookupByLibrary.simpleMessage("الاعدادات"),
         "signInNow":
             MessageLookupByLibrary.simpleMessage("قم بتسجيل الدخول الآن"),
         "sortByCity":
@@ -144,6 +151,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "verify": MessageLookupByLibrary.simpleMessage("التحقق"),
         "welcome": MessageLookupByLibrary.simpleMessage("مرحبًا"),
         "welcomeToAlmasheed":
-            MessageLookupByLibrary.simpleMessage("مرحبًا بك في المشيد")
+            MessageLookupByLibrary.simpleMessage("مرحبًا بك في المشيد"),
+        "whoAreWe": MessageLookupByLibrary.simpleMessage("من نحن")
       };
 }

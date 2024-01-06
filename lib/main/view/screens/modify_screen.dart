@@ -211,6 +211,7 @@ class ModifyProductScreen extends StatelessWidget {
                                 productId: product.productId,
                                 productsImagesFile: bloc.imagesFiles,
                                 productsImagesUrl: product.productsImagesUrl,
+                                merchantId: merchant.id,
                                 productsImagesDelete:
                                     product.productsImagesDelete,
                                 productOldPrice:

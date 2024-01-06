@@ -85,7 +85,15 @@
   "welcomeToAlmasheed": "مرحبًا بك في المشيد",
   "addressesList": "قائمة العناوين",
   "favourites": "المفضلة",
-  "faq" : "الأسئلة الشائعة",
-  "totalPrice"  : "اجمالي السعر",
-  "payDeposit":  "دفع العربون"
+  "faq": "الأسئلة الشائعة",
+  "totalPrice": "اجمالي السعر",
+  "payDeposit": "دفع العربون",
+  "aboutApp": "حول التطبيق",
+  "services": "خدمات",
+  "whoAreWe": "من نحن",
+  "contactUs": "تواصل معنا",
+  "chat": "الدردشة",
+  "language": "اللغة",
+  "notifications": "الاشعارات",
+  "setting": "الاعدادات"
 }

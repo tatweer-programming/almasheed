@@ -200,8 +200,10 @@ class RemoveImageEvent extends MainEvent {
 }
 
 class ChangeLocaleEvent extends MainEvent {
-final int index ;
-const ChangeLocaleEvent(this.index);
+  final int index;
+
+  const ChangeLocaleEvent(this.index);
+
   @override
   List<Object?> get props => [index];
 }
