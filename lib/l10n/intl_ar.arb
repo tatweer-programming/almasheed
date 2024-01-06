@@ -85,5 +85,7 @@
   "welcomeToAlmasheed": "مرحبًا بك في المشيد",
   "addressesList": "قائمة العناوين",
   "favourites": "المفضلة",
-  "faq" : "الأسئلة الشائعة"
+  "faq" : "الأسئلة الشائعة",
+  "totalPrice"  : "اجمالي السعر",
+  "payDeposit":  "دفع العربون"
 }

@@ -85,5 +85,7 @@
    "myAccount" : "My account",
   "addressesList": "Addresses List",
   "favourites": "Favorites",
-  "faq" : "FAQ"
+  "faq" : "FAQ",
+  "totalPrice"  : "Total Price",
+  "payDeposit":  "Pay deposit"
 }

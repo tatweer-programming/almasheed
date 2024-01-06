@@ -1,5 +1,6 @@
-
 import 'package:almasheed/authentication/presentation/components.dart';
+import 'package:almasheed/core/utils/constance_manager.dart';
+import 'package:almasheed/main/bloc/main_bloc.dart';
 import 'package:almasheed/payment/data/models/order.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dartz/dartz.dart';
@@ -7,6 +8,9 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../authentication/data/models/customer.dart';
+import '../../core/services/dep_injection.dart';
+import '../data/models/orderItem.dart';
 import '../data/repositories/payment_repository.dart';
 
 part 'payment_event.dart';
@@ -18,6 +22,7 @@ class PaymentBloc extends Bloc<PaymentEvent, PaymentState> {
 
   static PaymentBloc get(BuildContext context) =>
       BlocProvider.of<PaymentBloc>(context);
+  late OrderModel order;
 
   PaymentBloc() : super(PaymentInitial()) {
     on<PaymentEvent>((event, emit) async {
@@ -68,18 +73,31 @@ class PaymentBloc extends Bloc<PaymentEvent, PaymentState> {
       } else if (event is CompletePaymentCart) {
         var response = await _repository.completePayment(
             context: event.context, order: event.order);
-      if(response.isSuccess){
-
-          }
-
+        if (response.isSuccess) {}
       }
     });
-
   }
 
-    Future<Either<FirebaseException , Unit>> _completeOrder(OrderModel order) async
-    {
-      //TODO: complete order
-      throw UnimplementedError();
-    }
+  double getTotalPrice() {
+    return 0;
+  }
+
+  _generateOrder() async {
+    MainBloc mainBloc = sl();
+    List<OrderItem> orderItems = [];
+    Customer customer = ConstantsManager.appUser as Customer;
+    customer.cartItems.forEach((key, value) {
+      orderItems.add(OrderItem(
+          product: mainBloc.products
+              .firstWhere((element) => element.productId == key),
+          quantity: value));
+    });
+    order = OrderModel.create(orderItems);
+  }
+
+  Future<Either<FirebaseException, Unit>> _completeOrder(
+      OrderModel order) async {
+    //TODO: complete order
+    throw UnimplementedError();
+  }
 }
