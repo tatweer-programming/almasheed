@@ -27,8 +27,8 @@ class PaymentService {
   Future<Either<FirebaseException, bool>> editQuantity(
       {required String productId, required int quantity}) async {
     Customer customer = ConstantsManager.appUser as Customer;
-    customer.cartItems[productId] = quantity;
     try {
+      customer.cartItems[productId] = quantity;
       fireStore
           .doc('customers/${ConstantsManager.appUser!.id}')
           .update({'cartItems': customer.cartItems});
@@ -86,4 +86,19 @@ class PaymentService {
       ),
     );
   }
+
+  // Future<Either<FirebaseException , Unit>> completeOrder(OrderModel order) async
+  // {
+  // // save order to firestore
+  // // clear cart
+  // // save orderId to user orders
+  //   // add orderId to merchants orders
+  //     try{
+  //       var batch = fireStore.batch();
+  //       batch.set(fireStore.doc("orders/${DateTime.now()}"), );
+  //     }
+  //         on FirebaseException catch (e){
+  //       return Left(e);
+  //         }
+  // }
 }

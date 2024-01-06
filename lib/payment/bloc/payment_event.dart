@@ -48,9 +48,7 @@ class EditQuantityInCart extends PaymentEvent {
 
 class CompletePaymentCart extends PaymentEvent {
   final BuildContext context;
-
   final OrderModel order;
-
   const CompletePaymentCart({required this.context, required this.order});
 
   @override

@@ -81,5 +81,11 @@
   "userNotFound": "User not found",
   "codeSent": "Code Sent Successfully",
   "userCreated": "user created Successfully",
-  "favourites": "Favourites"
+  "myOrders" : "My Orders",
+   "myAccount" : "My account",
+  "addressesList": "Addresses List",
+  "favourites": "Favorites",
+  "faq" : "FAQ",
+  "totalPrice"  : "Total Price",
+  "payDeposit":  "Pay deposit"
 }

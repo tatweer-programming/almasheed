@@ -26,6 +26,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "addImage": MessageLookupByLibrary.simpleMessage("Add Image"),
         "addProduct": MessageLookupByLibrary.simpleMessage("Add Product"),
         "addToCart": MessageLookupByLibrary.simpleMessage("Add To Cart"),
+        "addressesList": MessageLookupByLibrary.simpleMessage("Addresses List"),
         "agreeTo": MessageLookupByLibrary.simpleMessage("I Agree to"),
         "alphabet": MessageLookupByLibrary.simpleMessage("Alphabet"),
         "alreadyHaveAccount":
@@ -81,6 +82,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "enterValidDiscount": MessageLookupByLibrary.simpleMessage(
             "Please enter a valid discount from 0% to 100%"),
         "evaluation": MessageLookupByLibrary.simpleMessage("Evaluation"),
+        "faq": MessageLookupByLibrary.simpleMessage("FAQ"),
+        "favourites": MessageLookupByLibrary.simpleMessage("Favorites"),
         "highestToLowestPrice":
             MessageLookupByLibrary.simpleMessage("Highest to lowest price"),
         "home": MessageLookupByLibrary.simpleMessage("Home"),
@@ -94,6 +97,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "modifyProduct": MessageLookupByLibrary.simpleMessage("Modify Product"),
         "mustAgreeToTerms": MessageLookupByLibrary.simpleMessage(
             "You must agree to the terms and conditions"),
+        "myAccount": MessageLookupByLibrary.simpleMessage("My account"),
+        "myOrders": MessageLookupByLibrary.simpleMessage("My Orders"),
         "name": MessageLookupByLibrary.simpleMessage("Name"),
         "next": MessageLookupByLibrary.simpleMessage("Next"),
         "noItems":
@@ -102,6 +107,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "offers": MessageLookupByLibrary.simpleMessage("Offers"),
         "ok": MessageLookupByLibrary.simpleMessage("Ok"),
         "orderBy": MessageLookupByLibrary.simpleMessage("Order by .."),
+        "payDeposit": MessageLookupByLibrary.simpleMessage("Pay deposit"),
         "phoneNumber": MessageLookupByLibrary.simpleMessage("Phone Number"),
         "phoneNumberVerification":
             MessageLookupByLibrary.simpleMessage("Phone Number Verification"),
@@ -131,6 +137,7 @@ class MessageLookup extends MessageLookupByLibrary {
             "- The AlMasheed platform is dedicated to facilitating the purchasing process and communication between the customer and the facility owner. To complete the purchase, the platform deducts a nominal amount from the purchase value as a fee for platform services and as a non-refundable deposit upon order completion.\n- Customers have the right to communicate with the facility owner (the seller) for inquiries and to finalize or cancel purchase orders based on their mutual agreement. It is important to note that the platform is not responsible for any financial or other disputes that may arise between the customer and the facility owner.\n- If a customer wishes to cancel an order before receiving it, they must contact the facility owner and inform them. In the event that the order reaches the customer and they decide to cancel it, the customer is responsible for the cost of transporting the purchased items from the delivery location to the facility owner\'s premises or as otherwise agreed upon.\n- The platform reserves the right to delete or suspend the activities of any customer violating the platform\'s policies through any means, including fraudulent orders and lack of seriousness in placing orders. Customers can also communicate with the facility owner in case of any comments or concerns related to the order.\n- The AlMasheed platform retains the terms and conditions, prohibiting the trading or dissemination of these terms through any means.\n- Approved communication channels within the platform:\n  - Email: almasheed-1380@hotmail.com\n  - WhatsApp: 0537014738"),
         "termsToMerchant": MessageLookupByLibrary.simpleMessage(
             "- The AlMasheed platform is dedicated to facilitating the purchasing process and communication between the customer and the facility owner in a clear and simple manner, while saving effort and time for both parties.\n- Upon completing a purchase order from the customer, the platform deducts a nominal fee not exceeding 10% of the purchase value as a platform fee and a non-refundable deposit upon order completion.\n- The facility owner is committed to providing the order to the customer accurately, including quality, material safety, and delivery speed as agreed upon between them.\n- There is room for communication between the customer and the service provider to agree on purchase details such as purchase requests, total cost calculation, delivery method, and other matters related to purchase orders.\n- The customer has the right to cancel the order before receiving it by contacting the facility owner, and in case of receiving the order and wishing to cancel it, the customer is obliged to pay the transportation cost from the place of receipt to the facility owner\'s location or as agreed upon between them.\n- AlMasheed\'s goal is to facilitate communication between the parties, and it is not responsible for any disputes between the customer and the facility owner, including financial disputes and others, including but not limited to: inaccuracies in the order, delivery-related errors causing damage to purchase orders, and others.\n- The platform has the right to delete or suspend the activity of any facility that violates the platform\'s policies by any means. Facility owners can contact the support team in case of any issues related to platform services.\n- AlMasheed retains the terms and conditions outlined and prohibits the circulation or publication of these terms in any way.\n- The approved communication channels within the platform:\n   Email: almasheed-1380@hotmail.com\n   WhatsApp: 0537014738"),
+        "totalPrice": MessageLookupByLibrary.simpleMessage("Total Price"),
         "userCreated":
             MessageLookupByLibrary.simpleMessage("user created Successfully"),
         "userNotFound": MessageLookupByLibrary.simpleMessage("User not found"),

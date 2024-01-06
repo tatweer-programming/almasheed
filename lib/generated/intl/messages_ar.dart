@@ -26,6 +26,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "addImage": MessageLookupByLibrary.simpleMessage("إضافة صورة"),
         "addProduct": MessageLookupByLibrary.simpleMessage("إضافة منتج"),
         "addToCart": MessageLookupByLibrary.simpleMessage("إضافة إلى السلة"),
+        "addressesList": MessageLookupByLibrary.simpleMessage("قائمة العناوين"),
         "agreeTo": MessageLookupByLibrary.simpleMessage("أوافق على"),
         "alphabet": MessageLookupByLibrary.simpleMessage("الأبجدية"),
         "alreadyHaveAccount":
@@ -80,6 +81,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "enterValidDiscount": MessageLookupByLibrary.simpleMessage(
             "الرجاء إدخال خصم صالح من 0% إلى 100%"),
         "evaluation": MessageLookupByLibrary.simpleMessage("التقييم"),
+        "faq": MessageLookupByLibrary.simpleMessage("الأسئلة الشائعة"),
+        "favourites": MessageLookupByLibrary.simpleMessage("المفضلة"),
         "highestToLowestPrice":
             MessageLookupByLibrary.simpleMessage("من الأعلى إلى الأقل سعرًا"),
         "home": MessageLookupByLibrary.simpleMessage("الرئيسية"),
@@ -93,6 +96,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "modifyProduct": MessageLookupByLibrary.simpleMessage("تعديل المنتج"),
         "mustAgreeToTerms": MessageLookupByLibrary.simpleMessage(
             "يجب أن توافق على الشروط والأحكام"),
+        "myAccount": MessageLookupByLibrary.simpleMessage("حسابي"),
+        "myOrders": MessageLookupByLibrary.simpleMessage("طلباتي"),
         "name": MessageLookupByLibrary.simpleMessage("الاسم"),
         "next": MessageLookupByLibrary.simpleMessage("التالي"),
         "noItems": MessageLookupByLibrary.simpleMessage("لا توجد عناصر هنا"),
@@ -100,6 +105,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "offers": MessageLookupByLibrary.simpleMessage("العروض"),
         "ok": MessageLookupByLibrary.simpleMessage("موافق"),
         "orderBy": MessageLookupByLibrary.simpleMessage("ترتيب حسب..."),
+        "payDeposit": MessageLookupByLibrary.simpleMessage("دفع العربون"),
         "phoneNumber": MessageLookupByLibrary.simpleMessage("رقم الهاتف"),
         "phoneNumberVerification":
             MessageLookupByLibrary.simpleMessage("التحقق من رقم الهاتف"),
@@ -130,6 +136,7 @@ class MessageLookup extends MessageLookupByLibrary {
             "- تهدف منصة المشيد إلى تسهيل عملية الشراء والتواصل بين العميل وصاحب المنشأة. لإتمام الشراء، تقوم المنصة بخصم مبلغ رمزي من قيمة الشراء كرسوم لخدمات المنصة وكعربون غير قابل للاسترداد عند إتمام الطلب.\n- يحق للعملاء التواصل مع صاحب المنشأة (البائع) للتحقيق وإتمام أو إلغاء طلبات الشراء بناءً على اتفاقهم المتبادل. يجدر بالذكر أن المنصة غير مسؤولة عن أي نزاعات مالية أو غير ذلك قد تنشأ بين العميل وصاحب المنشأة.\n- إذا أراد العميل إلغاء طلب قبل استلامه، يجب عليه الاتصال بصاحب المنشأة وإبلاغه. في حال وصول الطلب إلى العميل ورغبته في إلغاء الطلب، يتحمل العميل تكلفة نقل العناصر المشتراة من مكان التسليم إلى مقر صاحب المنشأة أو حسب الاتفاق.\n- تحتفظ المنصة بالحق في حذف أو تعليق أنشطة أي عميل ينتهك سياسات المنصة بأي وسيلة، بما في ذلك الطلبات الاحتيالية وعدم الجدية في تقديم الطلبات. يمكن للعملاء أيضًا التواصل مع صاحب المنشأة في حال وجود أي تعليقات أو مخاوف تتعلق بالطلب.\n- تحتفظ منصة المشيد بالشروط والأحكام، وتمنع تداول أو نشر هذه الشروط بأي وسيلة.\n- وسائل التواصل المعتمدة داخل المنصة:\n - البريد الإلكتروني: almasheed-1380@hotmail.com\n - واتساب: 0537014738"),
         "termsToMerchant": MessageLookupByLibrary.simpleMessage(
             "- تهدف منصة المشيد إلى تسهيل عملية الشراء والتواصل بين العميل وصاحب المنشأة بطريقة واضحة وبسيطة، مع توفير الجهد والوقت لكلا الطرفين.\n- عند إتمام طلب الشراء من العميل، تقوم المنصة بخصم رمزي لا يتجاوز 10٪ من قيمة الشراء كرسوم لخدمات المنصة وكعربون غير قابل للاسترداد عند إتمام الطلب.\n- يلتزم صاحب المنشأة بتوفير الطلب للعميل بشكل دقيق، بما في ذلك الجودة وسلامة المواد وسرعة التوصيل حسب الاتفاق بينهما.\n- يوجد مجال للتواصل بين العميل ومقدم الخدمة للاتفاق على تفاصيل الشراء، مثل طلبات الشراء وحساب التكلفة الإجمالية وطريقة التوصيل وغيرها من الأمور المتعلقة بطلبات الشراء.\n- يحق للعميل إلغاء الطلب قبل استلامه من خلال الاتصال بصاحب المنشأة، وفي حال استلام الطلب ورغبة العميل في إلغاء الطلب، يلزم العميل بدفع تكلفة النقل من مكان الاستلام إلى مقر صاحب المنشأة أو حسب الاتفاق بينهما.\n- هدف منصة المشيد هو تسهيل التواصل بين الطرفين، ولا تتحمل المسؤولية عن أي نزاعات بين العميل وصاحب المنشأة، بما في ذلك النزاعات المالية وغيرها، مثل عدم دقة الطلب، والأخطاء الناجمة عن التوصيل التي قد تتسبب في تلف طلبات الشراء وغيرها.\n- للمنصة الحق في حذف أو تعليق نشاط أي منشأة تخالف سياسات المنصة بأي وسيلة. يمكن لصاحب المنشأة التواصل مع فريق الدعم في حال مواجهته لأي مشكلة تتعلق بخدمات المنصة.\n- تحتفظ منصة المشيد بلائحة الشروط والأحكام المحددة وتمنع تداول أو نشر هذه اللائحة بأي وسيلة كانت.\n- وسائل التواصل المعتمدة داخل المنصة:\n - البريد الإلكتروني: almasheed-1380@hotmail.com\n - واتساب: 0537014738"),
+        "totalPrice": MessageLookupByLibrary.simpleMessage("اجمالي السعر"),
         "userCreated":
             MessageLookupByLibrary.simpleMessage("تم انشاء المستخدم بنجاح"),
         "userNotFound":
