@@ -36,4 +36,9 @@ class Customer extends AppUser {
       phone: json['phone'],
     );
   }
+
+  @override
+  String getType() {
+    return "customer";
+  }
 }

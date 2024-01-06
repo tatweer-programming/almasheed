@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'package:almasheed/authentication/data/models/customer.dart';
 import 'package:almasheed/authentication/data/models/user.dart';
 import 'package:almasheed/core/local/shared_prefrences.dart';
 import 'package:almasheed/core/utils/constance_manager.dart';
@@ -7,48 +6,39 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dartz/dartz.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 
 class AuthService {
-  final FirebaseAuth _auth = FirebaseAuth.instance;
+  final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
   final FirebaseFirestore _fireStore = FirebaseFirestore.instance;
   static String? verificationID;
   static Completer<String> verificationIdCompleter = Completer<String>();
+  Completer<Either<FirebaseAuthException, String>> verifyPhoneCompleter =
+      Completer<Either<FirebaseAuthException, String>>();
 
   Future<Either<FirebaseAuthException, String>> verifyPhoneNumber(
       String phoneNumber) async {
-    Completer<Either<FirebaseAuthException, String>> completer =
-    Completer<Either<FirebaseAuthException, String>>();
     try {
-      await _auth.verifyPhoneNumber(
+      await _firebaseAuth.verifyPhoneNumber(
         phoneNumber: phoneNumber,
-        verificationCompleted: (PhoneAuthCredential credential) async {},
-        verificationFailed: (FirebaseAuthException e) {
-          print('فشل التحقق ${e.message}');
-          completer.complete(Left(e));
-        },
-        codeSent: (String verificationId, int? resendToken) {
-          print('تم إرسال رمز التحقق');
-          verificationID = verificationId;
-          verificationIdCompleter.complete(verificationID);
-          completer.complete(Right(verificationId));
-        },
-        codeAutoRetrievalTimeout: (String verificationId) {
-          print('انتهت مهلة رمز التحقق');
-        },
+        verificationCompleted: _handleVerificationCompleted,
+        verificationFailed: _handleVerificationFailed,
+        codeSent: handleCodeSentCase,
+        codeAutoRetrievalTimeout: _codeAutoRetrievalTimeout,
       );
     } on FirebaseAuthException catch (e) {
-      completer.complete(Left(e));
+      verifyPhoneCompleter.complete(Left(e));
     }
-    return completer.future;
+    return verifyPhoneCompleter.future;
   }
 
   Future<String> waitForVerificationID() async {
     return verificationIdCompleter.future;
   }
 
-  Future<Either<FirebaseAuthException, String>> verifyCode(String code,
-      String userType) async {
+  Future<Either<FirebaseAuthException, String>> verifyCode(
+      String code, String userType) async {
     try {
       late String id;
       final String verificationId = await waitForVerificationID();
@@ -58,19 +48,20 @@ class AuthService {
         smsCode: code,
       );
 
-      await _auth.signInWithCredential(credential).then((value) async {
+      await _firebaseAuth.signInWithCredential(credential).then((value) async {
         id = value.user!.uid;
       });
 
       return Right(id);
     } on FirebaseAuthException catch (e) {
-      print('حدث خطأ أثناء التحقق من رمز التحقق: $e');
       return Left(e);
     }
   }
 
-  Future<bool> _isUserExists(String id,
-      String userType,) async {
+  Future<bool> _searchForUserById(
+    String id,
+    String userType,
+  ) async {
     late bool isExists;
     await _fireStore
         .collection("${userType}s/")
@@ -86,10 +77,10 @@ class AuthService {
     return isExists;
   }
 
-  Future<Either<FirebaseAuthException, String>> loginByPhone(String phoneNumber,
-      String userType) async {
+  Future<Either<FirebaseAuthException, String>> loginByPhone(
+      String phoneNumber, String userType) async {
     try {
-      bool exists = await _searchUsersByPhoneNumber(phoneNumber, userType);
+      bool exists = await _searchForUsersByPhoneNumber(phoneNumber, userType);
       if (exists) {
         return await verifyPhoneNumber(phoneNumber);
       }
@@ -99,27 +90,21 @@ class AuthService {
     }
   }
 
+  //Create a new user if it does not exist in the Fire store
   Future<Either<FirebaseException, bool>> createUser(AppUser user) async {
     try {
-      String userType = (user is Customer) ? "customer" : "merchant";
-
-      bool isUserExists = await _isUserExists(user.id, userType);
-      if (!isUserExists) {
-        if (kDebugMode) {
-          print(isUserExists);
-        }
-
-        await _createUser(user, userType).then((value) async {
-
-        });
-      }
+      String userType = user.getType();
+      bool isUserExists = await _searchForUserById(user.id, userType);
+      isUserExists
+          ? DoNothingAction()
+          : await _addUSerToFireStore(user, userType);
       return Right(isUserExists);
     } on FirebaseException catch (e) {
       return Left(e);
     }
   }
 
-  Future _createUser(AppUser user, String userType) async {
+  Future _addUSerToFireStore(AppUser user, String userType) async {
     try {
       await _fireStore
           .doc("${userType}s/${user.id}")
@@ -134,7 +119,8 @@ class AuthService {
     }
   }
 
-  Future<bool> _searchUsersByPhoneNumber(String phone, String userType) async {
+  Future<bool> _searchForUsersByPhoneNumber(
+      String phone, String userType) async {
     var res = await _fireStore
         .collection("${userType}s")
         .where("phone", isEqualTo: phone)
@@ -142,9 +128,35 @@ class AuthService {
     return res.docs.isNotEmpty;
   }
 
-  Future <void> _saveUser(AppUser user, String userType) async {
+  Future<void> _saveUser(AppUser user, String userType) async {
     await CacheHelper.saveData(key: "userId", value: user.id);
     await CacheHelper.saveData(key: "userType", value: userType);
     ConstantsManager.appUser = user;
+  }
+
+  // verify phone required functions
+  void _codeAutoRetrievalTimeout(String verificationId) {
+    if (kDebugMode) {
+      print('انتهت مهلة رمز التحقق');
+    }
+  }
+
+  void handleCodeSentCase(String verificationId, int? resendToken) {
+    verificationID = verificationId;
+    verificationIdCompleter.complete(verificationID);
+    verifyPhoneCompleter.complete(Right(verificationId));
+  }
+
+  void _handleVerificationCompleted(PhoneAuthCredential credential) {
+    if (kDebugMode) {
+      print("Verification Completed");
+    }
+  }
+
+  _handleVerificationFailed(FirebaseAuthException e) {
+    if (kDebugMode) {
+      print('فشل التحقق ${e.message}');
+    }
+    verifyPhoneCompleter.complete(Left(e));
   }
 }
