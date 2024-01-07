@@ -3,6 +3,7 @@ import 'package:almasheed/authentication/presentation/screens/addresses_screen.d
 import 'package:almasheed/authentication/presentation/screens/faq_screen.dart';
 import 'package:almasheed/authentication/presentation/screens/favourites_screen.dart';
 import 'package:almasheed/main/view/widgets/widgets.dart';
+import 'package:almasheed/payment/presentation/screens/cart_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
 
@@ -76,7 +77,7 @@ class ProfileScreen extends StatelessWidget {
                 ProfileItemBuilder(
                   iconData: Icons.person_outline_rounded,
                   label: S.of(context).myOrders,
-                  nextScreen: const OrdersScreen(),
+                  nextScreen: const CartScreen(),
                 ),
                 ProfileItemBuilder(
                   iconData: Icons.favorite,
