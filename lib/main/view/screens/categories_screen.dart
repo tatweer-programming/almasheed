@@ -21,7 +21,7 @@ class CategoriesScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final MainBloc bloc = sl();
-    final PaymentBloc paymentBloc = PaymentBloc.get(context);
+    final PaymentBloc paymentBloc = PaymentBloc.get();
     List<Product> categoryProducts = [];
     String isContain = "";
     return BlocConsumer<MainBloc, MainState>(
@@ -110,7 +110,7 @@ class CategoriesScreen extends StatelessWidget {
                       return _categoryName(
                         onTap: () {
                           bloc.add(ChooseCategoryEvent(
-                            categoryName: bloc.categories[index].categoryName,
+                              categoryName: bloc.categories[index].categoryName,
                               categoryProducts:
                                   bloc.categories[index].products ?? []));
                         },

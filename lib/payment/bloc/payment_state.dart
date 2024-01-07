@@ -68,19 +68,25 @@ class ClearCartErrorState extends PaymentState {
   @override
   List<Object?> get props => [];
 }
+
 class CompleteOrderLoadingState extends PaymentState {
   @override
   List<Object?> get props => [];
 }
+
 class CompleteOrderSuccessState extends PaymentState {
   @override
   List<Object?> get props => [];
 }
+
+class CartPreparedState extends PaymentState {
+  @override
+  List<Object?> get props => [];
+}
+
 class CompleteOrderErrorState extends PaymentState {
- FirebaseException exception;
+  FirebaseException exception;
   CompleteOrderErrorState(this.exception);
   @override
-  List<Object?> get props => [
-    exception
-  ];
+  List<Object?> get props => [exception];
 }

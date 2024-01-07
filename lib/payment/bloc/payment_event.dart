@@ -4,6 +4,11 @@ abstract class PaymentEvent extends Equatable {
   const PaymentEvent();
 }
 
+class PrepareCart extends PaymentEvent {
+  @override
+  List<Object?> get props => [];
+}
+
 class AddToCartEvent extends PaymentEvent {
   final String productId;
   final int quantity;
@@ -22,10 +27,7 @@ class RemoveFromCart extends PaymentEvent {
   const RemoveFromCart({required this.productId});
 
   @override
-  List<Object?> get props =>
-      [
-        productId
-      ];
+  List<Object?> get props => [productId];
 }
 
 class ClearCart extends PaymentEvent {
@@ -40,10 +42,7 @@ class EditQuantityInCart extends PaymentEvent {
   const EditQuantityInCart({required this.productId, required this.quantity});
 
   @override
-  List<Object?> get props =>
-      [
-        productId
-      ];
+  List<Object?> get props => [productId];
 }
 
 class CompletePaymentCart extends PaymentEvent {
@@ -52,8 +51,5 @@ class CompletePaymentCart extends PaymentEvent {
   const CompletePaymentCart({required this.context, required this.order});
 
   @override
-  List<Object?> get props =>
-      [
-        order
-      ];
+  List<Object?> get props => [order];
 }

@@ -2,6 +2,7 @@ import 'package:almasheed/core/utils/color_manager.dart';
 import 'package:almasheed/core/utils/font_manager.dart';
 import 'package:almasheed/main/data/models/product.dart';
 import 'package:almasheed/payment/bloc/payment_bloc.dart';
+import 'package:almasheed/payment/data/models/orderItem.dart';
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
 
@@ -9,8 +10,7 @@ import '../../generated/l10n.dart';
 
 //ignore: must_be_immutable
 class CartItem extends StatefulWidget {
-  Product product;
-  int quantity;
+  OrderItem orderItem;
   PaymentBloc bloc;
   TextEditingController quantityController;
   bool isQuantityEditingEnabled = false;
@@ -18,8 +18,7 @@ class CartItem extends StatefulWidget {
   CartItem({
     super.key,
     required this.bloc,
-    required this.product,
-    required this.quantity,
+    required this.orderItem,
     required this.quantityController,
   });
 
@@ -59,8 +58,8 @@ class _CartItemState extends State<CartItem> {
                     color: ColorManager.grey1,
                     image: DecorationImage(
                         fit: BoxFit.cover,
-                        image:
-                            NetworkImage(widget.product.productsImagesUrl![0])),
+                        image: NetworkImage(
+                            widget.orderItem.product.productsImagesUrl![0])),
                   ),
                 ),
                 SizedBox(
@@ -76,7 +75,7 @@ class _CartItemState extends State<CartItem> {
                     Text(
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
-                      widget.product.productName,
+                      widget.orderItem.product.productName,
                       style: TextStyle(
                           color: ColorManager.white,
                           fontWeight: FontWeightManager.bold,
@@ -95,7 +94,7 @@ class _CartItemState extends State<CartItem> {
                               color: ColorManager.white),
                         ),
                         Text(
-                          "${widget.product.productNewPrice} ",
+                          "${widget.orderItem.product.productNewPrice} ",
                           style: TextStyle(
                               fontWeight: FontWeightManager.bold,
                               fontSize: 15.sp,
@@ -125,7 +124,7 @@ class _CartItemState extends State<CartItem> {
                         ),
                         if (!widget.isQuantityEditingEnabled)
                           Text(
-                            "${widget.quantity}",
+                            "${widget.orderItem.quantity}",
                             style: TextStyle(
                                 fontWeight: FontWeightManager.bold,
                                 fontSize: 15.sp,
@@ -161,7 +160,7 @@ class _CartItemState extends State<CartItem> {
                               fontSize: 15.sp,
                               color: ColorManager.white),
                           decoration: InputDecoration(
-                            hintText: "${widget.quantity}",
+                            hintText: "${widget.orderItem.quantity}",
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(10.sp),
                             ),
@@ -192,7 +191,7 @@ class _CartItemState extends State<CartItem> {
                               children: [
                                 FittedBox(
                                   child: Text(
-                                    "${widget.quantity * widget.product.productNewPrice} ",
+                                    "${widget.orderItem.quantity * widget.orderItem.product.productNewPrice} ",
                                     style: TextStyle(
                                         fontWeight: FontWeightManager.bold,
                                         fontSize: 15.sp,
@@ -221,8 +220,8 @@ class _CartItemState extends State<CartItem> {
           alignment: AlignmentDirectional.topStart,
           child: IconButton(
               onPressed: () {
-                widget.bloc
-                    .add(RemoveFromCart(productId: widget.product.productId));
+                widget.bloc.add(RemoveFromCart(
+                    productId: widget.orderItem.product.productId));
               },
               icon: Icon(
                 Icons.remove_shopping_cart,
@@ -236,9 +235,10 @@ class _CartItemState extends State<CartItem> {
   void _editingCompleted() {
     setState(() {
       widget.isQuantityEditingEnabled = false;
-      widget.quantity = int.parse(widget.quantityController.text);
+      widget.orderItem.quantity = int.parse(widget.quantityController.text);
       widget.bloc.add(EditQuantityInCart(
-          productId: widget.product.productId, quantity: widget.quantity));
+          productId: widget.orderItem.product.productId,
+          quantity: widget.orderItem.quantity));
     });
   }
 }

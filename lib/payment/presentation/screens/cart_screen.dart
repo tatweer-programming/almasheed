@@ -21,63 +21,61 @@ class CartScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Customer customer = ConstantsManager.appUser as Customer;
-    MainBloc mainBloc = sl();
 
     print(customer.cartItems.toString() + "(((((((((((((((((((((((((((((");
 
-    PaymentBloc bloc = PaymentBloc.get(context);
+    PaymentBloc bloc = PaymentBloc.get()..add(PrepareCart());
     return Scaffold(
         body: BlocBuilder<PaymentBloc, PaymentState>(
       bloc: bloc,
       builder: (context, state) {
-        List<Product> items = mainBloc.products
-            .where(
-                (element) => customer.cartItems.containsKey(element.productId))
-            .toList();
-        return items.isEmpty
-            ? Center(child: Text(S.of(context).noItems))
-            : Column(
-                children: [
-                  Expanded(
-                    child: SingleChildScrollView(
-                      child: Column(
-                        children: [
-                          SizedBox(
-                            width: 100.w,
-                            child: ClipPath(
-                              clipper: HalfCircleCurve(12.h),
-                              child: Container(
-                                height: 35.h,
-                                color: ColorManager.primary,
-                                child: Padding(
-                                  padding: EdgeInsetsDirectional.only(
-                                      start: 8.w, end: 8.w, top: 1.h),
-                                  child: Column(
-                                    children: [
-                                      SizedBox(
-                                        height: 5.h,
-                                      ),
-                                      Text(
-                                        S.of(context).cart,
-                                        style: TextStyle(
-                                            color: ColorManager.white,
-                                            fontSize: 30.sp,
-                                            fontWeight: FontWeight.bold),
-                                      ),
-                                      SizedBox(width: 3.h),
-                                      Icon(
-                                        Icons.shopping_cart_outlined,
-                                        color: ColorManager.white,
-                                        size: 40.sp,
-                                      ),
-                                      SizedBox(width: 1.h),
-                                    ],
-                                  ),
+        print(bloc.order.orderItems.length.toString() +
+            "(((((((((((((((((((((((((((((");
+        bloc.add(PrepareCart());
+        return Column(
+          children: [
+            Expanded(
+              child: SingleChildScrollView(
+                child: Column(
+                  children: [
+                    SizedBox(
+                      width: 100.w,
+                      child: ClipPath(
+                        clipper: HalfCircleCurve(12.h),
+                        child: Container(
+                          height: 35.h,
+                          color: ColorManager.primary,
+                          child: Padding(
+                            padding: EdgeInsetsDirectional.only(
+                                start: 8.w, end: 8.w, top: 1.h),
+                            child: Column(
+                              children: [
+                                SizedBox(
+                                  height: 5.h,
                                 ),
-                              ),
+                                Text(
+                                  S.of(context).cart,
+                                  style: TextStyle(
+                                      color: ColorManager.white,
+                                      fontSize: 30.sp,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                                SizedBox(width: 3.h),
+                                Icon(
+                                  Icons.shopping_cart_outlined,
+                                  color: ColorManager.white,
+                                  size: 40.sp,
+                                ),
+                                SizedBox(width: 1.h),
+                              ],
                             ),
                           ),
-                          Padding(
+                        ),
+                      ),
+                    ),
+                    bloc.order.orderItems.isEmpty
+                        ? Center(child: Text(S.of(context).noItems))
+                        : Padding(
                             padding: EdgeInsets.all(5.0.w),
                             child: Column(
                               children: [
@@ -86,18 +84,15 @@ class CartScreen extends StatelessWidget {
                                   physics: const NeverScrollableScrollPhysics(),
                                   itemBuilder: (context, index) => CartItem(
                                     bloc: bloc,
-                                    product: items[index],
-                                    quantity: customer.cartItems[
-                                            items[index].productId] ??
-                                        1,
+                                    orderItem: bloc.order.orderItems[index],
                                     quantityController:
                                         TextEditingController(text: ""),
                                   ),
                                   separatorBuilder: (context, index) =>
                                       SizedBox(
-                                    height: 5.sp,
+                                    height: 2.h,
                                   ),
-                                  itemCount: items.length,
+                                  itemCount: bloc.order.orderItems.length,
                                 ),
                                 SizedBox(
                                   height: 5.sp,
@@ -105,75 +100,74 @@ class CartScreen extends StatelessWidget {
                               ],
                             ),
                           ),
-                        ],
-                      ),
-                    ),
+                  ],
+                ),
+              ),
+            ),
+            Padding(
+              padding: EdgeInsets.only(top: 1.h, left: 2.w, right: 2.w),
+              child: Container(
+                height: 8.h,
+                width: double.infinity,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadiusDirectional.only(
+                    topEnd: Radius.circular(10.sp),
+                    bottomEnd: Radius.circular(10.sp),
                   ),
-                  Padding(
-                    padding: EdgeInsets.only(top: 1.h, left: 2.w, right: 2.w),
-                    child: Container(
-                      height: 8.h,
-                      width: double.infinity,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadiusDirectional.only(
-                          topEnd: Radius.circular(10.sp),
-                          bottomEnd: Radius.circular(10.sp),
-                        ),
-                        color: ColorManager.primary,
+                  color: ColorManager.primary,
+                ),
+                child: Padding(
+                  padding: EdgeInsets.all(2.w),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      Text(
+                        "${S.of(context).totalPrice}: ",
+                        style: TextStyle(
+                            color: ColorManager.white,
+                            fontWeight: FontWeight.bold),
                       ),
-                      child: Padding(
-                        padding: EdgeInsets.all(2.w),
+                      Expanded(
                         child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceAround,
                           children: [
                             Text(
-                              "${S.of(context).totalPrice}: ",
+                              "${bloc.order.totalPrice} ",
+                              style: TextStyle(
+                                  fontSize: 18.sp,
+                                  color: ColorManager.white,
+                                  fontWeight: FontWeight.bold),
+                            ),
+                            Text(
+                              S.of(context).sar,
                               style: TextStyle(
                                   color: ColorManager.white,
                                   fontWeight: FontWeight.bold),
                             ),
-                            Expanded(
-                              child: Row(
-                                children: [
-                                  Text(
-                                    "${bloc.getTotalPrice()} ",
-                                    style: TextStyle(
-                                        fontSize: 18.sp,
-                                        color: ColorManager.white,
-                                        fontWeight: FontWeight.bold),
-                                  ),
-                                  Text(
-                                    S.of(context).sar,
-                                    style: TextStyle(
-                                        color: ColorManager.white,
-                                        fontWeight: FontWeight.bold),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            FittedBox(
-                              child: ElevatedButton(
-                                onPressed: () {},
-                                style: ElevatedButton.styleFrom(
-                                  primary: ColorManager.secondary,
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(10.sp),
-                                  ),
-                                ),
-                                child: Text(
-                                  S.of(context).payDeposit,
-                                  style: const TextStyle(
-                                      color: ColorManager.black),
-                                ),
-                              ),
-                            ),
                           ],
                         ),
                       ),
-                    ),
-                  )
-                ],
-              );
+                      FittedBox(
+                        child: ElevatedButton(
+                          onPressed: () {},
+                          style: ElevatedButton.styleFrom(
+                            primary: ColorManager.secondary,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10.sp),
+                            ),
+                          ),
+                          child: Text(
+                            S.of(context).payDeposit,
+                            style: const TextStyle(color: ColorManager.black),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            )
+          ],
+        );
       },
     ));
   }

@@ -23,7 +23,7 @@ class CategoryScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final MainBloc mainBloc = sl()..sortedProducts = category.products ?? [];
-    final PaymentBloc paymentBloc = PaymentBloc();
+    final PaymentBloc paymentBloc = PaymentBloc.get();
     bool isHorizontal = false;
     TextEditingController quantityController = TextEditingController();
     return BlocConsumer<MainBloc, MainState>(
@@ -175,7 +175,8 @@ class CategoryScreen extends StatelessWidget {
           Expanded(
             child: Text(
               S.of(context).sortByCity,
-              maxLines: 2,overflow: TextOverflow.ellipsis,
+              maxLines: 2,
+              overflow: TextOverflow.ellipsis,
               style: TextStyle(
                 color: ColorManager.white,
                 fontSize: 9.sp,
@@ -202,13 +203,13 @@ class CategoryScreen extends StatelessWidget {
                 bloc.add(CancelSortProductsEvent(products: category.products!));
                 context.pop();
               },
-              child:  Text(S.of(context).cancel),
+              child: Text(S.of(context).cancel),
             ),
             TextButton(
               onPressed: () {
                 context.pop();
               },
-              child:  Text(S.of(context).ok),
+              child: Text(S.of(context).ok),
             ),
           ],
           content: Column(
@@ -247,7 +248,8 @@ class CategoryScreen extends StatelessWidget {
           Expanded(
             child: Text(
               S.of(context).orderBy,
-              maxLines: 2,overflow: TextOverflow.ellipsis,
+              maxLines: 2,
+              overflow: TextOverflow.ellipsis,
               style: TextStyle(
                 color: ColorManager.white,
                 fontSize: 9.sp,
@@ -274,7 +276,7 @@ class CategoryScreen extends StatelessWidget {
                 bloc.add(CancelSortProductsEvent(products: category.products!));
                 context.pop();
               },
-              child:  Text(S.of(context).cancel),
+              child: Text(S.of(context).cancel),
             ),
           ],
           content: Column(
@@ -390,7 +392,8 @@ class CategoryScreen extends StatelessWidget {
                   productId: product.productId,
                 ),
               );
-            }, context: context,
+            },
+            context: context,
           );
         }).toList(),
       ),

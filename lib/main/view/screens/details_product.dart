@@ -27,7 +27,7 @@ class DetailsProductScreen extends StatelessWidget {
     TextEditingController quantityController = TextEditingController();
     final MainBloc mainBloc = sl();
     quantityController.text = "1";
-    final PaymentBloc paymentBloc = PaymentBloc();
+    final PaymentBloc paymentBloc = PaymentBloc.get();
     return BlocConsumer<MainBloc, MainState>(
       listener: (context, state) => _handleBlocState(context, mainBloc, state),
       builder: (context, state) {

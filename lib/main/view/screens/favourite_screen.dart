@@ -21,7 +21,7 @@ class FavouriteScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final MainBloc bloc = sl();
     List<Product> favProducts = _favProducts(bloc.products);
-    final PaymentBloc paymentBloc = PaymentBloc.get(context);
+    final PaymentBloc paymentBloc = PaymentBloc.get();
     return BlocBuilder<MainBloc, MainState>(
       builder: (context, state) {
         return SingleChildScrollView(
@@ -58,7 +58,8 @@ class FavouriteScreen extends StatelessWidget {
                             Padding(
                               padding: EdgeInsets.only(left: 5.w),
                               child: IconButton(
-                                onPressed: () => context.push(const CartScreen()),
+                                onPressed: () =>
+                                    context.push(const CartScreen()),
                                 icon: const Icon(
                                   Icons.shopping_cart_outlined,
                                   color: ColorManager.white,

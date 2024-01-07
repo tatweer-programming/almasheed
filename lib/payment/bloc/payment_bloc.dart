@@ -20,9 +20,8 @@ part 'payment_state.dart';
 class PaymentBloc extends Bloc<PaymentEvent, PaymentState> {
   final PaymentRepository _repository = PaymentRepository();
 
-  static PaymentBloc get(BuildContext context) =>
-      BlocProvider.of<PaymentBloc>(context);
-  late OrderModel order;
+  static PaymentBloc get() => PaymentBloc();
+  OrderModel order = OrderModel.create([]);
 
   PaymentBloc() : super(PaymentInitial()) {
     on<PaymentEvent>((event, emit) async {
@@ -34,6 +33,7 @@ class PaymentBloc extends Bloc<PaymentEvent, PaymentState> {
           emit(AddToCartErrorState());
         }, (r) {
           defaultToast(msg: "Added Successfully");
+
           emit(AddToCartSuccessState());
         });
       } else if (event is RemoveFromCart) {
@@ -46,6 +46,7 @@ class PaymentBloc extends Bloc<PaymentEvent, PaymentState> {
           errorToast(msg: "");
         }, (r) {
           defaultToast(msg: "Removed Successfully");
+
           emit(RemoveFromCartSuccessState());
         });
       } else if (event is EditQuantityInCart) {
@@ -57,6 +58,7 @@ class PaymentBloc extends Bloc<PaymentEvent, PaymentState> {
           errorToast(msg: "");
         }, (r) {
           defaultToast(msg: "Updated Successfully");
+
           emit(EditQuantityInCartSuccessState());
         });
       } else if (event is ClearCart) {
@@ -67,36 +69,38 @@ class PaymentBloc extends Bloc<PaymentEvent, PaymentState> {
           errorToast(msg: "");
         }, (r) {
           defaultToast(msg: "Deleted Successfully");
+
           emit(ClearCartSuccessState());
         });
       } else if (event is CompletePaymentCart) {
         var response = await _repository.completePayment(
             context: event.context, order: event.order);
         if (response.isSuccess) {}
+      } else if (event is PrepareCart) {
+        _generateOrder();
+        emit(CartPreparedState());
       }
     });
   }
-
-  double getTotalPrice() {
-    return 0;
-  }
-
-  _generateOrder() async {
+  _generateOrder() {
     MainBloc mainBloc = sl();
     List<OrderItem> orderItems = [];
     Customer customer = ConstantsManager.appUser as Customer;
+    print(customer.cartItems.toString());
     customer.cartItems.forEach((key, value) {
       orderItems.add(OrderItem(
           product: mainBloc.products
               .firstWhere((element) => element.productId == key),
           quantity: value));
     });
+
     order = OrderModel.create(orderItems);
+    return order;
   }
 
   Future<Either<FirebaseException, Unit>> _completeOrder(
-      OrderModel order) async {
-    //TODO: complete order
+      OrderModel order, BuildContext context) async {
+    await _repository.completePayment(context: context, order: order);
     throw UnimplementedError();
   }
 }

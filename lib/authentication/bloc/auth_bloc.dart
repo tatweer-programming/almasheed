@@ -41,19 +41,15 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
   AuthBloc() : super(AuthInitial()) {
     repository = AuthRepository();
-
     on<AuthEvent>(_handleEvents);
   }
 
-
-
-
-  _handleEvents (event, emit) async {
+  _handleEvents(event, emit) async {
     if (event is SendCodeEvent) {
       emit(SendCodeLoadingState());
       ConstantsManager.appUser = event.user;
       final result =
-      await repository.verifyPhoneNumber(ConstantsManager.appUser!.phone);
+          await repository.verifyPhoneNumber(ConstantsManager.appUser!.phone);
       result.fold((l) {
         emit(SendCodeErrorState(l));
       }, (r) {
@@ -64,10 +60,9 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     }
     if (event is LoginByPhoneEvent) {
       ConstantsManager.appUser = event.user;
-      String userType = event.user is Customer ? "customer" : "merchant";
+      String userType = event.user.getType();
       emit(SendCodeLoadingState());
-      final result =
-      await repository.loginByPhone(event.user.phone, userType);
+      final result = await repository.loginByPhone(event.user.phone, userType);
       result.fold((l) {
         emit(SendCodeErrorState(l));
       }, (r) {
@@ -89,8 +84,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       if (kDebugMode) {
         print(ConstantsManager.appUser);
       }
-      String userType =
-      (ConstantsManager.appUser is Customer) ? "customer" : "merchant";
+      String userType = ConstantsManager.appUser!.getType();
       var result = await repository.verifyCode(event.code, userType);
       result.fold((l) {
         emit(VerifyCodeErrorState(l));
@@ -116,7 +110,6 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       bool isExists = r;
       if (isExists) {
         authCompleted = true;
-
         emit(Authenticated());
         if (kDebugMode) {
           print(ConstantsManager.appUser);
