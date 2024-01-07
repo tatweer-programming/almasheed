@@ -47,9 +47,11 @@ class EditQuantityInCart extends PaymentEvent {
 
 class CompletePaymentCart extends PaymentEvent {
   final BuildContext context;
-  final OrderModel order;
-  const CompletePaymentCart({required this.context, required this.order});
+
+  const CompletePaymentCart({
+    required this.context,
+  });
 
   @override
-  List<Object?> get props => [order];
+  List<Object?> get props => [];
 }

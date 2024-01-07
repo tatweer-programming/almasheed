@@ -27,4 +27,9 @@ class PaymentRepository {
       {required BuildContext context, required OrderModel order}) {
     return service.completePayment(context: context, order: order);
   }
+
+  Future<Either<FirebaseException, Unit>> saveOrderData(
+      OrderModel order) async {
+    return service.saveOrderData(order);
+  }
 }

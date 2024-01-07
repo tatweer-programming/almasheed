@@ -148,7 +148,11 @@ class CartScreen extends StatelessWidget {
                       ),
                       FittedBox(
                         child: ElevatedButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            bloc.add(CompletePaymentCart(
+                              context: context,
+                            ));
+                          },
                           style: ElevatedButton.styleFrom(
                             primary: ColorManager.secondary,
                             shape: RoundedRectangleBorder(
