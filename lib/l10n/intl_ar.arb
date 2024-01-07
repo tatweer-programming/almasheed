@@ -97,5 +97,6 @@
   "notifications": "الاشعارات",
   "setting": "الاعدادات",
   "shareApp": "مشاركة التطبيق",
-  "typeMessage": "اكتب رسالة .."
+  "typeMessage": "اكتب رسالة ..",
+  "enterValidQuantity": "الرجاء إدخال كمية صالحة"
 }

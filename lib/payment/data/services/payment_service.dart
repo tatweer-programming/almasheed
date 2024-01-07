@@ -8,15 +8,13 @@ import 'package:my_fatoorah/my_fatoorah.dart';
 
 class PaymentService {
   FirebaseFirestore fireStore = FirebaseFirestore.instance;
+  Customer customer = ConstantsManager.appUser as Customer;
 
   Future<Either<FirebaseException, bool>> addItem(
       {required String productId, int quantity = 1}) async {
-    Customer customer = ConstantsManager.appUser as Customer;
     try {
       customer.cartItems[productId] = quantity;
-      fireStore
-          .doc('customers/${ConstantsManager.appUser!.id}')
-          .update({'cartItems': customer.cartItems});
+      await _updateCartInFireStore();
       return const Right(true);
     } on FirebaseException catch (e) {
       customer.cartItems.remove(productId);
@@ -26,12 +24,9 @@ class PaymentService {
 
   Future<Either<FirebaseException, bool>> editQuantity(
       {required String productId, required int quantity}) async {
-    Customer customer = ConstantsManager.appUser as Customer;
     try {
       customer.cartItems[productId] = quantity;
-      fireStore
-          .doc('customers/${ConstantsManager.appUser!.id}')
-          .update({'cartItems': customer.cartItems});
+      await _updateCartInFireStore();
       return const Right(true);
     } on FirebaseException catch (e) {
       customer.cartItems.remove(productId);
@@ -41,28 +36,9 @@ class PaymentService {
 
   Future<Either<FirebaseException, bool>> removeItem(
       {required String productId}) async {
-    Customer customer = ConstantsManager.appUser as Customer;
-
     try {
       customer.cartItems.remove(productId);
-      fireStore
-          .doc('customers/${ConstantsManager.appUser!.id}')
-          .update({'cartItems': customer.cartItems});
-
-      return const Right(true);
-    } on FirebaseException catch (e) {
-      return Left(e);
-    }
-  }
-
-  Future<Either<FirebaseException, bool>> clearCart() async {
-    Customer customer = ConstantsManager.appUser as Customer;
-
-    try {
-      fireStore
-          .doc('customers/${ConstantsManager.appUser!.id}')
-          .update({'cartItems': []});
-      customer.cartItems.clear();
+      await _updateCartInFireStore();
       return const Right(true);
     } on FirebaseException catch (e) {
       return Left(e);
@@ -74,7 +50,7 @@ class PaymentService {
     return MyFatoorah.startPayment(
       context: context,
       request: MyfatoorahRequest.test(
-        customerMobile: ConstantsManager.appUser?.phone,
+        customerMobile: customer.phone,
         initiatePaymentUrl: "https://sa.myfatoorah.com/",
         currencyIso: Country.SaudiArabia,
         successUrl: "https://www.google.com",
@@ -86,6 +62,13 @@ class PaymentService {
       ),
     );
   }
+
+  Future _updateCartInFireStore() async {
+    await fireStore
+        .doc('customers/${customer.id}')
+        .update({'cartItems': customer.cartItems});
+  }
+}
 
 // Future<Either<FirebaseException , Unit>> completeOrder(OrderModel order) async
 // {
@@ -101,4 +84,3 @@ class PaymentService {
 //       return Left(e);
 //         }
 // }
-}

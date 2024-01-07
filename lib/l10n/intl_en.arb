@@ -97,5 +97,6 @@
   "contactUs": "Contact Us",
   "shareApp": "Share App",
   "chat": "Chats",
-  "typeMessage": "Type a message .."
+  "typeMessage": "Type a message ..",
+  "enterValidQuantity": "Please enter a valid quantity"
 }

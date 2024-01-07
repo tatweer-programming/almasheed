@@ -7,7 +7,6 @@ import 'package:dartz/dartz.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
 import '../../authentication/data/models/customer.dart';
 import '../../core/services/dep_injection.dart';
 import '../data/models/orderItem.dart';
@@ -18,10 +17,11 @@ part 'payment_event.dart';
 part 'payment_state.dart';
 
 class PaymentBloc extends Bloc<PaymentEvent, PaymentState> {
-  final PaymentRepository _repository = PaymentRepository();
-
   static PaymentBloc get() => PaymentBloc();
   OrderModel order = OrderModel.create([]);
+
+  // variables
+  final PaymentRepository _repository = PaymentRepository();
 
   PaymentBloc() : super(PaymentInitial()) {
     on<PaymentEvent>((event, emit) async {
@@ -61,17 +61,6 @@ class PaymentBloc extends Bloc<PaymentEvent, PaymentState> {
 
           emit(EditQuantityInCartSuccessState());
         });
-      } else if (event is ClearCart) {
-        emit(ClearCartLoadingState());
-        var response = await _repository.clearCart();
-        response.fold((l) {
-          emit(ClearCartErrorState());
-          errorToast(msg: "");
-        }, (r) {
-          defaultToast(msg: "Deleted Successfully");
-
-          emit(ClearCartSuccessState());
-        });
       } else if (event is CompletePaymentCart) {
         var response = await _repository.completePayment(
             context: event.context, order: event.order);
@@ -82,6 +71,7 @@ class PaymentBloc extends Bloc<PaymentEvent, PaymentState> {
       }
     });
   }
+
   _generateOrder() {
     MainBloc mainBloc = sl();
     List<OrderItem> orderItems = [];

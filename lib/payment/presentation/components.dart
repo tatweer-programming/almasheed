@@ -1,3 +1,4 @@
+import 'package:almasheed/authentication/presentation/components.dart';
 import 'package:almasheed/core/utils/color_manager.dart';
 import 'package:almasheed/core/utils/font_manager.dart';
 import 'package:almasheed/main/data/models/product.dart';
@@ -151,20 +152,15 @@ class _CartItemState extends State<CartItem> {
                     if (widget.isQuantityEditingEnabled)
                       SizedBox(
                         width: 20.w,
-                        child: TextField(
+                        child: defaultFormField(
+                          label: S.of(context).quantity,
                           controller: widget.quantityController,
-                          keyboardType: TextInputType.number,
-                          onEditingComplete: _editingCompleted,
-                          style: TextStyle(
-                              fontWeight: FontWeightManager.bold,
-                              fontSize: 15.sp,
-                              color: ColorManager.white),
-                          decoration: InputDecoration(
-                            hintText: "${widget.orderItem.quantity}",
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(10.sp),
-                            ),
-                          ),
+                          validator: (value) {
+                            if (value!.isEmpty || value == "0") {
+                              return S.of(context).enterValidQuantity;
+                            }
+                            return null;
+                          },
                         ),
                       ),
                     if (!widget.isQuantityEditingEnabled)

@@ -23,10 +23,6 @@ class PaymentRepository {
     return service.removeItem(productId: productId);
   }
 
-  Future<Either<FirebaseException, bool>> clearCart() {
-    return service.clearCart();
-  }
-
   Future<PaymentResponse> completePayment(
       {required BuildContext context, required OrderModel order}) {
     return service.completePayment(context: context, order: order);

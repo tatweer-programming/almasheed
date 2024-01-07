@@ -84,6 +84,8 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Enter the code sent to "),
         "enterValidDiscount": MessageLookupByLibrary.simpleMessage(
             "Please enter a valid discount from 0% to 100%"),
+        "enterValidQuantity": MessageLookupByLibrary.simpleMessage(
+            "Please enter a valid quantity"),
         "evaluation": MessageLookupByLibrary.simpleMessage("Evaluation"),
         "faq": MessageLookupByLibrary.simpleMessage("FAQ"),
         "favourites": MessageLookupByLibrary.simpleMessage("Favorites"),

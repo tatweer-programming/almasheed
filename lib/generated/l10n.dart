@@ -1031,6 +1031,16 @@ class S {
       args: [],
     );
   }
+
+  /// `Please enter a valid quantity`
+  String get enterValidQuantity {
+    return Intl.message(
+      'Please enter a valid quantity',
+      name: 'enterValidQuantity',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {
