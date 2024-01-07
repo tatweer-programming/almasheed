@@ -6,6 +6,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:record_mp3/record_mp3.dart';
+import '../data/models/chat.dart';
 import '../data/models/message.dart';
 import '../data/repositories/chat_repository.dart';
 
@@ -24,6 +25,7 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
   bool isComplete = false;
   bool isPlaying = false;
   String? imageFilePath;
+  List<Chat>chats = [];
 
   ChatBloc(ChatInitial chatInitial) : super(ChatInitial()) {
     on<ChatEvent>((event, emit) async {
@@ -35,6 +37,15 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
       } else if (event is SendMessageEvent) {
         await chatRepository.sendMessage(message: event.message);
         emit(SendMessagesSuccessState());
+      } else if (event is GetChatsEvent) {
+        var result = await chatRepository.getChats();
+        result.fold((l) {
+          emit(GetChatErrorState());
+        }, (r) {
+          chats = r;
+          print(chats);
+          emit(GetChatSuccessfullyState());
+        });
       } else if (event is StartRecordingEvent) {
         await startRecord();
         emit(StartRecordState());
@@ -73,7 +84,7 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
         }
       } else if (event is PickImageEvent) {
         final pickedFile =
-            await ImagePicker().pickImage(source: ImageSource.gallery);
+        await ImagePicker().pickImage(source: ImageSource.gallery);
         if (pickedFile != null) {
           imageFilePath = pickedFile.path;
           emit(PickImageState());
@@ -81,7 +92,7 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
       } else if (event is RemovePickedImageEvent) {
         imageFilePath = null;
         emit(RemovePickedImageState());
-      }else if (event is RemoveRecordEvent) {
+      } else if (event is RemoveRecordEvent) {
         voiceNoteFilePath = null;
         emit(RemoveRecordState());
       }
@@ -105,7 +116,10 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
     if (!d.existsSync()) {
       d.createSync(recursive: true);
     }
-    return "$sdPath/${DateTime.now().millisecondsSinceEpoch.toString()}.mp3";
+    return "$sdPath/${DateTime
+        .now()
+        .millisecondsSinceEpoch
+        .toString()}.mp3";
   }
 
   Future<void> startRecord() async {

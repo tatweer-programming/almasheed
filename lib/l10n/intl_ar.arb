@@ -95,5 +95,7 @@
   "chat": "الدردشة",
   "language": "اللغة",
   "notifications": "الاشعارات",
-  "setting": "الاعدادات"
+  "setting": "الاعدادات",
+  "shareApp": "مشاركة التطبيق",
+  "typeMessage": "اكتب رسالة .."
 }

@@ -1002,11 +1002,31 @@ class S {
     );
   }
 
+  /// `Share App`
+  String get shareApp {
+    return Intl.message(
+      'Share App',
+      name: 'shareApp',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Chats`
   String get chat {
     return Intl.message(
       'Chats',
       name: 'chat',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Type a message ..`
+  String get typeMessage {
+    return Intl.message(
+      'Type a message ..',
+      name: 'typeMessage',
       desc: '',
       args: [],
     );

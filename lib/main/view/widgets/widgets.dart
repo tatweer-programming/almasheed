@@ -645,45 +645,48 @@ Widget settingItemBuilder({
   required String label,
   required IconData iconData,
   Widget? suffixWidget,
+  VoidCallback? onTap,
 }) {
-  return SizedBox(
-      height: 7.h,
-      width: 90.w,
-      child: Card(
-        elevation: 5,
-        color: ColorManager.primary,
-        shape: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(20.sp),
-          borderSide: BorderSide.none,
-        ),
-        child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 2.w),
-          child: Row(
-            children: [
-              Icon(
-                iconData,
-                color: ColorManager.white,
-              ),
-              SizedBox(
-                width: 5.sp,
-              ),
-              Expanded(
-                child: Text(
-                  label,
-                  style: TextStyle(
-                    fontSize: 13.sp,
-                    color: ColorManager.white,
-                    fontWeight: FontWeight.bold,
+  return InkWell(
+    onTap: onTap,
+    child: SizedBox(
+        height: 7.h,
+        width: 90.w,
+        child: Card(
+          elevation: 5,
+          color: ColorManager.primary,
+          shape: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(20.sp),
+            borderSide: BorderSide.none,
+          ),
+          child: Padding(
+            padding: EdgeInsets.symmetric(horizontal: 2.w),
+            child: Row(
+              children: [
+                Icon(
+                  iconData,
+                  color: ColorManager.white,
+                ),
+                SizedBox(
+                  width: 5.sp,
+                ),
+                Expanded(
+                  child: Text(
+                    label,
+                    style: TextStyle(
+                      fontSize: 13.sp,
+                      color: ColorManager.white,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                 ),
-              ),
-              suffixWidget ??
-                  const Icon(
-                    Icons.arrow_forward_ios,
-                    color: ColorManager.white,
-                  ),
-            ],
+                suffixWidget?? const Icon(
+                  Icons.arrow_forward_ios,
+                  color: ColorManager.white,
+                ),
+              ],
+            ),
           ),
-        ),
-      ));
+        )),
+  );
 }

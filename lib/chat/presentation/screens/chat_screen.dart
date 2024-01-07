@@ -11,8 +11,7 @@ import 'package:dartz/dartz.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sizer/sizer.dart';
-
-import '../../../authentication/data/models/customer.dart';
+import '../../../generated/l10n.dart';
 
 class ChatScreen extends StatelessWidget {
   final String receiverId;
@@ -38,7 +37,9 @@ class ChatScreen extends StatelessWidget {
       },
       builder: (context, state) {
         return Scaffold(
-          appBar: AppBar(),
+          appBar: AppBar(
+            backgroundColor: ColorManager.primary,
+          ),
           body: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -184,7 +185,7 @@ class ChatScreen extends StatelessWidget {
                         },
                         decoration: InputDecoration(
                           contentPadding: EdgeInsets.symmetric(horizontal: 2.w),
-                          hintText: 'Type a message...',
+                          hintText: S.of(context).typeMessage,
                           enabledBorder: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(
                             25.sp,
@@ -213,8 +214,7 @@ class ChatScreen extends StatelessWidget {
                               message: messageController.text,
                               imageFilePath: bloc.imageFilePath,
                               voiceNoteFilePath: bloc.voiceNoteFilePath,
-                              senderId:
-                                  (ConstantsManager.appUser as Customer).id,
+                              senderId: ConstantsManager.appUser!.id,
                               receiverId: receiverId,
                             ),
                           ));
@@ -238,8 +238,7 @@ Widget messageWidget(
     bool? isPlaying,
     double? position}) {
   if (ConstantsManager.appUser!.id == message.senderId) {
-    if (message.voiceNoteUrl != null &&
-        playAudio != null) {
+    if (message.voiceNoteUrl != null && playAudio != null) {
       return _voiceWidget(
           isSender: false, playAudio: playAudio, isPlaying: isPlaying!);
     } else if (message.imageUrl != null) {
@@ -272,7 +271,7 @@ Widget _voiceWidget({
           : AlignmentDirectional.topEnd,
       child: Container(
         decoration: BoxDecoration(
-            color: !isSender ? ColorManager.primary : const Color(0xff7A470B),
+            color: isSender ? ColorManager.primary : const Color(0xffac793d),
             shape: BoxShape.circle),
         padding: EdgeInsetsDirectional.all(5.sp),
         child: IconButton(
@@ -294,7 +293,7 @@ Widget _imageWidget({required bool isSender, required String image}) {
     id: image,
     image: Image.network(image),
     isSender: isSender,
-    color: !isSender ? ColorManager.primary : const Color(0xff7A470B),
+    color: !isSender ? ColorManager.primary : const Color(0xffac793d),
   );
 }
 
@@ -304,7 +303,7 @@ Widget _textWidget({
 }) {
   return BubbleSpecialThree(
     text: message,
-    color: !isSender ? ColorManager.primary : const Color(0xff7A470B),
+    color: !isSender ? ColorManager.primary : const Color(0xffac793d),
     tail: true,
     textStyle: TextStyle(
       color: Colors.white,

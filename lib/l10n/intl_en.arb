@@ -95,5 +95,7 @@
   "language": "Language",
   "notifications": "Notifications",
   "contactUs": "Contact Us",
-  "chat": "Chats"
+  "shareApp": "Share App",
+  "chat": "Chats",
+  "typeMessage": "Type a message .."
 }

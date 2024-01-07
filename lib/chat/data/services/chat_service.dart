@@ -1,11 +1,14 @@
 import 'dart:io';
 
 import 'package:almasheed/authentication/data/models/customer.dart';
+import 'package:almasheed/authentication/data/models/merchant.dart';
 import 'package:almasheed/chat/data/models/message.dart';
 import 'package:almasheed/core/utils/constance_manager.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dartz/dartz.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+
+import '../models/chat.dart';
 
 class ChatService {
   FirebaseFirestore firebaseInstance = FirebaseFirestore.instance;
@@ -73,6 +76,52 @@ class ChatService {
     }
   }
 
+  Future<Either<FirebaseException, List<Chat>>> getChats() async {
+    try {
+      List<Chat> chats = [];
+      await firebaseInstance
+          .collection(
+              ConstantsManager.appUser is Merchant ? "merchants" : "customers")
+          .doc(ConstantsManager.appUser!.id)
+          .collection("chats")
+          .get()
+          .then((value) {
+        for (var element in value.docs) {
+          chats.add(Chat.fromJson(element.data()));
+        }
+      });
+      return Right(chats);
+    } on FirebaseException catch (e) {
+      return Left(e);
+    }
+  }
+
+  Future<Either<FirebaseException, Unit>> createChat(
+      {required Chat chat}) async {
+    try {
+      var batch = FirebaseFirestore.instance.batch();
+      var setInSender = firebaseInstance
+          .collection(
+              ConstantsManager.appUser is Merchant ? "merchants" : "customers")
+          .doc(ConstantsManager.userId)
+          .collection("chats")
+          .doc(chat.receiverId);
+      var setInReceiver = firebaseInstance
+          .collection(
+              ConstantsManager.appUser is Merchant ? "merchants" : "customers")
+          .doc(chat.receiverId)
+          .collection("chats")
+          .doc(ConstantsManager.userId);
+
+      batch.set(setInSender, chat.toJson());
+      batch.set(setInReceiver, chat.toJson());
+      await batch.commit();
+      return const Right(unit);
+    } on FirebaseException catch (e) {
+      return Left(e);
+    }
+  }
+
   Stream<List<Message>> getMessagesForUser({
     required String userType,
     required String userId,
@@ -101,19 +150,17 @@ class ChatService {
     required String receiverId,
     required Message message,
   }) async {
-    if(message.voiceNoteFilePath != null){
-      message.voiceNoteUrl = await _uploadImageToFirebaseStorage(filePath: message.voiceNoteFilePath!,fileName:
-      "audios/${message.senderId}/${Uri
-          .file(message.voiceNoteFilePath!)
-          .pathSegments
-          .last}");
+    if (message.voiceNoteFilePath != null) {
+      message.voiceNoteUrl = await _uploadImageToFirebaseStorage(
+          filePath: message.voiceNoteFilePath!,
+          fileName:
+              "audios/${message.senderId}/${Uri.file(message.voiceNoteFilePath!).pathSegments.last}");
     }
-    if(message.imageFilePath != null){
-      message.imageUrl = await _uploadImageToFirebaseStorage(filePath: message.imageFilePath!,fileName:
-    "images/${message.senderId}/${Uri
-        .file(message.imageFilePath!)
-        .pathSegments
-        .last}");
+    if (message.imageFilePath != null) {
+      message.imageUrl = await _uploadImageToFirebaseStorage(
+          filePath: message.imageFilePath!,
+          fileName:
+              "images/${message.senderId}/${Uri.file(message.imageFilePath!).pathSegments.last}");
     }
     await firebaseInstance
         .collection(userType)
@@ -123,6 +170,7 @@ class ChatService {
         .collection('messages')
         .add(message.toJson());
   }
+
   Future<String> _uploadImageToFirebaseStorage(
       {required String filePath, required String fileName}) async {
     Reference reference = FirebaseStorage.instance.ref().child(fileName);

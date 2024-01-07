@@ -49,7 +49,6 @@ class SetProductErrorState extends MainState {
   List<Object?> get props => [error];
 }
 
-
 // update product
 class UpdateProductSuccessfullyState extends MainState {
   @override
@@ -122,7 +121,9 @@ class GetMerchantsLoadingState extends MainState {
 
 class ChangeShowingProductsState extends MainState {
   final bool isHorizontal;
+
   const ChangeShowingProductsState({required this.isHorizontal});
+
   @override
   List<Object?> get props => [isHorizontal];
 }
@@ -195,6 +196,7 @@ class GetUserDataErrorState extends MainState {
   @override
   List<Object?> get props => [error];
 }
+
 // Add And Remove From Favorites
 class AddAndRemoveFromFavoritesSuccessfullyState extends MainState {
   @override
@@ -350,8 +352,30 @@ class SelectEditProductState extends MainState {
 }
 
 class ChangeLocaleState extends MainState {
-  final int index ;
+  final int index;
+
   const ChangeLocaleState(this.index);
+
   @override
   List<Object?> get props => [index];
+}
+
+class ChangeSwitchNotificationsState extends MainState {
+  final bool isOn;
+
+  const ChangeSwitchNotificationsState(this.isOn);
+
+  @override
+  List<Object?> get props => [isOn];
+}
+
+
+class ChooseCategoryState extends MainState {
+  final List<Product> categoryProducts;
+  final String categoryName;
+
+  const ChooseCategoryState({required this.categoryName,required this.categoryProducts});
+
+  @override
+  List<Object?> get props => [categoryProducts,categoryName];
 }

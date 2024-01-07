@@ -27,6 +27,7 @@ Future<void> main() async {
   ServiceLocator().init();
   await LocalizationManager.init();
   ConstantsManager.userId = await CacheHelper.getData(key: "userId");
+  ConstantsManager.isNotificationsOn = await CacheHelper.getData(key: "isNotificationsOn");
   ConstantsManager.userType = await CacheHelper.getData(key: "userType");
   runApp(const Masheed());
 }
@@ -53,6 +54,7 @@ class Masheed extends StatelessWidget {
           child: BlocBuilder<MainBloc, MainState>(
             builder: (context, state) {
               return MaterialApp(
+                debugShowCheckedModeBanner: false,
                 localizationsDelegates: const [
                   S.delegate,
                   GlobalMaterialLocalizations.delegate,

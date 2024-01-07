@@ -8,7 +8,9 @@ import 'package:almasheed/main/view/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sizer/sizer.dart';
-
+import 'package:share_plus/share_plus.dart';
+import '../../../chat/presentation/screens/chats_screen.dart';
+import '../../../core/local/shared_prefrences.dart';
 import '../../../core/services/dep_injection.dart';
 import '../../../core/utils/color_manager.dart';
 import '../../../generated/l10n.dart';
@@ -20,7 +22,15 @@ class SupportScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     MainBloc bloc = sl();
-    return BlocBuilder<MainBloc, MainState>(
+    bool isOn = ConstantsManager.isNotificationsOn ?? false;
+    return BlocConsumer<MainBloc, MainState>(
+      listener: (context, state) async {
+        if (state is ChangeSwitchNotificationsState) {
+          isOn = state.isOn;
+          await CacheHelper.saveData(key: "isNotificationsOn", value: isOn);
+          ConstantsManager.isNotificationsOn = isOn;
+        }
+      },
       builder: (context, state) {
         return SingleChildScrollView(
           child: Column(
@@ -102,7 +112,7 @@ class SupportScreen extends StatelessWidget {
                         ProfileItemBuilder(
                           iconData: Icons.chat_bubble,
                           label: S.of(context).chat,
-                          nextScreen: const FAQScreen(),
+                          nextScreen: const ChatsScreen(),
                         ),
                       ],
                     ),
@@ -156,10 +166,29 @@ class SupportScreen extends StatelessWidget {
                         settingItemBuilder(
                           label: S.of(context).notifications,
                           iconData: Icons.notifications_active,
-
+                          suffixWidget: Switch(
+                            activeColor: ColorManager.secondary,
+                            inactiveThumbColor: ColorManager.secondary,
+                            inactiveTrackColor: ColorManager.grey2,
+                            activeTrackColor: ColorManager.grey2,
+                            value: isOn,
+                            onChanged: (isOn) {
+                              bloc.add(ChangeSwitchNotificationsEvent(isOn));
+                            },
+                          ),
                         ),
+                        settingItemBuilder(
+                            label: S.of(context).shareApp,
+                            iconData: Icons.share,
+                            onTap: () {
+                              Share.share('hey! check out this new app https:https://play.google.com/store/apps/details?id=com.learn.be_well',
+                                  subject: 'Look what I made!');
+                            }),
                       ],
                     ),
+                    SizedBox(
+                      height: 5.h,
+                    )
                   ],
                 ),
               ),

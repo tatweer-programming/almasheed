@@ -13,6 +13,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
 import '../../authentication/data/models/merchant.dart';
 import '../../core/services/dep_injection.dart';
+import '../view/screens/categories_screen.dart';
 import '../view/screens/favourite_screen.dart';
 import '../view/screens/home_page_screen.dart';
 
@@ -38,7 +39,7 @@ class MainBloc extends Bloc<MainEvent, MainState> {
   List<Product> sortedProducts = [];
   List<Widget> pages = [
     const HomePageScreen(),
-    const ProfileScreen(),
+    const CategoriesScreen(),
     const FavouriteScreen(),
     const ProfileScreen(),
     const SupportScreen(),
@@ -241,6 +242,12 @@ class MainBloc extends Bloc<MainEvent, MainState> {
       } else if (event is ChangeLocaleEvent) {
         await LocalizationManager.setLocale(event.index);
         emit(ChangeLocaleState(event.index));
+      } else if (event is ChangeSwitchNotificationsEvent) {
+        emit(ChangeSwitchNotificationsState(event.isOn));
+      } else if (event is ChooseCategoryEvent) {
+        emit(ChooseCategoryState(
+            categoryName: event.categoryName,
+            categoryProducts: event.categoryProducts));
       }
     });
   }

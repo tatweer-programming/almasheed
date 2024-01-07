@@ -19,6 +19,13 @@ class StartRecordState extends ChatState {}
 class PickImageState extends ChatState {}
 
 class RemovePickedImageState extends ChatState {}
+
+class GetChatSuccessfullyState extends ChatState {}
+
+class GetChatErrorState extends ChatState {}
+
+class CreateChatState extends ChatState {}
+
 class RemoveRecordState extends ChatState {}
 
 class EndRecordState extends ChatState {}
@@ -26,8 +33,10 @@ class EndRecordState extends ChatState {}
 class PlayRecordUrlState extends ChatState {
   final String voiceNoteUrl;
   final bool isPlaying;
+
   PlayRecordUrlState({required this.voiceNoteUrl, required this.isPlaying});
 }
+
 class PlayRecordFileState extends ChatState {}
 
 class CompleteRecordUrlState extends ChatState {
@@ -36,4 +45,5 @@ class CompleteRecordUrlState extends ChatState {
 
   CompleteRecordUrlState({required this.voiceNoteUrl, required this.isPlaying});
 }
+
 class CompleteRecordFileState extends ChatState {}

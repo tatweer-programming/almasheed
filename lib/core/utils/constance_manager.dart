@@ -7,11 +7,21 @@ class ConstantsManager {
   // static AppUser? appUser;
   static String? userId;
   static String? userType;
+  static bool? isNotificationsOn;
 
   // static AppUser? appUser;
 
+  // static AppUser? appUser = Merchant(
+  //   id: "oVtWmHhUWJcVfi7MT1GyVvANHIA2",
+  //   phone: "",
+  //   orders: [],
+  //   area: "",
+  //   city: "",
+  //   companyName: "Ahmed",
+  //   productsIds: [],registrationNumber: ""
+  // );
   static AppUser? appUser = Customer(
-    id: "oVtWmHhUWJcVfi7MT1GyVvANHIA2",
+    id: "u8BNEWaq4OPE0vogmtJDi0IBUMp1",
     phone: "",
     orders: [],
     cartItems: {},

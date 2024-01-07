@@ -21,7 +21,7 @@ class FavouriteScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final MainBloc bloc = sl();
     List<Product> favProducts = _favProducts(bloc.products);
-    final PaymentBloc paymentBloc = PaymentBloc();
+    final PaymentBloc paymentBloc = PaymentBloc.get(context);
     return BlocBuilder<MainBloc, MainState>(
       builder: (context, state) {
         return SingleChildScrollView(

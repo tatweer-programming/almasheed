@@ -11,6 +11,7 @@ import '../../../generated/l10n.dart';
 import '../../../payment/bloc/payment_bloc.dart';
 import '../../../payment/presentation/screens/cart_screen.dart';
 import '../../bloc/main_bloc.dart';
+import '../../data/models/category.dart';
 import '../../data/models/product.dart';
 import 'details_product.dart';
 
@@ -20,106 +21,133 @@ class CategoriesScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final MainBloc bloc = sl();
-    List<Product> favProducts = _favProducts(bloc.products);
-    final PaymentBloc paymentBloc = PaymentBloc();
-    return BlocBuilder<MainBloc, MainState>(
+    final PaymentBloc paymentBloc = PaymentBloc.get(context);
+    List<Product> categoryProducts = [];
+    String isContain = "";
+    return BlocConsumer<MainBloc, MainState>(
+      listener: (context, state) {
+        if (state is ChooseCategoryState) {
+          categoryProducts = state.categoryProducts;
+          isContain = state.categoryName;
+        }
+      },
       builder: (context, state) {
-        return SingleChildScrollView(
-          child: Column(
-            children: [
-              ClipPath(
-                clipper: HalfCircleCurve(10.h),
-                child: Container(
-                  height: 28.h,
-                  color: ColorManager.primary,
-                  width: double.infinity,
-                  child: Column(
-                    children: [
-                      SizedBox(
-                        height: 5.h,
-                      ),
-                      Row(
+        return Stack(
+          children: [
+            SingleChildScrollView(
+              child: Column(
+                children: [
+                  ClipPath(
+                    clipper: HalfCircleCurve(10.h),
+                    child: Container(
+                      height: 28.h,
+                      color: ColorManager.primary,
+                      width: double.infinity,
+                      child: Column(
                         children: [
-                          Expanded(
-                            child: Center(
-                              child: Padding(
-                                padding: EdgeInsets.only(right: 14.w),
-                                child: Text(
-                                  S.of(context).favourites,
-                                  style: TextStyle(
-                                    fontSize: 25.sp,
-                                    color: ColorManager.white,
-                                  ),
-                                ),
-                              ),
+                          SizedBox(
+                            height: 5.h,
+                          ),
+                          Text(
+                            S.of(context).categories,
+                            style: TextStyle(
+                              fontSize: 25.sp,
+                              color: ColorManager.white,
                             ),
                           ),
-                          if (ConstantsManager.appUser is Customer)
-                            Padding(
-                              padding: EdgeInsets.only(left: 5.w),
-                              child: IconButton(
-                                onPressed: () => context.push(const CartScreen()),
-                                icon: const Icon(
-                                  Icons.shopping_cart_outlined,
-                                  color: ColorManager.white,
-                                ),
-                              ),
-                            ),
+                          SizedBox(
+                            height: 2.h,
+                          ),
+                          Icon(
+                            Icons.category_outlined,
+                            size: 30.sp,
+                            color: ColorManager.white,
+                          )
                         ],
                       ),
-                      SizedBox(
-                        height: 2.h,
+                    ),
+                  ),
+                  Align(
+                    alignment: Alignment.topLeft,
+                    child: Padding(
+                      padding:
+                          EdgeInsetsDirectional.symmetric(horizontal: 12.w),
+                      child: Wrap(
+                        direction: Axis.horizontal,
+                        children: categoryProducts.map((product) {
+                          return productVerticalWidget(
+                            openProductPressed: () {
+                              context
+                                  .push(DetailsProductScreen(product: product));
+                            },
+                            product: product,
+                            context: context,
+                            addCardPressed: () {
+                              paymentBloc.add(
+                                AddToCartEvent(
+                                  productId: product.productId,
+                                ),
+                              );
+                            },
+                          );
+                        }).toList(),
                       ),
-                      Icon(
-                        Icons.favorite_outlined,
-                        size: 30.sp,
-                        color: ColorManager.white,
-                      )
-                    ],
+                    ),
+                  )
+                ],
+              ),
+            ),
+            Align(
+              alignment: Alignment.topRight,
+              child: Container(
+                width: 30.w,
+                color: ColorManager.primary,
+                child: Center(
+                  child: ListView.separated(
+                    physics: const NeverScrollableScrollPhysics(),
+                    shrinkWrap: true,
+                    itemBuilder: (context, index) {
+                      return _categoryName(
+                        onTap: () {
+                          bloc.add(ChooseCategoryEvent(
+                            categoryName: bloc.categories[index].categoryName,
+                              categoryProducts:
+                                  bloc.categories[index].products ?? []));
+                        },
+                        text: bloc.categories[index].categoryName,
+                        isContain: isContain,
+                      );
+                    },
+                    separatorBuilder: (context, index) => SizedBox(
+                      height: 2.h,
+                    ),
+                    itemCount: bloc.categories.length,
                   ),
                 ),
               ),
-              SizedBox(
-                height: 2.h,
-              ),
-              Padding(
-                padding: EdgeInsets.symmetric(
-                  horizontal: 3.w,
-                ),
-                child: Wrap(
-                  direction: Axis.horizontal,
-                  children: favProducts.map((product) {
-                    return productVerticalWidget(
-                      openProductPressed: () {
-                        context.push(DetailsProductScreen(product: product));
-                      },
-                      product: product,
-                      context: context,
-                      addCardPressed: () {
-                        paymentBloc.add(
-                          AddToCartEvent(
-                            productId: product.productId,
-                          ),
-                        );
-                      },
-                    );
-                  }).toList(),
-                ),
-              )
-            ],
-          ),
+            ),
+          ],
         );
       },
     );
   }
 }
 
-List<Product> _favProducts(List<Product> products) {
-  List<Product> favProducts = [];
-  favProducts = products
-      .where((element) => (ConstantsManager.appUser as Customer)
-          .favorites
-          .contains(element.productId))
-      .toList();
-  return favProducts;
+Widget _categoryName(
+    {required String text,
+    required VoidCallback onTap,
+    required String isContain}) {
+  return InkWell(
+    onTap: onTap,
+    child: Center(
+      child: Text(
+        text,
+        maxLines: 1,
+        overflow: TextOverflow.ellipsis,
+        style: TextStyle(
+            color: isContain == text ? ColorManager.white : ColorManager.grey2,
+            fontSize: 11.sp),
+      ),
+    ),
+  );
 }

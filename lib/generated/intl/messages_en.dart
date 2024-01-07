@@ -135,6 +135,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "sendCode": MessageLookupByLibrary.simpleMessage("Send code"),
         "services": MessageLookupByLibrary.simpleMessage("Services"),
         "setting": MessageLookupByLibrary.simpleMessage("Setting"),
+        "shareApp": MessageLookupByLibrary.simpleMessage("Share App"),
         "signInNow": MessageLookupByLibrary.simpleMessage("Sign in now"),
         "sortByCity": MessageLookupByLibrary.simpleMessage("Sort by city"),
         "support": MessageLookupByLibrary.simpleMessage("Support"),
@@ -145,6 +146,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "termsToMerchant": MessageLookupByLibrary.simpleMessage(
             "- The AlMasheed platform is dedicated to facilitating the purchasing process and communication between the customer and the facility owner in a clear and simple manner, while saving effort and time for both parties.\n- Upon completing a purchase order from the customer, the platform deducts a nominal fee not exceeding 10% of the purchase value as a platform fee and a non-refundable deposit upon order completion.\n- The facility owner is committed to providing the order to the customer accurately, including quality, material safety, and delivery speed as agreed upon between them.\n- There is room for communication between the customer and the service provider to agree on purchase details such as purchase requests, total cost calculation, delivery method, and other matters related to purchase orders.\n- The customer has the right to cancel the order before receiving it by contacting the facility owner, and in case of receiving the order and wishing to cancel it, the customer is obliged to pay the transportation cost from the place of receipt to the facility owner\'s location or as agreed upon between them.\n- AlMasheed\'s goal is to facilitate communication between the parties, and it is not responsible for any disputes between the customer and the facility owner, including financial disputes and others, including but not limited to: inaccuracies in the order, delivery-related errors causing damage to purchase orders, and others.\n- The platform has the right to delete or suspend the activity of any facility that violates the platform\'s policies by any means. Facility owners can contact the support team in case of any issues related to platform services.\n- AlMasheed retains the terms and conditions outlined and prohibits the circulation or publication of these terms in any way.\n- The approved communication channels within the platform:\n   Email: almasheed-1380@hotmail.com\n   WhatsApp: 0537014738"),
         "totalPrice": MessageLookupByLibrary.simpleMessage("Total Price"),
+        "typeMessage":
+            MessageLookupByLibrary.simpleMessage("Type a message .."),
         "userCreated":
             MessageLookupByLibrary.simpleMessage("user created Successfully"),
         "userNotFound": MessageLookupByLibrary.simpleMessage("User not found"),

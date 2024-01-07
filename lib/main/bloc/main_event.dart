@@ -207,3 +207,22 @@ class ChangeLocaleEvent extends MainEvent {
   @override
   List<Object?> get props => [index];
 }
+
+class ChangeSwitchNotificationsEvent extends MainEvent {
+  final bool isOn;
+
+  const ChangeSwitchNotificationsEvent(this.isOn);
+
+  @override
+  List<Object?> get props => [isOn];
+}
+
+class ChooseCategoryEvent extends MainEvent {
+  final List<Product> categoryProducts;
+  final String categoryName;
+
+  const ChooseCategoryEvent({required this.categoryProducts,required this.categoryName,});
+
+  @override
+  List<Object?> get props => [categoryProducts,categoryName];
+}
