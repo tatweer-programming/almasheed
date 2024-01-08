@@ -23,16 +23,21 @@ class MessageLookup extends MessageLookupByLibrary {
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
         "aboutApp": MessageLookupByLibrary.simpleMessage("حول التطبيق"),
+        "addAddress": MessageLookupByLibrary.simpleMessage("اضافة عنوان"),
         "addCategory": MessageLookupByLibrary.simpleMessage("إضافة فئة"),
         "addImage": MessageLookupByLibrary.simpleMessage("إضافة صورة"),
         "addProduct": MessageLookupByLibrary.simpleMessage("إضافة منتج"),
         "addToCart": MessageLookupByLibrary.simpleMessage("إضافة إلى السلة"),
+        "addressType": MessageLookupByLibrary.simpleMessage("نوع العنوان"),
+        "addresses": MessageLookupByLibrary.simpleMessage("العناوين"),
         "addressesList": MessageLookupByLibrary.simpleMessage("قائمة العناوين"),
         "agreeTo": MessageLookupByLibrary.simpleMessage("أوافق على"),
         "alphabet": MessageLookupByLibrary.simpleMessage("الأبجدية"),
         "alreadyHaveAccount":
             MessageLookupByLibrary.simpleMessage("لديك حساب بالفعل؟"),
+        "apartmentNumber": MessageLookupByLibrary.simpleMessage("رقم الشقة"),
         "area": MessageLookupByLibrary.simpleMessage("المنطقة"),
+        "avenue": MessageLookupByLibrary.simpleMessage("الجادة"),
         "bestSales": MessageLookupByLibrary.simpleMessage("أفضل المبيعات"),
         "cancel": MessageLookupByLibrary.simpleMessage("إلغاء"),
         "cart": MessageLookupByLibrary.simpleMessage("السلة"),
@@ -88,9 +93,11 @@ class MessageLookup extends MessageLookupByLibrary {
         "evaluation": MessageLookupByLibrary.simpleMessage("التقييم"),
         "faq": MessageLookupByLibrary.simpleMessage("الأسئلة الشائعة"),
         "favourites": MessageLookupByLibrary.simpleMessage("المفضلة"),
+        "floor": MessageLookupByLibrary.simpleMessage("الطابق"),
         "highestToLowestPrice":
             MessageLookupByLibrary.simpleMessage("من الأعلى إلى الأقل سعرًا"),
         "home": MessageLookupByLibrary.simpleMessage("الرئيسية"),
+        "houseNumber": MessageLookupByLibrary.simpleMessage("رقم المنزل"),
         "language": MessageLookupByLibrary.simpleMessage("اللغة"),
         "loginAsMerchant":
             MessageLookupByLibrary.simpleMessage("تسجيل الدخول كتاجر"),
@@ -106,6 +113,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "myOrders": MessageLookupByLibrary.simpleMessage("طلباتي"),
         "name": MessageLookupByLibrary.simpleMessage("الاسم"),
         "next": MessageLookupByLibrary.simpleMessage("التالي"),
+        "noAddresses": MessageLookupByLibrary.simpleMessage("لا توجد عناوين"),
         "noItems": MessageLookupByLibrary.simpleMessage("لا توجد عناصر هنا"),
         "notFound": MessageLookupByLibrary.simpleMessage("غير موجود"),
         "notifications": MessageLookupByLibrary.simpleMessage("الاشعارات"),
@@ -116,6 +124,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "phoneNumber": MessageLookupByLibrary.simpleMessage("رقم الهاتف"),
         "phoneNumberVerification":
             MessageLookupByLibrary.simpleMessage("التحقق من رقم الهاتف"),
+        "plot": MessageLookupByLibrary.simpleMessage("رقم القطعة"),
         "price": MessageLookupByLibrary.simpleMessage("السعر"),
         "productAdded":
             MessageLookupByLibrary.simpleMessage("تمت إضافة المنتج بنجاح"),
@@ -139,6 +148,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("قم بتسجيل الدخول الآن"),
         "sortByCity":
             MessageLookupByLibrary.simpleMessage("الترتيب حسب المدينة"),
+        "street": MessageLookupByLibrary.simpleMessage("الشارع"),
         "support": MessageLookupByLibrary.simpleMessage("الدعم"),
         "termsAndConditions":
             MessageLookupByLibrary.simpleMessage("الشروط والأحكام"),

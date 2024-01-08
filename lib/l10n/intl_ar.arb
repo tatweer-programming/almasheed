@@ -98,5 +98,15 @@
   "setting": "الاعدادات",
   "shareApp": "مشاركة التطبيق",
   "typeMessage": "اكتب رسالة ..",
-  "enterValidQuantity": "الرجاء إدخال كمية صالحة"
+  "enterValidQuantity": "الرجاء إدخال كمية صالحة",
+  "addresses": "العناوين",
+  "noAddresses": "لا توجد عناوين",
+  "addAddress": "اضافة عنوان",
+  "houseNumber": "رقم المنزل",
+  "street": "الشارع",
+  "floor": "الطابق",
+  "addressType": "نوع العنوان",
+  "apartmentNumber": "رقم الشقة",
+  "plot": "رقم القطعة",
+  "avenue": "الجادة"
 }

@@ -234,7 +234,8 @@ class LoginScreen extends StatelessWidget {
                                       }),
                                   Text(
                                     S.of(context).loginAsMerchant,
-                                    style: TextStyle(color: ColorManager.white),
+                                    style: const TextStyle(
+                                        color: ColorManager.white),
                                   )
                                 ],
                               ),
@@ -268,6 +269,7 @@ class LoginScreen extends StatelessWidget {
                                           bloc.add(LoginByPhoneEvent(customer));
                                         } else {
                                           Customer customer = Customer(
+                                              addresses: [],
                                               cartItems: {},
                                               favorites: [],
                                               orders: [],

@@ -108,3 +108,41 @@ class SelectAccountTypeState extends AuthState {
   @override
   List<Object?> get props => [index];
 }
+
+class AddAddressLoadingState extends AuthState {
+  @override
+  List<Object?> get props => [];
+}
+
+class AddAddressErrorState extends AuthState {
+  final FirebaseException exception;
+
+  const AddAddressErrorState(this.exception);
+
+  @override
+  List<Object?> get props => [];
+}
+
+class AddAddressSuccessfulState extends AuthState {
+  @override
+  List<Object?> get props => [];
+}
+
+class RemoveAddressLoadingState extends AuthState {
+  @override
+  List<Object?> get props => [];
+}
+
+class RemoveAddressErrorState extends AuthState {
+  final FirebaseException exception;
+
+  const RemoveAddressErrorState(this.exception);
+
+  @override
+  List<Object?> get props => [];
+}
+
+class RemoveAddressSuccessfulState extends AuthState {
+  @override
+  List<Object?> get props => [];
+}

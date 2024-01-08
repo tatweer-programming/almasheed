@@ -18,7 +18,7 @@ part 'payment_state.dart';
 
 class PaymentBloc extends Bloc<PaymentEvent, PaymentState> {
   static PaymentBloc get() => PaymentBloc();
-  OrderModel order = OrderModel.create([]);
+  OrderModel order = OrderModel.create([], null);
 
   // variables
   final PaymentRepository _repository = PaymentRepository();
@@ -89,7 +89,7 @@ class PaymentBloc extends Bloc<PaymentEvent, PaymentState> {
           quantity: value));
     });
 
-    order = OrderModel.create(orderItems);
+    order = OrderModel.create(orderItems, null);
     return order;
   }
 

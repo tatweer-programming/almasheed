@@ -61,8 +61,26 @@ class SelectAccountTypeEvent extends AuthEvent {
 }
 
 class NavigateToRegisterScreenEvent extends AuthEvent {
-final BuildContext context ;
+  final BuildContext context;
   const NavigateToRegisterScreenEvent(this.context);
+
+  @override
+  List<Object?> get props => [];
+}
+
+class AddAddressEvent extends AuthEvent {
+  final Address address;
+
+  const AddAddressEvent(this.address);
+
+  @override
+  List<Object?> get props => [];
+}
+
+class RemoveAddressEvent extends AuthEvent {
+  final Address address;
+
+  const RemoveAddressEvent(this.address);
 
   @override
   List<Object?> get props => [];

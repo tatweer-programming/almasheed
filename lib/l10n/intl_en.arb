@@ -98,5 +98,16 @@
   "shareApp": "Share App",
   "chat": "Chats",
   "typeMessage": "Type a message ..",
-  "enterValidQuantity": "Please enter a valid quantity"
+  "enterValidQuantity": "Please enter a valid quantity",
+  "addresses": "Addresses",
+  "noAddresses": "There is no addresses here",
+  "addAddress": "Add Address",
+  "houseNumber": "house number",
+  "street": "street",
+  "floor": "floor",
+  "addressType": "address type",
+  "state": "state",
+  "apartmentNumber": "apartment number",
+  "plot": "plot",
+  "avenue": "avenue"
 }

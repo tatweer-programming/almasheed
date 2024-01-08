@@ -13,6 +13,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../data/models/address.dart';
 import '../data/models/customer.dart';
 import '../data/repositories/auth_repository.dart';
 
@@ -98,6 +99,22 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       emit(SelectAccountTypeState(index: event.index));
     } else if (event is NavigateToRegisterScreenEvent) {
       event.context.push(registerScreens[selectedAccountTypeIndex!]);
+    } else if (event is AddAddressEvent) {
+      emit(AddAddressLoadingState());
+      var result = await repository.addAdress(event.address);
+      result.fold((l) {
+        emit(AddAddressErrorState(l));
+      }, (r) {
+        emit(AddAddressSuccessfulState());
+      });
+    } else if (event is RemoveAddressEvent) {
+      emit(RemoveAddressLoadingState());
+      var result = await repository.removeAddress(event.address);
+      result.fold((l) {
+        emit(RemoveAddressErrorState(l));
+      }, (r) {
+        emit(RemoveAddressSuccessfulState());
+      });
     }
   }
 

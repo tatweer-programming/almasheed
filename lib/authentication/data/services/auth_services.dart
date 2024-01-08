@@ -9,6 +9,9 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 
+import '../models/address.dart';
+import '../models/customer.dart';
+
 class AuthService {
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
   final FirebaseFirestore _fireStore = FirebaseFirestore.instance;
@@ -99,6 +102,41 @@ class AuthService {
           ? DoNothingAction()
           : await _addUSerToFireStore(user, userType);
       return Right(isUserExists);
+    } on FirebaseException catch (e) {
+      return Left(e);
+    }
+  }
+
+  // add adress to user
+  Future<Either<FirebaseException, Unit>> addAddress(
+    Address address,
+  ) async {
+    try {
+      Customer customer = ConstantsManager.appUser as Customer;
+      customer.addresses.add(address);
+      await _fireStore
+          .collection("${customer.getType()}s")
+          .doc(customer.id)
+          .update({
+        "addresses": FieldValue.arrayUnion([address.toJson()])
+      });
+      return const Right(unit);
+    } on FirebaseException catch (e) {
+      return Left(e);
+    }
+  }
+
+  Future<Either<FirebaseException, Unit>> removeAddress(Address address) async {
+    try {
+      Customer customer = ConstantsManager.appUser as Customer;
+      customer.addresses.remove(address);
+      await _fireStore
+          .collection("${customer.getType()}s")
+          .doc(customer.id)
+          .update({
+        "addresses": FieldValue.arrayRemove([address.toJson()])
+      });
+      return const Right(unit);
     } on FirebaseException catch (e) {
       return Left(e);
     }

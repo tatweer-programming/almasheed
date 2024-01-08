@@ -10,6 +10,7 @@ import 'package:sizer/sizer.dart';
 import '../../core/utils/color_manager.dart';
 import '../../core/utils/font_manager.dart';
 import '../../generated/l10n.dart';
+import '../data/models/address.dart';
 
 class AccountTypeItem extends StatelessWidget {
   final String type;
@@ -371,5 +372,141 @@ class ProfileItemBuilder extends StatelessWidget {
             ),
           ),
         ));
+  }
+}
+
+class AddressBuilder extends StatelessWidget {
+  final Address address;
+
+  const AddressBuilder({super.key, required this.address});
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      height: 40.h,
+      child: Card(
+        elevation: 5,
+        shape: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(20.sp),
+          borderSide: BorderSide.none,
+        ),
+        color: ColorManager.secondary,
+        child: Padding(
+            padding: EdgeInsets.all(10.sp),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Center(
+                  child: AddressItem(
+                      label: S.of(context).addressType, value: address.type),
+                ),
+                Row(
+                  children: [
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          AddressItem(
+                              label: S.of(context).addressType,
+                              value: address.type),
+                          SizedBox(
+                            height: 1.h,
+                          ),
+                          AddressItem(
+                              label: S.of(context).city, value: address.city),
+                          SizedBox(
+                            height: 1.h,
+                          ),
+                          AddressItem(
+                              label: S.of(context).state, value: address.state),
+                          SizedBox(
+                            height: 1.h,
+                          ),
+                          AddressItem(
+                              label: S.of(context).street,
+                              value: address.street),
+                          SizedBox(
+                            height: 1.h,
+                          ),
+                        ],
+                      ),
+                    ),
+                    SizedBox(
+                      width: 5.sp,
+                    ),
+                    Expanded(
+                        child: Column(
+                      children: [
+                        AddressItem(
+                            label: S.of(context).houseNumber,
+                            value: address.houseNumber),
+                        SizedBox(
+                          height: 1.h,
+                        ),
+                        AddressItem(
+                            label: S.of(context).floor,
+                            value: address.floor.toString()),
+                        SizedBox(
+                          height: 1.h,
+                        ),
+                        AddressItem(
+                            label: S.of(context).apartmentNumber,
+                            value: address.apartmentNumber.toString()),
+                        SizedBox(
+                          height: 1.h,
+                        ),
+                        AddressItem(
+                            label: S.of(context).area, value: address.area),
+                        SizedBox(
+                          height: 1.h,
+                        ),
+                        AddressItem(
+                            label: S.of(context).plot, value: address.plot),
+                      ],
+                    ))
+                  ],
+                )
+              ],
+            )),
+      ),
+    );
+  }
+}
+
+class AddressItem extends StatelessWidget {
+  final String label;
+  final String value;
+
+  const AddressItem({super.key, required this.label, required this.value});
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: [
+        Text(
+          "$label: ",
+          style: TextStyle(
+            fontSize: 13.sp,
+            color: ColorManager.black,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        SizedBox(
+          width: 5.sp,
+        ),
+        Expanded(
+          child: Text(
+            value,
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+            style: TextStyle(
+              fontSize: 13.sp,
+              color: ColorManager.primary,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        ),
+      ],
+    );
   }
 }

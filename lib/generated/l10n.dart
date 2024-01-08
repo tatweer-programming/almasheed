@@ -1041,6 +1041,116 @@ class S {
       args: [],
     );
   }
+
+  /// `Addresses`
+  String get addresses {
+    return Intl.message(
+      'Addresses',
+      name: 'addresses',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `There is no addresses here`
+  String get noAddresses {
+    return Intl.message(
+      'There is no addresses here',
+      name: 'noAddresses',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Add Address`
+  String get addAddress {
+    return Intl.message(
+      'Add Address',
+      name: 'addAddress',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `house number`
+  String get houseNumber {
+    return Intl.message(
+      'house number',
+      name: 'houseNumber',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `street`
+  String get street {
+    return Intl.message(
+      'street',
+      name: 'street',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `floor`
+  String get floor {
+    return Intl.message(
+      'floor',
+      name: 'floor',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `address type`
+  String get addressType {
+    return Intl.message(
+      'address type',
+      name: 'addressType',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `state`
+  String get state {
+    return Intl.message(
+      'state',
+      name: 'state',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `apartment number`
+  String get apartmentNumber {
+    return Intl.message(
+      'apartment number',
+      name: 'apartmentNumber',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `plot`
+  String get plot {
+    return Intl.message(
+      'plot',
+      name: 'plot',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `avenue`
+  String get avenue {
+    return Intl.message(
+      'avenue',
+      name: 'avenue',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

@@ -23,16 +23,22 @@ class MessageLookup extends MessageLookupByLibrary {
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
         "aboutApp": MessageLookupByLibrary.simpleMessage("About App"),
+        "addAddress": MessageLookupByLibrary.simpleMessage("Add Address"),
         "addCategory": MessageLookupByLibrary.simpleMessage("Add Category"),
         "addImage": MessageLookupByLibrary.simpleMessage("Add Image"),
         "addProduct": MessageLookupByLibrary.simpleMessage("Add Product"),
         "addToCart": MessageLookupByLibrary.simpleMessage("Add To Cart"),
+        "addressType": MessageLookupByLibrary.simpleMessage("address type"),
+        "addresses": MessageLookupByLibrary.simpleMessage("Addresses"),
         "addressesList": MessageLookupByLibrary.simpleMessage("Addresses List"),
         "agreeTo": MessageLookupByLibrary.simpleMessage("I Agree to"),
         "alphabet": MessageLookupByLibrary.simpleMessage("Alphabet"),
         "alreadyHaveAccount":
             MessageLookupByLibrary.simpleMessage("Already have account ?"),
+        "apartmentNumber":
+            MessageLookupByLibrary.simpleMessage("apartment number"),
         "area": MessageLookupByLibrary.simpleMessage("Area"),
+        "avenue": MessageLookupByLibrary.simpleMessage("avenue"),
         "bestSales": MessageLookupByLibrary.simpleMessage("Best Sales"),
         "cancel": MessageLookupByLibrary.simpleMessage("Cancel"),
         "cart": MessageLookupByLibrary.simpleMessage("Cart"),
@@ -89,9 +95,11 @@ class MessageLookup extends MessageLookupByLibrary {
         "evaluation": MessageLookupByLibrary.simpleMessage("Evaluation"),
         "faq": MessageLookupByLibrary.simpleMessage("FAQ"),
         "favourites": MessageLookupByLibrary.simpleMessage("Favorites"),
+        "floor": MessageLookupByLibrary.simpleMessage("floor"),
         "highestToLowestPrice":
             MessageLookupByLibrary.simpleMessage("Highest to lowest price"),
         "home": MessageLookupByLibrary.simpleMessage("Home"),
+        "houseNumber": MessageLookupByLibrary.simpleMessage("house number"),
         "language": MessageLookupByLibrary.simpleMessage("Language"),
         "loginAsMerchant":
             MessageLookupByLibrary.simpleMessage("Login as merchant"),
@@ -107,6 +115,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "myOrders": MessageLookupByLibrary.simpleMessage("My Orders"),
         "name": MessageLookupByLibrary.simpleMessage("Name"),
         "next": MessageLookupByLibrary.simpleMessage("Next"),
+        "noAddresses":
+            MessageLookupByLibrary.simpleMessage("There is no addresses here"),
         "noItems":
             MessageLookupByLibrary.simpleMessage("There is no items here"),
         "notFound": MessageLookupByLibrary.simpleMessage("Not Found"),
@@ -118,6 +128,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "phoneNumber": MessageLookupByLibrary.simpleMessage("Phone Number"),
         "phoneNumberVerification":
             MessageLookupByLibrary.simpleMessage("Phone Number Verification"),
+        "plot": MessageLookupByLibrary.simpleMessage("plot"),
         "price": MessageLookupByLibrary.simpleMessage("Price"),
         "productAdded": MessageLookupByLibrary.simpleMessage(
             "The product has been added successfully"),
@@ -140,6 +151,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "shareApp": MessageLookupByLibrary.simpleMessage("Share App"),
         "signInNow": MessageLookupByLibrary.simpleMessage("Sign in now"),
         "sortByCity": MessageLookupByLibrary.simpleMessage("Sort by city"),
+        "state": MessageLookupByLibrary.simpleMessage("state"),
+        "street": MessageLookupByLibrary.simpleMessage("street"),
         "support": MessageLookupByLibrary.simpleMessage("Support"),
         "termsAndConditions":
             MessageLookupByLibrary.simpleMessage("Terms & conditions"),

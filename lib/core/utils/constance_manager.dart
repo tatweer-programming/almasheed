@@ -1,7 +1,6 @@
+import 'package:almasheed/authentication/data/models/address.dart';
 import 'package:almasheed/authentication/data/models/customer.dart';
 import 'package:almasheed/authentication/data/models/user.dart';
-
-import '../../authentication/data/models/merchant.dart';
 
 class ConstantsManager {
   // static AppUser? appUser;
@@ -20,13 +19,20 @@ class ConstantsManager {
   //   companyName: "Ahmed",
   //   productsIds: [],registrationNumber: ""
   // );
-  static AppUser? appUser = Customer(
-    id: "u8BNEWaq4OPE0vogmtJDi0IBUMp1",
-    phone: "",
-    orders: [],
-    cartItems: {},
-    favorites: [],
-  );
+  static AppUser? appUser =
+      Customer(cartItems: {}, favorites: [], orders: [], addresses: [
+    Address(
+        street: "street",
+        city: "city",
+        state: "state",
+        houseNumber: "houseNumber",
+        floor: 1,
+        apartmentNumber: 2,
+        area: "area",
+        plot: "plot",
+        avenue: "avenue",
+        type: "addressType")
+  ], id: "u8BNEWaq4OPE0vogmtJDi0IBUMp1", phone: "");
   static final List<String> saudiCitiesArabic = [
     'الرياض',
     'جدة',

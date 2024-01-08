@@ -97,6 +97,7 @@ class CustomerLoginScreen extends StatelessWidget {
                                         if (formKey.currentState!.validate() &&
                                             bloc.agreeToTerms) {
                                           Customer customer = Customer(
+                                              addresses: [],
                                               cartItems: {},
                                               favorites: [],
                                               orders: [],

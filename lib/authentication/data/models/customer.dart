@@ -1,14 +1,16 @@
+import 'package:almasheed/authentication/data/models/address.dart';
 import 'package:almasheed/authentication/data/models/user.dart';
 
 class Customer extends AppUser {
   Map<String, int> cartItems;
   List<String> favorites;
   List<String> orders;
-
+  List<Address> addresses;
   Customer(
       {required this.cartItems,
       required this.favorites,
       required this.orders,
+      required this.addresses,
       required super.id,
       required super.phone});
 
@@ -20,6 +22,7 @@ class Customer extends AppUser {
       'cartItems': cartItems,
       'favorites': favorites,
       'orders': orders,
+      'addresses': addresses.map((e) => e.toJson()).toList(),
     };
   }
 
@@ -29,6 +32,8 @@ class Customer extends AppUser {
       (key, value) => MapEntry(key, value is int ? value : 0),
     );
     return Customer(
+      addresses:
+          (json['addresses'] as List).map((e) => Address.fromJson(e)).toList(),
       cartItems: cartItems,
       favorites: (json['favorites'] as List).cast<String>(),
       orders: (json['orders'] as List).cast<String>(),
