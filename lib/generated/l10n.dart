@@ -1151,6 +1151,136 @@ class S {
       args: [],
     );
   }
+
+  /// `house`
+  String get house {
+    return Intl.message(
+      'house',
+      name: 'house',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `work`
+  String get work {
+    return Intl.message(
+      'work',
+      name: 'work',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `other`
+  String get other {
+    return Intl.message(
+      'other',
+      name: 'other',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `please enter area`
+  String get enterAddressType {
+    return Intl.message(
+      'please enter area',
+      name: 'enterAddressType',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `please enter street`
+  String get enterStreet {
+    return Intl.message(
+      'please enter street',
+      name: 'enterStreet',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `please enter house number`
+  String get enterHouseNumber {
+    return Intl.message(
+      'please enter house number',
+      name: 'enterHouseNumber',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `please enter apartment number`
+  String get enterApartmentNumber {
+    return Intl.message(
+      'please enter apartment number',
+      name: 'enterApartmentNumber',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `please enter floor`
+  String get enterFloor {
+    return Intl.message(
+      'please enter floor',
+      name: 'enterFloor',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `please enter plot`
+  String get enterPlot {
+    return Intl.message(
+      'please enter plot',
+      name: 'enterPlot',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `please enter avenue`
+  String get enterAvenue {
+    return Intl.message(
+      'please enter avenue',
+      name: 'enterAvenue',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Added Successfully`
+  String get addedSuccessfully {
+    return Intl.message(
+      'Added Successfully',
+      name: 'addedSuccessfully',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Removed Successfully`
+  String get removedSuccessfully {
+    return Intl.message(
+      'Removed Successfully',
+      name: 'removedSuccessfully',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Address Details`
+  String get addressDetails {
+    return Intl.message(
+      'Address Details',
+      name: 'addressDetails',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

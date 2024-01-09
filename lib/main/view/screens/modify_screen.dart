@@ -37,7 +37,8 @@ class ModifyProductScreen extends StatelessWidget {
           bloc.add(GetCategoriesEvent());
         }
         if (state is UpdateProductErrorState) {
-          errorToast(msg: ExceptionManager(state.error).translatedMessage());
+          mainErrorToast(
+              msg: ExceptionManager(state.error).translatedMessage());
         }
         if (state is UpdateProductLoadingState) {
           showDialog(
@@ -68,7 +69,7 @@ class ModifyProductScreen extends StatelessWidget {
               return AlertDialog(
                 shape: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(5.sp)),
-                content:  Text(
+                content: Text(
                   S.of(context).productModified,
                   style: const TextStyle(
                     fontWeight: FontWeight.w500,
@@ -100,23 +101,25 @@ class ModifyProductScreen extends StatelessWidget {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          defaultFormField(
-                              controller: nameController, label: S.of(context).name),
+                          mainFormField(
+                              controller: nameController,
+                              label: S.of(context).name),
                           SizedBox(
                             height: 1.h,
                           ),
-                          defaultFormField(
-                              controller: priceController, label: S.of(context).price),
+                          mainFormField(
+                              controller: priceController,
+                              label: S.of(context).price),
                           SizedBox(
                             height: 1.h,
                           ),
-                          defaultFormField(
+                          mainFormField(
                               controller: discountController,
                               label: S.of(context).discount),
                           SizedBox(
                             height: 1.h,
                           ),
-                          defaultFormField(
+                          mainFormField(
                               controller: descriptionController,
                               label: S.of(context).description),
                           SizedBox(

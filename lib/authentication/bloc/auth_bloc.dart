@@ -13,6 +13,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../generated/l10n.dart';
 import '../data/models/address.dart';
 import '../data/models/customer.dart';
 import '../data/repositories/auth_repository.dart';
@@ -27,12 +28,20 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   static AuthBloc get(BuildContext context) => bloc;
   bool agreeToTerms = false;
   bool isMerchant = false;
-
   bool codeSent = false;
   bool authCompleted = false;
   String? verificationId = AuthService.verificationID;
-
   int? selectedAccountTypeIndex;
+  String? addressType;
+  String? city;
+
+  List<String> addressTypes(BuildContext context) {
+    return [
+      S.of(context).house,
+      S.of(context).work,
+      S.of(context).other,
+    ];
+  }
 
   late AuthRepository repository;
   List<Widget> registerScreens = const [
@@ -92,7 +101,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       }, (r) async {
         emit(CodeVerified());
         ConstantsManager.appUser?.id = r;
-        await _createUser();
+        await _createUser(emit);
       });
     } else if (event is SelectAccountTypeEvent) {
       selectedAccountTypeIndex = event.index;
@@ -115,10 +124,16 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       }, (r) {
         emit(RemoveAddressSuccessfulState());
       });
+    } else if (event is ChooseAddressTypeEvent) {
+      addressType = event.addressType;
+      emit(ChooseAddresTypeState(addressType: event.addressType));
+    } else if (event is ChooseCityEvent) {
+      city = event.city;
+      emit(ChooseCityState(city: event.city));
     }
   }
 
-  Future _createUser() async {
+  Future _createUser(Emitter emit) async {
     var result = await repository.createUser(ConstantsManager.appUser!);
     result.fold((l) {
       errorToast(msg: ExceptionManager(l).translatedMessage());

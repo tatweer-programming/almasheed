@@ -14,7 +14,7 @@ import '../../../core/utils/constance_manager.dart';
 import '../../../generated/l10n.dart';
 import '../../bloc/main_bloc.dart';
 
-defaultFormField(
+mainFormField(
         {String? label,
         IconData? prefix,
         String? hint,
@@ -32,7 +32,7 @@ defaultFormField(
     SizedBox(
       width: width ?? double.infinity,
       child: TextFormField(
-        textAlign: textAlign!,
+        textAlign: textAlign ?? TextAlign.start,
         onTapOutside: (event) {
           FocusManager.instance.primaryFocus?.unfocus();
         },
@@ -72,10 +72,11 @@ Widget searchDropdownBuilder(
     required Function(String? value) onChanged,
     required List<String> items}) {
   return DropdownMenu<String>(
+    label: Text(text),
     enableFilter: true,
     requestFocusOnTap: true,
     expandedInsets: EdgeInsets.zero,
-    leadingIcon: const Icon(Icons.search),
+    leadingIcon: Icon(icon ?? Icons.search),
     inputDecorationTheme: InputDecorationTheme(
       filled: true,
       fillColor: ColorManager.white,
@@ -596,7 +597,7 @@ Widget iconContainer({
       ),
     );
 
-void defaultToast({
+void mainToast({
   required String msg,
 }) {
   Fluttertoast.showToast(
@@ -607,7 +608,7 @@ void defaultToast({
   );
 }
 
-void errorToast({
+void mainErrorToast({
   required String msg,
 }) {
   Fluttertoast.showToast(
@@ -680,10 +681,11 @@ Widget settingItemBuilder({
                     ),
                   ),
                 ),
-                suffixWidget?? const Icon(
-                  Icons.arrow_forward_ios,
-                  color: ColorManager.white,
-                ),
+                suffixWidget ??
+                    const Icon(
+                      Icons.arrow_forward_ios,
+                      color: ColorManager.white,
+                    ),
               ],
             ),
           ),

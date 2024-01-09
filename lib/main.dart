@@ -27,8 +27,22 @@ Future<void> main() async {
   ServiceLocator().init();
   await LocalizationManager.init();
   ConstantsManager.userId = await CacheHelper.getData(key: "userId");
-  ConstantsManager.isNotificationsOn = await CacheHelper.getData(key: "isNotificationsOn");
+  ConstantsManager.isNotificationsOn =
+      await CacheHelper.getData(key: "isNotificationsOn");
   ConstantsManager.userType = await CacheHelper.getData(key: "userType");
+  DateTime startDate = DateTime.utc(
+      DateTime.now().year, DateTime.now().month, DateTime.now().day - 10);
+  DateTime endDate = DateTime.utc(
+      DateTime.now().year, DateTime.now().month, DateTime.now().day);
+  await FirebaseFirestore.instance
+      .collection("orders")
+      .where("date", isGreaterThanOrEqualTo: startDate.toIso8601String())
+      .where("date", isLessThanOrEqualTo: endDate.toIso8601String())
+      .get()
+      .then((value) {
+    print(value.docs.length);
+  });
+
   runApp(const Masheed());
 }
 
@@ -72,7 +86,6 @@ class Masheed extends StatelessWidget {
                 //     : const LoginScreen(),
               );
             },
-
           ));
     });
   }

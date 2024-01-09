@@ -16,12 +16,14 @@ import 'package:carousel_slider/carousel_slider.dart';
 import '../../../generated/l10n.dart';
 import '../../../payment/presentation/screens/cart_screen.dart';
 import '../../bloc/main_bloc.dart';
+
 List<String> list = [
   "https://static.independent.co.uk/s3fs-public/thumbnails/image/2015/10/19/11/attack-on-titan.jpg",
   "https://www.cnet.com/a/img/resize/597f8167c5bc132e301df0e4052180b26b5e4c7d/hub/2022/01/07/18439ff0-d202-4d93-b233-3e203a7617fd/aot-f2-pv02-00-01-11-06-still075.jpg?auto=webp&fit=crop&height=675&width=1200",
   "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSK_dpI9V5LsmeCAWth-VVt4LCJ4-uQq7Tr6w&usqp=CAU",
   "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRhZHbbrSxPuCzOdrugXgNjG5tS3Cp1J3uE1i2qBcsPcuPi7LtvzeVXrTwBPvqiNX7vkEg&usqp=CAU",
 ];
+
 class HomePageScreen extends StatelessWidget {
   const HomePageScreen({super.key});
 
@@ -83,12 +85,12 @@ class HomePageScreen extends StatelessWidget {
 
   void _handleErrorState(BuildContext context, state) {
     context.pop();
-    errorToast(msg: ExceptionManager(state.error).translatedMessage());
+    mainErrorToast(msg: ExceptionManager(state.error).translatedMessage());
   }
 
   Widget _buildAppBar(BuildContext context, MainBloc bloc) {
     return Stack(
-      alignment: const Alignment(0,0.7),
+      alignment: const Alignment(0, 0.7),
       children: [
         Stack(
           alignment: Alignment.bottomCenter,
@@ -99,11 +101,13 @@ class HomePageScreen extends StatelessWidget {
                 height: 35.h,
                 color: ColorManager.primary,
                 child: Padding(
-                  padding:
-                      EdgeInsetsDirectional.only(start: 8.w, end: 8.w, top: 1.h),
+                  padding: EdgeInsetsDirectional.only(
+                      start: 8.w, end: 8.w, top: 1.h),
                   child: Column(
                     children: [
-                      SizedBox(height: 8.h,),
+                      SizedBox(
+                        height: 8.h,
+                      ),
                       Row(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -111,10 +115,12 @@ class HomePageScreen extends StatelessWidget {
                             child: SizedBox(
                               height: 7.h,
                               child: searchProductDropdownBuilder(
-                                text:S.of(context).search,
+                                text: S.of(context).search,
                                 onChanged: (product) {
-                                  bloc.add(SelectProductEvent(product: product!));
-                                  context.push(DetailsProductScreen(product: product));
+                                  bloc.add(
+                                      SelectProductEvent(product: product!));
+                                  context.push(
+                                      DetailsProductScreen(product: product));
                                 },
                                 items: bloc.products,
                                 context: context,
@@ -228,7 +234,6 @@ class HomePageScreen extends StatelessWidget {
     );
   }
 }
-
 
 class RainBowCurve extends CustomClipper<Path> {
   @override

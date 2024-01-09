@@ -34,7 +34,8 @@ class AddProductScreen extends StatelessWidget {
         if (state is SetProductErrorState) {
           bloc.add(MakeImagesFilesEmptyEvent());
           context.pop();
-          errorToast(msg: ExceptionManager(state.error).translatedMessage());
+          mainErrorToast(
+              msg: ExceptionManager(state.error).translatedMessage());
         }
         if (state is SetProductLoadingState) {
           showDialog(
@@ -65,7 +66,7 @@ class AddProductScreen extends StatelessWidget {
                 shape: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(5.sp)),
                 content: Text(
-                  S.of(context).productAdded ,
+                  S.of(context).productAdded,
                   style: TextStyle(
                     fontWeight: FontWeight.w500,
                   ),
@@ -114,7 +115,7 @@ class AddProductScreen extends StatelessWidget {
                           SizedBox(
                             height: 1.h,
                           ),
-                          defaultFormField(
+                          mainFormField(
                               validator: (value) {
                                 if (value!.isEmpty) {
                                   return S.of(context).enterName;
@@ -126,7 +127,7 @@ class AddProductScreen extends StatelessWidget {
                           SizedBox(
                             height: 1.h,
                           ),
-                          defaultFormField(
+                          mainFormField(
                               type: TextInputType.number,
                               validator: (value) {
                                 if (value!.isEmpty) {
@@ -139,7 +140,7 @@ class AddProductScreen extends StatelessWidget {
                           SizedBox(
                             height: 1.h,
                           ),
-                          defaultFormField(
+                          mainFormField(
                               type: TextInputType.number,
                               validator: (value) {
                                 if (double.parse(value) > 100 ||
@@ -153,7 +154,7 @@ class AddProductScreen extends StatelessWidget {
                           SizedBox(
                             height: 1.h,
                           ),
-                          defaultFormField(
+                          mainFormField(
                               controller: descriptionController,
                               label: S.of(context).description),
                           SizedBox(
@@ -221,7 +222,8 @@ class AddProductScreen extends StatelessWidget {
                   defaultButton(
                       onPressed: () {
                         if (bloc.selectedProductCategory == null) {
-                          errorToast(msg: S.of(context).enterSelectedCategory);
+                          mainErrorToast(
+                              msg: S.of(context).enterSelectedCategory);
                         } else {
                           if (formKey.currentState!.validate()) {
                             bloc.add(

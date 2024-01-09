@@ -108,5 +108,18 @@
   "addressType": "نوع العنوان",
   "apartmentNumber": "رقم الشقة",
   "plot": "رقم القطعة",
-  "avenue": "الجادة"
+  "avenue": "الجادة",
+  "house": "المنزل",
+  "work": "العمل",
+  "other": "أخرى",
+  "enterHouseNumber": "الرجاء إدخال رقم المنزل",
+  "enterStreet": "الرجاء إدخال اسم الشارع",
+  "enterFloor": "الرجاء إدخال رقم الطابق",
+  "enterApartmentNumber": "الرجاء إدخال رقم الشقة",
+  "enterPlot": "الرجاء إدخال رقم القطعة",
+  "enterAvenue": "الرجاء إدخال اسم الجادة",
+  "enterAddressType": "الرجاء إدخال نوع العنوان",
+  "addedSuccessfully": "تمت الإضافة بنجاح",
+  "removedSuccessfully": "تمت الإزالة بنجاح",
+  "addressDetails": "تفاصيل العنوان"
 }

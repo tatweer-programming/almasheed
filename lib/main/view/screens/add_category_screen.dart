@@ -24,7 +24,8 @@ class AddCategoryScreen extends StatelessWidget {
         if (state is SetCategoryErrorState) {
           bloc.add(MakeImagesFilesEmptyEvent());
           context.pop();
-          errorToast(msg: ExceptionManager(state.error).translatedMessage());
+          mainErrorToast(
+              msg: ExceptionManager(state.error).translatedMessage());
         }
         if (state is SetCategoryLoadingState) {
           showDialog(
@@ -54,7 +55,7 @@ class AddCategoryScreen extends StatelessWidget {
               return AlertDialog(
                 shape: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(5.sp)),
-                content:  Text(
+                content: Text(
                   S.of(context).categoryAdded,
                   style: const TextStyle(
                     fontWeight: FontWeight.w500,
@@ -77,7 +78,7 @@ class AddCategoryScreen extends StatelessWidget {
           ),
           body: PopScope(
             canPop: true,
-            onPopInvoked : (didPop){
+            onPopInvoked: (didPop) {
               bloc.add(MakeImagesFilesEmptyEvent());
             },
             child: Form(
@@ -94,7 +95,7 @@ class AddCategoryScreen extends StatelessWidget {
                             SizedBox(
                               height: 1.h,
                             ),
-                            defaultFormField(
+                            mainFormField(
                                 validator: (value) {
                                   if (value!.isEmpty) {
                                     return S.of(context).enterName;
@@ -115,30 +116,31 @@ class AddCategoryScreen extends StatelessWidget {
                             SizedBox(
                               height: 1.h,
                             ),
-                            bloc.imagesFiles.isNotEmpty ?
-                            Stack(
-                              children: [
-                                Card(
-                                  child: SizedBox(
-                                    height: 15.h,
-                                    width: 27.w,
-                                    child: Image.file(
-                                        File(bloc.imagesFiles.first.path)),
-                                  ),
-                                ),
-                                Padding(
-                                  padding: EdgeInsets.symmetric(
-                                      horizontal: 2.w, vertical: 0.2.h),
-                                  child: iconContainer(
-                                    onPressed: () {
-                                      bloc.add(
-                                          RemovePickedImageEvent(image: bloc.imagesFiles.first));
-                                    },
-                                    icon: Icons.close,
-                                  ),
-                                ),
-                              ],
-                            ):const SizedBox(),
+                            bloc.imagesFiles.isNotEmpty
+                                ? Stack(
+                                    children: [
+                                      Card(
+                                        child: SizedBox(
+                                          height: 15.h,
+                                          width: 27.w,
+                                          child: Image.file(File(
+                                              bloc.imagesFiles.first.path)),
+                                        ),
+                                      ),
+                                      Padding(
+                                        padding: EdgeInsets.symmetric(
+                                            horizontal: 2.w, vertical: 0.2.h),
+                                        child: iconContainer(
+                                          onPressed: () {
+                                            bloc.add(RemovePickedImageEvent(
+                                                image: bloc.imagesFiles.first));
+                                          },
+                                          icon: Icons.close,
+                                        ),
+                                      ),
+                                    ],
+                                  )
+                                : const SizedBox(),
                           ],
                         ),
                       ),

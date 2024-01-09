@@ -146,3 +146,21 @@ class RemoveAddressSuccessfulState extends AuthState {
   @override
   List<Object?> get props => [];
 }
+
+class ChooseAddresTypeState extends AuthState {
+  final String addressType;
+
+  const ChooseAddresTypeState({required this.addressType});
+
+  @override
+  List<Object?> get props => [addressType];
+}
+
+class ChooseCityState extends AuthState {
+  final String city;
+
+  const ChooseCityState({required this.city});
+
+  @override
+  List<Object?> get props => [city];
+}

@@ -28,6 +28,10 @@ class MessageLookup extends MessageLookupByLibrary {
         "addImage": MessageLookupByLibrary.simpleMessage("Add Image"),
         "addProduct": MessageLookupByLibrary.simpleMessage("Add Product"),
         "addToCart": MessageLookupByLibrary.simpleMessage("Add To Cart"),
+        "addedSuccessfully":
+            MessageLookupByLibrary.simpleMessage("Added Successfully"),
+        "addressDetails":
+            MessageLookupByLibrary.simpleMessage("Address Details"),
         "addressType": MessageLookupByLibrary.simpleMessage("address type"),
         "addresses": MessageLookupByLibrary.simpleMessage("Addresses"),
         "addressesList": MessageLookupByLibrary.simpleMessage("Addresses List"),
@@ -68,18 +72,29 @@ class MessageLookup extends MessageLookupByLibrary {
         "doNotHaveAccount": MessageLookupByLibrary.simpleMessage(
             "You don\'t have an account ?"),
         "edit": MessageLookupByLibrary.simpleMessage("Edit"),
+        "enterAddressType":
+            MessageLookupByLibrary.simpleMessage("please enter area"),
         "enterAllCode": MessageLookupByLibrary.simpleMessage(
             "you should enter all SMS code"),
+        "enterApartmentNumber": MessageLookupByLibrary.simpleMessage(
+            "please enter apartment number"),
         "enterArea":
             MessageLookupByLibrary.simpleMessage("please enter area name"),
+        "enterAvenue":
+            MessageLookupByLibrary.simpleMessage("please enter avenue"),
         "enterCity":
             MessageLookupByLibrary.simpleMessage("please enter city name"),
         "enterCompanyName":
             MessageLookupByLibrary.simpleMessage("please enter company name"),
+        "enterFloor":
+            MessageLookupByLibrary.simpleMessage("please enter floor"),
+        "enterHouseNumber":
+            MessageLookupByLibrary.simpleMessage("please enter house number"),
         "enterName":
             MessageLookupByLibrary.simpleMessage("Please enter a name"),
         "enterPhone":
             MessageLookupByLibrary.simpleMessage("please enter phone number"),
+        "enterPlot": MessageLookupByLibrary.simpleMessage("please enter plot"),
         "enterPrice":
             MessageLookupByLibrary.simpleMessage("Please enter a price"),
         "enterRegistration": MessageLookupByLibrary.simpleMessage(
@@ -88,6 +103,8 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Please select a category"),
         "enterSentCode":
             MessageLookupByLibrary.simpleMessage("Enter the code sent to "),
+        "enterStreet":
+            MessageLookupByLibrary.simpleMessage("please enter street"),
         "enterValidDiscount": MessageLookupByLibrary.simpleMessage(
             "Please enter a valid discount from 0% to 100%"),
         "enterValidQuantity": MessageLookupByLibrary.simpleMessage(
@@ -99,6 +116,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "highestToLowestPrice":
             MessageLookupByLibrary.simpleMessage("Highest to lowest price"),
         "home": MessageLookupByLibrary.simpleMessage("Home"),
+        "house": MessageLookupByLibrary.simpleMessage("house"),
         "houseNumber": MessageLookupByLibrary.simpleMessage("house number"),
         "language": MessageLookupByLibrary.simpleMessage("Language"),
         "loginAsMerchant":
@@ -124,6 +142,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "offers": MessageLookupByLibrary.simpleMessage("Offers"),
         "ok": MessageLookupByLibrary.simpleMessage("Ok"),
         "orderBy": MessageLookupByLibrary.simpleMessage("Order by .."),
+        "other": MessageLookupByLibrary.simpleMessage("other"),
         "payDeposit": MessageLookupByLibrary.simpleMessage("Pay deposit"),
         "phoneNumber": MessageLookupByLibrary.simpleMessage("Phone Number"),
         "phoneNumberVerification":
@@ -142,6 +161,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "registerNow": MessageLookupByLibrary.simpleMessage("Register now"),
         "registrationNumber":
             MessageLookupByLibrary.simpleMessage("Registration number"),
+        "removedSuccessfully":
+            MessageLookupByLibrary.simpleMessage("Removed Successfully"),
         "sar": MessageLookupByLibrary.simpleMessage("SAR"),
         "search": MessageLookupByLibrary.simpleMessage("search ..."),
         "seller": MessageLookupByLibrary.simpleMessage("Seller"),
@@ -170,6 +191,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "welcome": MessageLookupByLibrary.simpleMessage("Welcome"),
         "welcomeToAlmasheed":
             MessageLookupByLibrary.simpleMessage("Welcome to almasheed"),
-        "whoAreWe": MessageLookupByLibrary.simpleMessage("Who Are We")
+        "whoAreWe": MessageLookupByLibrary.simpleMessage("Who Are We"),
+        "work": MessageLookupByLibrary.simpleMessage("work")
       };
 }

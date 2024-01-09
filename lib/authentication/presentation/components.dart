@@ -1,5 +1,6 @@
 import 'package:almasheed/authentication/bloc/auth_bloc.dart';
 import 'package:almasheed/authentication/presentation/screens/account_type_screen.dart';
+import 'package:almasheed/authentication/presentation/screens/address_details_screen.dart';
 import 'package:almasheed/authentication/presentation/screens/login_screen.dart';
 import 'package:almasheed/authentication/presentation/screens/terms_and_conditions_screen.dart';
 import 'package:almasheed/core/utils/navigation_manager.dart';
@@ -127,33 +128,44 @@ Widget defaultFormField(
         FormFieldValidator? validator,
         // bool obscureText = false,
         required TextEditingController controller}) =>
-    TextFormField(
-      controller: controller,
-      keyboardType: type,
-      cursorColor: ColorManager.primary,
-      decoration: InputDecoration(
-          isDense: true,
-          errorStyle: const TextStyle(color: ColorManager.white),
-          prefixIcon: prefixIcon,
+    SizedBox(
+      height: 7.h,
+      child: Positioned.fill(
+        child: TextFormField(
+          controller: controller,
+          keyboardType: type,
+          cursorColor: ColorManager.primary,
+          decoration: InputDecoration(
+              border: OutlineInputBorder(
+                  borderSide: BorderSide.none,
+                  borderRadius: BorderRadius.circular(10.sp)),
+              focusedErrorBorder: OutlineInputBorder(
+                  borderSide: BorderSide.none,
+                  borderRadius: BorderRadius.circular(10.sp)),
+              errorBorder: OutlineInputBorder(
+                  borderSide: BorderSide.none,
+                  borderRadius: BorderRadius.circular(10.sp)),
+              isDense: true,
+              errorStyle: const TextStyle(color: ColorManager.white),
+              prefixIcon: prefixIcon,
 
-          // Added this
-          contentPadding: EdgeInsets.all(15.sp),
-          filled: true,
-          fillColor: ColorManager.secondary,
-          enabledBorder: OutlineInputBorder(
-              borderSide: BorderSide.none,
-              borderRadius: BorderRadius.circular(10.sp)),
-          focusedBorder: OutlineInputBorder(
-              borderSide: BorderSide.none,
-              borderRadius: BorderRadius.circular(10.sp)),
-          border: OutlineInputBorder(
-              borderSide: BorderSide.none,
-              borderRadius: BorderRadius.circular(10.sp)),
-          labelText: label,
-          labelStyle: const TextStyle(
-            color: ColorManager.black,
-          )),
-      validator: validator,
+              // Added this
+              contentPadding: EdgeInsets.all(15.sp),
+              filled: true,
+              fillColor: ColorManager.secondary,
+              enabledBorder: OutlineInputBorder(
+                  borderSide: BorderSide.none,
+                  borderRadius: BorderRadius.circular(10.sp)),
+              focusedBorder: OutlineInputBorder(
+                  borderSide: BorderSide.none,
+                  borderRadius: BorderRadius.circular(10.sp)),
+              labelText: label,
+              labelStyle: const TextStyle(
+                color: ColorManager.black,
+              )),
+          validator: validator,
+        ),
+      ),
     );
 
 void defaultToast({
@@ -383,91 +395,81 @@ class AddressBuilder extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 40.h,
-      child: Card(
-        elevation: 5,
-        shape: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(20.sp),
-          borderSide: BorderSide.none,
-        ),
-        color: ColorManager.secondary,
-        child: Padding(
-            padding: EdgeInsets.all(10.sp),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Center(
-                  child: AddressItem(
-                      label: S.of(context).addressType, value: address.type),
-                ),
-                Row(
-                  children: [
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
+      height: 35.h,
+      child: InkWell(
+        onTap: () {
+          context.push(AddressDetailsScreen(address: address));
+        },
+        child: Card(
+          elevation: 5,
+          shape: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(20.sp),
+            borderSide: BorderSide.none,
+          ),
+          color: ColorManager.secondary,
+          child: Padding(
+              padding: EdgeInsets.all(10.sp),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  SizedBox(
+                    height: 1.h,
+                  ),
+                  Expanded(
+                      child: Row(
+                    children: [
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            AddressItem(
+                                label: S.of(context).addressType,
+                                value: address.type),
+                            SizedBox(
+                              height: 1.h,
+                            ),
+                            AddressItem(
+                                label: S.of(context).city, value: address.city),
+                            SizedBox(
+                              height: 1.h,
+                            ),
+                            SizedBox(
+                              height: 1.h,
+                            ),
+                            AddressItem(
+                                label: S.of(context).street,
+                                value: address.street),
+                          ],
+                        ),
+                      ),
+                      SizedBox(
+                        width: 5.sp,
+                      ),
+                      Expanded(
+                          child: Column(
                         children: [
                           AddressItem(
-                              label: S.of(context).addressType,
-                              value: address.type),
+                              label: S.of(context).houseNumber,
+                              value: address.houseNumber.toString()),
                           SizedBox(
                             height: 1.h,
                           ),
                           AddressItem(
-                              label: S.of(context).city, value: address.city),
+                              label: S.of(context).floor,
+                              value: address.floor.toString()),
                           SizedBox(
                             height: 1.h,
                           ),
                           AddressItem(
-                              label: S.of(context).state, value: address.state),
-                          SizedBox(
-                            height: 1.h,
-                          ),
-                          AddressItem(
-                              label: S.of(context).street,
-                              value: address.street),
-                          SizedBox(
-                            height: 1.h,
-                          ),
+                              label: S.of(context).apartmentNumber,
+                              value: address.apartmentNumber.toString()),
                         ],
-                      ),
-                    ),
-                    SizedBox(
-                      width: 5.sp,
-                    ),
-                    Expanded(
-                        child: Column(
-                      children: [
-                        AddressItem(
-                            label: S.of(context).houseNumber,
-                            value: address.houseNumber),
-                        SizedBox(
-                          height: 1.h,
-                        ),
-                        AddressItem(
-                            label: S.of(context).floor,
-                            value: address.floor.toString()),
-                        SizedBox(
-                          height: 1.h,
-                        ),
-                        AddressItem(
-                            label: S.of(context).apartmentNumber,
-                            value: address.apartmentNumber.toString()),
-                        SizedBox(
-                          height: 1.h,
-                        ),
-                        AddressItem(
-                            label: S.of(context).area, value: address.area),
-                        SizedBox(
-                          height: 1.h,
-                        ),
-                        AddressItem(
-                            label: S.of(context).plot, value: address.plot),
-                      ],
-                    ))
-                  ],
-                )
-              ],
-            )),
+                      ))
+                    ],
+                  ))
+                ],
+              )),
+        ),
       ),
     );
   }
@@ -481,12 +483,14 @@ class AddressItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
+    return Expanded(
+        child: Row(
+      textBaseline: TextBaseline.alphabetic,
       children: [
         Text(
           "$label: ",
           style: TextStyle(
-            fontSize: 13.sp,
+            fontSize: 12.sp,
             color: ColorManager.black,
             fontWeight: FontWeight.bold,
           ),
@@ -495,18 +499,18 @@ class AddressItem extends StatelessWidget {
           width: 5.sp,
         ),
         Expanded(
-          child: Text(
-            value,
-            maxLines: 1,
-            overflow: TextOverflow.ellipsis,
-            style: TextStyle(
-              fontSize: 13.sp,
-              color: ColorManager.primary,
-              fontWeight: FontWeight.bold,
-            ),
+            child: Text(
+          value,
+          maxLines: 2,
+          overflow: TextOverflow.ellipsis,
+          style: TextStyle(
+            overflow: TextOverflow.visible,
+            fontSize: 13.sp,
+            color: ColorManager.primary,
+            fontWeight: FontWeight.bold,
           ),
-        ),
+        )),
       ],
-    );
+    ));
   }
 }

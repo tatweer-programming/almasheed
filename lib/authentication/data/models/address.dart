@@ -1,9 +1,9 @@
 class Address {
   final String street;
   final String city;
-  final String state;
+
   final String type;
-  final String houseNumber;
+  final int houseNumber;
   final int floor;
   final int apartmentNumber;
   final String area;
@@ -13,7 +13,6 @@ class Address {
   Address(
       {required this.street,
       required this.city,
-      required this.state,
       required this.houseNumber,
       required this.floor,
       required this.apartmentNumber,
@@ -26,7 +25,6 @@ class Address {
     return Address(
         street: json['street'],
         city: json['city'],
-        state: json['state'],
         houseNumber: json['houseNumber'],
         floor: json['floor'],
         apartmentNumber: json['apartmentNumber'],
@@ -40,7 +38,6 @@ class Address {
     return {
       'street': street,
       'city': city,
-      'state': state,
       'houseNumber': houseNumber,
       'floor': floor,
       'apartmentNumber': apartmentNumber,

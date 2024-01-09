@@ -48,7 +48,7 @@ class ChangeIsMerchantTypeStateEvent extends AuthEvent {
   const ChangeIsMerchantTypeStateEvent({required this.state});
 
   @override
-  List<Object?> get props => [];
+  List<Object?> get props => [state];
 }
 
 class SelectAccountTypeEvent extends AuthEvent {
@@ -57,7 +57,7 @@ class SelectAccountTypeEvent extends AuthEvent {
   const SelectAccountTypeEvent({required this.index});
 
   @override
-  List<Object?> get props => [];
+  List<Object?> get props => [index];
 }
 
 class NavigateToRegisterScreenEvent extends AuthEvent {
@@ -65,7 +65,7 @@ class NavigateToRegisterScreenEvent extends AuthEvent {
   const NavigateToRegisterScreenEvent(this.context);
 
   @override
-  List<Object?> get props => [];
+  List<Object?> get props => [context];
 }
 
 class AddAddressEvent extends AuthEvent {
@@ -74,7 +74,7 @@ class AddAddressEvent extends AuthEvent {
   const AddAddressEvent(this.address);
 
   @override
-  List<Object?> get props => [];
+  List<Object?> get props => [address];
 }
 
 class RemoveAddressEvent extends AuthEvent {
@@ -83,5 +83,19 @@ class RemoveAddressEvent extends AuthEvent {
   const RemoveAddressEvent(this.address);
 
   @override
+  List<Object?> get props => [address];
+}
+
+class ChooseAddressTypeEvent extends AuthEvent {
+  final String addressType;
+  const ChooseAddressTypeEvent(this.addressType);
+  @override
   List<Object?> get props => [];
+}
+
+class ChooseCityEvent extends AuthEvent {
+  final String city;
+  const ChooseCityEvent(this.city);
+  @override
+  List<Object?> get props => [city];
 }

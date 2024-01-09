@@ -57,7 +57,8 @@ class DetailsProductScreen extends StatelessWidget {
                                 ),
                               );
                             } else {
-                              errorToast(msg: S.of(context).determineQuantity);
+                              mainErrorToast(
+                                  msg: S.of(context).determineQuantity);
                             }
                           },
                           context: context,
@@ -95,7 +96,7 @@ class DetailsProductScreen extends StatelessWidget {
       bloc.add(DeleteProductEvent(product: product));
     } else if (state is DeleteProductErrorState) {
       context.pop();
-      errorToast(msg: ExceptionManager(state.error).translatedMessage());
+      mainErrorToast(msg: ExceptionManager(state.error).translatedMessage());
     } else if (state is DeleteProductLoadingState) {
       _showDeleteProductLoadingDialog(context);
     } else if (state is DeleteProductSuccessfullyState) {

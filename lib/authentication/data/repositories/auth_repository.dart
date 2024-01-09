@@ -6,6 +6,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import '../models/user.dart';
 
 class AuthRepository {
+  static AuthRepository get = AuthRepository();
   final AuthService _service = AuthService();
 
   Future<Either<FirebaseAuthException, String>> verifyPhoneNumber(

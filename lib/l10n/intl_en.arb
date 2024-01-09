@@ -109,5 +109,18 @@
   "state": "state",
   "apartmentNumber": "apartment number",
   "plot": "plot",
-  "avenue": "avenue"
+  "avenue": "avenue",
+  "house": "house",
+  "work": "work",
+  "other": "other",
+  "enterAddressType": "please enter area",
+  "enterStreet": "please enter street",
+  "enterHouseNumber": "please enter house number",
+  "enterApartmentNumber": "please enter apartment number",
+  "enterFloor": "please enter floor",
+  "enterPlot": "please enter plot",
+  "enterAvenue": "please enter avenue",
+  "addedSuccessfully": "Added Successfully",
+  "removedSuccessfully": "Removed Successfully",
+  "addressDetails": "Address Details"
 }

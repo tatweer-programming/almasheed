@@ -28,6 +28,10 @@ class MessageLookup extends MessageLookupByLibrary {
         "addImage": MessageLookupByLibrary.simpleMessage("إضافة صورة"),
         "addProduct": MessageLookupByLibrary.simpleMessage("إضافة منتج"),
         "addToCart": MessageLookupByLibrary.simpleMessage("إضافة إلى السلة"),
+        "addedSuccessfully":
+            MessageLookupByLibrary.simpleMessage("تمت الإضافة بنجاح"),
+        "addressDetails":
+            MessageLookupByLibrary.simpleMessage("تفاصيل العنوان"),
         "addressType": MessageLookupByLibrary.simpleMessage("نوع العنوان"),
         "addresses": MessageLookupByLibrary.simpleMessage("العناوين"),
         "addressesList": MessageLookupByLibrary.simpleMessage("قائمة العناوين"),
@@ -67,17 +71,29 @@ class MessageLookup extends MessageLookupByLibrary {
         "doNotHaveAccount":
             MessageLookupByLibrary.simpleMessage("ليس لديك حساب؟"),
         "edit": MessageLookupByLibrary.simpleMessage("تعديل"),
+        "enterAddressType":
+            MessageLookupByLibrary.simpleMessage("الرجاء إدخال نوع العنوان"),
         "enterAllCode": MessageLookupByLibrary.simpleMessage(
             "يجب أن تقوم بإدخال جميع أكواد الرسائل النصية (SMS)"),
+        "enterApartmentNumber":
+            MessageLookupByLibrary.simpleMessage("الرجاء إدخال رقم الشقة"),
         "enterArea":
             MessageLookupByLibrary.simpleMessage("الرجاء إدخال اسم المنطقة"),
+        "enterAvenue":
+            MessageLookupByLibrary.simpleMessage("الرجاء إدخال اسم الجادة"),
         "enterCity":
             MessageLookupByLibrary.simpleMessage("الرجاء إدخال اسم المدينة"),
         "enterCompanyName":
             MessageLookupByLibrary.simpleMessage("من فضلك ادخل اسم الشركة"),
+        "enterFloor":
+            MessageLookupByLibrary.simpleMessage("الرجاء إدخال رقم الطابق"),
+        "enterHouseNumber":
+            MessageLookupByLibrary.simpleMessage("الرجاء إدخال رقم المنزل"),
         "enterName": MessageLookupByLibrary.simpleMessage("الرجاء إدخال اسم"),
         "enterPhone":
             MessageLookupByLibrary.simpleMessage("الرجاء إدخال رقم الهاتف"),
+        "enterPlot":
+            MessageLookupByLibrary.simpleMessage("الرجاء إدخال رقم القطعة"),
         "enterPrice":
             MessageLookupByLibrary.simpleMessage("الرجاء إدخال السعر"),
         "enterRegistration":
@@ -86,6 +102,8 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("الرجاء تحديد فئة"),
         "enterSentCode":
             MessageLookupByLibrary.simpleMessage("أدخل الرمز المرسل الى"),
+        "enterStreet":
+            MessageLookupByLibrary.simpleMessage("الرجاء إدخال اسم الشارع"),
         "enterValidDiscount": MessageLookupByLibrary.simpleMessage(
             "الرجاء إدخال خصم صالح من 0% إلى 100%"),
         "enterValidQuantity":
@@ -97,6 +115,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "highestToLowestPrice":
             MessageLookupByLibrary.simpleMessage("من الأعلى إلى الأقل سعرًا"),
         "home": MessageLookupByLibrary.simpleMessage("الرئيسية"),
+        "house": MessageLookupByLibrary.simpleMessage("المنزل"),
         "houseNumber": MessageLookupByLibrary.simpleMessage("رقم المنزل"),
         "language": MessageLookupByLibrary.simpleMessage("اللغة"),
         "loginAsMerchant":
@@ -120,6 +139,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "offers": MessageLookupByLibrary.simpleMessage("العروض"),
         "ok": MessageLookupByLibrary.simpleMessage("موافق"),
         "orderBy": MessageLookupByLibrary.simpleMessage("ترتيب حسب..."),
+        "other": MessageLookupByLibrary.simpleMessage("أخرى"),
         "payDeposit": MessageLookupByLibrary.simpleMessage("دفع العربون"),
         "phoneNumber": MessageLookupByLibrary.simpleMessage("رقم الهاتف"),
         "phoneNumberVerification":
@@ -137,6 +157,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "registerNow": MessageLookupByLibrary.simpleMessage("سجل الآن"),
         "registrationNumber":
             MessageLookupByLibrary.simpleMessage("رقم التسجيل"),
+        "removedSuccessfully":
+            MessageLookupByLibrary.simpleMessage("تمت الإزالة بنجاح"),
         "sar": MessageLookupByLibrary.simpleMessage("ريال"),
         "search": MessageLookupByLibrary.simpleMessage("البحث..."),
         "seller": MessageLookupByLibrary.simpleMessage("البائع"),
@@ -166,6 +188,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "welcome": MessageLookupByLibrary.simpleMessage("مرحبًا"),
         "welcomeToAlmasheed":
             MessageLookupByLibrary.simpleMessage("مرحبًا بك في المشيد"),
-        "whoAreWe": MessageLookupByLibrary.simpleMessage("من نحن")
+        "whoAreWe": MessageLookupByLibrary.simpleMessage("من نحن"),
+        "work": MessageLookupByLibrary.simpleMessage("العمل")
       };
 }
