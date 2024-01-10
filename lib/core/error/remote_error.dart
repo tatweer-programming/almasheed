@@ -1,9 +1,14 @@
+import 'package:almasheed/core/utils/localization_manager.dart';
+
 class ExceptionManager implements Exception {
   dynamic error;
 
   ExceptionManager(this.error);
 
   String translatedMessage() {
+    if (LocalizationManager.getCurrentLocale().languageCode == "en") {
+      return error.code.toString().replaceAll("-", " ");
+    }
     switch (error.code) {
       case "network-error":
         return "خطأ في الشبكة";
@@ -24,25 +29,25 @@ class ExceptionManager implements Exception {
       case "permission-denied":
         return "ليس لديك صلاحية الوصول إلى هذه البيانات";
       case "invalid-token":
-        return "رمز مصادقة Firebase غير صالح";
+        return "رمز المصادقة غير صالح";
       case "cancelled":
         return "تم إلغاء العملية";
       case "already-exists":
         return "المستند موجود بالفعل";
       case "data-loss":
-        return "حدث فقدان بيانات Firestore";
+        return "حدث فقدان البيانات ";
       case "invalid-argument":
-        return "وسيطات غير صالحة";
+        return "بيانات غير صالحة";
       case "internal":
-        return "حدث خطأ داخلي في Firebase Cloud Functions";
+        return "حدث خطأ داخلي في الخادم";
       case "invalid-registration-token":
         return "رمز التسجيل الخاص بالجهاز غير صالح";
       case "registration-token-not-registered":
         return "لم يتم تسجيل الجهاز لتلقي الإشعارات";
       case "fetch-client-network":
-        return "خطأ في الاتصال بخوادم Firebase";
+        return "خطأ في الاتصال بالخادم ";
       case "fetch-throttle":
-        return "تم إيقاف جلب بيانات Firebase Remote Config لفترة من الوقت بسبب الكثير من الاستعلامات";
+        return "تم إيقاف جلب البيانات لفترة من الوقت بسبب الكثير من الاستعلامات";
       case "quota-exceeded":
         return "تم تجاوز سقف التخزين";
       case "unauthorized":
@@ -52,7 +57,7 @@ class ExceptionManager implements Exception {
       case "retry-limit-exceeded":
         return "تم تجاوز الحد الأقصى لإعادة المحاولة";
       case "unknown":
-        return "حدث خطأ غير معروف في Firebase Storage";
+        return "حدث خطأ غير معروف";
       default:
         return "  حدث خطأ غير معروف : ${error.code}";
     }

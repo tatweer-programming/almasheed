@@ -30,6 +30,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "addToCart": MessageLookupByLibrary.simpleMessage("Add To Cart"),
         "addedSuccessfully":
             MessageLookupByLibrary.simpleMessage("Added Successfully"),
+        "address": MessageLookupByLibrary.simpleMessage("address"),
         "addressDetails":
             MessageLookupByLibrary.simpleMessage("Address Details"),
         "addressType": MessageLookupByLibrary.simpleMessage("address type"),
@@ -52,16 +53,19 @@ class MessageLookup extends MessageLookupByLibrary {
         "chat": MessageLookupByLibrary.simpleMessage("Chats"),
         "chooseAccountType":
             MessageLookupByLibrary.simpleMessage("please choose account type"),
+        "chooseAddress": MessageLookupByLibrary.simpleMessage("choose address"),
         "city": MessageLookupByLibrary.simpleMessage("City"),
         "codeSent":
             MessageLookupByLibrary.simpleMessage("Code Sent Successfully"),
         "codeVerified":
             MessageLookupByLibrary.simpleMessage("Code Verified Successfully"),
         "companyName": MessageLookupByLibrary.simpleMessage("Company name"),
+        "completeOrder": MessageLookupByLibrary.simpleMessage("complete order"),
         "contactUs": MessageLookupByLibrary.simpleMessage("Contact Us"),
         "createYourAccountNow":
             MessageLookupByLibrary.simpleMessage("Create your account now"),
         "customer": MessageLookupByLibrary.simpleMessage("Customer"),
+        "date": MessageLookupByLibrary.simpleMessage("date"),
         "delete": MessageLookupByLibrary.simpleMessage("Delete"),
         "description": MessageLookupByLibrary.simpleMessage("Description"),
         "determineQuantity":
@@ -111,6 +115,8 @@ class MessageLookup extends MessageLookupByLibrary {
             "Please enter a valid quantity"),
         "evaluation": MessageLookupByLibrary.simpleMessage("Evaluation"),
         "faq": MessageLookupByLibrary.simpleMessage("FAQ"),
+        "faqText": MessageLookupByLibrary.simpleMessage(
+            "What is the Al-Masheed application?\nAn application that aims to facilitate the connection between the customer and the service provider in an easy and clear manner.\nIs there an in-app conversation between the customer and the service provider?\nYes, there is a chat service within the application.\nIf I encounter a problem within the application, what should I do?\nContact customer service in the Contact Us box and the issue will be addressed as soon as possible."),
         "favourites": MessageLookupByLibrary.simpleMessage("Favorites"),
         "floor": MessageLookupByLibrary.simpleMessage("floor"),
         "highestToLowestPrice":
@@ -127,8 +133,12 @@ class MessageLookup extends MessageLookupByLibrary {
         "merchant": MessageLookupByLibrary.simpleMessage("Merchant"),
         "merchants": MessageLookupByLibrary.simpleMessage("Merchants"),
         "modifyProduct": MessageLookupByLibrary.simpleMessage("Modify Product"),
+        "mustAddAddress":
+            MessageLookupByLibrary.simpleMessage("you must add an address"),
         "mustAgreeToTerms": MessageLookupByLibrary.simpleMessage(
             "You must agree to the terms and conditions"),
+        "mustChooseAddress":
+            MessageLookupByLibrary.simpleMessage("you must choose an address"),
         "myAccount": MessageLookupByLibrary.simpleMessage("My account"),
         "myOrders": MessageLookupByLibrary.simpleMessage("My Orders"),
         "name": MessageLookupByLibrary.simpleMessage("Name"),
@@ -142,6 +152,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "offers": MessageLookupByLibrary.simpleMessage("Offers"),
         "ok": MessageLookupByLibrary.simpleMessage("Ok"),
         "orderBy": MessageLookupByLibrary.simpleMessage("Order by .."),
+        "orderDetails": MessageLookupByLibrary.simpleMessage("Order details"),
         "other": MessageLookupByLibrary.simpleMessage("other"),
         "payDeposit": MessageLookupByLibrary.simpleMessage("Pay deposit"),
         "phoneNumber": MessageLookupByLibrary.simpleMessage("Phone Number"),
@@ -149,12 +160,14 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Phone Number Verification"),
         "plot": MessageLookupByLibrary.simpleMessage("plot"),
         "price": MessageLookupByLibrary.simpleMessage("Price"),
+        "product": MessageLookupByLibrary.simpleMessage("product"),
         "productAdded": MessageLookupByLibrary.simpleMessage(
             "The product has been added successfully"),
         "productCategory":
             MessageLookupByLibrary.simpleMessage("Product Category"),
         "productModified": MessageLookupByLibrary.simpleMessage(
             "The product has been modified successfully"),
+        "products": MessageLookupByLibrary.simpleMessage("products"),
         "profile": MessageLookupByLibrary.simpleMessage("Profile"),
         "quantity": MessageLookupByLibrary.simpleMessage("Quantity"),
         "reSend": MessageLookupByLibrary.simpleMessage("RESEND"),

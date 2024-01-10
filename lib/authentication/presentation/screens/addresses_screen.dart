@@ -1,6 +1,7 @@
 import 'package:almasheed/authentication/data/models/customer.dart';
 import 'package:almasheed/authentication/presentation/components.dart';
 import 'package:almasheed/authentication/presentation/screens/add_address_screen.dart';
+import 'package:almasheed/authentication/presentation/screens/address_details_screen.dart';
 import 'package:almasheed/core/utils/color_manager.dart';
 import 'package:almasheed/core/utils/navigation_manager.dart';
 import 'package:almasheed/generated/l10n.dart';
@@ -84,8 +85,14 @@ class AddressesScreen extends StatelessWidget {
                         child: ListView.separated(
                             shrinkWrap: true,
                             physics: const NeverScrollableScrollPhysics(),
-                            itemBuilder: (context, index) => AddressBuilder(
-                                address: customer.addresses[index]),
+                            itemBuilder: (context, index) => InkWell(
+                                  onTap: () {
+                                    context.push(AddressDetailsScreen(
+                                        address: customer.addresses[index]));
+                                  },
+                                  child: AddressBuilder(
+                                      address: customer.addresses[index]),
+                                ),
                             separatorBuilder: (context, index) => SizedBox(
                                   height: 1.h,
                                 ),

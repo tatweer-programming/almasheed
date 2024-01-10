@@ -97,7 +97,8 @@ class SupportScreen extends StatelessWidget {
                         ProfileItemBuilder(
                           iconData: Icons.policy,
                           label: S.of(context).termsAndConditions,
-                          nextScreen: const TermsAndConditionsScreen(),
+                          nextScreen: TermsAndConditionsScreen(
+                              userType: ConstantsManager.appUser!.getType()),
                         ),
                         ProfileItemBuilder(
                           iconData: Icons.people,
@@ -181,7 +182,8 @@ class SupportScreen extends StatelessWidget {
                             label: S.of(context).shareApp,
                             iconData: Icons.share,
                             onTap: () {
-                              Share.share('hey! check out this new app https:https://play.google.com/store/apps/details?id=com.learn.be_well',
+                              Share.share(
+                                  'hey! check out this new app https:https://play.google.com/store/apps/details?id=com.learn.be_well',
                                   subject: 'Look what I made!');
                             }),
                       ],

@@ -3,6 +3,7 @@ import 'package:almasheed/authentication/data/models/customer.dart';
 import 'package:almasheed/authentication/data/models/user.dart';
 import 'package:flutter/cupertino.dart';
 
+import '../../authentication/data/models/merchant.dart';
 import 'localization_manager.dart';
 
 class ConstantsManager {
@@ -14,14 +15,14 @@ class ConstantsManager {
   // static AppUser? appUser;
 
   // static AppUser? appUser = Merchant(
-  //   id: "oVtWmHhUWJcVfi7MT1GyVvANHIA2",
-  //   phone: "",
-  //   orders: [],
-  //   area: "",
-  //   city: "",
-  //   companyName: "Ahmed",
-  //   productsIds: [],registrationNumber: ""
-  // );
+  //     id: "oVtWmHhUWJcVfi7MT1GyVvANHIA2",
+  //     phone: "",
+  //     orders: [],
+  //     area: "",
+  //     city: "",
+  //     companyName: "Ahmed",
+  //     productsIds: [],
+  //     registrationNumber: "");
   static AppUser? appUser =
       Customer(cartItems: {}, favorites: [], orders: [], addresses: [
     Address(

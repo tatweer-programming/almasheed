@@ -7,6 +7,7 @@ import 'package:almasheed/main/data/models/product.dart';
 import 'package:almasheed/main/view/widgets/widgets.dart';
 import 'package:almasheed/payment/bloc/payment_bloc.dart';
 import 'package:almasheed/payment/presentation/components.dart';
+import 'package:almasheed/payment/presentation/screens/complete_order_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sizer/sizer.dart';
@@ -104,72 +105,28 @@ class CartScreen extends StatelessWidget {
                 ),
               ),
             ),
-            Padding(
-              padding: EdgeInsets.only(top: 1.h, left: 2.w, right: 2.w),
-              child: Container(
-                height: 8.h,
-                width: double.infinity,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadiusDirectional.only(
-                    topEnd: Radius.circular(10.sp),
-                    bottomEnd: Radius.circular(10.sp),
-                  ),
-                  color: ColorManager.primary,
-                ),
-                child: Padding(
-                  padding: EdgeInsets.all(2.w),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: [
-                      Text(
-                        "${S.of(context).totalPrice}: ",
-                        style: TextStyle(
-                            color: ColorManager.white,
-                            fontWeight: FontWeight.bold),
-                      ),
-                      Expanded(
-                        child: Row(
-                          children: [
-                            Text(
-                              "${bloc.order.totalPrice} ",
-                              style: TextStyle(
-                                  fontSize: 18.sp,
-                                  color: ColorManager.white,
-                                  fontWeight: FontWeight.bold),
-                            ),
-                            Text(
-                              S.of(context).sar,
-                              style: TextStyle(
-                                  color: ColorManager.white,
-                                  fontWeight: FontWeight.bold),
-                            ),
-                          ],
+            bloc.order.orderItems.isNotEmpty
+                ? Padding(
+                    padding: EdgeInsets.only(
+                        top: 1.h, left: 2.w, right: 2.w, bottom: 2.h),
+                    child: Container(
+                      height: 8.h,
+                      width: double.infinity,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadiusDirectional.only(
+                          topEnd: Radius.circular(10.sp),
+                          bottomEnd: Radius.circular(10.sp),
                         ),
+                        color: ColorManager.primary,
                       ),
-                      FittedBox(
-                        child: ElevatedButton(
+                      child: defaultButton(
                           onPressed: () {
-                            bloc.add(CompletePaymentCart(
-                              context: context,
-                            ));
+                            context.push(const CompleteOrderScreen());
                           },
-                          style: ElevatedButton.styleFrom(
-                            primary: ColorManager.secondary,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(10.sp),
-                            ),
-                          ),
-                          child: Text(
-                            S.of(context).payDeposit,
-                            style: const TextStyle(color: ColorManager.black),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            )
+                          text: S.of(context).next),
+                    ),
+                  )
+                : const SizedBox()
           ],
         );
       },

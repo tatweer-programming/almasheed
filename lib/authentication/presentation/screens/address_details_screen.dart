@@ -1,5 +1,7 @@
 import 'package:almasheed/authentication/data/models/address.dart';
+import 'package:almasheed/authentication/data/models/customer.dart';
 import 'package:almasheed/authentication/presentation/components.dart';
+import 'package:almasheed/core/utils/constance_manager.dart';
 import 'package:almasheed/core/utils/navigation_manager.dart';
 import 'package:almasheed/main/view/widgets/widgets.dart';
 import 'package:flutter/material.dart';
@@ -126,18 +128,23 @@ class AddressDetailsScreen extends StatelessWidget {
                 SizedBox(
                   height: 1.h,
                 ),
-                Padding(
-                  padding: EdgeInsetsDirectional.only(start: 5.w, end: 5.w),
-                  child: state is RemoveAddressLoadingState
-                      ? const Center(
-                          child: CircularProgressIndicator(),
-                        )
-                      : defaultButton(
-                          text: S.of(context).delete,
-                          onPressed: () {
-                            bloc.add(RemoveAddressEvent(address));
-                          }),
-                ),
+                ConstantsManager.appUser is Customer
+                    ? Padding(
+                        padding:
+                            EdgeInsetsDirectional.only(start: 5.w, end: 5.w),
+                        child: state is RemoveAddressLoadingState
+                            ? const Center(
+                                child: CircularProgressIndicator(),
+                              )
+                            : defaultButton(
+                                text: S.of(context).delete,
+                                onPressed: () {
+                                  bloc.add(RemoveAddressEvent(address));
+                                }),
+                      )
+                    : SizedBox(
+                        height: 5.h,
+                      ),
               ],
             ),
           ),

@@ -55,3 +55,15 @@ class CompletePaymentCart extends PaymentEvent {
   @override
   List<Object?> get props => [];
 }
+
+class ChooseAddress extends PaymentEvent {
+  final int index;
+  const ChooseAddress(this.index);
+  @override
+  List<Object?> get props => [index];
+}
+
+class GetUserOrders extends PaymentEvent {
+  @override
+  List<Object?> get props => [];
+}

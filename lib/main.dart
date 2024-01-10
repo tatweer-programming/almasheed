@@ -3,6 +3,8 @@ import 'package:almasheed/chat/bloc/chat_bloc.dart';
 import 'package:almasheed/core/utils/constance_manager.dart';
 import 'package:almasheed/core/utils/localization_manager.dart';
 import 'package:almasheed/payment/bloc/payment_bloc.dart';
+import 'package:almasheed/payment/presentation/screens/merchant_orders_screen.dart';
+import 'package:almasheed/payment/presentation/screens/order_details_screen.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -30,18 +32,7 @@ Future<void> main() async {
   ConstantsManager.isNotificationsOn =
       await CacheHelper.getData(key: "isNotificationsOn");
   ConstantsManager.userType = await CacheHelper.getData(key: "userType");
-  DateTime startDate = DateTime.utc(
-      DateTime.now().year, DateTime.now().month, DateTime.now().day - 10);
-  DateTime endDate = DateTime.utc(
-      DateTime.now().year, DateTime.now().month, DateTime.now().day);
-  await FirebaseFirestore.instance
-      .collection("orders")
-      .where("date", isGreaterThanOrEqualTo: startDate.toIso8601String())
-      .where("date", isLessThanOrEqualTo: endDate.toIso8601String())
-      .get()
-      .then((value) {
-    print(value.docs.length);
-  });
+  print(DateTime.now());
 
   runApp(const Masheed());
 }

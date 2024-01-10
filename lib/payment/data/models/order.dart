@@ -11,9 +11,9 @@ class OrderModel extends Equatable {
   final List<OrderItem> orderItems;
   final List<String> merchantIds;
   final String id;
-  final Address address;
+  Address address;
 
-  const OrderModel(
+  OrderModel(
       {required this.id,
       required this.totalPrice,
       required this.orderItems,

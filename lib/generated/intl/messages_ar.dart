@@ -30,6 +30,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "addToCart": MessageLookupByLibrary.simpleMessage("إضافة إلى السلة"),
         "addedSuccessfully":
             MessageLookupByLibrary.simpleMessage("تمت الإضافة بنجاح"),
+        "address": MessageLookupByLibrary.simpleMessage("العنوان"),
         "addressDetails":
             MessageLookupByLibrary.simpleMessage("تفاصيل العنوان"),
         "addressType": MessageLookupByLibrary.simpleMessage("نوع العنوان"),
@@ -51,16 +52,19 @@ class MessageLookup extends MessageLookupByLibrary {
         "chat": MessageLookupByLibrary.simpleMessage("الدردشة"),
         "chooseAccountType":
             MessageLookupByLibrary.simpleMessage("يرجى اختيار نوع الحساب"),
+        "chooseAddress": MessageLookupByLibrary.simpleMessage("اختار العنوان"),
         "city": MessageLookupByLibrary.simpleMessage("المدينة"),
         "codeSent":
             MessageLookupByLibrary.simpleMessage("تم ارسال الرمز بنجاح"),
         "codeVerified":
             MessageLookupByLibrary.simpleMessage("تم تأكيد الرمز بنجاح"),
         "companyName": MessageLookupByLibrary.simpleMessage("اسم الشركة"),
+        "completeOrder": MessageLookupByLibrary.simpleMessage("إكمال الطلب"),
         "contactUs": MessageLookupByLibrary.simpleMessage("تواصل معنا"),
         "createYourAccountNow":
             MessageLookupByLibrary.simpleMessage("أنشئ حسابك الآن"),
         "customer": MessageLookupByLibrary.simpleMessage("عميل"),
+        "date": MessageLookupByLibrary.simpleMessage("التاريخ"),
         "delete": MessageLookupByLibrary.simpleMessage("حذف"),
         "description": MessageLookupByLibrary.simpleMessage("الوصف"),
         "determineQuantity":
@@ -110,6 +114,8 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("الرجاء إدخال كمية صالحة"),
         "evaluation": MessageLookupByLibrary.simpleMessage("التقييم"),
         "faq": MessageLookupByLibrary.simpleMessage("الأسئلة الشائعة"),
+        "faqText": MessageLookupByLibrary.simpleMessage(
+            "ما هو تطبيق المشيد ؟\nتطبيق يهدف إلى تسهيل الربط بين العميل ومقدم الخدمة بشكل سهل وواضح.\nهل يوجد محادثة داخل التطبيق بين العميل ومقدم الخدمة؟\nنعم توجد خدمة الدردشة داخل التطبيق .\nإذا واجهت مشكلة داخل التطبيق ماذا أفعل ؟\nتواصل مع خدمة العملاء في خانة تواصل معنا وسيتم معالجة المشكلة في أقرب وقت ممكن."),
         "favourites": MessageLookupByLibrary.simpleMessage("المفضلة"),
         "floor": MessageLookupByLibrary.simpleMessage("الطابق"),
         "highestToLowestPrice":
@@ -126,8 +132,12 @@ class MessageLookup extends MessageLookupByLibrary {
         "merchant": MessageLookupByLibrary.simpleMessage("تاجر"),
         "merchants": MessageLookupByLibrary.simpleMessage("التجار"),
         "modifyProduct": MessageLookupByLibrary.simpleMessage("تعديل المنتج"),
+        "mustAddAddress":
+            MessageLookupByLibrary.simpleMessage("يجب اضافة عنوان"),
         "mustAgreeToTerms": MessageLookupByLibrary.simpleMessage(
             "يجب أن توافق على الشروط والأحكام"),
+        "mustChooseAddress":
+            MessageLookupByLibrary.simpleMessage("يجب اختيار عنوان"),
         "myAccount": MessageLookupByLibrary.simpleMessage("حسابي"),
         "myOrders": MessageLookupByLibrary.simpleMessage("طلباتي"),
         "name": MessageLookupByLibrary.simpleMessage("الاسم"),
@@ -139,6 +149,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "offers": MessageLookupByLibrary.simpleMessage("العروض"),
         "ok": MessageLookupByLibrary.simpleMessage("موافق"),
         "orderBy": MessageLookupByLibrary.simpleMessage("ترتيب حسب..."),
+        "orderDetails": MessageLookupByLibrary.simpleMessage("تفاصيل الطلب"),
         "other": MessageLookupByLibrary.simpleMessage("أخرى"),
         "payDeposit": MessageLookupByLibrary.simpleMessage("دفع العربون"),
         "phoneNumber": MessageLookupByLibrary.simpleMessage("رقم الهاتف"),
@@ -146,11 +157,13 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("التحقق من رقم الهاتف"),
         "plot": MessageLookupByLibrary.simpleMessage("رقم القطعة"),
         "price": MessageLookupByLibrary.simpleMessage("السعر"),
+        "product": MessageLookupByLibrary.simpleMessage("المنتج"),
         "productAdded":
             MessageLookupByLibrary.simpleMessage("تمت إضافة المنتج بنجاح"),
         "productCategory": MessageLookupByLibrary.simpleMessage("فئة المنتج"),
         "productModified":
             MessageLookupByLibrary.simpleMessage("تم تعديل المنتج بنجاح"),
+        "products": MessageLookupByLibrary.simpleMessage("المنتجات"),
         "profile": MessageLookupByLibrary.simpleMessage("الملف الشخصي"),
         "quantity": MessageLookupByLibrary.simpleMessage("الكمية"),
         "reSend": MessageLookupByLibrary.simpleMessage("إعادة الإرسال"),

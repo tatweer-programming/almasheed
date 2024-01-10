@@ -216,7 +216,9 @@ class TermsAgreementWidget extends StatelessWidget {
         ),
         TextButton(
             onPressed: () {
-              context.push(TermsAndConditionsScreen());
+              context.push(TermsAndConditionsScreen(
+                userType: userType,
+              ));
             },
             child: Text(
               S.of(context).termsAndConditions,
@@ -389,87 +391,84 @@ class ProfileItemBuilder extends StatelessWidget {
 
 class AddressBuilder extends StatelessWidget {
   final Address address;
-
-  const AddressBuilder({super.key, required this.address});
+  const AddressBuilder({
+    super.key,
+    required this.address,
+  });
 
   @override
   Widget build(BuildContext context) {
     return SizedBox(
       height: 35.h,
-      child: InkWell(
-        onTap: () {
-          context.push(AddressDetailsScreen(address: address));
-        },
-        child: Card(
-          elevation: 5,
-          shape: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(20.sp),
-            borderSide: BorderSide.none,
-          ),
-          color: ColorManager.secondary,
-          child: Padding(
-              padding: EdgeInsets.all(10.sp),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  SizedBox(
-                    height: 1.h,
-                  ),
-                  Expanded(
-                      child: Row(
-                    children: [
-                      Expanded(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            AddressItem(
-                                label: S.of(context).addressType,
-                                value: address.type),
-                            SizedBox(
-                              height: 1.h,
-                            ),
-                            AddressItem(
-                                label: S.of(context).city, value: address.city),
-                            SizedBox(
-                              height: 1.h,
-                            ),
-                            SizedBox(
-                              height: 1.h,
-                            ),
-                            AddressItem(
-                                label: S.of(context).street,
-                                value: address.street),
-                          ],
-                        ),
-                      ),
-                      SizedBox(
-                        width: 5.sp,
-                      ),
-                      Expanded(
-                          child: Column(
+      child: Card(
+        elevation: 5,
+        shape: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(20.sp),
+          borderSide: BorderSide.none,
+        ),
+        color: ColorManager.secondary,
+        child: Padding(
+            padding: EdgeInsets.all(10.sp),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                SizedBox(
+                  height: 1.h,
+                ),
+                Expanded(
+                    child: Row(
+                  children: [
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           AddressItem(
-                              label: S.of(context).houseNumber,
-                              value: address.houseNumber.toString()),
+                              label: S.of(context).addressType,
+                              value: address.type),
                           SizedBox(
                             height: 1.h,
                           ),
                           AddressItem(
-                              label: S.of(context).floor,
-                              value: address.floor.toString()),
+                              label: S.of(context).city, value: address.city),
+                          SizedBox(
+                            height: 1.h,
+                          ),
                           SizedBox(
                             height: 1.h,
                           ),
                           AddressItem(
-                              label: S.of(context).apartmentNumber,
-                              value: address.apartmentNumber.toString()),
+                              label: S.of(context).street,
+                              value: address.street),
                         ],
-                      ))
-                    ],
-                  ))
-                ],
-              )),
-        ),
+                      ),
+                    ),
+                    SizedBox(
+                      width: 5.sp,
+                    ),
+                    Expanded(
+                        child: Column(
+                      children: [
+                        AddressItem(
+                            label: S.of(context).houseNumber,
+                            value: address.houseNumber.toString()),
+                        SizedBox(
+                          height: 1.h,
+                        ),
+                        AddressItem(
+                            label: S.of(context).floor,
+                            value: address.floor.toString()),
+                        SizedBox(
+                          height: 1.h,
+                        ),
+                        AddressItem(
+                            label: S.of(context).apartmentNumber,
+                            value: address.apartmentNumber.toString()),
+                      ],
+                    ))
+                  ],
+                ))
+              ],
+            )),
       ),
     );
   }

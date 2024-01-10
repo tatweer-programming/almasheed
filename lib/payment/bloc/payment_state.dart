@@ -85,8 +85,19 @@ class CartPreparedState extends PaymentState {
 }
 
 class CompleteOrderErrorState extends PaymentState {
-  FirebaseException exception;
-  CompleteOrderErrorState(this.exception);
+  final FirebaseException exception;
+
+  const CompleteOrderErrorState(this.exception);
+
   @override
   List<Object?> get props => [exception];
+}
+
+class ChooseAddressState extends PaymentState {
+  final int index;
+
+  const ChooseAddressState(this.index);
+
+  @override
+  List<Object?> get props => [index];
 }

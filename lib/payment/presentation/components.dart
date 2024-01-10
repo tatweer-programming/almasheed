@@ -1,7 +1,9 @@
 import 'package:almasheed/authentication/presentation/components.dart';
 import 'package:almasheed/core/utils/color_manager.dart';
 import 'package:almasheed/core/utils/font_manager.dart';
+import 'package:almasheed/core/utils/navigation_manager.dart';
 import 'package:almasheed/main/data/models/product.dart';
+import 'package:almasheed/main/view/screens/details_product.dart';
 import 'package:almasheed/payment/bloc/payment_bloc.dart';
 import 'package:almasheed/payment/data/models/orderItem.dart';
 import 'package:flutter/material.dart';
@@ -236,5 +238,39 @@ class _CartItemState extends State<CartItem> {
           productId: widget.orderItem.product.productId,
           quantity: widget.orderItem.quantity));
     });
+  }
+}
+
+class OrderItemBuilder extends StatelessWidget {
+  final OrderItem item;
+
+  const OrderItemBuilder({super.key, required this.item});
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      width: double.infinity,
+      height: 10.h,
+      child: InkWell(
+        onTap: () {
+          // context.push(Product(product: item.product));
+        },
+        child: Card(
+          color: ColorManager.secondary,
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Row(
+              children: [
+                Expanded(child: Text(item.product.productName)),
+                SizedBox(
+                  width: 5.w,
+                ),
+                Text(item.quantity.toString())
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
   }
 }

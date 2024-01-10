@@ -7,6 +7,7 @@ import 'package:dartz/dartz.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import '../../authentication/data/models/address.dart';
 import '../../authentication/data/models/customer.dart';
 import '../../core/services/dep_injection.dart';
 import '../data/models/orderItem.dart';
@@ -17,11 +18,14 @@ part 'payment_event.dart';
 part 'payment_state.dart';
 
 class PaymentBloc extends Bloc<PaymentEvent, PaymentState> {
-  static PaymentBloc get() => PaymentBloc();
+  static PaymentBloc bloc = PaymentBloc();
+
+  static PaymentBloc get() => bloc;
   OrderModel order = OrderModel.create([], null);
 
   // variables
   final PaymentRepository _repository = PaymentRepository();
+  int? selectedAddressindex;
 
   PaymentBloc() : super(PaymentInitial()) {
     on<PaymentEvent>((event, emit) async {
@@ -67,12 +71,18 @@ class PaymentBloc extends Bloc<PaymentEvent, PaymentState> {
         print(response.status.toString() + response.url.toString());
         if (response.isSuccess) {
           await _repository.saveOrderData(order);
+          emit(CompleteOrderSuccessState());
         } else {
           // emit(CompletePaymentCartErrorState());
         }
       } else if (event is PrepareCart) {
         _generateOrder();
         emit(CartPreparedState());
+      } else if (event is ChooseAddress) {
+        selectedAddressindex = event.index;
+        Customer customer = ConstantsManager.appUser as Customer;
+        order.address = customer.addresses[event.index];
+        emit(ChooseAddressState(event.index));
       }
     });
   }
