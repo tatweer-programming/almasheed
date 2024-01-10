@@ -98,32 +98,6 @@ class ChatService {
     }
   }
 
-  Future<Either<FirebaseException, Unit>> createChat(
-      {required Chat chat}) async {
-    try {
-      var batch = FirebaseFirestore.instance.batch();
-      var setInSender = firebaseInstance
-          .collection(
-              ConstantsManager.appUser is Merchant ? "merchants" : "customers")
-          .doc(ConstantsManager.appUser!.id)
-          .collection("chats")
-          .doc(chat.receiverId);
-      var setInReceiver = firebaseInstance
-          .collection(
-              ConstantsManager.appUser is! Merchant ? "merchants" : "customers")
-          .doc(chat.receiverId)
-          .collection("chats")
-          .doc(ConstantsManager.userId);
-
-      batch.set(setInSender, chat.toJson());
-      batch.set(setInReceiver, chat.toJson());
-      await batch.commit();
-      return const Right(unit);
-    } on FirebaseException catch (e) {
-      return Left(e);
-    }
-  }
-
   Stream<List<Message>> getMessagesForUser({
     required String userType,
     required String userId,

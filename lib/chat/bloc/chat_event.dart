@@ -20,12 +20,6 @@ class PickImageEvent extends ChatEvent {}
 
 class GetChatsEvent extends ChatEvent {}
 
-class CreateChatEvent extends ChatEvent {
-  final Chat chat;
-
-  CreateChatEvent({required this.chat});
-}
-
 class RemovePickedImageEvent extends ChatEvent {}
 
 class RemoveRecordEvent extends ChatEvent {}
