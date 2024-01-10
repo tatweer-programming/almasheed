@@ -15,8 +15,10 @@ import '../../../generated/l10n.dart';
 
 class ChatScreen extends StatelessWidget {
   final String receiverId;
+  final String receiverName;
 
-  const ChatScreen({super.key, required this.receiverId});
+  const ChatScreen(
+      {super.key, required this.receiverId, required this.receiverName});
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +29,6 @@ class ChatScreen extends StatelessWidget {
       ..add(GetMessagesEvent(receiverId: receiverId));
     return BlocConsumer<ChatBloc, ChatState>(
       listener: (context, state) {
-        print(bloc.isPlaying);
         if (state is GetMessagesSuccessState) {
           messagesStream = state.messages;
         }
@@ -39,6 +40,7 @@ class ChatScreen extends StatelessWidget {
         return Scaffold(
           appBar: AppBar(
             backgroundColor: ColorManager.primary,
+            title: Text(receiverName),
           ),
           body: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -210,6 +212,7 @@ class ChatScreen extends StatelessWidget {
                           bloc.add(RemoveRecordEvent());
                           bloc.add(SendMessageEvent(
                             message: Message(
+                              receiverName: receiverName,
                               createdTime: Timestamp.now(),
                               message: messageController.text,
                               imageFilePath: bloc.imageFilePath,

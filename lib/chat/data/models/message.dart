@@ -7,6 +7,7 @@ class Message extends Equatable {
   String? imageUrl;
   String? imageFilePath;
   final String senderId;
+  final String receiverName;
   String? voiceNoteUrl;
   String? voiceNoteFilePath;
   final String receiverId;
@@ -18,6 +19,7 @@ class Message extends Equatable {
     this.imageFilePath,
     required this.createdTime,
     required this.senderId,
+    required this.receiverName,
     required this.receiverId,
   });
 
@@ -26,6 +28,7 @@ class Message extends Equatable {
       imageUrl: json["imageUrl"],
       createdTime: json["createdTime"],
       message: json["message"],
+      receiverName: json["receiverName"],
       senderId: json["senderId"],
       receiverId: json["receiverId"],
       voiceNoteUrl: json["voiceNoteUrl"],
@@ -35,6 +38,7 @@ class Message extends Equatable {
     return {
       "senderId":senderId,
       "voiceNoteUrl":voiceNoteUrl,
+      "receiverName":receiverName,
       "imageUrl":imageUrl,
       "createdTime":createdTime,
       "message":message,

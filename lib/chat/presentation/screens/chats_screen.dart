@@ -1,12 +1,11 @@
 import 'dart:ffi';
 
+import 'package:almasheed/chat/data/models/chat.dart';
 import 'package:almasheed/chat/presentation/screens/chat_screen.dart';
 import 'package:almasheed/core/utils/navigation_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sizer/sizer.dart';
-
-import '../../../core/services/dep_injection.dart';
 import '../../../core/utils/color_manager.dart';
 import '../../../generated/l10n.dart';
 import '../../../main/view/widgets/widgets.dart';
@@ -17,7 +16,8 @@ class ChatsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    ChatBloc chatBloc = ChatBloc.get(context)..add(GetChatsEvent());
+    ChatBloc chatBloc = ChatBloc.get(context)
+      ..add(GetChatsEvent());
     return Scaffold(
       body: Column(
         children: [
@@ -63,6 +63,7 @@ class ChatsScreen extends StatelessWidget {
                         text: chatBloc.chats[index].receiverName,
                         onTap: () {
                           context.push(ChatScreen(
+                            receiverName: chatBloc.chats[index].receiverName,
                             receiverId: chatBloc.chats[index].receiverId,
                           ));
                         }),
@@ -88,9 +89,8 @@ Widget _chatsWidget({required String text, required VoidCallback onTap}) =>
           height: 7.h,
           child: Card(
             shape: OutlineInputBorder(
-              borderSide: BorderSide.none,
-              borderRadius: BorderRadius.circular(5.sp)
-            ),
+                borderSide: BorderSide.none,
+                borderRadius: BorderRadius.circular(5.sp)),
             color: ColorManager.secondary,
             child: Padding(
               padding: EdgeInsets.symmetric(horizontal: 3.w),

@@ -37,6 +37,9 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
       } else if (event is SendMessageEvent) {
         await chatRepository.sendMessage(message: event.message);
         emit(SendMessagesSuccessState());
+      }else if (event is CreateChatEvent) {
+        await chatRepository.createChat(chat: event.chat);
+        emit(CreateChatState());
       } else if (event is GetChatsEvent) {
         var result = await chatRepository.getChats();
         result.fold((l) {
