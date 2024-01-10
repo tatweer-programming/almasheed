@@ -101,6 +101,7 @@ class PaymentService {
 
   _saveOrderIdToMerchantsOrders(OrderModel order, WriteBatch batch) async {
     for (var element in order.merchantIds) {
+      print(element);
       batch.update(fireStore.doc("merchants/$element"), {
         "orders": FieldValue.arrayUnion([order.id])
       });

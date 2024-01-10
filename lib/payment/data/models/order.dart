@@ -28,7 +28,9 @@ class OrderModel extends Equatable {
     List<String> merchantIds = [];
     for (var element in orderItems) {
       totalPrice += element.product.productNewPrice * element.quantity;
-      // merchantIds.contains(element.product.) ? null : ;
+      merchantIds.contains(element.product.merchantId)
+          ? null
+          : merchantIds.add(element.product.merchantId);
     }
     Customer customer = ConstantsManager.appUser as Customer;
     return OrderModel(
@@ -41,8 +43,8 @@ class OrderModel extends Equatable {
 
   Map<String, dynamic> toJson() => {
         "totalPrice": totalPrice,
-        "orderIds": orderItems.map((e) => e.product.productId).toList(),
-        "merchantIds": orderItems.map((e) => e.product.merchantId).toList(),
+        "productIds": orderItems.map((e) => e.product.productId).toList(),
+        "merchantsIds": merchantIds,
         "customerId": ConstantsManager.appUser!.id,
         "date": id,
         "address": address.toJson()
