@@ -40,7 +40,7 @@ Future<void> main() async {
   print(DateTime.now());
 
   /// Test Custom Properties
-  PorductCustomProperties properties = PorductCustomProperties(
+  ProductCustomProperties properties = ProductCustomProperties(
     properties: {
       'color': ['red', 'blue', 'green'],
       'size': ['small', 'medium', 'large'],
@@ -55,7 +55,7 @@ Future<void> main() async {
       'green-small-2kg'
     ],
   );
-  print(properties.searchinAvailablePropsfromChoosenProps(['green', '1kg']));
+  print(properties.searchInAvailablePropsFromChosenProps(['green', '1kg']));
   runApp(const Masheed());
 }
 
@@ -96,11 +96,11 @@ class Masheed extends StatelessWidget {
                 title: 'Al Masheed',
                 locale: LocalizationManager.getCurrentLocale(),
                 theme: getAppTheme(),
-                home: const MainScreen(),
-                // home: ConstantsManager.userType != null &&
-                //         ConstantsManager.userId != null
-                //     ? const MainScreen()
-                //     : const LoginScreen(),
+                // home: const MainScreen(),
+                home: ConstantsManager.userType != null &&
+                        ConstantsManager.userId != null
+                    ? const MainScreen()
+                    : const LoginScreen(),
               );
             },
           ));

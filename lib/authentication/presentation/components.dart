@@ -127,41 +127,39 @@ Widget defaultFormField(
         required TextEditingController controller}) =>
     SizedBox(
       height: 7.h,
-      child: Positioned.fill(
-        child: TextFormField(
-          controller: controller,
-          keyboardType: type,
-          cursorColor: ColorManager.primary,
-          decoration: InputDecoration(
-              border: OutlineInputBorder(
-                  borderSide: BorderSide.none,
-                  borderRadius: BorderRadius.circular(10.sp)),
-              focusedErrorBorder: OutlineInputBorder(
-                  borderSide: BorderSide.none,
-                  borderRadius: BorderRadius.circular(10.sp)),
-              errorBorder: OutlineInputBorder(
-                  borderSide: BorderSide.none,
-                  borderRadius: BorderRadius.circular(10.sp)),
-              isDense: true,
-              errorStyle: const TextStyle(color: ColorManager.white),
-              prefixIcon: prefixIcon,
+      child: TextFormField(
+        controller: controller,
+        keyboardType: type,
+        cursorColor: ColorManager.primary,
+        decoration: InputDecoration(
+            border: OutlineInputBorder(
+                borderSide: BorderSide.none,
+                borderRadius: BorderRadius.circular(10.sp)),
+            focusedErrorBorder: OutlineInputBorder(
+                borderSide: BorderSide.none,
+                borderRadius: BorderRadius.circular(10.sp)),
+            errorBorder: OutlineInputBorder(
+                borderSide: BorderSide.none,
+                borderRadius: BorderRadius.circular(10.sp)),
+            isDense: true,
+            errorStyle: const TextStyle(color: ColorManager.white),
+            prefixIcon: prefixIcon,
 
-              // Added this
-              contentPadding: EdgeInsets.all(15.sp),
-              filled: true,
-              fillColor: ColorManager.secondary,
-              enabledBorder: OutlineInputBorder(
-                  borderSide: BorderSide.none,
-                  borderRadius: BorderRadius.circular(10.sp)),
-              focusedBorder: OutlineInputBorder(
-                  borderSide: BorderSide.none,
-                  borderRadius: BorderRadius.circular(10.sp)),
-              labelText: label,
-              labelStyle: const TextStyle(
-                color: ColorManager.black,
-              )),
-          validator: validator,
-        ),
+            // Added this
+            contentPadding: EdgeInsets.all(15.sp),
+            filled: true,
+            fillColor: ColorManager.secondary,
+            enabledBorder: OutlineInputBorder(
+                borderSide: BorderSide.none,
+                borderRadius: BorderRadius.circular(10.sp)),
+            focusedBorder: OutlineInputBorder(
+                borderSide: BorderSide.none,
+                borderRadius: BorderRadius.circular(10.sp)),
+            labelText: label,
+            labelStyle: const TextStyle(
+              color: ColorManager.black,
+            )),
+        validator: validator,
       ),
     );
 

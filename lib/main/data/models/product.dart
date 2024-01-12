@@ -16,7 +16,7 @@ class Product extends Equatable {
   final String merchantId;
   final String merchantName;
   final String productCity;
-  final PorductCustomProperties? customProperties;
+  final ProductCustomProperties? customProperties;
 
   Product(
       {required this.productName,

@@ -256,7 +256,7 @@ class LoginScreen extends StatelessWidget {
                                     onPressed: () {
                                       if (formKey.currentState!.validate()) {
                                         if (bloc.isMerchant) {
-                                          Merchant customer = Merchant(
+                                          Merchant merchant = Merchant(
                                               registrationNumber: "",
                                               companyName: "",
                                               city: "",
@@ -266,7 +266,7 @@ class LoginScreen extends StatelessWidget {
                                               id: "",
                                               phone:
                                                   "+966${phoneController.text}");
-                                          bloc.add(LoginByPhoneEvent(customer));
+                                          bloc.add(LoginByPhoneEvent(merchant));
                                         } else {
                                           Customer customer = Customer(
                                               addresses: [],
