@@ -155,32 +155,38 @@ class OTPScreen extends StatelessWidget {
                           const SizedBox(
                             height: 14,
                           ),
-                          Container(
-                            margin: const EdgeInsets.symmetric(
-                                vertical: 16.0, horizontal: 30),
-                            decoration: BoxDecoration(
-                              color: ColorManager.primary,
-                              borderRadius: BorderRadius.circular(5),
-                            ),
-                            child: ButtonTheme(
-                              height: 50,
-                              child: TextButton(
-                                onPressed: () {
-                                  bloc.add(VerifyCodeEvent(
-                                    code: otpController.text,
-                                  ));
-                                },
-                                child: Center(
-                                    child: Text(
-                                  S.of(context).verify.toUpperCase(),
-                                  style: const TextStyle(
-                                      color: ColorManager.white,
-                                      fontSize: 18,
-                                      fontWeight: FontWeight.bold),
-                                )),
-                              ),
-                            ),
-                          ),
+                          state is VerifyCodeLoadingState
+                              ? const Center(
+                                  child: CircularProgressIndicator(
+                                    color: ColorManager.white,
+                                  ),
+                                )
+                              : Container(
+                                  margin: const EdgeInsets.symmetric(
+                                      vertical: 16.0, horizontal: 30),
+                                  decoration: BoxDecoration(
+                                    color: ColorManager.primary,
+                                    borderRadius: BorderRadius.circular(5),
+                                  ),
+                                  child: ButtonTheme(
+                                    height: 50,
+                                    child: TextButton(
+                                      onPressed: () {
+                                        bloc.add(VerifyCodeEvent(
+                                          code: otpController.text,
+                                        ));
+                                      },
+                                      child: Center(
+                                          child: Text(
+                                        S.of(context).verify.toUpperCase(),
+                                        style: const TextStyle(
+                                            color: ColorManager.white,
+                                            fontSize: 18,
+                                            fontWeight: FontWeight.bold),
+                                      )),
+                                    ),
+                                  ),
+                                ),
                           const SizedBox(
                             height: 16,
                           ),

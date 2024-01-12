@@ -44,7 +44,7 @@ class AuthService {
   Future<Either<FirebaseAuthException, String>> verifyCode(
       String code, String userType) async {
     try {
-      late String id;
+      String? id;
       final String verificationId = await waitForVerificationID();
 
       final PhoneAuthCredential credential = PhoneAuthProvider.credential(
@@ -54,10 +54,11 @@ class AuthService {
 
       await _firebaseAuth.signInWithCredential(credential).then((value) async {
         id = value.user!.uid;
-        await FirebaseMessaging.instance.subscribeToTopic("/topic/$id");
+        print(id);
+        // await FirebaseMessaging.instance.subscribeToTopic("/topic/$id");
       });
 
-      return Right(id);
+      return Right(id!);
     } on FirebaseAuthException catch (e) {
       return Left(e);
     }

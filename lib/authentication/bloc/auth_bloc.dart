@@ -98,9 +98,9 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       result.fold((l) {
         emit(VerifyCodeErrorState(l));
       }, (r) async {
-        emit(CodeVerified());
+        // emit(CodeVerified());
         ConstantsManager.appUser?.id = r;
-        await _createUser(emit);
+        await _createUser();
       });
     } else if (event is SelectAccountTypeEvent) {
       selectedAccountTypeIndex = event.index;
@@ -132,7 +132,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     }
   }
 
-  Future _createUser(Emitter emit) async {
+  Future _createUser() async {
     var result = await repository.createUser(ConstantsManager.appUser!);
     result.fold((l) {
       errorToast(msg: ExceptionManager(l).translatedMessage());
@@ -141,7 +141,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       bool isExists = r;
       if (isExists) {
         authCompleted = true;
-        emit(Authenticated());
+        emit(const CreateUserSuccessfulState());
+
         if (kDebugMode) {
           print(ConstantsManager.appUser);
         }
