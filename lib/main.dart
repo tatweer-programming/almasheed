@@ -44,6 +44,8 @@ Future<void> main() async {
       await CacheHelper.getData(key: "isNotificationsOn");
   ConstantsManager.userType = await CacheHelper.getData(key: "userType");
   print(DateTime.now());
+
+  /// Test Custom Properties
   PorductCustomProperties properties = PorductCustomProperties(
     properties: {
       'color': ['red', 'blue', 'green'],

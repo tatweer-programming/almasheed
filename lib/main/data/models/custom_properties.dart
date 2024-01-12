@@ -3,12 +3,12 @@ class PorductCustomProperties {
 
   // example: {'color': ['red', 'blue', 'green'], 'size': ['small', 'medium', 'large'] , 'weight': ['1kg', '2kg', '3kg']}
   List<String> availableProperties;
-
   // example : ['red-small-1kg', 'red-small-2kg', 'red-small-3kg', 'red-medium-1kg', 'red-medium-2kg', 'green-small-2kg']
 
   PorductCustomProperties(
       {required this.properties, required this.availableProperties});
 
+  // هتبحث بيها لما يختار اي عنصر وهترجعلك الخيارات المتاحة من العنصر بتاعه
   List<String> searchinAvailablePropsfromChoosenProps(
       List<String> choosenProps) {
     // example for chosen props : ['red', '1kg']
@@ -19,7 +19,7 @@ class PorductCustomProperties {
         .toList();
   }
 
-  // fromJson and toJson
+  // fromJson and toJson ya 3am kman aho
   factory PorductCustomProperties.fromJson(Map<String, dynamic> json) {
     return PorductCustomProperties(
       properties: json['properties'],
@@ -34,5 +34,3 @@ class PorductCustomProperties {
     };
   }
 }
-
-// example for custom properties
