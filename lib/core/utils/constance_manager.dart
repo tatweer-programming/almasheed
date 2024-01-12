@@ -1,13 +1,11 @@
 import 'package:almasheed/authentication/data/models/address.dart';
 import 'package:almasheed/authentication/data/models/customer.dart';
 import 'package:almasheed/authentication/data/models/user.dart';
-import 'package:flutter/cupertino.dart';
-
 import '../../authentication/data/models/merchant.dart';
 import 'localization_manager.dart';
 
 class ConstantsManager {
-  // static AppUser? appUser;
+  static AppUser? appUser;
   static String? userId;
   static String? userType;
   static bool? isNotificationsOn;
@@ -23,21 +21,22 @@ class ConstantsManager {
   //     area: "",
   //     city: "",
   //     companyName: "Ahmed",
-  //     productsIds: [],
+  //     productsIds: ["2023-12-25 16:26:42.710784"],
   //     registrationNumber: "");
-  static AppUser? appUser =
-      Customer(cartItems: {}, favorites: [], orders: [], addresses: [
-    Address(
-        street: "شارع فلان الفلاني ",
-        city: "جدة",
-        houseNumber: 1,
-        floor: 1,
-        apartmentNumber: 2,
-        area: "منطقة كذا",
-        plot: "القطعة الفلانية",
-        avenue: "الجادة الفلانية",
-        type: "عنوان منزل")
-  ], id: "u8BNEWaq4OPE0vogmtJDi0IBUMp1", phone: "");
+  // static AppUser? appUser =
+  //     Customer(cartItems: {}, favorites: [], orders: [], addresses: [
+  //   Address(
+  //       street: "شارع فلان الفلاني ",
+  //       city: "جدة",
+  //       houseNumber: 1,
+  //       floor: 1,
+  //       apartmentNumber: 2,
+  //       area: "منطقة كذا",
+  //       plot: "القطعة الفلانية",
+  //       avenue: "الجادة الفلانية",
+  //       type: "عنوان منزل")
+  // ], id: "u8BNEWaq4OPE0vogmtJDi0IBUMp1", phone: "");
+
   static final List<String> saudiCitiesArabic = [
     'الرياض',
     'جدة',

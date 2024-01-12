@@ -18,10 +18,8 @@ import '../../../payment/presentation/screens/cart_screen.dart';
 import '../../bloc/main_bloc.dart';
 
 List<String> list = [
-  "https://static.independent.co.uk/s3fs-public/thumbnails/image/2015/10/19/11/attack-on-titan.jpg",
-  "https://www.cnet.com/a/img/resize/597f8167c5bc132e301df0e4052180b26b5e4c7d/hub/2022/01/07/18439ff0-d202-4d93-b233-3e203a7617fd/aot-f2-pv02-00-01-11-06-still075.jpg?auto=webp&fit=crop&height=675&width=1200",
-  "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSK_dpI9V5LsmeCAWth-VVt4LCJ4-uQq7Tr6w&usqp=CAU",
-  "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRhZHbbrSxPuCzOdrugXgNjG5tS3Cp1J3uE1i2qBcsPcuPi7LtvzeVXrTwBPvqiNX7vkEg&usqp=CAU",
+  "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQIy4RZNPjkGfpN7itM2sEbE7g7sm76WGELCQ&usqp=CAU",
+  "https://gate.ahram.org.eg/Media/News/2023/7/8/19_2023-638244132690781587-78.JPG"
 ];
 
 class HomePageScreen extends StatelessWidget {
@@ -155,10 +153,19 @@ class HomePageScreen extends StatelessWidget {
             )
           ],
         ),
-        const CircleAvatar(
-          radius: 50,
-          backgroundColor: ColorManager.grey2,
-          backgroundImage: AssetImage("assets/images/building_1.png"),
+        const Stack(
+          alignment: Alignment.center,
+          children: [
+            CircleAvatar(
+              radius: 55,
+              backgroundColor: ColorManager.primary,
+            ),
+            CircleAvatar(
+              radius: 50,
+              backgroundColor: ColorManager.grey2,
+              backgroundImage: AssetImage("assets/images/cart.png"),
+            ),
+          ],
         )
       ],
     );
@@ -168,10 +175,6 @@ class HomePageScreen extends StatelessWidget {
     BuildContext context,
     MainBloc bloc,
   ) {
-    Merchant? merchant;
-    if (ConstantsManager.appUser is Merchant) {
-      merchant = ConstantsManager.appUser as Merchant;
-    }
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -188,10 +191,13 @@ class HomePageScreen extends StatelessWidget {
                     : Category(
                         categoryName: "",
                         products: bloc.categories[index].products!
-                            .where((product) => merchant!.productsIds
-                                .contains(product.productId))
+                            .where((product) =>
+                                (ConstantsManager.appUser as Merchant)
+                                    .productsIds
+                                    .contains(product.productId))
                             .toList(),
-                        productsIds: merchant!.productsIds,
+                        productsIds:
+                            (ConstantsManager.appUser as Merchant).productsIds,
                       ),
               )),
               category: bloc.categories[index],

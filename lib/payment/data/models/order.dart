@@ -2,10 +2,8 @@
 
 import 'package:almasheed/authentication/data/models/customer.dart';
 import 'package:equatable/equatable.dart';
-
 import '../../../authentication/data/models/address.dart';
 import '../../../core/utils/constance_manager.dart';
-import '../../../main/data/models/product.dart';
 import 'orderItem.dart';
 
 class OrderModel extends Equatable {

@@ -1,6 +1,3 @@
-import 'dart:ffi';
-
-import 'package:almasheed/chat/data/models/chat.dart';
 import 'package:almasheed/chat/presentation/screens/chat_screen.dart';
 import 'package:almasheed/core/utils/navigation_manager.dart';
 import 'package:flutter/material.dart';

@@ -17,6 +17,7 @@ class Product extends Equatable {
   final String merchantName;
   final String productCity;
   final PorductCustomProperties? customProperties;
+
   Product(
       {required this.productName,
       this.productCategory,
@@ -31,20 +32,23 @@ class Product extends Equatable {
       required this.productDescription,
       required this.merchantName,
       this.customProperties});
+
   factory Product.fromJson(Map<String, dynamic> json) => Product(
-      productDescription: json['productDescription'],
-      productId: json['productId'],
-      productCity: json['productCity'],
-      productNewPrice: json['productNewPrice'].toDouble(),
-      productsImagesUrl: List<String>.from(json['productsImages'])
-          .map((image) => image)
-          .toList(),
-      productName: json['productName'],
-      productOldPrice: json['productOldPrice'].toDouble(),
-      merchantName: json['merchantName'],
-      merchantId: json['merchantId'],
-      customProperties:
-          PorductCustomProperties.fromJson(json["customProperties"]));
+        productDescription: json['productDescription'],
+        productId: json['productId'],
+        productCity: json['productCity'],
+        productNewPrice: json['productNewPrice'].toDouble(),
+        productsImagesUrl: List<String>.from(json['productsImages'])
+            .map((image) => image)
+            .toList(),
+        productName: json['productName'],
+        productOldPrice: json['productOldPrice'].toDouble(),
+        merchantName: json['merchantName'],
+        merchantId: json['merchantId'],
+        // customProperties:
+        //     PorductCustomProperties.fromJson(json["customProperties"]),
+      );
+
   Map<String, dynamic> toJson() {
     return {
       'productDescription': productDescription,

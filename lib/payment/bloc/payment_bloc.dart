@@ -7,7 +7,6 @@ import 'package:dartz/dartz.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../authentication/data/models/address.dart';
 import '../../authentication/data/models/customer.dart';
 import '../../core/services/dep_injection.dart';
 import '../data/models/orderItem.dart';

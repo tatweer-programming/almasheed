@@ -78,7 +78,6 @@ class CompleteOrderScreen extends StatelessWidget {
                           : errorToast(msg: S.of(context).mustAddAddress);
                     },
                     style: ElevatedButton.styleFrom(
-                      primary: ColorManager.secondary,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(10.sp),
                       ),

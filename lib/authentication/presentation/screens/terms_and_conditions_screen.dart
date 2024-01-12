@@ -1,8 +1,5 @@
-import 'package:almasheed/authentication/data/models/customer.dart';
-import 'package:almasheed/core/utils/constance_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
-
 import '../../../core/utils/color_manager.dart';
 import '../../../generated/l10n.dart';
 import '../../../main/view/widgets/widgets.dart';

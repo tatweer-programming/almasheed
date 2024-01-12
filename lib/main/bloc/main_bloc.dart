@@ -1,5 +1,4 @@
-import 'package:almasheed/authentication/presentation/components.dart';
-import 'package:almasheed/core/error/remote_error.dart';
+import 'package:almasheed/core/utils/constance_manager.dart';
 import 'package:almasheed/core/utils/localization_manager.dart';
 import 'package:almasheed/main/data/models/category.dart';
 import 'package:almasheed/main/data/models/product.dart';
@@ -37,11 +36,15 @@ class MainBloc extends Bloc<MainEvent, MainState> {
   String? selectedProductCategory;
   String? selectedCity;
   List<Product> sortedProducts = [];
-  List<Widget> pages = [
+  List<Widget> pagesCustomer = [
     const HomePageScreen(),
     const CategoriesScreen(),
     const FavouriteScreen(),
     const ProfileScreen(),
+    const SupportScreen(),
+  ];List<Widget> pagesMerchant = [
+    const HomePageScreen(),
+    const CategoriesScreen(),
     const SupportScreen(),
   ];
 
@@ -245,6 +248,10 @@ class MainBloc extends Bloc<MainEvent, MainState> {
       } else if (event is ChangeSwitchNotificationsEvent) {
         emit(ChangeSwitchNotificationsState(event.isOn));
       } else if (event is ChooseCategoryEvent) {
+        event.categoryProducts = event.categoryProducts
+            .where((product) => (ConstantsManager.appUser as Merchant).productsIds
+            .contains(product.productId))
+            .toList();
         emit(ChooseCategoryState(
             categoryName: event.categoryName,
             categoryProducts: event.categoryProducts));

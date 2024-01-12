@@ -10,6 +10,7 @@ import '../../../core/services/dep_injection.dart';
 import '../../../generated/l10n.dart';
 import '../../bloc/main_bloc.dart';
 import 'add_product_screen.dart';
+import 'favourite_screen.dart';
 
 class MainScreen extends StatelessWidget {
   const MainScreen({super.key});
@@ -43,37 +44,29 @@ class MainScreen extends StatelessWidget {
             },
             items: [
               BottomNavigationBarItem(
-                  label: S
-                      .of(context)
-                      .home,
+                  label: S.of(context).home,
                   icon: const Icon(
                     Icons.home_outlined,
                   )),
               BottomNavigationBarItem(
-                  label: S
-                      .of(context)
-                      .categories,
+                  label: S.of(context).categories,
                   icon: const Icon(
                     Icons.category_outlined,
                   )),
+              if (ConstantsManager.appUser is! Merchant)
+                BottomNavigationBarItem(
+                    label: S.of(context).favourites,
+                    icon: const Icon(
+                      Icons.favorite_outline_rounded,
+                    )),
+              if (ConstantsManager.appUser is! Merchant)
+                BottomNavigationBarItem(
+                    label: S.of(context).profile,
+                    icon: const Icon(
+                      Icons.person,
+                    )),
               BottomNavigationBarItem(
-                  label: S
-                      .of(context)
-                      .favourites,
-                  icon: const Icon(
-                    Icons.favorite_outline_rounded,
-                  )),
-              BottomNavigationBarItem(
-                  label: S
-                      .of(context)
-                      .profile,
-                  icon: const Icon(
-                    Icons.person,
-                  )),
-              BottomNavigationBarItem(
-                  label: S
-                      .of(context)
-                      .support,
+                  label: S.of(context).support,
                   icon: const Icon(
                     Icons.support,
                   )),
@@ -81,18 +74,20 @@ class MainScreen extends StatelessWidget {
           ),
           floatingActionButton: ConstantsManager.appUser is Merchant
               ? FloatingActionButton(
-            onPressed: () {
-              context.push(const AddProductScreen());
-            },
-            child: const Icon(Icons.add),
-          )
+                  onPressed: () {
+                    context.push(const AddProductScreen());
+                  },
+                  child: const Icon(Icons.add),
+                )
               : null,
           body: RefreshIndicator(
               onRefresh: () async {
                 bloc.add(GetProductsEvent());
                 bloc.add(GetMerchantsEvent());
               },
-              child: bloc.pages[bloc.pageIndex]),
+              child: (ConstantsManager.appUser is Merchant)
+                  ? bloc.pagesMerchant[bloc.pageIndex]
+                  : bloc.pagesCustomer[bloc.pageIndex]),
         );
       },
     );

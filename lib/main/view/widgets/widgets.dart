@@ -1,14 +1,11 @@
 import 'package:almasheed/main/data/models/category.dart';
 import 'package:almasheed/main/data/models/product.dart';
-import 'package:almasheed/main/view/screens/home_page_screen.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:sizer/sizer.dart';
-
 import '../../../authentication/data/models/customer.dart';
 import '../../../authentication/data/models/merchant.dart';
-import '../../../core/services/dep_injection.dart';
 import '../../../core/utils/color_manager.dart';
 import '../../../core/utils/constance_manager.dart';
 import '../../../generated/l10n.dart';
@@ -363,10 +360,6 @@ Widget productVerticalWidget({
   required VoidCallback addCardPressed,
   required VoidCallback openProductPressed,
 }) {
-  Customer? customer;
-  if (ConstantsManager.appUser is Customer) {
-    customer = ConstantsManager.appUser as Customer;
-  }
   return InkWell(
     onTap: openProductPressed,
     child: Card(

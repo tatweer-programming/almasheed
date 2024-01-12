@@ -1,9 +1,6 @@
 import 'package:almasheed/authentication/data/models/customer.dart';
 import 'package:almasheed/core/utils/constance_manager.dart';
-import 'package:almasheed/core/utils/localization_manager.dart';
 import 'package:almasheed/core/utils/navigation_manager.dart';
-import 'package:almasheed/main/bloc/main_bloc.dart';
-import 'package:almasheed/main/data/models/product.dart';
 import 'package:almasheed/main/view/widgets/widgets.dart';
 import 'package:almasheed/payment/bloc/payment_bloc.dart';
 import 'package:almasheed/payment/presentation/components.dart';
@@ -11,8 +8,6 @@ import 'package:almasheed/payment/presentation/screens/complete_order_screen.dar
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sizer/sizer.dart';
-
-import '../../../core/services/dep_injection.dart';
 import '../../../core/utils/color_manager.dart';
 import '../../../generated/l10n.dart';
 

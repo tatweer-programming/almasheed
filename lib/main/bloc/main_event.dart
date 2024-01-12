@@ -218,10 +218,10 @@ class ChangeSwitchNotificationsEvent extends MainEvent {
 }
 
 class ChooseCategoryEvent extends MainEvent {
-  final List<Product> categoryProducts;
+  List<Product> categoryProducts;
   final String categoryName;
 
-  const ChooseCategoryEvent({required this.categoryProducts,required this.categoryName,});
+  ChooseCategoryEvent({required this.categoryProducts,required this.categoryName,});
 
   @override
   List<Object?> get props => [categoryProducts,categoryName];

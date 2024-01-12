@@ -23,7 +23,7 @@ class CategoryScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final MainBloc mainBloc = sl()..sortedProducts = category.products ?? [];
-    final PaymentBloc paymentBloc = PaymentBloc.get();
+    // final PaymentBloc paymentBloc = PaymentBloc.get();
     bool isHorizontal = false;
     TextEditingController quantityController = TextEditingController();
     return BlocConsumer<MainBloc, MainState>(
@@ -56,7 +56,6 @@ class CategoryScreen extends StatelessWidget {
                   ),
                   _buildSortBar(context, mainBloc, isHorizontal),
                   _buildProductList(
-                    paymentBloc: paymentBloc,
                     context: context,
                     isHorizontal: isHorizontal,
                     mainBloc: mainBloc,
@@ -132,7 +131,7 @@ class CategoryScreen extends StatelessWidget {
   Widget _buildSortBar(BuildContext context, MainBloc bloc, bool isHorizontal) {
     return Container(
       height: 7.h,
-      color: ColorManager.secondary,
+      color:const Color(0xffac793d),
       child: Padding(
         padding: EdgeInsets.symmetric(horizontal: 6.w),
         child: Row(
@@ -364,7 +363,6 @@ class CategoryScreen extends StatelessWidget {
   Widget _buildProductList({
     required BuildContext context,
     required MainBloc mainBloc,
-    required PaymentBloc paymentBloc,
     required bool isHorizontal,
     required TextEditingController quantityController,
   }) {
@@ -387,6 +385,7 @@ class CategoryScreen extends StatelessWidget {
             },
             product: product,
             addCardPressed: () {
+              PaymentBloc paymentBloc = PaymentBloc.bloc;
               paymentBloc.add(
                 AddToCartEvent(
                   productId: product.productId,

@@ -15,7 +15,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../generated/l10n.dart';
 import '../data/models/address.dart';
-import '../data/models/customer.dart';
 import '../data/repositories/auth_repository.dart';
 
 part 'auth_event.dart';

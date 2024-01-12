@@ -1,6 +1,5 @@
 import 'package:almasheed/authentication/data/models/merchant.dart';
 import 'package:almasheed/authentication/presentation/screens/otp_screen.dart';
-import 'package:almasheed/authentication/presentation/screens/terms_and_conditions_screen.dart';
 import 'package:almasheed/core/error/remote_error.dart';
 import 'package:almasheed/core/utils/assets_manager.dart';
 import 'package:almasheed/core/utils/navigation_manager.dart';

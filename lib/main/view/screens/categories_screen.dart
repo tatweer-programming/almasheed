@@ -4,14 +4,10 @@ import 'package:almasheed/main/view/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sizer/sizer.dart';
-import '../../../authentication/data/models/customer.dart';
 import '../../../core/services/dep_injection.dart';
-import '../../../core/utils/constance_manager.dart';
 import '../../../generated/l10n.dart';
 import '../../../payment/bloc/payment_bloc.dart';
-import '../../../payment/presentation/screens/cart_screen.dart';
 import '../../bloc/main_bloc.dart';
-import '../../data/models/category.dart';
 import '../../data/models/product.dart';
 import 'details_product.dart';
 
@@ -21,7 +17,6 @@ class CategoriesScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final MainBloc bloc = sl();
-    final PaymentBloc paymentBloc = PaymentBloc.get();
     List<Product> categoryProducts = [];
     String isContain = "";
     return BlocConsumer<MainBloc, MainState>(
@@ -83,6 +78,7 @@ class CategoriesScreen extends StatelessWidget {
                             product: product,
                             context: context,
                             addCardPressed: () {
+                              final PaymentBloc paymentBloc = PaymentBloc.bloc;
                               paymentBloc.add(
                                 AddToCartEvent(
                                   productId: product.productId,
