@@ -2,14 +2,17 @@ import 'package:almasheed/authentication/presentation/screens/login_screen.dart'
 import 'package:almasheed/chat/bloc/chat_bloc.dart';
 import 'package:almasheed/core/utils/constance_manager.dart';
 import 'package:almasheed/core/utils/localization_manager.dart';
+import 'package:almasheed/core/utils/navigation_manager.dart';
 import 'package:almasheed/payment/bloc/payment_bloc.dart';
 import 'package:almasheed/payment/presentation/screens/merchant_orders_screen.dart';
 import 'package:almasheed/payment/presentation/screens/order_details_screen.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sizer/sizer.dart';
 import 'authentication/bloc/auth_bloc.dart';
 import 'authentication/presentation/screens/account_type_screen.dart';
@@ -28,10 +31,17 @@ Future<void> main() async {
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   await CacheHelper.init();
   ServiceLocator().init();
+  FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
+  FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) async {
+    navigatorKey.currentState!.push(
+        MaterialPageRoute(builder: (_) => ChatScreen(receiverId: message.from!.substring(8),
+            receiverName: message.notification!.title!))
+    );
+  });
   await LocalizationManager.init();
   ConstantsManager.userId = await CacheHelper.getData(key: "userId");
   ConstantsManager.isNotificationsOn =
-      await CacheHelper.getData(key: "isNotificationsOn");
+  await CacheHelper.getData(key: "isNotificationsOn");
   ConstantsManager.userType = await CacheHelper.getData(key: "userType");
   print(DateTime.now());
   PorductCustomProperties properties = PorductCustomProperties(
@@ -52,8 +62,10 @@ Future<void> main() async {
   print(properties.searchinAvailablePropsfromChoosenProps(['green', '1kg']));
   runApp(const Masheed());
 }
+final GlobalKey<NavigatorState> navigatorKey = GlobalKey(debugLabel: "Main Navigator");
 
 class Masheed extends StatelessWidget {
+
   const Masheed({super.key});
 
   @override
@@ -62,9 +74,9 @@ class Masheed extends StatelessWidget {
       return MultiBlocProvider(
           providers: [
             BlocProvider<MainBloc>(
-                create: (BuildContext context) => sl()
-                  ..add(GetProductsEvent())
-                  ..add(GetMerchantsEvent())),
+                create: (BuildContext context) =>
+                sl()
+                  ..add(GetProductsEvent())..add(GetMerchantsEvent())),
             BlocProvider<AuthBloc>(
                 create: (BuildContext context) => AuthBloc()),
             BlocProvider<PaymentBloc>(
@@ -75,6 +87,7 @@ class Masheed extends StatelessWidget {
           child: BlocBuilder<MainBloc, MainState>(
             builder: (context, state) {
               return MaterialApp(
+                navigatorKey: navigatorKey,
                 debugShowCheckedModeBanner: false,
                 localizationsDelegates: const [
                   S.delegate,
@@ -96,4 +109,8 @@ class Masheed extends StatelessWidget {
           ));
     });
   }
+}
+
+Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message,) async {
+  print("Handling a background message: ${message.data}");
 }

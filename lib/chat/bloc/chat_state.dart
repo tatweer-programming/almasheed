@@ -24,8 +24,6 @@ class GetChatSuccessfullyState extends ChatState {}
 
 class GetChatErrorState extends ChatState {}
 
-class CreateChatState extends ChatState {}
-
 class RemoveRecordState extends ChatState {}
 
 class EndRecordState extends ChatState {}

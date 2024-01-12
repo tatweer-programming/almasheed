@@ -6,6 +6,8 @@ import 'package:dartz/dartz.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:my_fatoorah/my_fatoorah.dart';
 
+import '../../../chat/data/models/chat.dart';
+
 class PaymentService {
   FirebaseFirestore fireStore = FirebaseFirestore.instance;
   Customer customer = ConstantsManager.appUser as Customer;
@@ -105,6 +107,32 @@ class PaymentService {
       batch.update(fireStore.doc("merchants/$element"), {
         "orders": FieldValue.arrayUnion([order.id])
       });
+    }
+  }
+
+  Future<Either<FirebaseException, Unit>> _createChat(
+      {required Chat chat}) async {
+    try {
+      var batch = FirebaseFirestore.instance.batch();
+      var setInSender = fireStore
+          .collection(
+          ConstantsManager.appUser is! Customer ? "merchants" : "customers")
+          .doc(ConstantsManager.appUser!.id)
+          .collection("chats")
+          .doc(chat.receiverId);
+      var setInReceiver = fireStore
+          .collection(
+          ConstantsManager.appUser is Customer ? "merchants" : "customers")
+          .doc(chat.receiverId)
+          .collection("chats")
+          .doc(ConstantsManager.userId);
+
+      batch.set(setInSender, chat.toJson());
+      batch.set(setInReceiver, chat.toJson());
+      await batch.commit();
+      return const Right(unit);
+    } on FirebaseException catch (e) {
+      return Left(e);
     }
   }
 }

@@ -22,9 +22,4 @@ class ChatRepository {
   Future<Either<FirebaseException, List<Chat>>> getChats() async {
     return await service.getChats();
   }
-
-  Future<Either<FirebaseException, Unit>> createChat(
-      {required Chat chat}) async {
-    return await service.createChat(chat: chat);
-  }
 }

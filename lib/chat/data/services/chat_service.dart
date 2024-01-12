@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:almasheed/authentication/data/models/customer.dart';
@@ -7,7 +8,7 @@ import 'package:almasheed/core/utils/constance_manager.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dartz/dartz.dart';
 import 'package:firebase_storage/firebase_storage.dart';
-
+import 'package:http/http.dart' as http;
 import '../models/chat.dart';
 
 class ChatService {
@@ -45,6 +46,7 @@ class ChatService {
           message: message,
         );
       }
+      await _pushNotification(message: message);
       return const Right(unit);
     } on FirebaseException catch (e) {
       return Left(e);
@@ -91,32 +93,6 @@ class ChatService {
         }
       });
       return Right(chats);
-    } on FirebaseException catch (e) {
-      return Left(e);
-    }
-  }
-
-  Future<Either<FirebaseException, Unit>> createChat(
-      {required Chat chat}) async {
-    try {
-      var batch = FirebaseFirestore.instance.batch();
-      var setInSender = firebaseInstance
-          .collection(
-              ConstantsManager.appUser is Merchant ? "merchants" : "customers")
-          .doc(ConstantsManager.userId)
-          .collection("chats")
-          .doc(chat.receiverId);
-      var setInReceiver = firebaseInstance
-          .collection(
-              ConstantsManager.appUser is Merchant ? "merchants" : "customers")
-          .doc(chat.receiverId)
-          .collection("chats")
-          .doc(ConstantsManager.userId);
-
-      batch.set(setInSender, chat.toJson());
-      batch.set(setInReceiver, chat.toJson());
-      await batch.commit();
-      return const Right(unit);
     } on FirebaseException catch (e) {
       return Left(e);
     }
@@ -176,5 +152,23 @@ class ChatService {
     Reference reference = FirebaseStorage.instance.ref().child(fileName);
     await reference.putFile(File(filePath));
     return reference.getDownloadURL();
+  }
+
+  Future<void> _pushNotification({
+    required Message message,
+  }) async {
+    await http.post(Uri.parse(ConstantsManager.baseUrlNotification),
+        body: jsonEncode({
+          "to": "/topics/${message.receiverId}",
+          "notification": {
+            "body": message.message,
+            "title": message.receiverName,
+            "click_action": "FLUTTER_NOTIFICATION_CLICK"
+          }
+        }),
+        headers: {
+          "Authorization": "key=${ConstantsManager.firebaseMessagingAPI}",
+          "Content-Type": "application/json"
+        });
   }
 }

@@ -5,6 +5,7 @@ import 'package:almasheed/authentication/presentation/screens/favourites_screen.
 import 'package:almasheed/authentication/presentation/screens/terms_and_conditions_screen.dart';
 import 'package:almasheed/core/utils/constance_manager.dart';
 import 'package:almasheed/main/view/widgets/widgets.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sizer/sizer.dart';
@@ -27,8 +28,18 @@ class SupportScreen extends StatelessWidget {
       listener: (context, state) async {
         if (state is ChangeSwitchNotificationsState) {
           isOn = state.isOn;
-          await CacheHelper.saveData(key: "isNotificationsOn", value: isOn);
           ConstantsManager.isNotificationsOn = isOn;
+          await CacheHelper.saveData(key: "isNotificationsOn", value: isOn)
+              .then((value) async {
+            if (ConstantsManager.isNotificationsOn != null &&
+                !ConstantsManager.isNotificationsOn!) {
+              await FirebaseMessaging.instance.unsubscribeFromTopic(
+                  "/topic/${ConstantsManager.appUser!.id}");
+            } else {
+              await FirebaseMessaging.instance
+                  .subscribeToTopic("/topic/${ConstantsManager.appUser!.id}");
+            }
+          });
         }
       },
       builder: (context, state) {
