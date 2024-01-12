@@ -20,6 +20,7 @@ import 'core/services/firebase_options.dart';
 import 'core/utils/theme_manager.dart';
 import 'generated/l10n.dart';
 import 'main/bloc/main_bloc.dart';
+import 'main/data/models/custom_properties.dart';
 import 'main/view/screens/main_screen.dart';
 
 Future<void> main() async {
@@ -33,7 +34,22 @@ Future<void> main() async {
       await CacheHelper.getData(key: "isNotificationsOn");
   ConstantsManager.userType = await CacheHelper.getData(key: "userType");
   print(DateTime.now());
-
+  PorductCustomProperties properties = PorductCustomProperties(
+    properties: {
+      'color': ['red', 'blue', 'green'],
+      'size': ['small', 'medium', 'large'],
+      'weight': ['1kg', '2kg', '3kg']
+    },
+    availableProperties: [
+      'red-small-1kg',
+      'red-small-2kg',
+      'red-small-3kg',
+      'red-medium-1kg',
+      'red-medium-2kg',
+      'green-small-2kg'
+    ],
+  );
+  print(properties.searchinAvailablePropsfromChoosenProps(['green', '1kg']));
   runApp(const Masheed());
 }
 

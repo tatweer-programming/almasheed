@@ -1,10 +1,8 @@
 import 'package:almasheed/authentication/presentation/components.dart';
 import 'package:almasheed/core/utils/color_manager.dart';
 import 'package:almasheed/core/utils/font_manager.dart';
-import 'package:almasheed/core/utils/navigation_manager.dart';
-import 'package:almasheed/main/data/models/product.dart';
-import 'package:almasheed/main/view/screens/details_product.dart';
 import 'package:almasheed/payment/bloc/payment_bloc.dart';
+import 'package:almasheed/payment/data/models/order.dart';
 import 'package:almasheed/payment/data/models/orderItem.dart';
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
@@ -266,6 +264,44 @@ class OrderItemBuilder extends StatelessWidget {
                   width: 5.w,
                 ),
                 Text(item.quantity.toString())
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class OrderBuilder extends StatelessWidget {
+  final OrderModel order;
+
+  const OrderBuilder({super.key, required this.order});
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      width: double.infinity,
+      height: 10.h,
+      child: InkWell(
+        onTap: () {
+          // context.push(Product(product: item.product));
+        },
+        child: Card(
+          color: ColorManager.secondary,
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Column(
+              children: [
+                Expanded(
+                    child: Text(
+                        "${DateTime.parse(order.id).year} - ${DateTime.parse(order.id).month} - ${DateTime.parse(order.id).day}")),
+                SizedBox(
+                  height: 1.h,
+                ),
+                Expanded(
+                    child: Text(
+                        "${order.orderItems.length} ${S.of(context).products}")),
               ],
             ),
           ),

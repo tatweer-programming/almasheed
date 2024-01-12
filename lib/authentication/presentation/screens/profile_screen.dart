@@ -9,8 +9,6 @@ import 'package:sizer/sizer.dart';
 
 import '../../../core/utils/color_manager.dart';
 import '../../../generated/l10n.dart';
-import '../../../main/view/screens/home_page_screen.dart';
-import 'orders_screen.dart';
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
@@ -78,11 +76,6 @@ class ProfileScreen extends StatelessWidget {
                   iconData: Icons.person_outline_rounded,
                   label: S.of(context).myOrders,
                   nextScreen: const CartScreen(),
-                ),
-                ProfileItemBuilder(
-                  iconData: Icons.favorite,
-                  label: S.of(context).favourites,
-                  nextScreen: const FavouritesScreen(),
                 ),
                 ProfileItemBuilder(
                   iconData: Icons.map_outlined,

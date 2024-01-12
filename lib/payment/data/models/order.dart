@@ -1,3 +1,5 @@
+// ignore_for_file: must_be_immutable
+
 import 'package:almasheed/authentication/data/models/customer.dart';
 import 'package:equatable/equatable.dart';
 
@@ -44,12 +46,12 @@ class OrderModel extends Equatable {
   Map<String, dynamic> toJson() => {
         "totalPrice": totalPrice,
         "productIds": orderItems.map((e) => e.product.productId).toList(),
-        "merchantsIds": merchantIds,
+        "merchantIds": merchantIds,
         "customerId": ConstantsManager.appUser!.id,
         "date": id,
         "address": address.toJson()
       };
 
   @override
-  List<Object?> get props => [];
+  List<Object?> get props => [address, id, totalPrice, orderItems];
 }
