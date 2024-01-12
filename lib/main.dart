@@ -33,15 +33,15 @@ Future<void> main() async {
   ServiceLocator().init();
   FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
   FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) async {
-    navigatorKey.currentState!.push(
-        MaterialPageRoute(builder: (_) => ChatScreen(receiverId: message.from!.substring(8),
-            receiverName: message.notification!.title!))
-    );
+    navigatorKey.currentState!.push(MaterialPageRoute(
+        builder: (_) => ChatScreen(
+            receiverId: message.from!.substring(8),
+            receiverName: message.notification!.title!)));
   });
   await LocalizationManager.init();
   ConstantsManager.userId = await CacheHelper.getData(key: "userId");
   ConstantsManager.isNotificationsOn =
-  await CacheHelper.getData(key: "isNotificationsOn");
+      await CacheHelper.getData(key: "isNotificationsOn");
   ConstantsManager.userType = await CacheHelper.getData(key: "userType");
   print(DateTime.now());
   PorductCustomProperties properties = PorductCustomProperties(
@@ -62,10 +62,11 @@ Future<void> main() async {
   print(properties.searchinAvailablePropsfromChoosenProps(['green', '1kg']));
   runApp(const Masheed());
 }
-final GlobalKey<NavigatorState> navigatorKey = GlobalKey(debugLabel: "Main Navigator");
+
+final GlobalKey<NavigatorState> navigatorKey =
+    GlobalKey(debugLabel: "Main Navigator");
 
 class Masheed extends StatelessWidget {
-
   const Masheed({super.key});
 
   @override
@@ -74,9 +75,9 @@ class Masheed extends StatelessWidget {
       return MultiBlocProvider(
           providers: [
             BlocProvider<MainBloc>(
-                create: (BuildContext context) =>
-                sl()
-                  ..add(GetProductsEvent())..add(GetMerchantsEvent())),
+                create: (BuildContext context) => sl()
+                  ..add(GetProductsEvent())
+                  ..add(GetMerchantsEvent())),
             BlocProvider<AuthBloc>(
                 create: (BuildContext context) => AuthBloc()),
             BlocProvider<PaymentBloc>(
@@ -111,6 +112,8 @@ class Masheed extends StatelessWidget {
   }
 }
 
-Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message,) async {
+Future<void> _firebaseMessagingBackgroundHandler(
+  RemoteMessage message,
+) async {
   print("Handling a background message: ${message.data}");
 }
