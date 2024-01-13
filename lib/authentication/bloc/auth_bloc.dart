@@ -57,7 +57,6 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
   _handleEvents(event, emit) async {
     if (event is SendCodeEvent) {
-      print("**********************************************************");
       emit(SendCodeLoadingState());
       ConstantsManager.appUser = event.user;
       final result =
@@ -65,8 +64,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       result.fold((l) {
         emit(SendCodeErrorState(l));
       }, (r) {
-        codeSent = true;
-        verificationId = r;
+        // codeSent = true;
+        // verificationId = r;
         emit(CodeSent());
         add(StartResendCodeTimerEvent());
       });

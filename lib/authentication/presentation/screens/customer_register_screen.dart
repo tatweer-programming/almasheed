@@ -24,16 +24,13 @@ class CustomerLoginScreen extends StatelessWidget {
 
     return BlocListener<AuthBloc, AuthState>(
       bloc: bloc,
-      listenWhen: (context, state) {
-        return state is CodeSent;
-      },
       listener: (context, state) {
         if (state is SendCodeErrorState) {
           errorToast(
               msg: ExceptionManager(state.exception).translatedMessage());
         } else if (state is CodeSent) {
-          defaultToast(msg: S.of(context).codeSent);
-          context.push(const OTPScreen());
+          // defaultToast(msg: S.of(context).codeSent);
+          // context.push(const OTPScreen());
         }
       },
       child: BlocBuilder<AuthBloc, AuthState>(
