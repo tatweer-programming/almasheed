@@ -1381,6 +1381,26 @@ class S {
       args: [],
     );
   }
+
+  /// `You can resend code in`
+  String get resendCodeIn {
+    return Intl.message(
+      'You can resend code in',
+      name: 'resendCodeIn',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `seconds`
+  String get seconds {
+    return Intl.message(
+      'seconds',
+      name: 'seconds',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

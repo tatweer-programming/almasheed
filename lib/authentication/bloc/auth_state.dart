@@ -28,6 +28,11 @@ class CodeSent extends AuthState {
   List<Object?> get props => [];
 }
 
+class LoginLoadingState extends AuthState {
+  @override
+  List<Object?> get props => [];
+}
+
 class VerifyCodeLoadingState extends AuthState {
   @override
   List<Object?> get props => [];
@@ -147,10 +152,10 @@ class RemoveAddressSuccessfulState extends AuthState {
   List<Object?> get props => [];
 }
 
-class ChooseAddresTypeState extends AuthState {
+class ChooseAddressTypeState extends AuthState {
   final String addressType;
 
-  const ChooseAddresTypeState({required this.addressType});
+  const ChooseAddressTypeState({required this.addressType});
 
   @override
   List<Object?> get props => [addressType];
@@ -163,4 +168,13 @@ class ChooseCityState extends AuthState {
 
   @override
   List<Object?> get props => [city];
+}
+
+class ChangeTimeToResendCodeState extends AuthState {
+  final int time;
+
+  const ChangeTimeToResendCodeState({required this.time});
+
+  @override
+  List<Object?> get props => [time];
 }

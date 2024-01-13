@@ -176,8 +176,11 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Registration number"),
         "removedSuccessfully":
             MessageLookupByLibrary.simpleMessage("Removed Successfully"),
+        "resendCodeIn":
+            MessageLookupByLibrary.simpleMessage("You can resend code in"),
         "sar": MessageLookupByLibrary.simpleMessage("SAR"),
         "search": MessageLookupByLibrary.simpleMessage("search ..."),
+        "seconds": MessageLookupByLibrary.simpleMessage("seconds"),
         "seller": MessageLookupByLibrary.simpleMessage("Seller"),
         "sendCode": MessageLookupByLibrary.simpleMessage("Send code"),
         "services": MessageLookupByLibrary.simpleMessage("Services"),

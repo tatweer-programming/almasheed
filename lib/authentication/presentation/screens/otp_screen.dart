@@ -133,25 +133,60 @@ class OTPScreen extends StatelessWidget {
                           const SizedBox(
                             height: 20,
                           ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Text(
-                                S.of(context).didNotReceiveCode,
-                                style: const TextStyle(
-                                    color: ColorManager.white, fontSize: 15),
-                              ),
-                              TextButton(
-                                  onPressed: () {},
-                                  child: Text(
-                                    S.of(context).reSend,
-                                    style: const TextStyle(
+                          bloc.timeToResendCode != null &&
+                                  bloc.timeToResendCode! > 0
+                              ? Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Text(
+                                      "${S.of(context).resendCodeIn} ",
+                                      style: const TextStyle(
                                         color: ColorManager.white,
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 16),
-                                  ))
-                            ],
-                          ),
+                                      ),
+                                    ),
+                                    BlocBuilder<AuthBloc, AuthState>(
+                                      bloc: bloc,
+                                      builder: (context, state) {
+                                        return Text(
+                                          "${bloc.timeToResendCode} ",
+                                          style: const TextStyle(
+                                            color: ColorManager.white,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        );
+                                      },
+                                    ),
+                                    Text(
+                                      S.of(context).seconds,
+                                      style: const TextStyle(
+                                        color: ColorManager.white,
+                                      ),
+                                    ),
+                                  ],
+                                )
+                              : Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Text(
+                                      S.of(context).didNotReceiveCode,
+                                      style: const TextStyle(
+                                          color: ColorManager.white,
+                                          fontSize: 15),
+                                    ),
+                                    TextButton(
+                                        onPressed: () {
+                                          bloc.add(SendCodeEvent(
+                                              ConstantsManager.appUser!));
+                                        },
+                                        child: Text(
+                                          S.of(context).reSend,
+                                          style: const TextStyle(
+                                              color: ColorManager.white,
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 16),
+                                        ))
+                                  ],
+                                ),
                           const SizedBox(
                             height: 14,
                           ),

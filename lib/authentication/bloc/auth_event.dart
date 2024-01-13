@@ -99,3 +99,8 @@ class ChooseCityEvent extends AuthEvent {
   @override
   List<Object?> get props => [city];
 }
+
+class StartResendCodeTimerEvent extends AuthEvent {
+  @override
+  List<Object?> get props => [];
+}

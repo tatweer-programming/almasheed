@@ -81,48 +81,80 @@ class CustomerLoginScreen extends StatelessWidget {
                             SizedBox(
                               height: 10.sp,
                             ),
-                            state is SendCodeLoadingState
-                                ? const Center(
-                                    child: CircularProgressIndicator())
-                                : Container(
-                                    decoration: BoxDecoration(
-                                      color: ColorManager.white,
-                                      borderRadius:
-                                          BorderRadius.circular(10.sp),
-                                    ),
-                                    width: 90.w,
-                                    height: 40.sp,
-                                    child: InkWell(
-                                      onTap: () {
-                                        if (formKey.currentState!.validate() &&
-                                            bloc.agreeToTerms) {
-                                          Customer customer = Customer(
-                                              addresses: [],
-                                              cartItems: {},
-                                              favorites: [],
-                                              orders: [],
-                                              id: "",
-                                              phone:
-                                                  "+966${phoneController.text}");
-                                          bloc.add(SendCodeEvent(customer));
-                                        } else if (!bloc.agreeToTerms) {
-                                          errorToast(
-                                              msg: S
-                                                  .of(context)
-                                                  .mustAgreeToTerms);
-                                        }
-                                      },
-                                      child: Center(
-                                        child: Text(
-                                          S.of(context).sendCode,
-                                          style: const TextStyle(
-                                              color: ColorManager.primary,
-                                              fontSize: 18,
-                                              fontWeight: FontWeight.bold),
+                            bloc.timeToResendCode != null &&
+                                    bloc.timeToResendCode! > 0
+                                ? Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Text(
+                                        "${S.of(context).resendCodeIn} ",
+                                        style: const TextStyle(
+                                          color: ColorManager.white,
                                         ),
                                       ),
-                                    ),
-                                  ),
+                                      BlocBuilder<AuthBloc, AuthState>(
+                                        bloc: bloc,
+                                        builder: (context, state) {
+                                          return Text(
+                                            "${bloc.timeToResendCode} ",
+                                            style: const TextStyle(
+                                              color: ColorManager.white,
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                          );
+                                        },
+                                      ),
+                                      Text(
+                                        S.of(context).seconds,
+                                        style: const TextStyle(
+                                          color: ColorManager.white,
+                                        ),
+                                      ),
+                                    ],
+                                  )
+                                : state is SendCodeLoadingState
+                                    ? const Center(
+                                        child: CircularProgressIndicator())
+                                    : Container(
+                                        decoration: BoxDecoration(
+                                          color: ColorManager.white,
+                                          borderRadius:
+                                              BorderRadius.circular(10.sp),
+                                        ),
+                                        width: 90.w,
+                                        height: 40.sp,
+                                        child: InkWell(
+                                          onTap: () {
+                                            if (formKey.currentState!
+                                                    .validate() &&
+                                                bloc.agreeToTerms) {
+                                              Customer customer = Customer(
+                                                  addresses: [],
+                                                  cartItems: {},
+                                                  favorites: [],
+                                                  orders: [],
+                                                  id: "",
+                                                  phone:
+                                                      "+966${phoneController.text}");
+                                              bloc.add(SendCodeEvent(customer));
+                                            } else if (!bloc.agreeToTerms) {
+                                              errorToast(
+                                                  msg: S
+                                                      .of(context)
+                                                      .mustAgreeToTerms);
+                                            }
+                                          },
+                                          child: Center(
+                                            child: Text(
+                                              S.of(context).sendCode,
+                                              style: const TextStyle(
+                                                  color: ColorManager.primary,
+                                                  fontSize: 18,
+                                                  fontWeight: FontWeight.bold),
+                                            ),
+                                          ),
+                                        ),
+                                      ),
                             SizedBox(
                               height: 10.sp,
                             ),

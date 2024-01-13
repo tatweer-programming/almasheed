@@ -24,6 +24,8 @@ class AuthService {
   Future<Either<FirebaseAuthException, String>> verifyPhoneNumber(
       String phoneNumber) async {
     try {
+      _resetVerifyPhoneCompleter();
+      _resetVerificationIdCompleter();
       await _firebaseAuth.verifyPhoneNumber(
         phoneNumber: phoneNumber,
         verificationCompleted: _handleVerificationCompleted,
@@ -199,5 +201,16 @@ class AuthService {
       print('فشل التحقق ${e.message}');
     }
     verifyPhoneCompleter.complete(Left(e));
+  }
+
+  // completers
+
+  void _resetVerifyPhoneCompleter() {
+    verifyPhoneCompleter = Completer<Either<FirebaseAuthException, String>>();
+  }
+
+  void _resetVerificationIdCompleter() {
+    verificationID = null;
+    verificationIdCompleter = Completer<String>();
   }
 }

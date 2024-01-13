@@ -172,8 +172,11 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("رقم التسجيل"),
         "removedSuccessfully":
             MessageLookupByLibrary.simpleMessage("تمت الإزالة بنجاح"),
+        "resendCodeIn":
+            MessageLookupByLibrary.simpleMessage("إعادة إرسال الرمز بعد"),
         "sar": MessageLookupByLibrary.simpleMessage("ريال"),
         "search": MessageLookupByLibrary.simpleMessage("البحث..."),
+        "seconds": MessageLookupByLibrary.simpleMessage("ثواني"),
         "seller": MessageLookupByLibrary.simpleMessage("البائع"),
         "sendCode": MessageLookupByLibrary.simpleMessage("إرسال الكود"),
         "services": MessageLookupByLibrary.simpleMessage("خدمات"),

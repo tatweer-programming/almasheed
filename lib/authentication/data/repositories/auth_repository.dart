@@ -28,7 +28,7 @@ class AuthRepository {
     return _service.loginByPhone(phoneNumber, userType);
   }
 
-  Future<Either<FirebaseException, Unit>> addAdress(Address address) async {
+  Future<Either<FirebaseException, Unit>> addAddress(Address address) async {
     return _service.addAddress(address);
   }
 

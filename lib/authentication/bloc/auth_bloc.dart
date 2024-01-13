@@ -33,6 +33,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   int? selectedAccountTypeIndex;
   String? addressType;
   String? city;
+  int? timeToResendCode;
+  Timer? timeToResendCodeTimer;
 
   List<String> addressTypes(BuildContext context) {
     return [
@@ -55,6 +57,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
   _handleEvents(event, emit) async {
     if (event is SendCodeEvent) {
+      print("**********************************************************");
       emit(SendCodeLoadingState());
       ConstantsManager.appUser = event.user;
       final result =
@@ -65,6 +68,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         codeSent = true;
         verificationId = r;
         emit(CodeSent());
+        add(StartResendCodeTimerEvent());
       });
     }
     if (event is LoginByPhoneEvent) {
@@ -78,8 +82,10 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         if (r == "NOT_FOUND") {
           emit(UserNotFoundState());
         } else {
-          add(SendCodeEvent(ConstantsManager.appUser!));
+          codeSent = true;
+          verificationId = r;
           emit(CodeSent());
+          add(StartResendCodeTimerEvent());
         }
       });
     } else if (event is ChangeAgreeToTermsStateEvent) {
@@ -109,7 +115,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       event.context.push(registerScreens[selectedAccountTypeIndex!]);
     } else if (event is AddAddressEvent) {
       emit(AddAddressLoadingState());
-      var result = await repository.addAdress(event.address);
+      var result = await repository.addAddress(event.address);
       result.fold((l) {
         emit(AddAddressErrorState(l));
       }, (r) {
@@ -125,10 +131,12 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       });
     } else if (event is ChooseAddressTypeEvent) {
       addressType = event.addressType;
-      emit(ChooseAddresTypeState(addressType: event.addressType));
+      emit(ChooseAddressTypeState(addressType: event.addressType));
     } else if (event is ChooseCityEvent) {
       city = event.city;
       emit(ChooseCityState(city: event.city));
+    } else if (event is StartResendCodeTimerEvent) {
+      _startResendCodeTimer();
     }
   }
 
@@ -152,6 +160,29 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
           print(ConstantsManager.appUser);
         }
         emit(const CreateUserSuccessfulState());
+      }
+    });
+  }
+
+  void _setTimeToResendCode() {
+    timeToResendCode = 60;
+  }
+
+  void _resetTimeToResendCode() {
+    timeToResendCode = null;
+    timeToResendCodeTimer = null;
+  }
+
+  void _startResendCodeTimer() {
+    _setTimeToResendCode();
+    timeToResendCodeTimer = Timer.periodic(const Duration(seconds: 1), (timer) {
+      if (timeToResendCode != null && timeToResendCode! > 0) {
+        timeToResendCode = timeToResendCode! - 1;
+        emit(ChangeTimeToResendCodeState(time: timeToResendCode!));
+      } else {
+        timeToResendCodeTimer?.cancel();
+        _resetTimeToResendCode();
+        emit(const ChangeTimeToResendCodeState(time: 0));
       }
     });
   }

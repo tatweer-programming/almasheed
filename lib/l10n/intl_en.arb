@@ -132,5 +132,7 @@
   "completeOrder": "complete order",
   "chooseAddress": "choose address",
   "mustAddAddress": "you must add an address",
-  "mustChooseAddress": "you must choose an address"
+  "mustChooseAddress": "you must choose an address",
+  "resendCodeIn" : "You can resend code in",
+    "seconds" : "seconds"
 }

@@ -131,5 +131,7 @@
   "completeOrder": "إكمال الطلب",
   "chooseAddress": "اختار العنوان",
   "mustAddAddress": "يجب اضافة عنوان",
-  "mustChooseAddress": "يجب اختيار عنوان"
+  "mustChooseAddress": "يجب اختيار عنوان",
+  "resendCodeIn" : "إعادة إرسال الرمز بعد",
+    "seconds" : "ثواني"
 }
