@@ -71,7 +71,7 @@ class CompleteOrderScreen extends StatelessWidget {
                 FittedBox(
                   child: ElevatedButton(
                     onPressed: () {
-                      bloc.selectedAddressindex != null
+                      bloc.selectedAddressIndex != null
                           ? bloc.add(CompletePaymentCart(
                               context: context,
                             ))
@@ -163,7 +163,7 @@ class CompleteOrderScreen extends StatelessWidget {
                                               alignment:
                                                   AlignmentDirectional.topStart,
                                               child:
-                                                  bloc.selectedAddressindex ==
+                                                  bloc.selectedAddressIndex ==
                                                           index
                                                       ? const Padding(
                                                           padding:

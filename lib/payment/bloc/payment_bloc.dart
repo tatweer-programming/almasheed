@@ -1,5 +1,6 @@
 import 'package:almasheed/authentication/presentation/components.dart';
 import 'package:almasheed/core/utils/constance_manager.dart';
+import 'package:almasheed/core/utils/navigation_manager.dart';
 import 'package:almasheed/main/bloc/main_bloc.dart';
 import 'package:almasheed/payment/data/models/order.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -24,7 +25,7 @@ class PaymentBloc extends Bloc<PaymentEvent, PaymentState> {
 
   // variables
   final PaymentRepository _repository = PaymentRepository();
-  int? selectedAddressindex;
+  int? selectedAddressIndex;
 
   PaymentBloc() : super(PaymentInitial()) {
     on<PaymentEvent>((event, emit) async {
@@ -61,7 +62,6 @@ class PaymentBloc extends Bloc<PaymentEvent, PaymentState> {
           errorToast(msg: "");
         }, (r) {
           defaultToast(msg: "Updated Successfully");
-
           emit(EditQuantityInCartSuccessState());
         });
       } else if (event is CompletePaymentCart) {
@@ -78,7 +78,7 @@ class PaymentBloc extends Bloc<PaymentEvent, PaymentState> {
         _generateOrder();
         emit(CartPreparedState());
       } else if (event is ChooseAddress) {
-        selectedAddressindex = event.index;
+        selectedAddressIndex = event.index;
         Customer customer = ConstantsManager.appUser as Customer;
         order.address = customer.addresses[event.index];
         emit(ChooseAddressState(event.index));
@@ -100,11 +100,5 @@ class PaymentBloc extends Bloc<PaymentEvent, PaymentState> {
 
     order = OrderModel.create(orderItems, null);
     return order;
-  }
-
-  Future<Either<FirebaseException, Unit>> _completeOrder(
-      OrderModel order, BuildContext context) async {
-    await _repository.completePayment(context: context, order: order);
-    throw UnimplementedError();
   }
 }

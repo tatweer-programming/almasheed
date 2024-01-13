@@ -77,9 +77,10 @@ class PaymentService {
       var batch = fireStore.batch();
       _saveOrderToFireStore(order, batch);
       _saveOrderIdToUserOrders(order, batch);
-      _clearCart(batch);
       _saveOrderIdToMerchantsOrders(order, batch);
-      batch.commit();
+      _createOrderChats(batch: batch, order: order);
+      _clearCart(batch);
+      await batch.commit();
       return const Right(unit);
     } on FirebaseException catch (e) {
       return Left(e);
@@ -110,26 +111,35 @@ class PaymentService {
     }
   }
 
+  _createOrderChats(
+      {required WriteBatch batch, required OrderModel order}) async {
+    for (var element in order.merchantIds) {
+      var chat = Chat(
+          receiverId: element,
+          receiverName: order.orderItems
+              .firstWhere((item) => item.product.merchantId == element)
+              .product
+              .merchantName);
+      _createChat(chat: chat, batch: batch);
+    }
+  }
+
   Future<Either<FirebaseException, Unit>> _createChat(
-      {required Chat chat}) async {
+      {required Chat chat, required WriteBatch batch}) async {
     try {
-      var batch = FirebaseFirestore.instance.batch();
       var setInSender = fireStore
-          .collection(
-          ConstantsManager.appUser is! Customer ? "merchants" : "customers")
+          .collection("${ConstantsManager.appUser!.getType()}s")
           .doc(ConstantsManager.appUser!.id)
           .collection("chats")
           .doc(chat.receiverId);
       var setInReceiver = fireStore
-          .collection(
-          ConstantsManager.appUser is Customer ? "merchants" : "customers")
+          .collection("${ConstantsManager.appUser!.getType()}s")
           .doc(chat.receiverId)
           .collection("chats")
           .doc(ConstantsManager.userId);
 
       batch.set(setInSender, chat.toJson());
       batch.set(setInReceiver, chat.toJson());
-      await batch.commit();
       return const Right(unit);
     } on FirebaseException catch (e) {
       return Left(e);
