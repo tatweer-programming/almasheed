@@ -1,7 +1,6 @@
 import 'package:almasheed/authentication/presentation/components.dart';
 import 'package:almasheed/authentication/presentation/screens/addresses_screen.dart';
 import 'package:almasheed/authentication/presentation/screens/faq_screen.dart';
-import 'package:almasheed/authentication/presentation/screens/favourites_screen.dart';
 import 'package:almasheed/main/view/widgets/widgets.dart';
 import 'package:almasheed/payment/presentation/screens/cart_screen.dart';
 import 'package:flutter/material.dart';

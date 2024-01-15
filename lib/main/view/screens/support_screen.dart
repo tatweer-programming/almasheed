@@ -1,7 +1,6 @@
 import 'package:almasheed/authentication/presentation/components.dart';
 import 'package:almasheed/authentication/presentation/screens/addresses_screen.dart';
 import 'package:almasheed/authentication/presentation/screens/faq_screen.dart';
-import 'package:almasheed/authentication/presentation/screens/favourites_screen.dart';
 import 'package:almasheed/authentication/presentation/screens/terms_and_conditions_screen.dart';
 import 'package:almasheed/core/utils/constance_manager.dart';
 import 'package:almasheed/main/view/widgets/widgets.dart';
@@ -103,7 +102,7 @@ class SupportScreen extends StatelessWidget {
                         ProfileItemBuilder(
                           iconData: Icons.design_services_sharp,
                           label: S.of(context).services,
-                          nextScreen: const FavouritesScreen(),
+                          nextScreen: const FAQScreen(),
                         ),
                         ProfileItemBuilder(
                           iconData: Icons.policy,
@@ -114,7 +113,7 @@ class SupportScreen extends StatelessWidget {
                         ProfileItemBuilder(
                           iconData: Icons.people,
                           label: S.of(context).whoAreWe,
-                          nextScreen: const AddressesScreen(),
+                          nextScreen: const FAQScreen(),
                         ),
                         ProfileItemBuilder(
                           iconData: Icons.contact_phone_outlined,

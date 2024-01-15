@@ -217,12 +217,45 @@ class ChangeSwitchNotificationsEvent extends MainEvent {
   List<Object?> get props => [isOn];
 }
 
+class CheckIfAvailablePropertiesEvent extends MainEvent {
+  final List<String> selectedProperties;
+  final Product product;
+
+  const CheckIfAvailablePropertiesEvent({
+    required this.product,
+    required this.selectedProperties,
+  });
+
+  @override
+  List<Object?> get props => [];
+}
+
 class ChooseCategoryEvent extends MainEvent {
   List<Product> categoryProducts;
   final String categoryName;
 
-  ChooseCategoryEvent({required this.categoryProducts,required this.categoryName,});
+  ChooseCategoryEvent({
+    required this.categoryProducts,
+    required this.categoryName,
+  });
 
   @override
-  List<Object?> get props => [categoryProducts,categoryName];
+  List<Object?> get props => [categoryProducts, categoryName];
+}
+
+class SelectPropertiesEvent extends MainEvent {
+  final String prop;
+  List<String> selectedProperties;
+  final List<String> properties;
+
+  SelectPropertiesEvent({
+    required this.prop,
+    required this.selectedProperties,
+    required this.properties,
+  });
+
+  @override
+  List<Object?> get props => [
+        prop,properties
+      ];
 }

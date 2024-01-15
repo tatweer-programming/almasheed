@@ -369,13 +369,30 @@ class ChangeSwitchNotificationsState extends MainState {
   List<Object?> get props => [isOn];
 }
 
-
 class ChooseCategoryState extends MainState {
   final List<Product> categoryProducts;
   final String categoryName;
 
-  const ChooseCategoryState({required this.categoryName,required this.categoryProducts});
+  const ChooseCategoryState(
+      {required this.categoryName, required this.categoryProducts});
 
   @override
-  List<Object?> get props => [categoryProducts,categoryName];
+  List<Object?> get props => [categoryProducts, categoryName];
+}
+
+class CheckIfAvailablePropertiesState extends MainState {
+  final List<String> availableProperties;
+
+  const CheckIfAvailablePropertiesState({required this.availableProperties});
+
+  @override
+  List<Object?> get props => [availableProperties];
+}
+class SelectPropertiesState extends MainState {
+  final List<String> selectedProperties;
+
+  const SelectPropertiesState({required this.selectedProperties});
+
+  @override
+  List<Object?> get props => [selectedProperties];
 }

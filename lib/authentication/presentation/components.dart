@@ -272,7 +272,7 @@ class LoginNowWidget extends StatelessWidget {
           ),
           TextButton(
               onPressed: () {
-                context.pushAndRemove(LoginScreen());
+                context.pushAndRemove(const LoginScreen());
               },
               child: Text(
                 S.of(context).loginNow,

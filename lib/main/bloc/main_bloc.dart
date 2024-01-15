@@ -42,7 +42,8 @@ class MainBloc extends Bloc<MainEvent, MainState> {
     const FavouriteScreen(),
     const ProfileScreen(),
     const SupportScreen(),
-  ];List<Widget> pagesMerchant = [
+  ];
+  List<Widget> pagesMerchant = [
     const HomePageScreen(),
     const CategoriesScreen(),
     const SupportScreen(),
@@ -249,12 +250,33 @@ class MainBloc extends Bloc<MainEvent, MainState> {
         emit(ChangeSwitchNotificationsState(event.isOn));
       } else if (event is ChooseCategoryEvent) {
         event.categoryProducts = event.categoryProducts
-            .where((product) => (ConstantsManager.appUser as Merchant).productsIds
-            .contains(product.productId))
+            .where((product) => (ConstantsManager.appUser as Merchant)
+                .productsIds
+                .contains(product.productId))
             .toList();
         emit(ChooseCategoryState(
             categoryName: event.categoryName,
             categoryProducts: event.categoryProducts));
+      } else if (event is CheckIfAvailablePropertiesEvent) {
+        List<String> availableProperties = event.product.customProperties!
+            .searchInAvailablePropsFromChosenProps(event.selectedProperties);
+        emit(CheckIfAvailablePropertiesState(
+            availableProperties: availableProperties));
+      } else if (event is SelectPropertiesEvent) {
+        bool flag = false;
+        for (String p in event.properties) {
+          if (event.selectedProperties.contains(p)) {
+            event.selectedProperties.remove(p);
+            event.selectedProperties.add(event.prop);
+            flag = true;
+            break;
+          }
+        }
+        if (!flag) {
+          event.selectedProperties.add(event.prop);
+        }
+        emit(SelectPropertiesState(
+            selectedProperties: event.selectedProperties));
       }
     });
   }

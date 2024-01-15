@@ -10,7 +10,6 @@ import '../../../core/services/dep_injection.dart';
 import '../../../generated/l10n.dart';
 import '../../bloc/main_bloc.dart';
 import 'add_product_screen.dart';
-import 'favourite_screen.dart';
 
 class MainScreen extends StatelessWidget {
   const MainScreen({super.key});

@@ -16,6 +16,12 @@ import 'package:almasheed/main/view/widgets/widgets.dart';
 import '../../../generated/l10n.dart';
 import 'modify_screen.dart';
 
+Map<String, List<String>> data = {
+  "Color": ["RED", "GREEN", "BLUE"],
+  "Size": ["20", "30", "50"],
+  "Quantity": ["1", "2", "3"],
+};
+
 class DetailsProductScreen extends StatelessWidget {
   final Product product;
 
@@ -26,70 +32,69 @@ class DetailsProductScreen extends StatelessWidget {
     final CarouselController carouselController = CarouselController();
     TextEditingController quantityController = TextEditingController();
     final MainBloc mainBloc = sl();
+    List<String> selectedProperties = [];
     quantityController.text = "1";
     return BlocConsumer<MainBloc, MainState>(
-      listener: (context, state) => _handleBlocState(context, mainBloc, state),
+      listener: (context, state) => _handleBlocState(context, mainBloc, state,selectedProperties,),
       builder: (context, state) {
-        return DefaultTabController(
-          initialIndex: 1,
-          length: 2,
-          child: Scaffold(
-            body: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Expanded(
-                  child: SingleChildScrollView(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        _buildCarouselAndHeader(
-                            context, mainBloc, carouselController),
-                        SizedBox(height: 2.h),
-                        _buildAddToCart(
-                          quantityController: quantityController,
-                          onPressed: () {
-                            if (quantityController.text != "") {
-                              final PaymentBloc paymentBloc = PaymentBloc.bloc;
-                              paymentBloc.add(
-                                AddToCartEvent(
-                                  productId: product.productId,
-                                  quantity: int.parse(quantityController.text),
-                                ),
-                              );
-                            } else {
-                              mainErrorToast(
-                                  msg: S.of(context).determineQuantity);
-                            }
-                          },
+        return Scaffold(
+          body: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Expanded(
+                child: SingleChildScrollView(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      _buildCarouselAndHeader(
                           context: context,
-                        ),
-                        SizedBox(height: 3.h),
-                        Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 6.w),
-                          child: Center(
-                            child: Text(
-                              product.productDescription.isEmpty
-                                  ? S.of(context).notFound
-                                  : product.productDescription,
-                              style:
-                                  const TextStyle(color: ColorManager.primary),
-                            ),
+                          selectedProperties: selectedProperties,
+                          bloc: mainBloc,
+                          carouselController: carouselController),
+                      SizedBox(height: 2.h),
+                      _buildAddToCart(
+                        quantityController: quantityController,
+                        onPressed: () {
+                          if (quantityController.text != "") {
+                            final PaymentBloc paymentBloc = PaymentBloc.bloc;
+                            paymentBloc.add(
+                              AddToCartEvent(
+                                productId: product.productId,
+                                quantity: int.parse(quantityController.text),
+                              ),
+                            );
+                          } else {
+                            mainErrorToast(
+                                msg: S.of(context).determineQuantity);
+                          }
+                        },
+                        context: context,
+                      ),
+                      SizedBox(height: 3.h),
+                      Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 6.w),
+                        child: Center(
+                          child: Text(
+                            product.productDescription.isEmpty
+                                ? S.of(context).notFound
+                                : product.productDescription,
+                            style: const TextStyle(color: ColorManager.primary),
                           ),
                         ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
                 ),
-                SizedBox(height: 3.h),
-              ],
-            ),
+              ),
+              SizedBox(height: 3.h),
+            ],
           ),
         );
       },
     );
   }
 
-  void _handleBlocState(BuildContext context, MainBloc bloc, MainState state) {
+  void _handleBlocState(BuildContext context, MainBloc bloc, MainState state,List<String>selectedProperties) {
     if (state is SelectEditProductState) {
       context.push(ModifyProductScreen(product: product));
     } else if (state is SelectDeleteProductState) {
@@ -101,16 +106,19 @@ class DetailsProductScreen extends StatelessWidget {
       _showDeleteProductLoadingDialog(context);
     } else if (state is DeleteProductSuccessfullyState) {
       _handleDeleteProductSuccess(context);
+    } if (state is SelectPropertiesState) {
+      selectedProperties = state.selectedProperties;
+    } if (state is CheckIfAvailablePropertiesState) {
+      selectedProperties = state.availableProperties;
     }
   }
 
-  Widget _buildCarouselAndHeader(BuildContext context, MainBloc bloc,
-      CarouselController carouselController) {
+  Widget _buildCarouselAndHeader(
+      {required BuildContext context,
+      required MainBloc bloc,
+      required List<String> selectedProperties,
+      required CarouselController carouselController}) {
     bool isCustomer = ConstantsManager.appUser is Customer;
-    Customer? customer;
-    if (isCustomer) {
-      customer = ConstantsManager.appUser as Customer;
-    }
     return Padding(
       padding: EdgeInsetsDirectional.only(top: 5.h),
       child: Stack(
@@ -131,7 +139,7 @@ class DetailsProductScreen extends StatelessWidget {
                     ),
                   ),
                   SizedBox(
-                    height: 15.h,
+                    height: 35.h,
                   ),
                 ],
               ),
@@ -236,12 +244,15 @@ class DetailsProductScreen extends StatelessWidget {
                               onPressed: () {
                                 bloc.add(
                                   AddAndRemoveFromFavoritesEvent(
-                                    favorites: customer!.favorites,
+                                    favorites:
+                                        (ConstantsManager.appUser as Customer)
+                                            .favorites,
                                     productId: product.productId,
                                   ),
                                 );
                               },
-                              icon: customer!.favorites
+                              icon: (ConstantsManager.appUser as Customer)
+                                      .favorites
                                       .contains(product.productId)
                                   ? Icons.favorite_sharp
                                   : Icons.favorite_border,
@@ -258,6 +269,64 @@ class DetailsProductScreen extends StatelessWidget {
                           ),
                         ],
                       ),
+                    SizedBox(
+                      height: 20.h,
+                      child: ListView.builder(
+                          itemCount: data.length,
+                          itemBuilder: (BuildContext context, int index) {
+                            String key = data.keys.elementAt(index);
+                            List<String> properties = data[key]!;
+                            return ListTile(
+                              title: Text(
+                                key,
+                                style: const TextStyle(
+                                    fontWeight: FontWeight.w600),
+                              ),
+                              subtitle: Row(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: properties
+                                    .map((prop) => InkWell(
+                                          onTap: () {
+                                            print(selectedProperties);
+                                            bloc.add(SelectPropertiesEvent(
+                                                prop: prop,
+                                                properties: properties,
+                                                selectedProperties:
+                                                    selectedProperties));
+                                          },
+                                          child: Row(
+                                            children: [
+                                              Container(
+                                                padding: EdgeInsetsDirectional
+                                                    .symmetric(
+                                                        horizontal: 2.w,
+                                                        vertical: 1.h),
+                                                decoration: BoxDecoration(
+                                                  border: Border.all(
+                                                      color: selectedProperties
+                                                              .contains(prop)
+                                                          ? ColorManager.primary
+                                                          : Colors.transparent),
+                                                  color: ColorManager.secondary,
+                                                  borderRadius:
+                                                      BorderRadiusDirectional
+                                                          .circular(10.sp),
+                                                ),
+                                                child: Text(
+                                                  prop,
+                                                ),
+                                              ),
+                                              SizedBox(
+                                                width: 2.w,
+                                              )
+                                            ],
+                                          ),
+                                        ))
+                                    .toList(),
+                              ),
+                            );
+                          }),
+                    )
                   ],
                 ),
               ),

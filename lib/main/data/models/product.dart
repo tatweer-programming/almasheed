@@ -46,7 +46,7 @@ class Product extends Equatable {
         merchantName: json['merchantName'],
         merchantId: json['merchantId'],
         // customProperties:
-        //     PorductCustomProperties.fromJson(json["customProperties"]),
+        // ProductCustomProperties.fromJson(json["customProperties"]),
       );
 
   Map<String, dynamic> toJson() {

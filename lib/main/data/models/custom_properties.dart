@@ -1,5 +1,5 @@
 class ProductCustomProperties {
-  final Map<String, List<String>> properties;
+  Map<String, List<String>> properties;
 
   // example: {'color': ['red', 'blue', 'green'], 'size': ['small', 'medium', 'large'] , 'weight': ['1kg', '2kg', '3kg']}
   List<String> availableProperties;
