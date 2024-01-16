@@ -20,6 +20,7 @@ class MainScreen extends StatelessWidget {
     ConstantsManager.appUser == null
         ? bloc.add(GetUserDataEvent())
         : DoNothingAction();
+
     return BlocConsumer<MainBloc, MainState>(
       bloc: bloc,
       listener: (context, state) async {

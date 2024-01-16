@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sizer/sizer.dart';
 import '../../../authentication/data/models/customer.dart';
+import '../../../authentication/presentation/components.dart';
+import '../../../core/error/remote_error.dart';
 import '../../../core/services/dep_injection.dart';
 import '../../../core/utils/color_manager.dart';
 import '../../../core/utils/constance_manager.dart';
@@ -23,51 +25,63 @@ class CategoryScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final MainBloc mainBloc = sl()..sortedProducts = category.products ?? [];
-    // final PaymentBloc paymentBloc = PaymentBloc.get();
+    final PaymentBloc paymentBloc = PaymentBloc.get();
     bool isHorizontal = false;
     TextEditingController quantityController = TextEditingController();
-    return BlocConsumer<MainBloc, MainState>(
-      listener: (context, state) {
-        if (state is GetProductsSuccessfullyState) {
-          mainBloc
-            ..add(GetOffersEvent())
-            ..add(GetCategoriesEvent())
-            ..add(GetBestSalesEvent());
-        }
-        if (state is ChangeShowingProductsState) {
-          isHorizontal = state.isHorizontal;
-        }
-      },
-      builder: (context, state) {
-        return RefreshIndicator(
-          onRefresh: () async {
+    return BlocListener<PaymentBloc, PaymentState>(
+      listener: _handlePaymentBlocState,
+      child: BlocConsumer<MainBloc, MainState>(
+        listener: (context, state) {
+          if (state is GetProductsSuccessfullyState) {
             mainBloc
-              ..add(GetProductsEvent())
-              ..add(GetMerchantsEvent());
-          },
-          child: Scaffold(
-            body: SingleChildScrollView(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  _buildAppBar(context, mainBloc),
-                  SizedBox(
-                    height: 0.5.h,
-                  ),
-                  _buildSortBar(context, mainBloc, isHorizontal),
-                  _buildProductList(
-                    context: context,
-                    isHorizontal: isHorizontal,
-                    mainBloc: mainBloc,
-                    quantityController: quantityController,
-                  ),
-                ],
+              ..add(GetOffersEvent())
+              ..add(GetCategoriesEvent())
+              ..add(GetBestSalesEvent());
+          }
+          if (state is ChangeShowingProductsState) {
+            isHorizontal = state.isHorizontal;
+          }
+        },
+        builder: (context, state) {
+          return RefreshIndicator(
+            onRefresh: () async {
+              mainBloc
+                ..add(GetProductsEvent())
+                ..add(GetMerchantsEvent());
+            },
+            child: Scaffold(
+              body: SingleChildScrollView(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    _buildAppBar(context, mainBloc),
+                    SizedBox(
+                      height: 0.5.h,
+                    ),
+                    _buildSortBar(context, mainBloc, isHorizontal),
+                    _buildProductList(
+                      context: context,
+                      isHorizontal: isHorizontal,
+                      mainBloc: mainBloc,
+                      quantityController: quantityController,
+                    ),
+                  ],
+                ),
               ),
             ),
-          ),
-        );
-      },
+          );
+        },
+      ),
     );
+  }
+
+  void _handlePaymentBlocState(BuildContext context, PaymentState state) {
+    if (state is AddToCartSuccessState) {
+      defaultToast(msg: S.of(context).productAdded);
+    } else if (state is AddToCartErrorState) {
+      mainErrorToast(
+          msg: ExceptionManager(state.exception).translatedMessage());
+    }
   }
 
   Widget _buildAppBar(BuildContext context, MainBloc bloc) {
@@ -131,7 +145,7 @@ class CategoryScreen extends StatelessWidget {
   Widget _buildSortBar(BuildContext context, MainBloc bloc, bool isHorizontal) {
     return Container(
       height: 7.h,
-      color:const Color(0xffac793d),
+      color: const Color(0xffac793d),
       child: Padding(
         padding: EdgeInsets.symmetric(horizontal: 6.w),
         child: Row(

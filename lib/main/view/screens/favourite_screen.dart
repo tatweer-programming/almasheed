@@ -5,6 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sizer/sizer.dart';
 import '../../../authentication/data/models/customer.dart';
+import '../../../authentication/presentation/components.dart';
+import '../../../core/error/remote_error.dart';
 import '../../../core/services/dep_injection.dart';
 import '../../../core/utils/constance_manager.dart';
 import '../../../generated/l10n.dart';
@@ -22,96 +24,109 @@ class FavouriteScreen extends StatelessWidget {
     final MainBloc bloc = sl();
     List<Product> favProducts = _favProducts(bloc.products);
     final PaymentBloc paymentBloc = PaymentBloc.get();
-    return BlocBuilder<MainBloc, MainState>(
-      builder: (context, state) {
-        return SingleChildScrollView(
-          child: Column(
-            children: [
-              ClipPath(
-                clipper: HalfCircleCurve(10.h),
-                child: Container(
-                  height: 28.h,
-                  color: ColorManager.primary,
-                  width: double.infinity,
-                  child: Column(
-                    children: [
-                      SizedBox(
-                        height: 5.h,
-                      ),
-                      Row(
-                        children: [
-                          Expanded(
-                            child: Center(
-                              child: Padding(
-                                padding: EdgeInsets.only(right: 14.w),
-                                child: Text(
-                                  S.of(context).favourites,
-                                  style: TextStyle(
-                                    fontSize: 25.sp,
-                                    color: ColorManager.white,
+    return BlocListener<PaymentBloc, PaymentState>(
+      bloc: paymentBloc,
+      listener: _handlePaymentBlocState,
+      child: BlocBuilder<MainBloc, MainState>(
+        builder: (context, state) {
+          return SingleChildScrollView(
+            child: Column(
+              children: [
+                ClipPath(
+                  clipper: HalfCircleCurve(10.h),
+                  child: Container(
+                    height: 28.h,
+                    color: ColorManager.primary,
+                    width: double.infinity,
+                    child: Column(
+                      children: [
+                        SizedBox(
+                          height: 5.h,
+                        ),
+                        Row(
+                          children: [
+                            Expanded(
+                              child: Center(
+                                child: Padding(
+                                  padding: EdgeInsets.only(right: 14.w),
+                                  child: Text(
+                                    S.of(context).favourites,
+                                    style: TextStyle(
+                                      fontSize: 25.sp,
+                                      color: ColorManager.white,
+                                    ),
                                   ),
                                 ),
                               ),
                             ),
-                          ),
-                          if (ConstantsManager.appUser is Customer)
-                            Padding(
-                              padding: EdgeInsets.only(left: 5.w),
-                              child: IconButton(
-                                onPressed: () =>
-                                    context.push(const CartScreen()),
-                                icon: const Icon(
-                                  Icons.shopping_cart_outlined,
-                                  color: ColorManager.white,
+                            if (ConstantsManager.appUser is Customer)
+                              Padding(
+                                padding: EdgeInsets.only(left: 5.w),
+                                child: IconButton(
+                                  onPressed: () =>
+                                      context.push(const CartScreen()),
+                                  icon: const Icon(
+                                    Icons.shopping_cart_outlined,
+                                    color: ColorManager.white,
+                                  ),
                                 ),
                               ),
-                            ),
-                        ],
-                      ),
-                      SizedBox(
-                        height: 2.h,
-                      ),
-                      Icon(
-                        Icons.favorite_outlined,
-                        size: 30.sp,
-                        color: ColorManager.white,
-                      )
-                    ],
+                          ],
+                        ),
+                        SizedBox(
+                          height: 2.h,
+                        ),
+                        Icon(
+                          Icons.favorite_outlined,
+                          size: 30.sp,
+                          color: ColorManager.white,
+                        )
+                      ],
+                    ),
                   ),
                 ),
-              ),
-              SizedBox(
-                height: 2.h,
-              ),
-              Padding(
-                padding: EdgeInsets.symmetric(
-                  horizontal: 3.w,
+                SizedBox(
+                  height: 2.h,
                 ),
-                child: Wrap(
-                  direction: Axis.horizontal,
-                  children: favProducts.map((product) {
-                    return productVerticalWidget(
-                      openProductPressed: () {
-                        context.push(DetailsProductScreen(product: product));
-                      },
-                      product: product,
-                      context: context,
-                      addCardPressed: () {
-                        paymentBloc.add(
-                          AddToCartEvent(
-                            productId: product.productId,
-                          ),
-                        );
-                      },
-                    );
-                  }).toList(),
-                ),
-              )
-            ],
-          ),
-        );
-      },
+                Padding(
+                  padding: EdgeInsets.symmetric(
+                    horizontal: 3.w,
+                  ),
+                  child: Wrap(
+                    direction: Axis.horizontal,
+                    children: favProducts.map((product) {
+                      return productVerticalWidget(
+                        openProductPressed: () {
+                          context.push(DetailsProductScreen(product: product));
+                        },
+                        product: product,
+                        context: context,
+                        addCardPressed: () {
+                          paymentBloc.add(
+                            AddToCartEvent(
+                              productId: product.productId,
+                            ),
+                          );
+                        },
+                      );
+                    }).toList(),
+                  ),
+                )
+              ],
+            ),
+          );
+        },
+      ),
     );
+  }
+
+  void _handlePaymentBlocState(BuildContext context, PaymentState state) {
+    if (state is AddToCartSuccessState) {
+      defaultToast(msg: S.of(context).productAdded);
+    } else if (state is AddToCartErrorState) {
+      mainErrorToast(
+          msg: ExceptionManager(state.exception).translatedMessage());
+    }
   }
 }
 

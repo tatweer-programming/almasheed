@@ -153,6 +153,10 @@ class _CartItemState extends State<CartItem> {
                       SizedBox(
                         width: 20.w,
                         child: defaultFormField(
+                          onSubmit: (value) {
+                            _editingCompleted();
+                          },
+                          type: TextInputType.number,
                           label: S.of(context).quantity,
                           controller: widget.quantityController,
                           validator: (value) {

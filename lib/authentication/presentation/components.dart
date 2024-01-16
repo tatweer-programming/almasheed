@@ -115,6 +115,7 @@ class PhoneNumberInput extends StatelessWidget {
 
 Widget defaultFormField(
         {required String label,
+        void Function(String?)? onSubmit,
         // IconData? prefix,
         // IconButton? suffix,
         // bool? enabled = true,
@@ -128,6 +129,7 @@ Widget defaultFormField(
     SizedBox(
       height: 7.h,
       child: TextFormField(
+        onFieldSubmitted: onSubmit,
         controller: controller,
         keyboardType: type,
         cursorColor: ColorManager.primary,

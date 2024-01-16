@@ -19,14 +19,19 @@ class CartScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Customer customer = ConstantsManager.appUser as Customer;
-
-    print(customer.cartItems.toString() + "(((((((((((((((((((((((((((((");
-
     PaymentBloc bloc = PaymentBloc.get()..add(PrepareCart());
+    TextEditingController quantityController = TextEditingController();
 
     return Scaffold(
         body: BlocListener<PaymentBloc, PaymentState>(
+      // listenWhen: (previous, current) =>
+      //     current is AddToCartSuccessState ||
+      //     current is AddToCartErrorState ||
+      //     current is UpdateProductSuccessfullyState ||
+      //     current is EditQuantityInCartErrorState ||
+      //     current is DeleteProductSuccessfullyState ||
+      //     current is RemoveFromCartErrorState,
+      bloc: bloc,
       listener: _handlePaymentBlocState,
       child: BlocBuilder<PaymentBloc, PaymentState>(
         bloc: bloc,
@@ -86,11 +91,9 @@ class CartScreen extends StatelessWidget {
                                     physics:
                                         const NeverScrollableScrollPhysics(),
                                     itemBuilder: (context, index) => CartItem(
-                                      bloc: bloc,
-                                      orderItem: bloc.order.orderItems[index],
-                                      quantityController:
-                                          TextEditingController(text: ""),
-                                    ),
+                                        bloc: bloc,
+                                        orderItem: bloc.order.orderItems[index],
+                                        quantityController: quantityController),
                                     separatorBuilder: (context, index) =>
                                         SizedBox(
                                       height: 2.h,
@@ -141,11 +144,11 @@ class CartScreen extends StatelessWidget {
       defaultToast(msg: S.of(context).productAdded);
     } else if (state is AddToCartErrorState) {
       errorToast(msg: ExceptionManager(state.exception).translatedMessage());
-    } else if (state is UpdateProductSuccessfullyState) {
+    } else if (state is EditQuantityInCartSuccessState) {
       defaultToast(msg: S.of(context).updatedSuccessfully);
     } else if (state is EditQuantityInCartErrorState) {
       errorToast(msg: ExceptionManager(state.exception).translatedMessage());
-    } else if (state is DeleteProductSuccessfullyState) {
+    } else if (state is RemoveFromCartSuccessState) {
       defaultToast(msg: S.of(context).deletedSuccessfully);
     } else if (state is RemoveFromCartErrorState) {
       errorToast(msg: ExceptionManager(state.exception).translatedMessage());
