@@ -7,6 +7,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:my_fatoorah/my_fatoorah.dart';
 
 import '../../../chat/data/models/chat.dart';
+import '../../../core/utils/color_manager.dart';
 
 class PaymentService {
   FirebaseFirestore fireStore = FirebaseFirestore.instance;
@@ -49,14 +50,13 @@ class PaymentService {
 
   Future<PaymentResponse> completePayment(
       {required BuildContext context, required OrderModel order}) async {
+    print(customer.phone);
     return MyFatoorah.startPayment(
       context: context,
       request: MyfatoorahRequest.test(
-        customerMobile: customer.phone,
-        // initiatePaymentUrl: "https://sa.myfatoorah.com/",
         currencyIso: Country.SaudiArabia,
         successUrl: "https://www.google.com",
-        errorUrl: "https://www.youtube.com/",
+        errorUrl: "https://www.youtube.com",
         invoiceAmount: order.totalPrice / 10,
         language: ApiLanguage.Arabic,
         token:

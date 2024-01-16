@@ -99,6 +99,13 @@ class CompleteOrderErrorState extends PaymentState {
   List<Object?> get props => [exception];
 }
 
+class CompletePaymentErrorState extends PaymentState {
+  const CompletePaymentErrorState();
+
+  @override
+  List<Object?> get props => [];
+}
+
 class ChooseAddressState extends PaymentState {
   final int index;
 
