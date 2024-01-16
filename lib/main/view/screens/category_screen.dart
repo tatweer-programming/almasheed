@@ -29,6 +29,7 @@ class CategoryScreen extends StatelessWidget {
     bool isHorizontal = false;
     TextEditingController quantityController = TextEditingController();
     return BlocListener<PaymentBloc, PaymentState>(
+      bloc: paymentBloc,
       listener: _handlePaymentBlocState,
       child: BlocConsumer<MainBloc, MainState>(
         listener: (context, state) {

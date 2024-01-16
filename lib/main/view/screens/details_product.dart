@@ -376,6 +376,8 @@ class DetailsProductScreen extends StatelessWidget {
                 SizedBox(
                   width: 20.w,
                   child: TextFormField(
+                    keyboardType: TextInputType.number,
+                    controller: quantityController,
                     textAlign: TextAlign.center,
                     decoration: InputDecoration(
                         hintText: S.of(context).quantity,
