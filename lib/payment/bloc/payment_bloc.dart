@@ -32,10 +32,8 @@ class PaymentBloc extends Bloc<PaymentEvent, PaymentState> {
         var response = await _repository.addItem(
             productId: event.productId, quantity: event.quantity);
         response.fold((l) {
-          emit(AddToCartErrorState());
+          emit(AddToCartErrorState(l));
         }, (r) {
-          defaultToast(msg: "Added Successfully");
-
           emit(AddToCartSuccessState());
         });
       } else if (event is RemoveFromCart) {
@@ -44,11 +42,8 @@ class PaymentBloc extends Bloc<PaymentEvent, PaymentState> {
           productId: event.productId,
         );
         response.fold((l) {
-          emit(RemoveFromCartErrorState());
-          errorToast(msg: "");
+          emit(RemoveFromCartErrorState(l));
         }, (r) {
-          defaultToast(msg: "Removed Successfully");
-
           emit(RemoveFromCartSuccessState());
         });
       } else if (event is EditQuantityInCart) {
@@ -56,10 +51,8 @@ class PaymentBloc extends Bloc<PaymentEvent, PaymentState> {
         var response = await _repository.editQuantity(
             productId: event.productId, quantity: event.quantity);
         response.fold((l) {
-          emit(EditQuantityInCartErrorState());
-          errorToast(msg: "");
+          emit(EditQuantityInCartErrorState(l));
         }, (r) {
-          defaultToast(msg: "Updated Successfully");
           emit(EditQuantityInCartSuccessState());
         });
       } else if (event is CompletePaymentCart) {

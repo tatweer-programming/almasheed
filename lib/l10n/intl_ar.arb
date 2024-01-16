@@ -133,5 +133,7 @@
   "mustAddAddress": "يجب اضافة عنوان",
   "mustChooseAddress": "يجب اختيار عنوان",
   "resendCodeIn" : "إعادة إرسال الرمز بعد",
-    "seconds" : "ثواني"
+    "seconds" : "ثواني",
+  "updatedSuccessfully": "تم التعديل بنجاح",
+  "deletedSuccessfully": "تم الحذف بنجاح"
 }

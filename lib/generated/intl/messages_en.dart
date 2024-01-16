@@ -67,6 +67,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "customer": MessageLookupByLibrary.simpleMessage("Customer"),
         "date": MessageLookupByLibrary.simpleMessage("date"),
         "delete": MessageLookupByLibrary.simpleMessage("Delete"),
+        "deletedSuccessfully":
+            MessageLookupByLibrary.simpleMessage("Deleted Successfully"),
         "description": MessageLookupByLibrary.simpleMessage("Description"),
         "determineQuantity":
             MessageLookupByLibrary.simpleMessage("You must determine quantity"),
@@ -200,6 +202,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "totalPrice": MessageLookupByLibrary.simpleMessage("Total Price"),
         "typeMessage":
             MessageLookupByLibrary.simpleMessage("Type a message .."),
+        "updatedSuccessfully":
+            MessageLookupByLibrary.simpleMessage("Updated Successfully"),
         "userCreated":
             MessageLookupByLibrary.simpleMessage("user created Successfully"),
         "userNotFound": MessageLookupByLibrary.simpleMessage("User not found"),

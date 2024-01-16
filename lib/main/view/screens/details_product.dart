@@ -1,5 +1,6 @@
 import 'package:almasheed/payment/bloc/payment_bloc.dart';
 import 'package:carousel_slider/carousel_controller.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sizer/sizer.dart';
@@ -13,6 +14,7 @@ import 'package:almasheed/core/utils/navigation_manager.dart';
 import 'package:almasheed/main/bloc/main_bloc.dart';
 import 'package:almasheed/main/data/models/product.dart';
 import 'package:almasheed/main/view/widgets/widgets.dart';
+import '../../../authentication/presentation/components.dart';
 import '../../../generated/l10n.dart';
 import 'modify_screen.dart';
 
@@ -29,72 +31,83 @@ class DetailsProductScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final PaymentBloc paymentBloc = PaymentBloc.get();
     final CarouselController carouselController = CarouselController();
     TextEditingController quantityController = TextEditingController();
     final MainBloc mainBloc = sl();
     List<String> selectedProperties = [];
     quantityController.text = "1";
-    return BlocConsumer<MainBloc, MainState>(
-      listener: (context, state) => _handleBlocState(context, mainBloc, state,selectedProperties,),
-      builder: (context, state) {
-        return Scaffold(
-          body: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Expanded(
-                child: SingleChildScrollView(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      _buildCarouselAndHeader(
+    return BlocListener<PaymentBloc, PaymentState>(
+      bloc: paymentBloc,
+      listener: _handlePaymentBlocState,
+      child: BlocConsumer<MainBloc, MainState>(
+        listener: (context, state) => _handleBlocState(
+          context,
+          mainBloc,
+          state,
+          selectedProperties,
+        ),
+        builder: (context, state) {
+          return Scaffold(
+            body: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Expanded(
+                  child: SingleChildScrollView(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        _buildCarouselAndHeader(
+                            context: context,
+                            selectedProperties: selectedProperties,
+                            bloc: mainBloc,
+                            carouselController: carouselController),
+                        SizedBox(height: 2.h),
+                        _buildAddToCart(
+                          quantityController: quantityController,
+                          onPressed: () {
+                            if (quantityController.text != "") {
+                              paymentBloc.add(
+                                AddToCartEvent(
+                                  productId: product.productId,
+                                  quantity: int.parse(quantityController.text),
+                                ),
+                              );
+                            } else {
+                              mainErrorToast(
+                                  msg: S.of(context).determineQuantity);
+                            }
+                          },
                           context: context,
-                          selectedProperties: selectedProperties,
-                          bloc: mainBloc,
-                          carouselController: carouselController),
-                      SizedBox(height: 2.h),
-                      _buildAddToCart(
-                        quantityController: quantityController,
-                        onPressed: () {
-                          if (quantityController.text != "") {
-                            final PaymentBloc paymentBloc = PaymentBloc.bloc;
-                            paymentBloc.add(
-                              AddToCartEvent(
-                                productId: product.productId,
-                                quantity: int.parse(quantityController.text),
-                              ),
-                            );
-                          } else {
-                            mainErrorToast(
-                                msg: S.of(context).determineQuantity);
-                          }
-                        },
-                        context: context,
-                      ),
-                      SizedBox(height: 3.h),
-                      Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 6.w),
-                        child: Center(
-                          child: Text(
-                            product.productDescription.isEmpty
-                                ? S.of(context).notFound
-                                : product.productDescription,
-                            style: const TextStyle(color: ColorManager.primary),
+                        ),
+                        SizedBox(height: 3.h),
+                        Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 6.w),
+                          child: Center(
+                            child: Text(
+                              product.productDescription.isEmpty
+                                  ? S.of(context).notFound
+                                  : product.productDescription,
+                              style:
+                                  const TextStyle(color: ColorManager.primary),
+                            ),
                           ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                 ),
-              ),
-              SizedBox(height: 3.h),
-            ],
-          ),
-        );
-      },
+                SizedBox(height: 3.h),
+              ],
+            ),
+          );
+        },
+      ),
     );
   }
 
-  void _handleBlocState(BuildContext context, MainBloc bloc, MainState state,List<String>selectedProperties) {
+  void _handleBlocState(BuildContext context, MainBloc bloc, MainState state,
+      List<String> selectedProperties) {
     if (state is SelectEditProductState) {
       context.push(ModifyProductScreen(product: product));
     } else if (state is SelectDeleteProductState) {
@@ -106,10 +119,21 @@ class DetailsProductScreen extends StatelessWidget {
       _showDeleteProductLoadingDialog(context);
     } else if (state is DeleteProductSuccessfullyState) {
       _handleDeleteProductSuccess(context);
-    } if (state is SelectPropertiesState) {
+    }
+    if (state is SelectPropertiesState) {
       selectedProperties = state.selectedProperties;
-    } if (state is CheckIfAvailablePropertiesState) {
+    }
+    if (state is CheckIfAvailablePropertiesState) {
       selectedProperties = state.availableProperties;
+    }
+  }
+
+  void _handlePaymentBlocState(BuildContext context, PaymentState state) {
+    if (state is AddToCartSuccessState) {
+      defaultToast(msg: S.of(context).productAdded);
+    } else if (state is AddToCartErrorState) {
+      mainErrorToast(
+          msg: ExceptionManager(state.exception).translatedMessage());
     }
   }
 
@@ -287,7 +311,9 @@ class DetailsProductScreen extends StatelessWidget {
                                 children: properties
                                     .map((prop) => InkWell(
                                           onTap: () {
-                                            print(selectedProperties);
+                                            if (kDebugMode) {
+                                              print(selectedProperties);
+                                            }
                                             bloc.add(SelectPropertiesEvent(
                                                 prop: prop,
                                                 properties: properties,

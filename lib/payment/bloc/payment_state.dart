@@ -20,6 +20,8 @@ class AddToCartSuccessState extends PaymentState {
 }
 
 class AddToCartErrorState extends PaymentState {
+  final FirebaseException exception;
+  const AddToCartErrorState(this.exception);
   @override
   List<Object?> get props => [];
 }
@@ -35,8 +37,10 @@ class RemoveFromCartSuccessState extends PaymentState {
 }
 
 class RemoveFromCartErrorState extends PaymentState {
+  final FirebaseException exception;
+  const RemoveFromCartErrorState(this.exception);
   @override
-  List<Object?> get props => [];
+  List<Object?> get props => [exception];
 }
 
 class EditQuantityInCartLoadingState extends PaymentState {
@@ -50,6 +54,8 @@ class EditQuantityInCartSuccessState extends PaymentState {
 }
 
 class EditQuantityInCartErrorState extends PaymentState {
+  final FirebaseException exception;
+  const EditQuantityInCartErrorState(this.exception);
   @override
   List<Object?> get props => [];
 }

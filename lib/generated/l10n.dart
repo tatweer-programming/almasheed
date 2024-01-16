@@ -1401,6 +1401,26 @@ class S {
       args: [],
     );
   }
+
+  /// `Updated Successfully`
+  String get updatedSuccessfully {
+    return Intl.message(
+      'Updated Successfully',
+      name: 'updatedSuccessfully',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Deleted Successfully`
+  String get deletedSuccessfully {
+    return Intl.message(
+      'Deleted Successfully',
+      name: 'deletedSuccessfully',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {
