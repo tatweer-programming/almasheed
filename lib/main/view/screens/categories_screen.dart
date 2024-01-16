@@ -74,7 +74,6 @@ class CategoriesScreen extends StatelessWidget {
                             openProductPressed: () {
                               context
                                   .push(DetailsProductScreen(product: product));
-
                             },
                             product: product,
                             context: context,

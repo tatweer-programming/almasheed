@@ -18,11 +18,12 @@ import '../../../authentication/presentation/components.dart';
 import '../../../generated/l10n.dart';
 import 'modify_screen.dart';
 
-Map<String, List<String>> data = {
-  "Color": ["RED", "GREEN", "BLUE"],
-  "Size": ["20", "30", "50"],
-  "Quantity": ["1", "2", "3"],
-};
+//
+// Map<String, List<String>> data = {
+//   "Color": ["RED", "GREEN", "BLUE"],
+//   "Size": ["20", "30", "50"],
+//   "Quantity": ["1", "2", "3"],
+// };
 
 class DetailsProductScreen extends StatelessWidget {
   final Product product;
@@ -41,12 +42,27 @@ class DetailsProductScreen extends StatelessWidget {
       bloc: paymentBloc,
       listener: _handlePaymentBlocState,
       child: BlocConsumer<MainBloc, MainState>(
-        listener: (context, state) => _handleBlocState(
-          context,
-          mainBloc,
-          state,
-          selectedProperties,
-        ),
+        listener: (context, state) {
+          if (state is SelectEditProductState) {
+            context.push(ModifyProductScreen(product: product));
+          } else if (state is SelectDeleteProductState) {
+            mainBloc.add(DeleteProductEvent(product: product));
+          } else if (state is DeleteProductErrorState) {
+            context.pop();
+            mainErrorToast(msg: ExceptionManager(state.error).translatedMessage());
+          } else if (state is DeleteProductLoadingState) {
+            _showDeleteProductLoadingDialog(context);
+          } else if (state is DeleteProductSuccessfullyState) {
+            _handleDeleteProductSuccess(context);
+          }
+          else if (state is SelectPropertiesState) {
+            selectedProperties = state.selectedProperties;
+          }
+          if (state is CheckIfAvailablePropertiesState) {
+            selectedProperties = state.availableProperties;
+            print("selected ${selectedProperties}");
+          }
+        },
         builder: (context, state) {
           return Scaffold(
             body: Column(
@@ -108,24 +124,7 @@ class DetailsProductScreen extends StatelessWidget {
 
   void _handleBlocState(BuildContext context, MainBloc bloc, MainState state,
       List<String> selectedProperties) {
-    if (state is SelectEditProductState) {
-      context.push(ModifyProductScreen(product: product));
-    } else if (state is SelectDeleteProductState) {
-      bloc.add(DeleteProductEvent(product: product));
-    } else if (state is DeleteProductErrorState) {
-      context.pop();
-      mainErrorToast(msg: ExceptionManager(state.error).translatedMessage());
-    } else if (state is DeleteProductLoadingState) {
-      _showDeleteProductLoadingDialog(context);
-    } else if (state is DeleteProductSuccessfullyState) {
-      _handleDeleteProductSuccess(context);
-    }
-    if (state is SelectPropertiesState) {
-      selectedProperties = state.selectedProperties;
-    }
-    if (state is CheckIfAvailablePropertiesState) {
-      selectedProperties = state.availableProperties;
-    }
+
   }
 
   void _handlePaymentBlocState(BuildContext context, PaymentState state) {
@@ -296,10 +295,14 @@ class DetailsProductScreen extends StatelessWidget {
                     SizedBox(
                       height: 20.h,
                       child: ListView.builder(
-                          itemCount: data.length,
+                          itemCount:
+                              product.customProperties!.properties.length,
                           itemBuilder: (BuildContext context, int index) {
-                            String key = data.keys.elementAt(index);
-                            List<String> properties = data[key]!;
+                            String key = product
+                                .customProperties!.properties.keys
+                                .elementAt(index);
+                            List<String> properties =
+                                product.customProperties!.properties[key]!;
                             return ListTile(
                               title: Text(
                                 key,
@@ -311,14 +314,16 @@ class DetailsProductScreen extends StatelessWidget {
                                 children: properties
                                     .map((prop) => InkWell(
                                           onTap: () {
-                                            if (kDebugMode) {
-                                              print(selectedProperties);
-                                            }
                                             bloc.add(SelectPropertiesEvent(
                                                 prop: prop,
                                                 properties: properties,
                                                 selectedProperties:
                                                     selectedProperties));
+                                            bloc.add(
+                                                CheckIfAvailablePropertiesEvent(
+                                                    product: product,
+                                                    selectedProperties:
+                                                        selectedProperties));
                                           },
                                           child: Row(
                                             children: [

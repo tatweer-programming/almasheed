@@ -36,6 +36,7 @@ class MainBloc extends Bloc<MainEvent, MainState> {
   String? selectedProductCategory;
   String? selectedCity;
   List<Product> sortedProducts = [];
+  List<String> selectedProperties = [];
   List<Widget> pagesCustomer = [
     const HomePageScreen(),
     const CategoriesScreen(),
@@ -249,11 +250,13 @@ class MainBloc extends Bloc<MainEvent, MainState> {
       } else if (event is ChangeSwitchNotificationsEvent) {
         emit(ChangeSwitchNotificationsState(event.isOn));
       } else if (event is ChooseCategoryEvent) {
-        event.categoryProducts = event.categoryProducts
+        if(ConstantsManager.appUser is Merchant) {
+          event.categoryProducts = event.categoryProducts
             .where((product) => (ConstantsManager.appUser as Merchant)
                 .productsIds
                 .contains(product.productId))
             .toList();
+        }
         emit(ChooseCategoryState(
             categoryName: event.categoryName,
             categoryProducts: event.categoryProducts));

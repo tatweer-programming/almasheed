@@ -45,8 +45,8 @@ class Product extends Equatable {
         productOldPrice: json['productOldPrice'].toDouble(),
         merchantName: json['merchantName'],
         merchantId: json['merchantId'],
-        // customProperties:
-        // ProductCustomProperties.fromJson(json["customProperties"]),
+        customProperties:
+        ProductCustomProperties.fromJson(json["customProperties"]),
       );
 
   Map<String, dynamic> toJson() {
