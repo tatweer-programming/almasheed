@@ -43,7 +43,7 @@ class OrderModel extends Equatable {
 
   Map<String, dynamic> toJson() => {
         "totalPrice": totalPrice,
-        "productIds": orderItems.map((e) => e.product.productId).toList(),
+        "items": orderItems.map((e) => e.toJson()).toList(),
         "merchantIds": merchantIds,
         "customerId": ConstantsManager.appUser!.id,
         "date": id,

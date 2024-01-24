@@ -5,4 +5,11 @@ class OrderItem {
   int quantity;
 
   OrderItem({required this.product, required this.quantity});
+
+  Map<String, dynamic> toJson() {
+    return {
+      'id': product.productId,
+      'quantity': quantity,
+    };
+  }
 }
