@@ -12,6 +12,7 @@ import '../../../core/services/dep_injection.dart';
 import '../../../core/utils/constance_manager.dart';
 import '../../../generated/l10n.dart';
 import '../../bloc/main_bloc.dart';
+import '../../data/models/custom_properties.dart';
 import 'add_category_screen.dart';
 
 class AddProductScreen extends StatelessWidget {
@@ -24,13 +25,21 @@ class AddProductScreen extends StatelessWidget {
     TextEditingController priceController = TextEditingController();
     TextEditingController descriptionController = TextEditingController();
     TextEditingController discountController = TextEditingController();
+    List<List<TextEditingController>> propertyList = [
+      [TextEditingController()]
+    ];
+    List<TextEditingController> propertyNameList = [TextEditingController()];
     discountController.text = "0";
     bloc.imagesFiles = [];
+    List<String> selectedProperties = [];
+    List<List<String>> selectedPropertiesSaved = [];
     bloc.selectedProductCategory = null;
     Merchant merchant = ConstantsManager.appUser as Merchant;
     var formKey = GlobalKey<FormState>();
+    Map<String, List<String>> result = {};
     return BlocConsumer<MainBloc, MainState>(
       listener: (context, state) {
+        print(state);
         if (state is SetProductErrorState) {
           bloc.add(MakeImagesFilesEmptyEvent());
           context.pop();
@@ -54,6 +63,15 @@ class AddProductScreen extends StatelessWidget {
             },
           );
         }
+        if (state is FinishedAddPropertiesState) {
+          result = state.result;
+        }
+        if (state is SelectPropertiesState) {
+          selectedProperties = state.selectedProperties;
+        }
+        if (state is SelectedPropertiesSavedState) {
+          selectedProperties = state.selectedProperties;
+        }
         if (state is SetProductSuccessfullyState) {
           bloc.add(GetProductsEvent());
           bloc.add(MakeImagesFilesEmptyEvent());
@@ -67,7 +85,7 @@ class AddProductScreen extends StatelessWidget {
                     borderRadius: BorderRadius.circular(5.sp)),
                 content: Text(
                   S.of(context).productAdded,
-                  style: TextStyle(
+                  style: const TextStyle(
                     fontWeight: FontWeight.w500,
                   ),
                 ),
@@ -215,6 +233,167 @@ class AddProductScreen extends StatelessWidget {
                                   ),
                                 )
                               : const SizedBox(),
+                          Column(
+                            children: [
+                              ListView.separated(
+                                shrinkWrap: true,
+                                physics: const NeverScrollableScrollPhysics(),
+                                itemCount: propertyNameList.length,
+                                itemBuilder: (context, index) => props(
+                                  index: index,
+                                  propertyNameController:
+                                      propertyNameList[index],
+                                  propertyList: propertyList[index],
+                                  addPropertyName: () {
+                                    bloc.add(AddPropertyNameEvent(
+                                        propertyList: propertyList,
+                                        propertyNameList: propertyNameList));
+                                  },
+                                  bloc: bloc,
+                                  removePropertyName: () {
+                                    bloc.add(RemovePropertyNameEvent(
+                                        index: index,
+                                        propertyList: propertyList,
+                                        propertyNameList: propertyNameList));
+                                  },
+                                ),
+                                separatorBuilder: (context, index) => Padding(
+                                  padding: EdgeInsets.symmetric(vertical: 2.h),
+                                  child: Container(
+                                    height: 0.2.h,
+                                    color: ColorManager.grey2,
+                                  ),
+                                ),
+                              ),
+                              SizedBox(
+                                height: 1.h,
+                              ),
+                              defaultButton(
+                                  onPressed: () {
+                                    bloc.add(FinishedAddPropertiesEvent(
+                                        propertyList: propertyList,
+                                        propertyNameList: propertyNameList));
+                                  },
+                                  text: S.of(context).selectAvailableProperties),
+                              Column(
+                                children: [
+                                  ListView.builder(
+                                      physics:
+                                          const NeverScrollableScrollPhysics(),
+                                      shrinkWrap: true,
+                                      itemCount: result.length,
+                                      itemBuilder:
+                                          (BuildContext context, int index) {
+                                        String key =
+                                            result.keys.elementAt(index);
+                                        List<String> properties = result[key]!;
+                                        return ListTile(
+                                          title: Text(
+                                            key,
+                                            style: const TextStyle(
+                                                fontWeight: FontWeight.w600),
+                                          ),
+                                          subtitle: Row(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: properties
+                                                .map((prop) => InkWell(
+                                                      onTap: () {
+                                                        bloc.add(SelectPropertiesEvent(
+                                                            prop: prop,
+                                                            properties:
+                                                                properties,
+                                                            selectedProperties:
+                                                                selectedProperties));
+                                                      },
+                                                      child: Row(
+                                                        children: [
+                                                          Container(
+                                                            padding: EdgeInsetsDirectional
+                                                                .symmetric(
+                                                                    horizontal:
+                                                                        2.w,
+                                                                    vertical:
+                                                                        1.h),
+                                                            decoration:
+                                                                BoxDecoration(
+                                                              border: Border.all(
+                                                                  color: selectedProperties
+                                                                          .contains(
+                                                                              prop)
+                                                                      ? ColorManager
+                                                                          .primary
+                                                                      : Colors
+                                                                          .transparent),
+                                                              color: ColorManager
+                                                                  .secondary,
+                                                              borderRadius:
+                                                                  BorderRadiusDirectional
+                                                                      .circular(
+                                                                          10.sp),
+                                                            ),
+                                                            child: Text(
+                                                              prop,
+                                                            ),
+                                                          ),
+                                                          SizedBox(
+                                                            width: 2.w,
+                                                          )
+                                                        ],
+                                                      ),
+                                                    ))
+                                                .toList(),
+                                          ),
+                                        );
+                                      }),
+                                  if (result.isNotEmpty)
+                                    SizedBox(
+                                      width: 40.w,
+                                      child: defaultButton(
+                                          onPressed: () {
+                                            bloc.add(SelectedPropertiesSavedEvent(
+                                                selectedProperties:
+                                                    selectedProperties,
+                                                selectedPropertiesSaved:
+                                                    selectedPropertiesSaved));
+                                          },
+                                          text: S.of(context).add),
+                                    ),
+                                  ListView.separated(
+                                      shrinkWrap: true,
+                                      physics:
+                                          const NeverScrollableScrollPhysics(),
+                                      itemBuilder: (context, index) {
+                                        return Row(
+                                          children: [
+                                            Text(
+                                                "${selectedPropertiesSaved[index]}",
+                                            style: TextStyle(fontSize: 16.sp),),
+                                            const Spacer(),
+                                            IconButton(
+                                                onPressed: () {
+                                                  bloc.add(RemoveSelectedPropertiesSavedEvent(
+                                                      index: index,
+                                                      selectedPropertiesSaved:
+                                                          selectedPropertiesSaved));
+                                                },
+                                                icon: const Icon(Icons.clear)),
+                                          ],
+                                        );
+                                      },
+                                      separatorBuilder: (context, index) =>
+                                          SizedBox(
+                                            height: 1.h,
+                                          ),
+                                      itemCount:
+                                          selectedPropertiesSaved.length),
+                                  SizedBox(
+                                    height: 2.h,
+                                  )
+                                ],
+                              ),
+                            ],
+                          )
                         ],
                       ),
                     ),
@@ -229,6 +408,10 @@ class AddProductScreen extends StatelessWidget {
                             bloc.add(
                               SetProductEvent(
                                 product: Product(
+                                  customProperties: ProductCustomProperties(
+                                      availableProperties: transformList(selectedPropertiesSaved),
+                                      properties: convertToMap(
+                                          propertyList, propertyNameList)),
                                   productName: nameController.text,
                                   productCategory: bloc.selectedProductCategory,
                                   productsImagesFile: bloc.imagesFiles,
@@ -260,6 +443,81 @@ class AddProductScreen extends StatelessWidget {
       },
     );
   }
+}
+
+Widget props({
+  required TextEditingController propertyNameController,
+  required List<TextEditingController> propertyList,
+  required VoidCallback addPropertyName,
+  required VoidCallback removePropertyName,
+  required MainBloc bloc,
+  required int index,
+}) {
+  return Column(
+    children: [
+      Row(
+        children: [
+          Expanded(
+            child: mainFormField(controller: propertyNameController),
+          ),
+          SizedBox(
+            width: 3.w,
+          ),
+          InkWell(onTap: addPropertyName, child: const Icon(Icons.add_circle)),
+          SizedBox(
+            width: 1.w,
+          ),
+          if (index > 0)
+            InkWell(
+                onTap: removePropertyName,
+                child: const Icon(Icons.remove_circle)),
+        ],
+      ),
+      SizedBox(
+        height: 1.h,
+      ),
+      BlocBuilder<MainBloc, MainState>(
+        builder: (context, state) {
+          return ListView.separated(
+              shrinkWrap: true,
+              physics: const NeverScrollableScrollPhysics(),
+              itemBuilder: (context, index) => Row(
+                    children: [
+                      Expanded(
+                        child: mainFormField(controller: propertyList[index]),
+                      ),
+                      SizedBox(
+                        width: 3.w,
+                      ),
+                      InkWell(
+                          onTap: () {
+                            bloc.add(
+                                AddPropertyEvent(propertyList: propertyList));
+                          },
+                          child: const Icon(Icons.add_circle)),
+                      SizedBox(
+                        width: 1.w,
+                      ),
+                      if (index > 0)
+                        InkWell(
+                            onTap: () {
+                              bloc.add(RemovePropertyEvent(
+                                  index: index, propertyList: propertyList));
+                            },
+                            child: const Icon(Icons.remove_circle)),
+                      SizedBox(
+                        width: 20.w,
+                      ),
+                    ],
+                  ),
+              separatorBuilder: (context, index) => SizedBox(
+                    height: 1.h,
+                  ),
+              itemCount: propertyList.length);
+        },
+      )
+    ],
+  );
 }
 
 double newPriceAfterDiscount({

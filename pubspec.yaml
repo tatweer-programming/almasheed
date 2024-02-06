@@ -46,6 +46,7 @@ dependencies:
   image_picker:
   my_fatoorah:
   share_plus:
+  animated_tree_view: ^2.2.0
 
 
   #chat

@@ -1421,6 +1421,46 @@ class S {
       args: [],
     );
   }
+
+  /// `Notifications are turned on`
+  String get notificationsAreTurnedOn {
+    return Intl.message(
+      'Notifications are turned on',
+      name: 'notificationsAreTurnedOn',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Select available properties`
+  String get selectAvailableProperties {
+    return Intl.message(
+      'Select available properties',
+      name: 'selectAvailableProperties',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Add`
+  String get add {
+    return Intl.message(
+      'Add',
+      name: 'add',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Notifications are turned off`
+  String get notificationsAreTurnedOff {
+    return Intl.message(
+      'Notifications are turned off',
+      name: 'notificationsAreTurnedOff',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

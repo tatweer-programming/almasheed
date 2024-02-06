@@ -23,6 +23,7 @@ class MessageLookup extends MessageLookupByLibrary {
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
         "aboutApp": MessageLookupByLibrary.simpleMessage("About App"),
+        "add": MessageLookupByLibrary.simpleMessage("Add"),
         "addAddress": MessageLookupByLibrary.simpleMessage("Add Address"),
         "addCategory": MessageLookupByLibrary.simpleMessage("Add Category"),
         "addImage": MessageLookupByLibrary.simpleMessage("Add Image"),
@@ -151,6 +152,10 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("There is no items here"),
         "notFound": MessageLookupByLibrary.simpleMessage("Not Found"),
         "notifications": MessageLookupByLibrary.simpleMessage("Notifications"),
+        "notificationsAreTurnedOff": MessageLookupByLibrary.simpleMessage(
+            "Notifications are turned off"),
+        "notificationsAreTurnedOn":
+            MessageLookupByLibrary.simpleMessage("Notifications are turned on"),
         "offers": MessageLookupByLibrary.simpleMessage("Offers"),
         "ok": MessageLookupByLibrary.simpleMessage("Ok"),
         "orderBy": MessageLookupByLibrary.simpleMessage("Order by .."),
@@ -183,6 +188,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "sar": MessageLookupByLibrary.simpleMessage("SAR"),
         "search": MessageLookupByLibrary.simpleMessage("search ..."),
         "seconds": MessageLookupByLibrary.simpleMessage("seconds"),
+        "selectAvailableProperties":
+            MessageLookupByLibrary.simpleMessage("Select available properties"),
         "seller": MessageLookupByLibrary.simpleMessage("Seller"),
         "sendCode": MessageLookupByLibrary.simpleMessage("Send code"),
         "services": MessageLookupByLibrary.simpleMessage("Services"),

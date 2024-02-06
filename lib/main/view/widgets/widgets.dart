@@ -545,6 +545,30 @@ Widget productHorizontalWidget({
   );
 }
 
+Map<String, List<String>> convertToMap(
+    List<List<TextEditingController>> propertyList,
+    List<TextEditingController> propertyNameList) {
+  Map<String, List<String>> result = {};
+  for (int i = 0; i < propertyNameList.length; i++) {
+    String propertyName = propertyNameList[i].text;
+    List<String> properties =
+        propertyList[i].map((controller) => controller.text).toList();
+    result[propertyName] = properties;
+  }
+  return result;
+}
+
+List<String> transformList(List<List<String>> inputList) {
+  List<String> result = [];
+
+  for (List<String> innerList in inputList) {
+    String transformedString = innerList.join("-");
+    result.add(transformedString);
+  }
+
+  return result;
+}
+
 Widget defaultButton({
   required VoidCallback onPressed,
   required String text,

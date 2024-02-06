@@ -133,8 +133,12 @@
   "chooseAddress": "choose address",
   "mustAddAddress": "you must add an address",
   "mustChooseAddress": "you must choose an address",
-  "resendCodeIn" : "You can resend code in",
-    "seconds" : "seconds",
-  "updatedSuccessfully" : "Updated Successfully",
-  "deletedSuccessfully" : "Deleted Successfully"
+  "resendCodeIn": "You can resend code in",
+  "seconds": "seconds",
+  "updatedSuccessfully": "Updated Successfully",
+  "deletedSuccessfully": "Deleted Successfully",
+  "notificationsAreTurnedOn": "Notifications are turned on",
+  "selectAvailableProperties": "Select available properties",
+  "add": "Add",
+  "notificationsAreTurnedOff": "Notifications are turned off"
 }

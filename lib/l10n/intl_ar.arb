@@ -132,8 +132,12 @@
   "chooseAddress": "اختار العنوان",
   "mustAddAddress": "يجب اضافة عنوان",
   "mustChooseAddress": "يجب اختيار عنوان",
-  "resendCodeIn" : "إعادة إرسال الرمز بعد",
-    "seconds" : "ثواني",
+  "resendCodeIn": "إعادة إرسال الرمز بعد",
+  "seconds": "ثواني",
   "updatedSuccessfully": "تم التعديل بنجاح",
-  "deletedSuccessfully": "تم الحذف بنجاح"
+  "deletedSuccessfully": "تم الحذف بنجاح",
+  "notificationsAreTurnedOn": "تم تشغيل الاشعارات",
+  "selectAvailableProperties": "تحديد الخصائص المتاحة",
+  "add": "إضافة",
+  "notificationsAreTurnedOff": "تم إيقاف الاشعارات"
 }

@@ -1,6 +1,6 @@
 part of 'main_bloc.dart';
 
-abstract class MainEvent extends Equatable {
+abstract class MainEvent {
   const MainEvent();
 }
 
@@ -8,84 +8,68 @@ class ChangeBottomNavEvent extends MainEvent {
   final int index;
 
   const ChangeBottomNavEvent({required this.index});
+}
 
-  @override
-  List<Object?> get props => [index];
+class SelectedPropertiesSavedEvent extends MainEvent {
+  List<String> selectedProperties;
+  final List<List<String>> selectedPropertiesSaved;
+
+  SelectedPropertiesSavedEvent(
+      {required this.selectedProperties,
+      required this.selectedPropertiesSaved});
+}
+
+class RemoveSelectedPropertiesSavedEvent extends MainEvent {
+  final List<List<String>> selectedPropertiesSaved;
+  final int index;
+
+  RemoveSelectedPropertiesSavedEvent(
+      {required this.selectedPropertiesSaved, required this.index});
 }
 
 class ChangeShowingProductsEvent extends MainEvent {
   bool isHorizontal;
 
   ChangeShowingProductsEvent({required this.isHorizontal});
-
-  @override
-  List<Object?> get props => [];
 }
 
 class ChangeCarouselIndicatorEvent extends MainEvent {
   final int index;
 
   const ChangeCarouselIndicatorEvent({required this.index});
-
-  @override
-  List<Object?> get props => [index];
 }
 
-class GetProductsEvent extends MainEvent {
-  @override
-  List<Object?> get props => [];
-}
+class GetProductsEvent extends MainEvent {}
 
 class SetProductEvent extends MainEvent {
   final Product product;
 
   const SetProductEvent({required this.product});
-
-  @override
-  List<Object?> get props => [product];
 }
 
 class UpdateProductEvent extends MainEvent {
   final Product product;
 
   const UpdateProductEvent({required this.product});
-
-  @override
-  List<Object?> get props => [product];
 }
 
 class SetCategoryEvent extends MainEvent {
   final Category category;
 
   const SetCategoryEvent({required this.category});
-
-  @override
-  List<Object?> get props => [category];
 }
 
 class DeleteProductEvent extends MainEvent {
   final Product product;
 
   const DeleteProductEvent({required this.product});
-
-  @override
-  List<Object?> get props => [product];
 }
 
-class GetMerchantsEvent extends MainEvent {
-  @override
-  List<Object?> get props => [];
-}
+class GetMerchantsEvent extends MainEvent {}
 
-class GetUserDataEvent extends MainEvent {
-  @override
-  List<Object?> get props => [];
-}
+class GetUserDataEvent extends MainEvent {}
 
-class GetCategoriesEvent extends MainEvent {
-  @override
-  List<Object?> get props => [];
-}
+class GetCategoriesEvent extends MainEvent {}
 
 class AddAndRemoveFromFavoritesEvent extends MainEvent {
   final List<String> favorites;
@@ -93,37 +77,22 @@ class AddAndRemoveFromFavoritesEvent extends MainEvent {
 
   const AddAndRemoveFromFavoritesEvent(
       {required this.favorites, required this.productId});
-
-  @override
-  List<Object?> get props => [favorites, productId];
 }
 
-class GetOffersEvent extends MainEvent {
-  @override
-  List<Object?> get props => [];
-}
+class GetOffersEvent extends MainEvent {}
 
-class GetBestSalesEvent extends MainEvent {
-  @override
-  List<Object?> get props => [];
-}
+class GetBestSalesEvent extends MainEvent {}
 
 class SelectProductEvent extends MainEvent {
   final Product product;
 
   const SelectProductEvent({required this.product});
-
-  @override
-  List<Object?> get props => [product];
 }
 
 class SelectCityEvent extends MainEvent {
   final String selectedCity;
 
   const SelectCityEvent({required this.selectedCity});
-
-  @override
-  List<Object?> get props => [selectedCity];
 }
 
 class SelectEditOrDeleteProductEvent extends MainEvent {
@@ -133,27 +102,18 @@ class SelectEditOrDeleteProductEvent extends MainEvent {
 
   const SelectEditOrDeleteProductEvent(
       {required this.selected, required this.product, required this.context});
-
-  @override
-  List<Object?> get props => [selected, product, context];
 }
 
 class SelectProductCategoryEvent extends MainEvent {
   final String selectedProductCategory;
 
   const SelectProductCategoryEvent({required this.selectedProductCategory});
-
-  @override
-  List<Object?> get props => [selectedProductCategory];
 }
 
 class CancelSortProductsEvent extends MainEvent {
   final List<Product> products;
 
   const CancelSortProductsEvent({required this.products});
-
-  @override
-  List<Object?> get props => [products];
 }
 
 class SortProductsEvent extends MainEvent {
@@ -161,28 +121,16 @@ class SortProductsEvent extends MainEvent {
   final List<Product> products;
 
   const SortProductsEvent({required this.type, required this.products});
-
-  @override
-  List<Object?> get props => [type, products];
 }
 
-class PickImagesEvent extends MainEvent {
-  @override
-  List<Object?> get props => [];
-}
+class PickImagesEvent extends MainEvent {}
 
-class MakeImagesFilesEmptyEvent extends MainEvent {
-  @override
-  List<Object?> get props => [];
-}
+class MakeImagesFilesEmptyEvent extends MainEvent {}
 
 class RemovePickedImageEvent extends MainEvent {
   final XFile image;
 
   const RemovePickedImageEvent({required this.image});
-
-  @override
-  List<Object?> get props => [image];
 }
 
 class RemoveImageEvent extends MainEvent {
@@ -194,27 +142,18 @@ class RemoveImageEvent extends MainEvent {
       {required this.image,
       required this.imagesUrlDelete,
       required this.imagesUrl});
-
-  @override
-  List<Object?> get props => [image, imagesUrl, imagesUrlDelete];
 }
 
 class ChangeLocaleEvent extends MainEvent {
   final int index;
 
   const ChangeLocaleEvent(this.index);
-
-  @override
-  List<Object?> get props => [index];
 }
 
 class ChangeSwitchNotificationsEvent extends MainEvent {
   final bool isOn;
 
   const ChangeSwitchNotificationsEvent(this.isOn);
-
-  @override
-  List<Object?> get props => [isOn];
 }
 
 class CheckIfAvailablePropertiesEvent extends MainEvent {
@@ -225,9 +164,56 @@ class CheckIfAvailablePropertiesEvent extends MainEvent {
     required this.product,
     required this.selectedProperties,
   });
+}
 
-  @override
-  List<Object?> get props => [];
+class AddPropertyNameEvent extends MainEvent {
+  final List<TextEditingController> propertyNameList;
+  final List<List<TextEditingController>> propertyList;
+
+  const AddPropertyNameEvent({
+    required this.propertyNameList,
+    required this.propertyList,
+  });
+}
+
+class RemovePropertyNameEvent extends MainEvent {
+  final List<TextEditingController> propertyNameList;
+  final List<List<TextEditingController>> propertyList;
+  final int index;
+
+  const RemovePropertyNameEvent({
+    required this.propertyNameList,
+    required this.index,
+    required this.propertyList,
+  });
+}
+
+class AddPropertyEvent extends MainEvent {
+  final List<TextEditingController> propertyList;
+
+  const AddPropertyEvent({
+    required this.propertyList,
+  });
+}
+
+class FinishedAddPropertiesEvent extends MainEvent {
+  final List<TextEditingController> propertyNameList;
+  final List<List<TextEditingController>> propertyList;
+
+  const FinishedAddPropertiesEvent({
+    required this.propertyNameList,
+    required this.propertyList,
+  });
+}
+
+class RemovePropertyEvent extends MainEvent {
+  final List<TextEditingController> propertyList;
+  final int index;
+
+  const RemovePropertyEvent({
+    required this.index,
+    required this.propertyList,
+  });
 }
 
 class ChooseCategoryEvent extends MainEvent {
@@ -238,9 +224,6 @@ class ChooseCategoryEvent extends MainEvent {
     required this.categoryProducts,
     required this.categoryName,
   });
-
-  @override
-  List<Object?> get props => [categoryProducts, categoryName];
 }
 
 class SelectPropertiesEvent extends MainEvent {
@@ -253,9 +236,4 @@ class SelectPropertiesEvent extends MainEvent {
     required this.selectedProperties,
     required this.properties,
   });
-
-  @override
-  List<Object?> get props => [
-        prop,properties
-      ];
 }

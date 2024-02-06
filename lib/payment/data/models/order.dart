@@ -38,7 +38,7 @@ class OrderModel extends Equatable {
         totalPrice: totalPrice,
         orderItems: orderItems,
         merchantIds: merchantIds,
-        address: address ?? customer.addresses.first);
+        address: address ?? customer.addresses.first,);
   }
 
   Map<String, dynamic> toJson() => {

@@ -60,7 +60,6 @@ class DetailsProductScreen extends StatelessWidget {
           }
           if (state is CheckIfAvailablePropertiesState) {
             selectedProperties = state.availableProperties;
-            print("selected ${selectedProperties}");
           }
         },
         builder: (context, state) {

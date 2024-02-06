@@ -5,8 +5,8 @@ import 'package:almasheed/main/data/models/product.dart';
 import 'package:almasheed/main/data/repositories/main_repository.dart';
 import 'package:almasheed/authentication/presentation/screens/profile_screen.dart';
 import 'package:almasheed/main/view/screens/support_screen.dart';
+import 'package:almasheed/main/view/widgets/widgets.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
@@ -250,12 +250,12 @@ class MainBloc extends Bloc<MainEvent, MainState> {
       } else if (event is ChangeSwitchNotificationsEvent) {
         emit(ChangeSwitchNotificationsState(event.isOn));
       } else if (event is ChooseCategoryEvent) {
-        if(ConstantsManager.appUser is Merchant) {
+        if (ConstantsManager.appUser is Merchant) {
           event.categoryProducts = event.categoryProducts
-            .where((product) => (ConstantsManager.appUser as Merchant)
-                .productsIds
-                .contains(product.productId))
-            .toList();
+              .where((product) => (ConstantsManager.appUser as Merchant)
+                  .productsIds
+                  .contains(product.productId))
+              .toList();
         }
         emit(ChooseCategoryState(
             categoryName: event.categoryName,
@@ -280,6 +280,30 @@ class MainBloc extends Bloc<MainEvent, MainState> {
         }
         emit(SelectPropertiesState(
             selectedProperties: event.selectedProperties));
+      } else if (event is AddPropertyNameEvent) {
+        event.propertyNameList.add(TextEditingController());
+        event.propertyList.add([TextEditingController()]);
+        emit(AddPropertyNameState());
+      } else if (event is RemovePropertyNameEvent) {
+        event.propertyNameList.remove(event.propertyNameList[event.index]);
+        event.propertyList.remove(event.propertyList[event.index]);
+        emit(RemovePropertyNameState());
+      }else if (event is AddPropertyEvent) {
+        event.propertyList.add(TextEditingController());
+        emit(AddPropertyState());
+      } else if (event is RemovePropertyEvent) {
+        event.propertyList.remove(event.propertyList[event.index]);
+        emit(RemovePropertyState());
+      } else if (event is FinishedAddPropertiesEvent) {
+
+        emit(FinishedAddPropertiesState(convertToMap(event.propertyList, event.propertyNameList)));
+      }else if (event is SelectedPropertiesSavedEvent) {
+        event.selectedPropertiesSaved.add(event.selectedProperties);
+        event.selectedProperties=[];
+        emit(SelectedPropertiesSavedState(event.selectedProperties));
+      }else if (event is RemoveSelectedPropertiesSavedEvent) {
+        event.selectedPropertiesSaved.remove(event.selectedPropertiesSaved[event.index]);
+        emit(RemoveSelectedPropertiesSavedState());
       }
     });
   }

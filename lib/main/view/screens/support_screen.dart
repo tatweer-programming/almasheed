@@ -32,9 +32,11 @@ class SupportScreen extends StatelessWidget {
               .then((value) async {
             if (ConstantsManager.isNotificationsOn != null &&
                 !ConstantsManager.isNotificationsOn!) {
+              defaultToast(msg:  S.of(context).notificationsAreTurnedOff);
               await FirebaseMessaging.instance.unsubscribeFromTopic(
                   "/topic/${ConstantsManager.appUser!.id}");
             } else {
+              defaultToast(msg:  S.of(context).notificationsAreTurnedOn);
               await FirebaseMessaging.instance
                   .subscribeToTopic("/topic/${ConstantsManager.appUser!.id}");
             }

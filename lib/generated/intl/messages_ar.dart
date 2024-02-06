@@ -23,6 +23,7 @@ class MessageLookup extends MessageLookupByLibrary {
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
         "aboutApp": MessageLookupByLibrary.simpleMessage("حول التطبيق"),
+        "add": MessageLookupByLibrary.simpleMessage("إضافة"),
         "addAddress": MessageLookupByLibrary.simpleMessage("اضافة عنوان"),
         "addCategory": MessageLookupByLibrary.simpleMessage("إضافة فئة"),
         "addImage": MessageLookupByLibrary.simpleMessage("إضافة صورة"),
@@ -148,6 +149,10 @@ class MessageLookup extends MessageLookupByLibrary {
         "noItems": MessageLookupByLibrary.simpleMessage("لا توجد عناصر هنا"),
         "notFound": MessageLookupByLibrary.simpleMessage("غير موجود"),
         "notifications": MessageLookupByLibrary.simpleMessage("الاشعارات"),
+        "notificationsAreTurnedOff":
+            MessageLookupByLibrary.simpleMessage("تم إيقاف الاشعارات"),
+        "notificationsAreTurnedOn":
+            MessageLookupByLibrary.simpleMessage("تم تشغيل الاشعارات"),
         "offers": MessageLookupByLibrary.simpleMessage("العروض"),
         "ok": MessageLookupByLibrary.simpleMessage("موافق"),
         "orderBy": MessageLookupByLibrary.simpleMessage("ترتيب حسب..."),
@@ -179,6 +184,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "sar": MessageLookupByLibrary.simpleMessage("ريال"),
         "search": MessageLookupByLibrary.simpleMessage("البحث..."),
         "seconds": MessageLookupByLibrary.simpleMessage("ثواني"),
+        "selectAvailableProperties":
+            MessageLookupByLibrary.simpleMessage("تحديد الخصائص المتاحة"),
         "seller": MessageLookupByLibrary.simpleMessage("البائع"),
         "sendCode": MessageLookupByLibrary.simpleMessage("إرسال الكود"),
         "services": MessageLookupByLibrary.simpleMessage("خدمات"),
