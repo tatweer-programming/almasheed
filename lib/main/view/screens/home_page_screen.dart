@@ -106,35 +106,20 @@ class HomePageScreen extends StatelessWidget {
                       SizedBox(
                         height: 8.h,
                       ),
-                      Row(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Expanded(
-                            child: SizedBox(
-                              height: 7.h,
-                              child: searchProductDropdownBuilder(
-                                text: S.of(context).search,
-                                onChanged: (product) {
-                                  bloc.add(
-                                      SelectProductEvent(product: product!));
-                                  context.push(
-                                      DetailsProductScreen(product: product));
-                                },
-                                items: bloc.products,
-                                context: context,
-                              ),
-                            ),
-                          ),
-                          SizedBox(width: 3.w),
-                          if (ConstantsManager.appUser is Customer)
-                            IconButton(
-                              onPressed: () => context.push(const CartScreen()),
-                              icon: const Icon(
-                                Icons.shopping_cart_outlined,
-                                color: ColorManager.white,
-                              ),
-                            ),
-                        ],
+                      Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 2.w),
+                        child: searchProductDropdownBuilder(
+                          text: S.of(context).search,
+                          onChanged: (product) {
+                            bloc.add(SelectProductEvent(product: product!));
+                            context.push(DetailsProductScreen(
+                              product: product,
+                              products: bloc.products,
+                            ));
+                          },
+                          items: bloc.products,
+                          context: context,
+                        ),
                       ),
                     ],
                   ),

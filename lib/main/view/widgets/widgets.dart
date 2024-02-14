@@ -73,6 +73,7 @@ Widget searchDropdownBuilder(
     enableFilter: true,
     requestFocusOnTap: true,
     expandedInsets: EdgeInsets.zero,
+    enableSearch: true,
     leadingIcon: Icon(icon ?? Icons.search),
     inputDecorationTheme: InputDecorationTheme(
       filled: true,
@@ -84,6 +85,7 @@ Widget searchDropdownBuilder(
       contentPadding: EdgeInsets.symmetric(horizontal: 1.w),
     ),
     onSelected: onChanged,
+    menuHeight: 65.h,
     dropdownMenuEntries: items.map<DropdownMenuEntry<String>>(
       (String value) {
         return DropdownMenuEntry<String>(
@@ -264,7 +266,7 @@ Widget textContainerWidget(String text) => Container(
       padding: EdgeInsets.all(10.sp),
       child: Text(
         text,
-        style: TextStyle(fontSize: 12.sp, fontWeight: FontWeight.w500),
+        style: TextStyle(fontSize: 13.sp, fontWeight: FontWeight.w600),
       ),
     ));
 
@@ -447,6 +449,52 @@ Widget productVerticalWidget({
   );
 }
 
+Widget favouriteProduct({required Product product,required BuildContext context}) {
+  return Padding(
+    padding: EdgeInsets.symmetric(horizontal: 5.w,vertical: 1.h),
+    child: Container(
+      height: 20.h,
+      width: double.infinity,
+      color: ColorManager.grey1,
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Column(
+            children: [
+              Text(
+                S.of(context).mainUses,
+                style: TextStyle(fontSize: 15.sp, color: ColorManager.primary),
+              ),
+              Text(
+                product.productMainUses,
+                style: TextStyle(fontSize: 12.sp, color: ColorManager.black),
+              ),
+            ],
+          ),
+          SizedBox(
+            width: 15.w,
+          ),
+          Expanded(
+            child: Container(
+              height: 20.h,
+              decoration: BoxDecoration(
+                color: ColorManager.grey1,
+                image: product.productsImagesUrl != null &&
+                        product.productsImagesUrl!.isNotEmpty
+                    ? DecorationImage(
+                        image: NetworkImage(product.productsImagesUrl!.first),
+                        fit: BoxFit.cover,
+                      )
+                    : null,
+              ),
+            ),
+          ),
+        ],
+      ),
+    ),
+  );
+}
+
 Widget productHorizontalWidget({
   required Product product,
   required VoidCallback openProductPressed,
@@ -555,6 +603,7 @@ Map<String, List<String>> convertToMap(
         propertyList[i].map((controller) => controller.text).toList();
     result[propertyName] = properties;
   }
+  print(result);
   return result;
 }
 
@@ -565,7 +614,8 @@ List<String> transformList(List<List<String>> inputList) {
     String transformedString = innerList.join("-");
     result.add(transformedString);
   }
-
+  print("result");
+  print(result);
   return result;
 }
 

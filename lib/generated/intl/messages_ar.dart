@@ -22,6 +22,8 @@ class MessageLookup extends MessageLookupByLibrary {
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
+        "WorkCharacteristics":
+            MessageLookupByLibrary.simpleMessage("خصائص العمل"),
         "aboutApp": MessageLookupByLibrary.simpleMessage("حول التطبيق"),
         "add": MessageLookupByLibrary.simpleMessage("إضافة"),
         "addAddress": MessageLookupByLibrary.simpleMessage("اضافة عنوان"),
@@ -70,6 +72,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "deletedSuccessfully":
             MessageLookupByLibrary.simpleMessage("تم الحذف بنجاح"),
         "description": MessageLookupByLibrary.simpleMessage("الوصف"),
+        "detailsProduct": MessageLookupByLibrary.simpleMessage("تفاصيل المنتج"),
         "determineQuantity":
             MessageLookupByLibrary.simpleMessage("يجب تحديد الكمية"),
         "didNotReceiveCode":
@@ -132,6 +135,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "loginNow": MessageLookupByLibrary.simpleMessage("تسجيل الدخول الآن"),
         "lowestToHighestPrice":
             MessageLookupByLibrary.simpleMessage("من الأقل إلى الأعلى سعرًا"),
+        "mainUses":
+            MessageLookupByLibrary.simpleMessage("الأستخدامات الرئيسية"),
         "merchant": MessageLookupByLibrary.simpleMessage("تاجر"),
         "merchants": MessageLookupByLibrary.simpleMessage("التجار"),
         "modifyProduct": MessageLookupByLibrary.simpleMessage("تعديل المنتج"),
@@ -158,6 +163,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "orderBy": MessageLookupByLibrary.simpleMessage("ترتيب حسب..."),
         "orderDetails": MessageLookupByLibrary.simpleMessage("تفاصيل الطلب"),
         "other": MessageLookupByLibrary.simpleMessage("أخرى"),
+        "overview": MessageLookupByLibrary.simpleMessage("نظرة عامة"),
         "payDeposit": MessageLookupByLibrary.simpleMessage("دفع العربون"),
         "phoneNumber": MessageLookupByLibrary.simpleMessage("رقم الهاتف"),
         "phoneNumberVerification":
@@ -216,6 +222,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "welcomeToAlmasheed":
             MessageLookupByLibrary.simpleMessage("مرحبًا بك في المشيد"),
         "whoAreWe": MessageLookupByLibrary.simpleMessage("من نحن"),
-        "work": MessageLookupByLibrary.simpleMessage("العمل")
+        "work": MessageLookupByLibrary.simpleMessage("العمل"),
+        "youMayLikeIt": MessageLookupByLibrary.simpleMessage("قد يعجبك")
       };
 }

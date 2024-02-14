@@ -57,7 +57,8 @@ class MainRemoteDataSource {
           .collection("categories")
           .doc(product.productCategory);
       batch.set(products, product.toJson());
-      batch.update(bestSales, {product.productId.replaceAll(".", "*"): 0});
+      batch.update(bestSales, {product.productId.replaceAll(".", "-"): 0});
+
       batch.update(categories, {
         "productsIds": FieldValue.arrayUnion([product.productId])
       });
@@ -72,6 +73,7 @@ class MainRemoteDataSource {
       await batch.commit();
       return const Right(unit);
     } on FirebaseException catch (error) {
+      print("error $error");
       return Left(error);
     }
   }
@@ -235,7 +237,7 @@ class MainRemoteDataSource {
       });
       Map<String, int> bestSales = data.map(
             (key, value) =>
-            MapEntry(key.replaceAll("*", "."), value is int ? value : 0),
+            MapEntry(key.replaceAll("-", "."), value is int ? value : 0),
       );
       return Right(bestSales);
     } on FirebaseException catch (error) {

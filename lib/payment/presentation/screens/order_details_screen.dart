@@ -151,7 +151,11 @@ OrderModel orderModel = OrderModel(
               productNewPrice: 90,
               productCity: ConstantsManager.getSaudiCities[0],
               merchantId: "oVtWmHhUWJcVfi7MT1GyVvANHIA2",
-              productDescription:
+              productOverview:
+                  "شكارة اسمنت الممتاز خمسين كيلوجرام لاغراض البناء",
+              productMainUses:
+                  "شكارة اسمنت الممتاز خمسين كيلوجرام لاغراض البناء",
+              productWorkCharacteristics:
                   "شكارة اسمنت الممتاز خمسين كيلوجرام لاغراض البناء",
               merchantName: "عبده اسمنت"),
           quantity: 5),
@@ -163,8 +167,12 @@ OrderModel orderModel = OrderModel(
               productNewPrice: 90,
               productCity: ConstantsManager.getSaudiCities[0],
               merchantId: "oVtWmHhUWJcVfi7MT1GyVvANHIA1",
-              productDescription:
-                  "شكارة اسمنت الممتاز خمسين كيلوجرام لاغراض البناء",
+              productOverview:
+              "شكارة اسمنت الممتاز خمسين كيلوجرام لاغراض البناء",
+              productMainUses:
+              "شكارة اسمنت الممتاز خمسين كيلوجرام لاغراض البناء",
+              productWorkCharacteristics:
+              "شكارة اسمنت الممتاز خمسين كيلوجرام لاغراض البناء",
               merchantName: "عبده اسمنت"),
           quantity: 2),
       OrderItem(
@@ -175,9 +183,12 @@ OrderModel orderModel = OrderModel(
               productNewPrice: 90,
               productCity: ConstantsManager.getSaudiCities[0],
               merchantId: "oVtWmHhUWJcVfi7MT1GyVvANHIA2",
-              productDescription:
-                  "شكارة جبس الممتاز خمسين كيلوجرام لاغراض البناء",
-              merchantName: "عبده اسمنت"),
+              productOverview:
+              "شكارة اسمنت الممتاز خمسين كيلوجرام لاغراض البناء",
+              productMainUses:
+              "شكارة اسمنت الممتاز خمسين كيلوجرام لاغراض البناء",
+              productWorkCharacteristics:
+              "شكارة اسمنت الممتاز خمسين كيلوجرام لاغراض البناء",              merchantName: "عبده اسمنت"),
           quantity: 2),
     ],
     merchantIds: [

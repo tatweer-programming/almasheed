@@ -25,11 +25,9 @@ class CategoryScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final MainBloc mainBloc = sl()..sortedProducts = category.products ?? [];
-    final PaymentBloc paymentBloc = PaymentBloc.get();
     bool isHorizontal = false;
     TextEditingController quantityController = TextEditingController();
     return BlocListener<PaymentBloc, PaymentState>(
-      bloc: paymentBloc,
       listener: _handlePaymentBlocState,
       child: BlocConsumer<MainBloc, MainState>(
         listener: (context, state) {
@@ -136,7 +134,7 @@ class CategoryScreen extends StatelessWidget {
       text: S.of(context).search,
       onChanged: (product) {
         bloc.add(SelectProductEvent(product: product!));
-        context.push(DetailsProductScreen(product: product));
+        context.push(DetailsProductScreen(product: product, products: category.products??[],));
       },
       items: bloc.products,
       context: context,
@@ -389,14 +387,14 @@ class CategoryScreen extends StatelessWidget {
           if (isHorizontal) {
             return productHorizontalWidget(
               openProductPressed: () {
-                context.push(DetailsProductScreen(product: product));
+                context.push(DetailsProductScreen(product: product,products: category.products??[],));
               },
               product: product,
             );
           }
           return productVerticalWidget(
             openProductPressed: () {
-              context.push(DetailsProductScreen(product: product));
+              context.push(DetailsProductScreen(product: product,products: category.products??[],));
             },
             product: product,
             addCardPressed: () {

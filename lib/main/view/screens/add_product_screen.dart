@@ -23,7 +23,10 @@ class AddProductScreen extends StatelessWidget {
     MainBloc bloc = sl();
     TextEditingController nameController = TextEditingController();
     TextEditingController priceController = TextEditingController();
-    TextEditingController descriptionController = TextEditingController();
+    TextEditingController overViewController = TextEditingController();
+    TextEditingController mainUsesController = TextEditingController();
+    TextEditingController workCharacteristicsController =
+        TextEditingController();
     TextEditingController discountController = TextEditingController();
     List<List<TextEditingController>> propertyList = [
       [TextEditingController()]
@@ -173,8 +176,20 @@ class AddProductScreen extends StatelessWidget {
                             height: 1.h,
                           ),
                           mainFormField(
-                              controller: descriptionController,
-                              label: S.of(context).description),
+                              controller: overViewController,
+                              label: S.of(context).overview),
+                          SizedBox(
+                            height: 1.h,
+                          ),
+                          mainFormField(
+                              controller: mainUsesController,
+                              label: S.of(context).mainUses),
+                          SizedBox(
+                            height: 1.h,
+                          ),
+                          mainFormField(
+                              controller: workCharacteristicsController,
+                              label: S.of(context).WorkCharacteristics),
                           SizedBox(
                             height: 1.h,
                           ),
@@ -241,6 +256,7 @@ class AddProductScreen extends StatelessWidget {
                                 itemCount: propertyNameList.length,
                                 itemBuilder: (context, index) => props(
                                   index: index,
+                                  context: context,
                                   propertyNameController:
                                       propertyNameList[index],
                                   propertyList: propertyList[index],
@@ -274,7 +290,8 @@ class AddProductScreen extends StatelessWidget {
                                         propertyList: propertyList,
                                         propertyNameList: propertyNameList));
                                   },
-                                  text: S.of(context).selectAvailableProperties),
+                                  text:
+                                      S.of(context).selectAvailableProperties),
                               Column(
                                 children: [
                                   ListView.builder(
@@ -367,8 +384,9 @@ class AddProductScreen extends StatelessWidget {
                                         return Row(
                                           children: [
                                             Text(
-                                                "${selectedPropertiesSaved[index]}",
-                                            style: TextStyle(fontSize: 16.sp),),
+                                              "${selectedPropertiesSaved[index]}",
+                                              style: TextStyle(fontSize: 16.sp),
+                                            ),
                                             const Spacer(),
                                             IconButton(
                                                 onPressed: () {
@@ -409,10 +427,14 @@ class AddProductScreen extends StatelessWidget {
                               SetProductEvent(
                                 product: Product(
                                   customProperties: ProductCustomProperties(
-                                      availableProperties: transformList(selectedPropertiesSaved),
+                                      availableProperties: transformList(
+                                          selectedPropertiesSaved),
                                       properties: convertToMap(
                                           propertyList, propertyNameList)),
                                   productName: nameController.text,
+                                  productMainUses: mainUsesController.text,
+                                  productWorkCharacteristics:
+                                      workCharacteristicsController.text,
                                   productCategory: bloc.selectedProductCategory,
                                   productsImagesFile: bloc.imagesFiles,
                                   merchantId: merchant.id,
@@ -424,8 +446,7 @@ class AddProductScreen extends StatelessWidget {
                                       discount: double.parse(
                                           discountController.text)),
                                   productCity: merchant.city,
-                                  productDescription:
-                                      descriptionController.text,
+                                  productOverview: overViewController.text,
                                   merchantName: merchant.companyName,
                                 ),
                               ),
@@ -452,13 +473,16 @@ Widget props({
   required VoidCallback removePropertyName,
   required MainBloc bloc,
   required int index,
+  required BuildContext context,
 }) {
   return Column(
     children: [
       Row(
         children: [
           Expanded(
-            child: mainFormField(controller: propertyNameController),
+            child: mainFormField(
+                controller: propertyNameController,
+                label: S.of(context).detailsProduct),
           ),
           SizedBox(
             width: 3.w,

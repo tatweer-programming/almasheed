@@ -22,6 +22,8 @@ class MessageLookup extends MessageLookupByLibrary {
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
+        "WorkCharacteristics":
+            MessageLookupByLibrary.simpleMessage("Work Characteristics"),
         "aboutApp": MessageLookupByLibrary.simpleMessage("About App"),
         "add": MessageLookupByLibrary.simpleMessage("Add"),
         "addAddress": MessageLookupByLibrary.simpleMessage("Add Address"),
@@ -71,6 +73,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "deletedSuccessfully":
             MessageLookupByLibrary.simpleMessage("Deleted Successfully"),
         "description": MessageLookupByLibrary.simpleMessage("Description"),
+        "detailsProduct":
+            MessageLookupByLibrary.simpleMessage("Details Product"),
         "determineQuantity":
             MessageLookupByLibrary.simpleMessage("You must determine quantity"),
         "didNotReceiveCode":
@@ -133,6 +137,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "loginNow": MessageLookupByLibrary.simpleMessage("Login now"),
         "lowestToHighestPrice":
             MessageLookupByLibrary.simpleMessage("Lowest to highest price"),
+        "mainUses": MessageLookupByLibrary.simpleMessage("Main Uses"),
         "merchant": MessageLookupByLibrary.simpleMessage("Merchant"),
         "merchants": MessageLookupByLibrary.simpleMessage("Merchants"),
         "modifyProduct": MessageLookupByLibrary.simpleMessage("Modify Product"),
@@ -161,6 +166,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "orderBy": MessageLookupByLibrary.simpleMessage("Order by .."),
         "orderDetails": MessageLookupByLibrary.simpleMessage("Order details"),
         "other": MessageLookupByLibrary.simpleMessage("other"),
+        "overview": MessageLookupByLibrary.simpleMessage("Overview"),
         "payDeposit": MessageLookupByLibrary.simpleMessage("Pay deposit"),
         "phoneNumber": MessageLookupByLibrary.simpleMessage("Phone Number"),
         "phoneNumberVerification":
@@ -219,6 +225,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "welcomeToAlmasheed":
             MessageLookupByLibrary.simpleMessage("Welcome to almasheed"),
         "whoAreWe": MessageLookupByLibrary.simpleMessage("Who Are We"),
-        "work": MessageLookupByLibrary.simpleMessage("work")
+        "work": MessageLookupByLibrary.simpleMessage("work"),
+        "youMayLikeIt": MessageLookupByLibrary.simpleMessage("You may like it")
       };
 }

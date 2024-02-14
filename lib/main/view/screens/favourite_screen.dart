@@ -43,26 +43,43 @@ class FavouriteScreen extends StatelessWidget {
                         SizedBox(
                           height: 5.h,
                         ),
-                        Row(
-                          children: [
-                            Expanded(
-                              child: Center(
+                        Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 2.w),
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Expanded(
                                 child: Padding(
-                                  padding: EdgeInsets.only(right: 14.w),
-                                  child: Text(
-                                    S.of(context).favourites,
-                                    style: TextStyle(
-                                      fontSize: 25.sp,
-                                      color: ColorManager.white,
-                                    ),
+                                  padding:
+                                      EdgeInsetsDirectional.only(start: 10.w),
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Text(
+                                        S.of(context).favourites,
+                                        style: TextStyle(
+                                          fontSize: 27.sp,
+                                          fontWeight: FontWeight.w600,
+                                          color: ColorManager.white,
+                                        ),
+                                      ),
+                                      SizedBox(
+                                        height: 2.h,
+                                      ),
+                                      Icon(
+                                        Icons.favorite_outlined,
+                                        size: 30.sp,
+                                        color: ColorManager.white,
+                                      )
+                                    ],
                                   ),
                                 ),
                               ),
-                            ),
-                            if (ConstantsManager.appUser is Customer)
-                              Padding(
-                                padding: EdgeInsets.only(left: 5.w),
-                                child: IconButton(
+                              if (ConstantsManager.appUser is Customer)
+                                IconButton(
                                   onPressed: () =>
                                       context.push(const CartScreen()),
                                   icon: const Icon(
@@ -70,17 +87,12 @@ class FavouriteScreen extends StatelessWidget {
                                     color: ColorManager.white,
                                   ),
                                 ),
-                              ),
-                          ],
+                            ],
+                          ),
                         ),
                         SizedBox(
                           height: 2.h,
                         ),
-                        Icon(
-                          Icons.favorite_outlined,
-                          size: 30.sp,
-                          color: ColorManager.white,
-                        )
                       ],
                     ),
                   ),
@@ -88,6 +100,7 @@ class FavouriteScreen extends StatelessWidget {
                 SizedBox(
                   height: 2.h,
                 ),
+
                 Padding(
                   padding: EdgeInsets.symmetric(
                     horizontal: 3.w,
@@ -95,19 +108,9 @@ class FavouriteScreen extends StatelessWidget {
                   child: Wrap(
                     direction: Axis.horizontal,
                     children: favProducts.map((product) {
-                      return productVerticalWidget(
-                        openProductPressed: () {
-                          context.push(DetailsProductScreen(product: product));
-                        },
+                      return favouriteProduct(
                         product: product,
-                        context: context,
-                        addCardPressed: () {
-                          paymentBloc.add(
-                            AddToCartEvent(
-                              productId: product.productId,
-                            ),
-                          );
-                        },
+                        context: context
                       );
                     }).toList(),
                   ),

@@ -27,8 +27,9 @@ import 'modify_screen.dart';
 
 class DetailsProductScreen extends StatelessWidget {
   final Product product;
+  final List<Product> products;
 
-  const DetailsProductScreen({super.key, required this.product});
+  const DetailsProductScreen({super.key, required this.product, required this.products});
 
   @override
   Widget build(BuildContext context) {
@@ -49,13 +50,13 @@ class DetailsProductScreen extends StatelessWidget {
             mainBloc.add(DeleteProductEvent(product: product));
           } else if (state is DeleteProductErrorState) {
             context.pop();
-            mainErrorToast(msg: ExceptionManager(state.error).translatedMessage());
+            mainErrorToast(
+                msg: ExceptionManager(state.error).translatedMessage());
           } else if (state is DeleteProductLoadingState) {
             _showDeleteProductLoadingDialog(context);
           } else if (state is DeleteProductSuccessfullyState) {
             _handleDeleteProductSuccess(context);
-          }
-          else if (state is SelectPropertiesState) {
+          } else if (state is SelectPropertiesState) {
             selectedProperties = state.selectedProperties;
           }
           if (state is CheckIfAvailablePropertiesState) {
@@ -96,18 +97,52 @@ class DetailsProductScreen extends StatelessWidget {
                           context: context,
                         ),
                         SizedBox(height: 3.h),
+                        textDescription(
+                            title: S.of(context).overview,
+                            context: context,
+                            body: product.productOverview),
+                        textDescription(
+                            title: S.of(context).mainUses,
+                            context: context,
+                            body: product.productMainUses),
+                        textDescription(
+                            title: S.of(context).WorkCharacteristics,
+                            context: context,
+                            body: product.productWorkCharacteristics),
                         Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 6.w),
-                          child: Center(
-                            child: Text(
-                              product.productDescription.isEmpty
-                                  ? S.of(context).notFound
-                                  : product.productDescription,
-                              style:
-                                  const TextStyle(color: ColorManager.primary),
-                            ),
-                          ),
+                          padding: EdgeInsets.symmetric(
+                              horizontal: 3.w, vertical: 1.h),
+                          child:
+                              textContainerWidget(S.of(context).youMayLikeIt),
                         ),
+                        Padding(
+                            padding: EdgeInsets.symmetric(
+                                horizontal: 2.w, vertical: 2.h),
+                            child: SizedBox(
+                              height: 35.h,
+                              child: ListView.separated(
+                                scrollDirection: Axis.horizontal,
+                                itemCount: products.length,
+                                separatorBuilder: (context, index) => SizedBox(width: 1.w,),
+                                itemBuilder: (context, index) =>
+                                    productVerticalWidget(
+                                  openProductPressed: () {
+                                    context.push(
+                                        DetailsProductScreen(product: products[index],products: products,));
+                                  },
+                                  product: products[index],
+                                  addCardPressed: () {
+                                    PaymentBloc paymentBloc = PaymentBloc.bloc;
+                                    paymentBloc.add(
+                                      AddToCartEvent(
+                                        productId: products[index].productId,
+                                      ),
+                                    );
+                                  },
+                                  context: context,
+                                ),
+                              ),
+                            )),
                       ],
                     ),
                   ),
@@ -122,9 +157,7 @@ class DetailsProductScreen extends StatelessWidget {
   }
 
   void _handleBlocState(BuildContext context, MainBloc bloc, MainState state,
-      List<String> selectedProperties) {
-
-  }
+      List<String> selectedProperties) {}
 
   void _handlePaymentBlocState(BuildContext context, PaymentState state) {
     if (state is AddToCartSuccessState) {
@@ -161,7 +194,9 @@ class DetailsProductScreen extends StatelessWidget {
                     ),
                   ),
                   SizedBox(
-                    height: 35.h,
+                    height: product.customProperties!.properties.isNotEmpty
+                        ? 35
+                        : 10.h,
                   ),
                 ],
               ),
@@ -291,72 +326,77 @@ class DetailsProductScreen extends StatelessWidget {
                           ),
                         ],
                       ),
-                    SizedBox(
-                      height: 20.h,
-                      child: ListView.builder(
-                          itemCount:
-                              product.customProperties!.properties.length,
-                          itemBuilder: (BuildContext context, int index) {
-                            String key = product
-                                .customProperties!.properties.keys
-                                .elementAt(index);
-                            List<String> properties =
-                                product.customProperties!.properties[key]!;
-                            return ListTile(
-                              title: Text(
-                                key,
-                                style: const TextStyle(
-                                    fontWeight: FontWeight.w600),
-                              ),
-                              subtitle: Row(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: properties
-                                    .map((prop) => InkWell(
-                                          onTap: () {
-                                            bloc.add(SelectPropertiesEvent(
-                                                prop: prop,
-                                                properties: properties,
-                                                selectedProperties:
-                                                    selectedProperties));
-                                            bloc.add(
-                                                CheckIfAvailablePropertiesEvent(
-                                                    product: product,
-                                                    selectedProperties:
-                                                        selectedProperties));
-                                          },
-                                          child: Row(
-                                            children: [
-                                              Container(
-                                                padding: EdgeInsetsDirectional
-                                                    .symmetric(
-                                                        horizontal: 2.w,
-                                                        vertical: 1.h),
-                                                decoration: BoxDecoration(
-                                                  border: Border.all(
-                                                      color: selectedProperties
-                                                              .contains(prop)
-                                                          ? ColorManager.primary
-                                                          : Colors.transparent),
-                                                  color: ColorManager.secondary,
-                                                  borderRadius:
-                                                      BorderRadiusDirectional
-                                                          .circular(10.sp),
+                    if (product.customProperties!.properties.isNotEmpty)
+                      SizedBox(
+                        height: 20.h,
+                        child: ListView.builder(
+                            padding: EdgeInsets.zero,
+                            itemCount:
+                                product.customProperties!.properties.length,
+                            itemBuilder: (BuildContext context, int index) {
+                              String key = product
+                                  .customProperties!.properties.keys
+                                  .elementAt(index);
+                              List<String> properties =
+                                  product.customProperties!.properties[key]!;
+                              return ListTile(
+                                title: Text(
+                                  key,
+                                  style: const TextStyle(
+                                      fontWeight: FontWeight.w600),
+                                ),
+                                subtitle: Row(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: properties
+                                      .map((prop) => InkWell(
+                                            onTap: () {
+                                              bloc.add(SelectPropertiesEvent(
+                                                  prop: prop,
+                                                  properties: properties,
+                                                  selectedProperties:
+                                                      selectedProperties));
+                                              bloc.add(
+                                                  CheckIfAvailablePropertiesEvent(
+                                                      product: product,
+                                                      selectedProperties:
+                                                          selectedProperties));
+                                            },
+                                            child: Row(
+                                              children: [
+                                                Container(
+                                                  padding: EdgeInsetsDirectional
+                                                      .symmetric(
+                                                          horizontal: 2.w,
+                                                          vertical: 1.h),
+                                                  decoration: BoxDecoration(
+                                                    border: Border.all(
+                                                        color: selectedProperties
+                                                                .contains(prop)
+                                                            ? ColorManager
+                                                                .primary
+                                                            : Colors
+                                                                .transparent),
+                                                    color:
+                                                        ColorManager.secondary,
+                                                    borderRadius:
+                                                        BorderRadiusDirectional
+                                                            .circular(10.sp),
+                                                  ),
+                                                  child: Text(
+                                                    prop,
+                                                  ),
                                                 ),
-                                                child: Text(
-                                                  prop,
-                                                ),
-                                              ),
-                                              SizedBox(
-                                                width: 2.w,
-                                              )
-                                            ],
-                                          ),
-                                        ))
-                                    .toList(),
-                              ),
-                            );
-                          }),
-                    )
+                                                SizedBox(
+                                                  width: 2.w,
+                                                )
+                                              ],
+                                            ),
+                                          ))
+                                      .toList(),
+                                ),
+                              );
+                            }),
+                      )
                   ],
                 ),
               ),
@@ -445,4 +485,31 @@ class DetailsProductScreen extends StatelessWidget {
       },
     );
   }
+}
+
+Widget textDescription(
+    {required String title,
+    required String body,
+    required BuildContext context}) {
+  return Center(
+    child: Column(
+      children: [
+        Container(
+            decoration: BoxDecoration(
+                color: ColorManager.secondary,
+                borderRadius: BorderRadiusDirectional.circular(20.sp)),
+            child: Padding(
+              padding: EdgeInsets.symmetric(horizontal: 2.w, vertical: 0.5.h),
+              child: Text(title),
+            )),
+        Padding(
+          padding: EdgeInsets.symmetric(horizontal: 6.w, vertical: 1.h),
+          child: Text(
+            title.isEmpty ? S.of(context).notFound : body,
+            style: const TextStyle(color: ColorManager.primary),
+          ),
+        ),
+      ],
+    ),
+  );
 }

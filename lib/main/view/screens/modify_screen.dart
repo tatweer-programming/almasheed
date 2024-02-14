@@ -20,13 +20,17 @@ class ModifyProductScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     TextEditingController nameController = TextEditingController();
     TextEditingController priceController = TextEditingController();
-    TextEditingController descriptionController = TextEditingController();
+    TextEditingController overviewController = TextEditingController();
+    TextEditingController mainUsesController = TextEditingController();
+    TextEditingController workCharacteristicsController = TextEditingController();
     TextEditingController discountController = TextEditingController();
     MainBloc bloc = sl();
     nameController.text = product.productName;
     priceController.text = product.productOldPrice.toString();
     discountController.text = product.productNewPrice.toString();
-    descriptionController.text = product.productDescription;
+    overviewController.text = product.productOverview;
+    workCharacteristicsController.text = product.productWorkCharacteristics;
+    mainUsesController.text = product.productMainUses;
     bloc.imagesFiles = [];
     product.productsImagesDelete ??= [];
     product.productsImagesUrl ??= [];
@@ -120,7 +124,17 @@ class ModifyProductScreen extends StatelessWidget {
                             height: 1.h,
                           ),
                           mainFormField(
-                              controller: descriptionController,
+                              controller: overviewController,
+                              label: S.of(context).description),
+                          SizedBox(
+                            height: 1.h,
+                          ),mainFormField(
+                              controller: mainUsesController,
+                              label: S.of(context).description),
+                          SizedBox(
+                            height: 1.h,
+                          ),mainFormField(
+                              controller: workCharacteristicsController,
                               label: S.of(context).description),
                           SizedBox(
                             height: 1.h,
@@ -212,6 +226,8 @@ class ModifyProductScreen extends StatelessWidget {
                             product: Product(
                                 productName: nameController.text,
                                 productId: product.productId,
+                                productMainUses: mainUsesController.text,
+                                productWorkCharacteristics: workCharacteristicsController.text,
                                 productsImagesFile: bloc.imagesFiles,
                                 productsImagesUrl: product.productsImagesUrl,
                                 merchantId: merchant.id,
@@ -224,7 +240,7 @@ class ModifyProductScreen extends StatelessWidget {
                                         ? "0"
                                         : discountController.text),
                                 productCity: merchant.city,
-                                productDescription: descriptionController.text,
+                                productOverview: overviewController.text,
                                 merchantName: merchant.companyName)));
                       },
                       text: S.of(context).modifyProduct,

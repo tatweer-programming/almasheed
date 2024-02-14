@@ -71,6 +71,9 @@ class MainBloc extends Bloc<MainEvent, MainState> {
         });
       } else if (event is SetProductEvent) {
         emit(SetProductLoadingState());
+        print("*****************************");
+        print(event.product.toJson());
+        print("*****************************");
         var result =
             await MainRepository(sl()).setProduct(product: event.product);
         result.fold((l) {

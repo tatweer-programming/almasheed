@@ -37,25 +37,6 @@ Future<void> main() async {
   ConstantsManager.isNotificationsOn =
       await CacheHelper.getData(key: "isNotificationsOn");
   ConstantsManager.userType = await CacheHelper.getData(key: "userType");
-  print(DateTime.now());
-
-  /// Test Custom Properties
-  ProductCustomProperties properties = ProductCustomProperties(
-    properties: {
-      'color': ['red', 'blue', 'green'],
-      'size': ['small', 'medium', 'large'],
-      'weight': ['1kg', '2kg', '3kg']
-    },
-    availableProperties: [
-      'red-small-1kg',
-      'red-small-2kg',
-      'red-small-3kg',
-      'red-medium-1kg',
-      'red-medium-2kg',
-      'green-small-2kg'
-    ],
-  );
-  print(properties.searchInAvailablePropsFromChosenProps(['green', '1kg']));
   runApp(const Masheed());
 }
 

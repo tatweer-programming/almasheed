@@ -140,5 +140,10 @@
   "notificationsAreTurnedOn": "Notifications are turned on",
   "selectAvailableProperties": "Select available properties",
   "add": "Add",
+  "mainUses": "Main Uses",
+  "overview": "Overview",
+  "WorkCharacteristics": "Work Characteristics",
+  "youMayLikeIt": "You may like it",
+  "detailsProduct": "Details Product",
   "notificationsAreTurnedOff": "Notifications are turned off"
 }

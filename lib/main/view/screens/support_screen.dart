@@ -32,11 +32,11 @@ class SupportScreen extends StatelessWidget {
               .then((value) async {
             if (ConstantsManager.isNotificationsOn != null &&
                 !ConstantsManager.isNotificationsOn!) {
-              defaultToast(msg:  S.of(context).notificationsAreTurnedOff);
+              defaultToast(msg: S.of(context).notificationsAreTurnedOff);
               await FirebaseMessaging.instance.unsubscribeFromTopic(
                   "/topic/${ConstantsManager.appUser!.id}");
             } else {
-              defaultToast(msg:  S.of(context).notificationsAreTurnedOn);
+              defaultToast(msg: S.of(context).notificationsAreTurnedOn);
               await FirebaseMessaging.instance
                   .subscribeToTopic("/topic/${ConstantsManager.appUser!.id}");
             }
@@ -64,9 +64,10 @@ class SupportScreen extends StatelessWidget {
                         Text(
                           S.of(context).support,
                           style: TextStyle(
-                              color: ColorManager.white,
-                              fontSize: 30.sp,
-                              fontWeight: FontWeight.bold),
+                            color: ColorManager.white,
+                            fontSize: 30.sp,
+                            fontWeight: FontWeight.w600,
+                          ),
                         ),
                         Expanded(
                           child: Icon(

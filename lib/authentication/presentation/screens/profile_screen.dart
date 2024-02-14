@@ -35,9 +35,10 @@ class ProfileScreen extends StatelessWidget {
                       Text(
                         S.of(context).myAccount,
                         style: TextStyle(
-                            color: ColorManager.white,
-                            fontSize: 30.sp,
-                            fontWeight: FontWeight.bold),
+                          color: ColorManager.white,
+                          fontSize: 30.sp,
+                          fontWeight: FontWeight.w600,
+                        ),
                       ),
                       SizedBox(width: 3.h),
                       Icon(

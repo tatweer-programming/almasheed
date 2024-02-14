@@ -3,7 +3,7 @@ import '../../authentication/data/models/merchant.dart';
 import 'localization_manager.dart';
 
 class ConstantsManager {
-  // static AppUser? appUser;
+  static AppUser? appUser;
   static String? userId;
   static String? userType;
   static bool? isNotificationsOn;
@@ -12,15 +12,15 @@ class ConstantsManager {
   static const String firebaseMessagingAPI =
       "AAAAg2F4b1U:APA91bEp1nenkuZMlwu3PmiNRJTWOiG4zncmBF_23UiLcdtm42HZ1lDaoR-sRP21PFquem76ZHVKj5wGXI76Mx6WvqgUS2xxFAjuvM0hBMMd8cNvDcLEH6XKc65wBk_3C4IRr5znOi1M";
 
-  static AppUser? appUser = Merchant(
-      id: "oVtWmHhUWJcVfi7MT1GyVvANHIA2",
-      phone: "",
-      orders: [],
-      area: "",
-      city: "",
-      companyName: "Ahmed",
-      productsIds: ["2023-12-25 16:26:42.710784"],
-      registrationNumber: "");
+  // static AppUser? appUser = Merchant(
+  //     id: "oVtWmHhUWJcVfi7MT1GyVvANHIA2",
+  //     phone: "",
+  //     orders: [],
+  //     area: "",
+  //     city: "",
+  //     companyName: "Ahmed",
+  //     productsIds: ["2023-12-25 16:26:42.710784"],
+  //     registrationNumber: "");
   // static AppUser? appUser =
   //     Customer(cartItems: {}, favorites: [], orders: [], addresses: [
   //   Address(

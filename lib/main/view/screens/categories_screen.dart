@@ -48,6 +48,7 @@ class CategoriesScreen extends StatelessWidget {
                             style: TextStyle(
                               fontSize: 25.sp,
                               color: ColorManager.white,
+                              fontWeight: FontWeight.w600,
                             ),
                           ),
                           SizedBox(
@@ -73,7 +74,7 @@ class CategoriesScreen extends StatelessWidget {
                           return productVerticalWidget(
                             openProductPressed: () {
                               context
-                                  .push(DetailsProductScreen(product: product));
+                                  .push(DetailsProductScreen(product: product,products: categoryProducts,));
                             },
                             product: product,
                             context: context,

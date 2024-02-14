@@ -1452,6 +1452,56 @@ class S {
     );
   }
 
+  /// `Main Uses`
+  String get mainUses {
+    return Intl.message(
+      'Main Uses',
+      name: 'mainUses',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Overview`
+  String get overview {
+    return Intl.message(
+      'Overview',
+      name: 'overview',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Work Characteristics`
+  String get WorkCharacteristics {
+    return Intl.message(
+      'Work Characteristics',
+      name: 'WorkCharacteristics',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `You may like it`
+  String get youMayLikeIt {
+    return Intl.message(
+      'You may like it',
+      name: 'youMayLikeIt',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Details Product`
+  String get detailsProduct {
+    return Intl.message(
+      'Details Product',
+      name: 'detailsProduct',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Notifications are turned off`
   String get notificationsAreTurnedOff {
     return Intl.message(

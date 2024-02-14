@@ -139,5 +139,10 @@
   "notificationsAreTurnedOn": "تم تشغيل الاشعارات",
   "selectAvailableProperties": "تحديد الخصائص المتاحة",
   "add": "إضافة",
+  "mainUses": "الأستخدامات الرئيسية",
+  "overview": "نظرة عامة",
+  "WorkCharacteristics": "خصائص العمل",
+  "youMayLikeIt": "قد يعجبك",
+  "detailsProduct": "تفاصيل المنتج",
   "notificationsAreTurnedOff": "تم إيقاف الاشعارات"
 }

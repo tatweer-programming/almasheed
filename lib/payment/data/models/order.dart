@@ -1,6 +1,7 @@
 // ignore_for_file: must_be_immutable
 
 import 'package:almasheed/authentication/data/models/customer.dart';
+import 'package:dartz/dartz.dart';
 import 'package:equatable/equatable.dart';
 import '../../../authentication/data/models/address.dart';
 import '../../../core/utils/constance_manager.dart';
@@ -32,13 +33,17 @@ class OrderModel extends Equatable {
           ? null
           : merchantIds.add(element.product.merchantId);
     }
-    Customer customer = ConstantsManager.appUser as Customer;
-    return OrderModel(
-        id: DateTime.now().toString(),
-        totalPrice: totalPrice,
-        orderItems: orderItems,
-        merchantIds: merchantIds,
-        address: address ?? customer.addresses.first,);
+    /// TODO : error null check
+    if(ConstantsManager.appUser is Customer){
+      return OrderModel(
+          id: DateTime.now().toString(),
+          totalPrice: totalPrice,
+          orderItems: orderItems,
+          merchantIds: merchantIds,
+          address:
+          address ?? (ConstantsManager.appUser as Customer).addresses.first);
+    }
+    return OrderModel(id: "id", totalPrice: totalPrice, orderItems: orderItems, merchantIds: merchantIds, address: address!);
   }
 
   Map<String, dynamic> toJson() => {

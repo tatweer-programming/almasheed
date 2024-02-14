@@ -12,7 +12,9 @@ class Product extends Equatable {
   List<String>? productsImagesDelete;
   final double productOldPrice;
   final double productNewPrice;
-  final String productDescription;
+  final String productOverview;
+  final String productWorkCharacteristics;
+  final String productMainUses;
   final String merchantId;
   final String merchantName;
   final String productCity;
@@ -22,19 +24,23 @@ class Product extends Equatable {
       {required this.productName,
       this.productCategory,
       required this.productId,
+      required this.productMainUses,
       this.productsImagesUrl,
       required this.productOldPrice,
       required this.productNewPrice,
+      required this.productWorkCharacteristics,
       required this.productCity,
       required this.merchantId,
       this.productsImagesFile,
       this.productsImagesDelete,
-      required this.productDescription,
+      required this.productOverview,
       required this.merchantName,
       this.customProperties});
 
   factory Product.fromJson(Map<String, dynamic> json) => Product(
-        productDescription: json['productDescription'],
+        productOverview: json['productOverview'],
+        productMainUses: json['productMainUses'],
+        productWorkCharacteristics: json['productWorkCharacteristics'],
         productId: json['productId'],
         productCity: json['productCity'],
         productNewPrice: json['productNewPrice'].toDouble(),
@@ -46,14 +52,16 @@ class Product extends Equatable {
         merchantName: json['merchantName'],
         merchantId: json['merchantId'],
         customProperties:
-        ProductCustomProperties.fromJson(json["customProperties"]),
+            ProductCustomProperties.fromJson(json["customProperties"]),
       );
 
   Map<String, dynamic> toJson() {
     return {
-      'productDescription': productDescription,
+      'productWorkCharacteristics': productWorkCharacteristics,
+      'productOverview': productOverview,
       "productId": productId,
       "merchantId": merchantId,
+      "productMainUses": productMainUses,
       "productCity": productCity,
       "productNewPrice": productNewPrice,
       "productsImages": productsImagesUrl,
@@ -66,7 +74,7 @@ class Product extends Equatable {
 
   @override
   List<Object?> get props => [
-        productDescription,
+        productOverview,
         productId,
         productNewPrice,
         productName,
