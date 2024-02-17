@@ -17,9 +17,7 @@ class MainScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     MainBloc bloc = sl();
-    ConstantsManager.appUser == null
-        ? bloc.add(GetUserDataEvent())
-        : DoNothingAction();
+    ConstantsManager.appUser == null ? bloc.add(GetUserDataEvent()) : DoNothingAction();
 
     return BlocConsumer<MainBloc, MainState>(
       bloc: bloc,
@@ -59,12 +57,11 @@ class MainScreen extends StatelessWidget {
                     icon: const Icon(
                       Icons.favorite_outline_rounded,
                     )),
-              if (ConstantsManager.appUser is! Merchant)
-                BottomNavigationBarItem(
-                    label: S.of(context).profile,
-                    icon: const Icon(
-                      Icons.person,
-                    )),
+              BottomNavigationBarItem(
+                  label: S.of(context).profile,
+                  icon: const Icon(
+                    Icons.person,
+                  )),
               BottomNavigationBarItem(
                   label: S.of(context).support,
                   icon: const Icon(

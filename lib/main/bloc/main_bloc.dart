@@ -47,6 +47,7 @@ class MainBloc extends Bloc<MainEvent, MainState> {
   List<Widget> pagesMerchant = [
     const HomePageScreen(),
     const CategoriesScreen(),
+    const ProfileScreen(),
     const SupportScreen(),
   ];
 

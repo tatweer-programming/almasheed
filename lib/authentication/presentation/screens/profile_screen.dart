@@ -90,11 +90,12 @@ class ProfileScreen extends StatelessWidget {
                         height: 0,
                         width: 0,
                       ),
-                ProfileItemBuilder(
-                  iconData: Icons.map_outlined,
-                  label: S.of(context).addressesList,
-                  nextScreen: const AddressesScreen(),
-                ),
+                if (ConstantsManager.appUser is Customer)
+                  ProfileItemBuilder(
+                    iconData: Icons.map_outlined,
+                    label: S.of(context).addressesList,
+                    nextScreen: const AddressesScreen(),
+                  ),
                 ProfileItemBuilder(
                   iconData: Icons.question_mark_outlined,
                   label: S.of(context).faq,
