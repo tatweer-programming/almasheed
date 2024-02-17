@@ -314,3 +314,41 @@ class OrderBuilder extends StatelessWidget {
     );
   }
 }
+
+class OrderDetailsItem extends StatelessWidget {
+  final String title;
+  final String value;
+  const OrderDetailsItem({super.key, required this.title, required this.value});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      margin: EdgeInsets.all(5.sp),
+      padding: EdgeInsets.all(5.sp),
+      decoration: BoxDecoration(
+          borderRadius: BorderRadius.all(Radius.circular(10.sp)),
+          border: Border.all(
+            color: ColorManager.primary,
+            width: 2,
+          )),
+      child: Row(
+        children: [
+          Expanded(
+              child: Text(
+            title,
+            style: TextStyle(
+                color: ColorManager.primary, fontWeight: FontWeightManager.bold, fontSize: 13.sp),
+          )),
+          Text(
+            value,
+            style: TextStyle(
+              color: ColorManager.primary,
+              fontSize: 13.sp,
+              fontWeight: FontWeightManager.bold,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}

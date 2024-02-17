@@ -147,5 +147,8 @@
   "notificationsAreTurnedOff": "تم إيقاف الاشعارات",
   "skipRegistration": "تخطي التسجيل",
   "loginFirst" : "يجب تسجيل الدخول أولا",
-  "logout" : "تسجيل الخروج"
+  "logout" : "تسجيل الخروج",
+  "totalElements": "مجموع العناصر",
+  "totalValue" : "مجموع القيمة",
+  "deposit": "العربون"
 }

@@ -5,6 +5,8 @@ import 'package:almasheed/chat/presentation/screens/chats_screen.dart';
 import 'package:almasheed/core/utils/constance_manager.dart';
 import 'package:almasheed/core/utils/navigation_manager.dart';
 import 'package:almasheed/payment/bloc/payment_bloc.dart';
+import 'package:almasheed/payment/presentation/components.dart';
+import 'package:almasheed/payment/presentation/screens/order_details_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sizer/sizer.dart';
@@ -32,67 +34,24 @@ class CompleteOrderScreen extends StatelessWidget {
           },
         ),
         bottomNavigationBar: Padding(
-          padding: EdgeInsets.only(top: 1.h, left: 3.w, right: 3.w, bottom: 1.h),
+          padding: EdgeInsets.all(5.w),
           child: Container(
             height: 8.h,
             width: double.infinity,
             decoration: BoxDecoration(
-              borderRadius: BorderRadiusDirectional.only(
-                topEnd: Radius.circular(10.sp),
-                bottomEnd: Radius.circular(10.sp),
-              ),
+              borderRadius: BorderRadiusDirectional.all(Radius.circular(10.sp)),
               color: ColorManager.primary,
             ),
-            child: Padding(
-              padding: EdgeInsets.all(2.w),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  Text(
-                    "${S.of(context).totalPrice}: ",
-                    style: const TextStyle(color: ColorManager.white, fontWeight: FontWeight.bold),
-                  ),
-                  Expanded(
-                    child: Row(
-                      children: [
-                        Text(
-                          "${bloc.order.totalPrice} ",
-                          style: TextStyle(
-                              fontSize: 18.sp,
-                              color: ColorManager.white,
-                              fontWeight: FontWeight.bold),
-                        ),
-                        Text(
-                          S.of(context).sar,
-                          style: const TextStyle(
-                              color: ColorManager.white, fontWeight: FontWeight.bold),
-                        ),
-                      ],
-                    ),
-                  ),
-                  FittedBox(
-                    child: ElevatedButton(
-                      onPressed: () {
-                        bloc.selectedAddressIndex != null
-                            ? bloc.add(CompletePaymentCart(
-                                context: context,
-                              ))
-                            : errorToast(msg: S.of(context).mustAddAddress);
-                      },
-                      style: ElevatedButton.styleFrom(
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10.sp),
-                        ),
-                      ),
-                      child: Text(
-                        S.of(context).payDeposit,
-                        style: const TextStyle(color: ColorManager.black),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
+            child: defaultButton(
+                onPressed: () {
+                  bloc.selectedAddressIndex != null
+                      ? bloc.add(CompletePaymentCart(
+                          context: context,
+                        ))
+                      : errorToast(msg: S.of(context).mustAddAddress);
+                },
+                text: S.of(context).payDeposit,
+                fontSize: 18.sp),
           ),
         ),
         body: Column(
@@ -148,35 +107,60 @@ class CompleteOrderScreen extends StatelessWidget {
                             child: BlocBuilder<PaymentBloc, PaymentState>(
                               bloc: bloc,
                               builder: (context, state) {
-                                return ListView.separated(
-                                    shrinkWrap: true,
-                                    physics: const NeverScrollableScrollPhysics(),
-                                    itemBuilder: (context, index) => InkWell(
-                                          onTap: () {
-                                            bloc.add(ChooseAddress(index));
-                                          },
-                                          child: Stack(
-                                            children: [
-                                              AddressBuilder(address: customer.addresses[index]),
-                                              Align(
-                                                alignment: AlignmentDirectional.topStart,
-                                                child: bloc.selectedAddressIndex == index
-                                                    ? const Padding(
-                                                        padding: EdgeInsets.all(8.0),
-                                                        child: Icon(
-                                                          Icons.check_circle_rounded,
-                                                          color: ColorManager.primary,
-                                                        ),
-                                                      )
-                                                    : const SizedBox(),
-                                              )
-                                            ],
-                                          ),
-                                        ),
-                                    separatorBuilder: (context, index) => SizedBox(
-                                          height: 10.sp,
-                                        ),
-                                    itemCount: customer.addresses.length);
+                                return Column(
+                                  children: [
+                                    ListView.separated(
+                                        shrinkWrap: true,
+                                        physics: const NeverScrollableScrollPhysics(),
+                                        itemBuilder: (context, index) => InkWell(
+                                              onTap: () {
+                                                bloc.add(ChooseAddress(index));
+                                              },
+                                              child: Stack(
+                                                children: [
+                                                  AddressBuilder(
+                                                      address: customer.addresses[index]),
+                                                  Align(
+                                                    alignment: AlignmentDirectional.topStart,
+                                                    child: bloc.selectedAddressIndex == index
+                                                        ? const Padding(
+                                                            padding: EdgeInsets.all(8.0),
+                                                            child: Icon(
+                                                              Icons.check_circle_rounded,
+                                                              color: ColorManager.primary,
+                                                            ),
+                                                          )
+                                                        : const SizedBox(),
+                                                  )
+                                                ],
+                                              ),
+                                            ),
+                                        separatorBuilder: (context, index) => SizedBox(
+                                              height: 10.sp,
+                                            ),
+                                        itemCount: customer.addresses.length),
+                                    ListView(
+                                      shrinkWrap: true,
+                                      physics: const NeverScrollableScrollPhysics(),
+                                      children: [
+                                        OrderDetailsItem(
+                                            title: S.of(context).totalElements,
+                                            value: orderModel.orderItems.length.toString()),
+                                        OrderDetailsItem(
+                                            title: S.of(context).totalValue,
+                                            value: orderModel.totalPrice.toString() +
+                                                S.of(context).sar),
+                                        OrderDetailsItem(
+                                            title: S.of(context).deposit,
+                                            value: (orderModel.totalPrice / 10).toString() +
+                                                S.of(context).sar),
+                                      ],
+                                    ),
+                                    SizedBox(
+                                      height: 6.h,
+                                    )
+                                  ],
+                                );
                               },
                             ),
                           )

@@ -119,7 +119,7 @@ class FavouriteScreen extends StatelessWidget {
                         ],
                       ),
                     )
-                  : const LoginWidget()
+                  : const ShouldLoginWidget()
             ],
           ),
         );

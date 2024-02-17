@@ -1,12 +1,17 @@
+import 'package:almasheed/authentication/bloc/auth_bloc.dart';
 import 'package:almasheed/authentication/data/models/customer.dart';
 import 'package:almasheed/authentication/presentation/components.dart';
 import 'package:almasheed/authentication/presentation/screens/addresses_screen.dart';
 import 'package:almasheed/authentication/presentation/screens/faq_screen.dart';
 import 'package:almasheed/authentication/presentation/screens/login_screen.dart';
+import 'package:almasheed/core/error/remote_error.dart';
 import 'package:almasheed/core/utils/constance_manager.dart';
+import 'package:almasheed/core/utils/navigation_manager.dart';
 import 'package:almasheed/main/view/widgets/widgets.dart';
 import 'package:almasheed/payment/presentation/screens/cart_screen.dart';
+import 'package:dartz/dartz.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sizer/sizer.dart';
 
 import '../../../core/utils/color_manager.dart';
@@ -17,6 +22,10 @@ class ProfileScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    AuthBloc? authBloc;
+    if (ConstantsManager.appUser != null) {
+      authBloc = AuthBloc();
+    }
     print(ConstantsManager.appUser);
     return SingleChildScrollView(
       child: Column(
@@ -92,10 +101,22 @@ class ProfileScreen extends StatelessWidget {
                   nextScreen: const FAQScreen(),
                 ),
                 ConstantsManager.appUser != null
-                    ? ProfileItemBuilder(
-                        label: S.of(context).logout,
-                        iconData: Icons.logout,
-                        nextScreen: const LoginScreen())
+                    ? BlocConsumer<AuthBloc, AuthState>(
+                        bloc: authBloc,
+                        builder: (context, state) {
+                          return state is LoginLoadingState
+                              ? const Center(
+                                  child: CircularProgressIndicator(),
+                                )
+                              : settingItemBuilder(
+                                  label: S.of(context).logout,
+                                  iconData: Icons.logout,
+                                  onTap: () async {
+                                    authBloc!.add(LogoutEvent());
+                                  });
+                        },
+                        listener: _handleAuthStates,
+                      )
                     : const SizedBox()
               ],
             ),
@@ -103,5 +124,13 @@ class ProfileScreen extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  void _handleAuthStates(BuildContext context, state) {
+    if (state is LogoutSuccessfulState) {
+      context.pushAndRemove(const LoginScreen());
+    } else if (state is LogoutErrorState) {
+      errorToast(msg: ExceptionManager(state.exception).translatedMessage());
+    }
   }
 }

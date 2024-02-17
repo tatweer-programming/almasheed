@@ -45,10 +45,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   }
 
   late AuthRepository repository;
-  List<Widget> registerScreens = const [
-    MerchantLoginScreen(),
-    CustomerLoginScreen()
-  ];
+  List<Widget> registerScreens = const [MerchantLoginScreen(), CustomerLoginScreen()];
 
   AuthBloc() : super(AuthInitial()) {
     repository = AuthRepository();
@@ -59,8 +56,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     if (event is SendCodeEvent) {
       emit(SendCodeLoadingState());
       ConstantsManager.appUser = event.user;
-      final result =
-          await repository.verifyPhoneNumber(ConstantsManager.appUser!.phone);
+      final result = await repository.verifyPhoneNumber(ConstantsManager.appUser!.phone);
       result.fold((l) {
         emit(SendCodeErrorState(l));
       }, (r) {
@@ -127,6 +123,14 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         emit(RemoveAddressErrorState(l));
       }, (r) {
         emit(RemoveAddressSuccessfulState());
+      });
+    } else if (event is LogoutEvent) {
+      emit(LoginLoadingState());
+      var response = await repository.logout();
+      response.fold((l) {
+        emit(LogoutErrorState(l));
+      }, (r) {
+        emit(LogoutSuccessfulState());
       });
     } else if (event is ChooseAddressTypeEvent) {
       addressType = event.addressType;

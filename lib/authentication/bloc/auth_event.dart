@@ -104,3 +104,8 @@ class StartResendCodeTimerEvent extends AuthEvent {
   @override
   List<Object?> get props => [];
 }
+
+class LogoutEvent extends AuthEvent {
+  @override
+  List<Object?> get props => [];
+}

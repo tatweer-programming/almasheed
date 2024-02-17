@@ -20,8 +20,7 @@ class AuthService {
   Completer<Either<FirebaseAuthException, String>> verifyPhoneCompleter =
       Completer<Either<FirebaseAuthException, String>>();
 
-  Future<Either<FirebaseAuthException, String>> verifyPhoneNumber(
-      String phoneNumber) async {
+  Future<Either<FirebaseAuthException, String>> verifyPhoneNumber(String phoneNumber) async {
     try {
       _resetVerifyPhoneCompleter();
       _resetVerificationIdCompleter();
@@ -42,8 +41,7 @@ class AuthService {
     return verificationIdCompleter.future;
   }
 
-  Future<Either<FirebaseAuthException, String>> verifyCode(
-      String code, String userType) async {
+  Future<Either<FirebaseAuthException, String>> verifyCode(String code, String userType) async {
     try {
       String? id;
       final String verificationId = await waitForVerificationID();
@@ -70,11 +68,7 @@ class AuthService {
     String userType,
   ) async {
     late bool isExists;
-    await _fireStore
-        .collection("${userType}s/")
-        .doc(id)
-        .get()
-        .then((value) async {
+    await _fireStore.collection("${userType}s/").doc(id).get().then((value) async {
       isExists = value.data()?["id"] == id;
       if (isExists) {
         AppUser user = AppUser.fromJson(value.data()!, userType);
@@ -102,9 +96,7 @@ class AuthService {
     try {
       String userType = user.getType();
       bool isUserExists = await _searchForUserById(user.id, userType);
-      isUserExists
-          ? DoNothingAction()
-          : await _addUSerToFireStore(user, userType);
+      isUserExists ? DoNothingAction() : await _addUSerToFireStore(user, userType);
       return Right(isUserExists);
     } on FirebaseException catch (e) {
       return Left(e);
@@ -118,10 +110,7 @@ class AuthService {
     try {
       Customer customer = ConstantsManager.appUser as Customer;
       customer.addresses.add(address);
-      await _fireStore
-          .collection("${customer.getType()}s")
-          .doc(customer.id)
-          .update({
+      await _fireStore.collection("${customer.getType()}s").doc(customer.id).update({
         "addresses": FieldValue.arrayUnion([address.toJson()])
       });
       return const Right(unit);
@@ -134,10 +123,7 @@ class AuthService {
     try {
       Customer customer = ConstantsManager.appUser as Customer;
       customer.addresses.remove(address);
-      await _fireStore
-          .collection("${customer.getType()}s")
-          .doc(customer.id)
-          .update({
+      await _fireStore.collection("${customer.getType()}s").doc(customer.id).update({
         "addresses": FieldValue.arrayRemove([address.toJson()])
       });
       return const Right(unit);
@@ -146,12 +132,26 @@ class AuthService {
     }
   }
 
+  Future<Either<FirebaseException, Unit>> logout() async {
+    try {
+      await _firebaseAuth.signOut().then((value) async {
+        await _clearUserData();
+      });
+      return Right(unit);
+    } on FirebaseAuthException catch (e) {
+      return Left(e);
+    }
+  }
+
+  Future _clearUserData() async {
+    ConstantsManager.appUser = null;
+    await CacheHelper.removeData(key: "userId");
+    await CacheHelper.removeData(key: "userType");
+  }
+
   Future _addUSerToFireStore(AppUser user, String userType) async {
     try {
-      await _fireStore
-          .doc("${userType}s/${user.id}")
-          .set(user.toJson())
-          .then((value) async {
+      await _fireStore.doc("${userType}s/${user.id}").set(user.toJson()).then((value) async {
         await _saveUser(user, userType);
       });
     } catch (e) {
@@ -161,12 +161,8 @@ class AuthService {
     }
   }
 
-  Future<bool> _searchForUsersByPhoneNumber(
-      String phone, String userType) async {
-    var res = await _fireStore
-        .collection("${userType}s")
-        .where("phone", isEqualTo: phone)
-        .get();
+  Future<bool> _searchForUsersByPhoneNumber(String phone, String userType) async {
+    var res = await _fireStore.collection("${userType}s").where("phone", isEqualTo: phone).get();
     return res.docs.isNotEmpty;
   }
 

@@ -497,8 +497,8 @@ class AddressItem extends StatelessWidget {
   }
 }
 
-class LoginWidget extends StatelessWidget {
-  const LoginWidget({super.key});
+class ShouldLoginWidget extends StatelessWidget {
+  const ShouldLoginWidget({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -520,22 +520,5 @@ class LoginWidget extends StatelessWidget {
         )
       ],
     );
-  }
-}
-
-class AuthenticationWidget extends StatelessWidget {
-  final Widget child;
-  const AuthenticationWidget({super.key, required this.child});
-
-  @override
-  Widget build(BuildContext context) {
-    if (ConstantsManager.appUser != null) {
-      return child;
-    } else {
-      return Padding(
-        padding: EdgeInsets.symmetric(vertical: 40.h),
-        child: const Center(child: LoginWidget()),
-      );
-    }
   }
 }

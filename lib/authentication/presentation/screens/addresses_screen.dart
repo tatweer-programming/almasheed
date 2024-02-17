@@ -106,7 +106,7 @@ class AddressesScreen extends StatelessWidget {
                       )
                     : Padding(
                         padding: EdgeInsets.symmetric(vertical: 10.h),
-                        child: const Center(child: LoginWidget()),
+                        child: const Center(child: ShouldLoginWidget()),
                       )
               ],
             ),

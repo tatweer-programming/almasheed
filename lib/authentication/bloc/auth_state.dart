@@ -178,3 +178,22 @@ class ChangeTimeToResendCodeState extends AuthState {
   @override
   List<Object?> get props => [time];
 }
+
+class LogoutLoadingState extends AuthState {
+  @override
+  List<Object?> get props => [];
+}
+
+class LogoutErrorState extends AuthState {
+  final FirebaseException exception;
+
+  const LogoutErrorState(this.exception);
+
+  @override
+  List<Object?> get props => [];
+}
+
+class LogoutSuccessfulState extends AuthState {
+  @override
+  List<Object?> get props => [];
+}

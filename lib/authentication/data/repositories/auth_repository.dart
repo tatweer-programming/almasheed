@@ -9,13 +9,11 @@ class AuthRepository {
   static AuthRepository get = AuthRepository();
   final AuthService _service = AuthService();
 
-  Future<Either<FirebaseAuthException, String>> verifyPhoneNumber(
-      String phoneNumber) async {
+  Future<Either<FirebaseAuthException, String>> verifyPhoneNumber(String phoneNumber) async {
     return _service.verifyPhoneNumber(phoneNumber);
   }
 
-  Future<Either<FirebaseAuthException, String>> verifyCode(
-      String code, String userType) {
+  Future<Either<FirebaseAuthException, String>> verifyCode(String code, String userType) {
     return _service.verifyCode(code, userType);
   }
 
@@ -34,5 +32,9 @@ class AuthRepository {
 
   Future<Either<FirebaseException, Unit>> removeAddress(Address address) async {
     return _service.removeAddress(address);
+  }
+
+  Future<Either<FirebaseException, Unit>> logout() {
+    return _service.logout();
   }
 }

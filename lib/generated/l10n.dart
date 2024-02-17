@@ -50,11 +50,31 @@ class S {
     return Localizations.of<S>(context, S);
   }
 
+  /// `Work Characteristics`
+  String get WorkCharacteristics {
+    return Intl.message(
+      'Work Characteristics',
+      name: 'WorkCharacteristics',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `About App`
   String get aboutApp {
     return Intl.message(
       'About App',
       name: 'aboutApp',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Add`
+  String get add {
+    return Intl.message(
+      'Add',
+      name: 'add',
       desc: '',
       args: [],
     );
@@ -115,6 +135,16 @@ class S {
     return Intl.message(
       'Added Successfully',
       name: 'addedSuccessfully',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `address`
+  String get address {
+    return Intl.message(
+      'address',
+      name: 'address',
       desc: '',
       args: [],
     );
@@ -290,6 +320,16 @@ class S {
     );
   }
 
+  /// `choose address`
+  String get chooseAddress {
+    return Intl.message(
+      'choose address',
+      name: 'chooseAddress',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `City`
   String get city {
     return Intl.message(
@@ -330,6 +370,16 @@ class S {
     );
   }
 
+  /// `complete order`
+  String get completeOrder {
+    return Intl.message(
+      'complete order',
+      name: 'completeOrder',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Contact Us`
   String get contactUs {
     return Intl.message(
@@ -360,6 +410,16 @@ class S {
     );
   }
 
+  /// `date`
+  String get date {
+    return Intl.message(
+      'date',
+      name: 'date',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Delete`
   String get delete {
     return Intl.message(
@@ -370,11 +430,41 @@ class S {
     );
   }
 
+  /// `Deleted Successfully`
+  String get deletedSuccessfully {
+    return Intl.message(
+      'Deleted Successfully',
+      name: 'deletedSuccessfully',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Deposit`
+  String get deposit {
+    return Intl.message(
+      'Deposit',
+      name: 'deposit',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Description`
   String get description {
     return Intl.message(
       'Description',
       name: 'description',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Details Product`
+  String get detailsProduct {
+    return Intl.message(
+      'Details Product',
+      name: 'detailsProduct',
       desc: '',
       args: [],
     );
@@ -732,6 +822,16 @@ class S {
     );
   }
 
+  /// `You should log in first`
+  String get loginFirst {
+    return Intl.message(
+      'You should log in first',
+      name: 'loginFirst',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Login now`
   String get loginNow {
     return Intl.message(
@@ -742,11 +842,31 @@ class S {
     );
   }
 
+  /// `Logout`
+  String get logout {
+    return Intl.message(
+      'Logout',
+      name: 'logout',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Lowest to highest price`
   String get lowestToHighestPrice {
     return Intl.message(
       'Lowest to highest price',
       name: 'lowestToHighestPrice',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Main Uses`
+  String get mainUses {
+    return Intl.message(
+      'Main Uses',
+      name: 'mainUses',
       desc: '',
       args: [],
     );
@@ -782,11 +902,31 @@ class S {
     );
   }
 
+  /// `you must add an address`
+  String get mustAddAddress {
+    return Intl.message(
+      'you must add an address',
+      name: 'mustAddAddress',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `You must agree to the terms and conditions`
   String get mustAgreeToTerms {
     return Intl.message(
       'You must agree to the terms and conditions',
       name: 'mustAgreeToTerms',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `you must choose an address`
+  String get mustChooseAddress {
+    return Intl.message(
+      'you must choose an address',
+      name: 'mustChooseAddress',
       desc: '',
       args: [],
     );
@@ -872,6 +1012,26 @@ class S {
     );
   }
 
+  /// `Notifications are turned off`
+  String get notificationsAreTurnedOff {
+    return Intl.message(
+      'Notifications are turned off',
+      name: 'notificationsAreTurnedOff',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Notifications are turned on`
+  String get notificationsAreTurnedOn {
+    return Intl.message(
+      'Notifications are turned on',
+      name: 'notificationsAreTurnedOn',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Offers`
   String get offers {
     return Intl.message(
@@ -902,11 +1062,31 @@ class S {
     );
   }
 
+  /// `Order details`
+  String get orderDetails {
+    return Intl.message(
+      'Order details',
+      name: 'orderDetails',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `other`
   String get other {
     return Intl.message(
       'other',
       name: 'other',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Overview`
+  String get overview {
+    return Intl.message(
+      'Overview',
+      name: 'overview',
       desc: '',
       args: [],
     );
@@ -962,6 +1142,16 @@ class S {
     );
   }
 
+  /// `product`
+  String get product {
+    return Intl.message(
+      'product',
+      name: 'product',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `The product has been added successfully`
   String get productAdded {
     return Intl.message(
@@ -987,6 +1177,16 @@ class S {
     return Intl.message(
       'The product has been modified successfully',
       name: 'productModified',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `products`
+  String get products {
+    return Intl.message(
+      'products',
+      name: 'products',
       desc: '',
       args: [],
     );
@@ -1052,6 +1252,16 @@ class S {
     );
   }
 
+  /// `You can resend code in`
+  String get resendCodeIn {
+    return Intl.message(
+      'You can resend code in',
+      name: 'resendCodeIn',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `SAR`
   String get sar {
     return Intl.message(
@@ -1067,6 +1277,26 @@ class S {
     return Intl.message(
       'search ...',
       name: 'search',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `seconds`
+  String get seconds {
+    return Intl.message(
+      'seconds',
+      name: 'seconds',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Select available properties`
+  String get selectAvailableProperties {
+    return Intl.message(
+      'Select available properties',
+      name: 'selectAvailableProperties',
       desc: '',
       args: [],
     );
@@ -1127,6 +1357,16 @@ class S {
     return Intl.message(
       'Sign in now',
       name: 'signInNow',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Skip registration`
+  String get skipRegistration {
+    return Intl.message(
+      'Skip registration',
+      name: 'skipRegistration',
       desc: '',
       args: [],
     );
@@ -1202,6 +1442,16 @@ class S {
     );
   }
 
+  /// `Total elements`
+  String get totalElements {
+    return Intl.message(
+      'Total elements',
+      name: 'totalElements',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Total Price`
   String get totalPrice {
     return Intl.message(
@@ -1212,11 +1462,31 @@ class S {
     );
   }
 
+  /// `Total value`
+  String get totalValue {
+    return Intl.message(
+      'Total value',
+      name: 'totalValue',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Type a message ..`
   String get typeMessage {
     return Intl.message(
       'Type a message ..',
       name: 'typeMessage',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Updated Successfully`
+  String get updatedSuccessfully {
+    return Intl.message(
+      'Updated Successfully',
+      name: 'updatedSuccessfully',
       desc: '',
       args: [],
     );
@@ -1292,251 +1562,11 @@ class S {
     );
   }
 
-  /// `Order details`
-  String get orderDetails {
-    return Intl.message(
-      'Order details',
-      name: 'orderDetails',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `date`
-  String get date {
-    return Intl.message(
-      'date',
-      name: 'date',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `address`
-  String get address {
-    return Intl.message(
-      'address',
-      name: 'address',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `product`
-  String get product {
-    return Intl.message(
-      'product',
-      name: 'product',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `products`
-  String get products {
-    return Intl.message(
-      'products',
-      name: 'products',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `complete order`
-  String get completeOrder {
-    return Intl.message(
-      'complete order',
-      name: 'completeOrder',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `choose address`
-  String get chooseAddress {
-    return Intl.message(
-      'choose address',
-      name: 'chooseAddress',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `you must add an address`
-  String get mustAddAddress {
-    return Intl.message(
-      'you must add an address',
-      name: 'mustAddAddress',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `you must choose an address`
-  String get mustChooseAddress {
-    return Intl.message(
-      'you must choose an address',
-      name: 'mustChooseAddress',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `You can resend code in`
-  String get resendCodeIn {
-    return Intl.message(
-      'You can resend code in',
-      name: 'resendCodeIn',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `seconds`
-  String get seconds {
-    return Intl.message(
-      'seconds',
-      name: 'seconds',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Updated Successfully`
-  String get updatedSuccessfully {
-    return Intl.message(
-      'Updated Successfully',
-      name: 'updatedSuccessfully',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Deleted Successfully`
-  String get deletedSuccessfully {
-    return Intl.message(
-      'Deleted Successfully',
-      name: 'deletedSuccessfully',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Notifications are turned on`
-  String get notificationsAreTurnedOn {
-    return Intl.message(
-      'Notifications are turned on',
-      name: 'notificationsAreTurnedOn',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Select available properties`
-  String get selectAvailableProperties {
-    return Intl.message(
-      'Select available properties',
-      name: 'selectAvailableProperties',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Add`
-  String get add {
-    return Intl.message(
-      'Add',
-      name: 'add',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Main Uses`
-  String get mainUses {
-    return Intl.message(
-      'Main Uses',
-      name: 'mainUses',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Overview`
-  String get overview {
-    return Intl.message(
-      'Overview',
-      name: 'overview',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Work Characteristics`
-  String get WorkCharacteristics {
-    return Intl.message(
-      'Work Characteristics',
-      name: 'WorkCharacteristics',
-      desc: '',
-      args: [],
-    );
-  }
-
   /// `You may like it`
   String get youMayLikeIt {
     return Intl.message(
       'You may like it',
       name: 'youMayLikeIt',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Details Product`
-  String get detailsProduct {
-    return Intl.message(
-      'Details Product',
-      name: 'detailsProduct',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Notifications are turned off`
-  String get notificationsAreTurnedOff {
-    return Intl.message(
-      'Notifications are turned off',
-      name: 'notificationsAreTurnedOff',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Skip registration`
-  String get skipRegistration {
-    return Intl.message(
-      'Skip registration',
-      name: 'skipRegistration',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `You should log in first`
-  String get loginFirst {
-    return Intl.message(
-      'You should log in first',
-      name: 'loginFirst',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Logout`
-  String get logout {
-    return Intl.message(
-      'Logout',
-      name: 'logout',
       desc: '',
       args: [],
     );
