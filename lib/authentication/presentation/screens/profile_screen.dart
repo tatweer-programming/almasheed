@@ -1,6 +1,9 @@
+import 'package:almasheed/authentication/data/models/customer.dart';
 import 'package:almasheed/authentication/presentation/components.dart';
 import 'package:almasheed/authentication/presentation/screens/addresses_screen.dart';
 import 'package:almasheed/authentication/presentation/screens/faq_screen.dart';
+import 'package:almasheed/authentication/presentation/screens/login_screen.dart';
+import 'package:almasheed/core/utils/constance_manager.dart';
 import 'package:almasheed/main/view/widgets/widgets.dart';
 import 'package:almasheed/payment/presentation/screens/cart_screen.dart';
 import 'package:flutter/material.dart';
@@ -14,6 +17,7 @@ class ProfileScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    print(ConstantsManager.appUser);
     return SingleChildScrollView(
       child: Column(
         children: [
@@ -25,8 +29,7 @@ class ProfileScreen extends StatelessWidget {
                 height: 35.h,
                 color: ColorManager.primary,
                 child: Padding(
-                  padding: EdgeInsetsDirectional.only(
-                      start: 8.w, end: 8.w, top: 1.h),
+                  padding: EdgeInsetsDirectional.only(start: 8.w, end: 8.w, top: 1.h),
                   child: Column(
                     children: [
                       SizedBox(
@@ -59,24 +62,25 @@ class ProfileScreen extends StatelessWidget {
           Text(
             S.of(context).welcome,
             style: TextStyle(
-                color: ColorManager.primary,
-                fontSize: 30.sp,
-                fontWeight: FontWeight.bold),
+                color: ColorManager.primary, fontSize: 30.sp, fontWeight: FontWeight.bold),
           ),
           SizedBox(
             height: 3.h,
           ),
           Padding(
             padding: EdgeInsets.all(5.0.w),
-            child: ListView(
-              shrinkWrap: true,
-              physics: const NeverScrollableScrollPhysics(),
+            child: Column(
               children: [
-                ProfileItemBuilder(
-                  iconData: Icons.person_outline_rounded,
-                  label: S.of(context).myOrders,
-                  nextScreen: const CartScreen(),
-                ),
+                ConstantsManager.appUser is Customer
+                    ? ProfileItemBuilder(
+                        iconData: Icons.person_outline_rounded,
+                        label: S.of(context).myOrders,
+                        nextScreen: const CartScreen(),
+                      )
+                    : const SizedBox(
+                        height: 0,
+                        width: 0,
+                      ),
                 ProfileItemBuilder(
                   iconData: Icons.map_outlined,
                   label: S.of(context).addressesList,
@@ -87,6 +91,12 @@ class ProfileScreen extends StatelessWidget {
                   label: S.of(context).faq,
                   nextScreen: const FAQScreen(),
                 ),
+                ConstantsManager.appUser != null
+                    ? ProfileItemBuilder(
+                        label: S.of(context).logout,
+                        iconData: Icons.logout,
+                        nextScreen: const LoginScreen())
+                    : const SizedBox()
               ],
             ),
           )

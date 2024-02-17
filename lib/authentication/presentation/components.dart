@@ -2,6 +2,7 @@ import 'package:almasheed/authentication/bloc/auth_bloc.dart';
 import 'package:almasheed/authentication/presentation/screens/account_type_screen.dart';
 import 'package:almasheed/authentication/presentation/screens/login_screen.dart';
 import 'package:almasheed/authentication/presentation/screens/terms_and_conditions_screen.dart';
+import 'package:almasheed/core/utils/constance_manager.dart';
 import 'package:almasheed/core/utils/navigation_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -36,9 +37,8 @@ class AccountTypeItem extends StatelessWidget {
         height: 35.w,
         width: 35.w,
         child: Card(
-          color: index == bloc.selectedAccountTypeIndex
-              ? ColorManager.secondary
-              : ColorManager.white,
+          color:
+              index == bloc.selectedAccountTypeIndex ? ColorManager.secondary : ColorManager.white,
           elevation: 5,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -93,9 +93,8 @@ class PhoneNumberInput extends StatelessWidget {
                 width: 50.sp,
                 child: Align(
                   alignment: AlignmentDirectional.centerStart,
-                  child: Text(" +966",
-                      style: TextStyle(
-                          fontWeight: FontWeight.bold, fontSize: 14.sp)),
+                  child:
+                      Text(" +966", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14.sp)),
                 ),
               ),
               type: TextInputType.phone,
@@ -135,14 +134,11 @@ Widget defaultFormField(
         cursorColor: ColorManager.primary,
         decoration: InputDecoration(
             border: OutlineInputBorder(
-                borderSide: BorderSide.none,
-                borderRadius: BorderRadius.circular(10.sp)),
+                borderSide: BorderSide.none, borderRadius: BorderRadius.circular(10.sp)),
             focusedErrorBorder: OutlineInputBorder(
-                borderSide: BorderSide.none,
-                borderRadius: BorderRadius.circular(10.sp)),
+                borderSide: BorderSide.none, borderRadius: BorderRadius.circular(10.sp)),
             errorBorder: OutlineInputBorder(
-                borderSide: BorderSide.none,
-                borderRadius: BorderRadius.circular(10.sp)),
+                borderSide: BorderSide.none, borderRadius: BorderRadius.circular(10.sp)),
             isDense: true,
             errorStyle: const TextStyle(color: ColorManager.white),
             prefixIcon: prefixIcon,
@@ -152,11 +148,9 @@ Widget defaultFormField(
             filled: true,
             fillColor: ColorManager.secondary,
             enabledBorder: OutlineInputBorder(
-                borderSide: BorderSide.none,
-                borderRadius: BorderRadius.circular(10.sp)),
+                borderSide: BorderSide.none, borderRadius: BorderRadius.circular(10.sp)),
             focusedBorder: OutlineInputBorder(
-                borderSide: BorderSide.none,
-                borderRadius: BorderRadius.circular(10.sp)),
+                borderSide: BorderSide.none, borderRadius: BorderRadius.circular(10.sp)),
             labelText: label,
             labelStyle: const TextStyle(
               color: ColorManager.black,
@@ -192,8 +186,7 @@ class TermsAgreementWidget extends StatelessWidget {
 
   final String userType;
 
-  const TermsAgreementWidget(
-      {super.key, required this.bloc, required this.userType});
+  const TermsAgreementWidget({super.key, required this.bloc, required this.userType});
 
   @override
   Widget build(BuildContext context) {
@@ -295,8 +288,7 @@ class AuthBackground extends StatelessWidget {
 
   final Widget child;
 
-  const AuthBackground(
-      {super.key, required this.imagePath, required this.child});
+  const AuthBackground({super.key, required this.imagePath, required this.child});
 
   @override
   Widget build(BuildContext context) {
@@ -306,8 +298,7 @@ class AuthBackground extends StatelessWidget {
       decoration: BoxDecoration(
           // image: DecorationImage(image: AssetImage(imagePath , ) , opacity: 10),
           color: ColorManager.primary,
-          borderRadius:
-              BorderRadiusDirectional.vertical(top: Radius.circular(120.sp))),
+          borderRadius: BorderRadiusDirectional.vertical(top: Radius.circular(120.sp))),
       child: Stack(
         children: [
           Align(
@@ -330,12 +321,13 @@ class ProfileItemBuilder extends StatelessWidget {
   final String label;
   final IconData iconData;
   final Widget nextScreen;
-
+  final void Function()? onPressed;
   const ProfileItemBuilder(
       {super.key,
       required this.label,
       required this.iconData,
-      required this.nextScreen});
+      required this.nextScreen,
+      this.onPressed});
 
   @override
   Widget build(BuildContext context) {
@@ -343,9 +335,10 @@ class ProfileItemBuilder extends StatelessWidget {
         height: 7.h,
         width: 90.w,
         child: InkWell(
-          onTap: () {
-            context.push(nextScreen);
-          },
+          onTap: onPressed ??
+              () {
+                context.push(nextScreen);
+              },
           child: Card(
             elevation: 5,
             shape: OutlineInputBorder(
@@ -396,7 +389,7 @@ class AddressBuilder extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 35.h,
+      height: 20.h,
       child: Card(
         elevation: 5,
         shape: OutlineInputBorder(
@@ -419,23 +412,18 @@ class AddressBuilder extends StatelessWidget {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          AddressItem(
-                              label: S.of(context).addressType,
-                              value: address.type),
+                          AddressItem(label: S.of(context).addressType, value: address.type),
                           SizedBox(
                             height: 1.h,
                           ),
-                          AddressItem(
-                              label: S.of(context).city, value: address.city),
+                          AddressItem(label: S.of(context).city, value: address.city),
                           SizedBox(
                             height: 1.h,
                           ),
                           SizedBox(
                             height: 1.h,
                           ),
-                          AddressItem(
-                              label: S.of(context).street,
-                              value: address.street),
+                          AddressItem(label: S.of(context).street, value: address.street),
                         ],
                       ),
                     ),
@@ -451,9 +439,7 @@ class AddressBuilder extends StatelessWidget {
                         SizedBox(
                           height: 1.h,
                         ),
-                        AddressItem(
-                            label: S.of(context).floor,
-                            value: address.floor.toString()),
+                        AddressItem(label: S.of(context).floor, value: address.floor.toString()),
                         SizedBox(
                           height: 1.h,
                         ),
@@ -508,5 +494,48 @@ class AddressItem extends StatelessWidget {
         )),
       ],
     ));
+  }
+}
+
+class LoginWidget extends StatelessWidget {
+  const LoginWidget({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        Text(S.of(context).loginFirst),
+        SizedBox(
+          height: 10.sp,
+        ),
+        MaterialButton(
+          color: ColorManager.primary,
+          onPressed: () {
+            context.pushAndRemove(const LoginScreen());
+          },
+          child: Text(
+            S.of(context).loginNow,
+            style: const TextStyle(color: ColorManager.white),
+          ),
+        )
+      ],
+    );
+  }
+}
+
+class AuthenticationWidget extends StatelessWidget {
+  final Widget child;
+  const AuthenticationWidget({super.key, required this.child});
+
+  @override
+  Widget build(BuildContext context) {
+    if (ConstantsManager.appUser != null) {
+      return child;
+    } else {
+      return Padding(
+        padding: EdgeInsets.symmetric(vertical: 40.h),
+        child: const Center(child: LoginWidget()),
+      );
+    }
   }
 }

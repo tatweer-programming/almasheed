@@ -23,18 +23,22 @@ class SupportScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     MainBloc bloc = sl();
     bool isOn = ConstantsManager.isNotificationsOn ?? false;
+    String? userType;
+    final appUser = ConstantsManager.appUser;
+    if (appUser != null) {
+      userType = appUser.getType();
+    }
     return BlocConsumer<MainBloc, MainState>(
       listener: (context, state) async {
         if (state is ChangeSwitchNotificationsState) {
           isOn = state.isOn;
           ConstantsManager.isNotificationsOn = isOn;
-          await CacheHelper.saveData(key: "isNotificationsOn", value: isOn)
-              .then((value) async {
+          await CacheHelper.saveData(key: "isNotificationsOn", value: isOn).then((value) async {
             if (ConstantsManager.isNotificationsOn != null &&
                 !ConstantsManager.isNotificationsOn!) {
               defaultToast(msg: S.of(context).notificationsAreTurnedOff);
-              await FirebaseMessaging.instance.unsubscribeFromTopic(
-                  "/topic/${ConstantsManager.appUser!.id}");
+              await FirebaseMessaging.instance
+                  .unsubscribeFromTopic("/topic/${ConstantsManager.appUser!.id}");
             } else {
               defaultToast(msg: S.of(context).notificationsAreTurnedOn);
               await FirebaseMessaging.instance
@@ -54,8 +58,7 @@ class SupportScreen extends StatelessWidget {
                   width: double.infinity,
                   color: ColorManager.primary,
                   child: Padding(
-                    padding: EdgeInsetsDirectional.only(
-                        start: 8.w, end: 8.w, top: 1.h),
+                    padding: EdgeInsetsDirectional.only(start: 8.w, end: 8.w, top: 1.h),
                     child: Column(
                       children: [
                         SizedBox(
@@ -110,8 +113,7 @@ class SupportScreen extends StatelessWidget {
                         ProfileItemBuilder(
                           iconData: Icons.policy,
                           label: S.of(context).termsAndConditions,
-                          nextScreen: TermsAndConditionsScreen(
-                              userType: ConstantsManager.appUser!.getType()),
+                          nextScreen: TermsAndConditionsScreen(userType: userType ?? "customer"),
                         ),
                         ProfileItemBuilder(
                           iconData: Icons.people,
@@ -226,14 +228,11 @@ Widget _textContainerLang({
           color: ColorManager.white,
           borderRadius: BorderRadius.circular(20.sp),
         ),
-        padding:
-            EdgeInsetsDirectional.symmetric(horizontal: 3.w, vertical: 0.5.h),
+        padding: EdgeInsetsDirectional.symmetric(horizontal: 3.w, vertical: 0.5.h),
         child: Text(
           text,
-          style: TextStyle(
-              color: ColorManager.primary,
-              fontSize: 8.sp,
-              fontWeight: FontWeight.w500),
+          style:
+              TextStyle(color: ColorManager.primary, fontSize: 8.sp, fontWeight: FontWeight.w500),
         ),
       ),
     );

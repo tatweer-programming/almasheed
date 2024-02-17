@@ -134,7 +134,10 @@ class MessageLookup extends MessageLookupByLibrary {
         "language": MessageLookupByLibrary.simpleMessage("Language"),
         "loginAsMerchant":
             MessageLookupByLibrary.simpleMessage("Login as merchant"),
+        "loginFirst":
+            MessageLookupByLibrary.simpleMessage("You should log in first"),
         "loginNow": MessageLookupByLibrary.simpleMessage("Login now"),
+        "logout": MessageLookupByLibrary.simpleMessage("Logout"),
         "lowestToHighestPrice":
             MessageLookupByLibrary.simpleMessage("Lowest to highest price"),
         "mainUses": MessageLookupByLibrary.simpleMessage("Main Uses"),
@@ -202,6 +205,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "setting": MessageLookupByLibrary.simpleMessage("Setting"),
         "shareApp": MessageLookupByLibrary.simpleMessage("Share App"),
         "signInNow": MessageLookupByLibrary.simpleMessage("Sign in now"),
+        "skipRegistration":
+            MessageLookupByLibrary.simpleMessage("Skip registration"),
         "sortByCity": MessageLookupByLibrary.simpleMessage("Sort by city"),
         "state": MessageLookupByLibrary.simpleMessage("state"),
         "street": MessageLookupByLibrary.simpleMessage("street"),

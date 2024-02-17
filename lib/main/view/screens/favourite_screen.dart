@@ -23,103 +23,107 @@ class FavouriteScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final MainBloc bloc = sl();
     List<Product> favProducts = _favProducts(bloc.products);
-    final PaymentBloc paymentBloc = PaymentBloc.get();
-    return BlocListener<PaymentBloc, PaymentState>(
-      bloc: paymentBloc,
-      listener: _handlePaymentBlocState,
-      child: BlocBuilder<MainBloc, MainState>(
-        builder: (context, state) {
-          return SingleChildScrollView(
-            child: Column(
-              children: [
-                ClipPath(
-                  clipper: HalfCircleCurve(10.h),
-                  child: Container(
-                    height: 28.h,
-                    color: ColorManager.primary,
-                    width: double.infinity,
-                    child: Column(
-                      children: [
-                        SizedBox(
-                          height: 5.h,
-                        ),
-                        Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 2.w),
-                          child: Row(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Expanded(
-                                child: Padding(
-                                  padding:
-                                      EdgeInsetsDirectional.only(start: 10.w),
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.center,
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      Text(
-                                        S.of(context).favourites,
-                                        style: TextStyle(
-                                          fontSize: 27.sp,
-                                          fontWeight: FontWeight.w600,
-                                          color: ColorManager.white,
-                                        ),
-                                      ),
-                                      SizedBox(
-                                        height: 2.h,
-                                      ),
-                                      Icon(
-                                        Icons.favorite_outlined,
-                                        size: 30.sp,
+    Customer? customer = ConstantsManager.appUser as Customer?;
+    PaymentBloc? paymentBloc;
+    if (customer != null) {
+      paymentBloc = PaymentBloc.get();
+    }
+
+    return BlocBuilder<MainBloc, MainState>(
+      builder: (context, state) {
+        return SingleChildScrollView(
+          child: Column(
+            children: [
+              ClipPath(
+                clipper: HalfCircleCurve(10.h),
+                child: Container(
+                  height: 28.h,
+                  color: ColorManager.primary,
+                  width: double.infinity,
+                  child: Column(
+                    children: [
+                      SizedBox(
+                        height: 5.h,
+                      ),
+                      Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 2.w),
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Expanded(
+                              child: Padding(
+                                padding: EdgeInsetsDirectional.only(start: 10.w),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Text(
+                                      S.of(context).favourites,
+                                      style: TextStyle(
+                                        fontSize: 27.sp,
+                                        fontWeight: FontWeight.w600,
                                         color: ColorManager.white,
-                                      )
-                                    ],
-                                  ),
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      height: 2.h,
+                                    ),
+                                    Icon(
+                                      Icons.favorite_outlined,
+                                      size: 30.sp,
+                                      color: ColorManager.white,
+                                    )
+                                  ],
                                 ),
                               ),
-                              if (ConstantsManager.appUser is Customer)
-                                IconButton(
-                                  onPressed: () =>
-                                      context.push(const CartScreen()),
-                                  icon: const Icon(
-                                    Icons.shopping_cart_outlined,
-                                    color: ColorManager.white,
-                                  ),
+                            ),
+                            if (ConstantsManager.appUser is Customer)
+                              IconButton(
+                                onPressed: () => context.push(const CartScreen()),
+                                icon: const Icon(
+                                  Icons.shopping_cart_outlined,
+                                  color: ColorManager.white,
                                 ),
-                            ],
+                              ),
+                          ],
+                        ),
+                      ),
+                      SizedBox(
+                        height: 2.h,
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              customer != null
+                  ? BlocListener<PaymentBloc, PaymentState>(
+                      bloc: paymentBloc,
+                      listener: _handlePaymentBlocState,
+                      child: Column(
+                        children: [
+                          SizedBox(
+                            height: 2.h,
                           ),
-                        ),
-                        SizedBox(
-                          height: 2.h,
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-                SizedBox(
-                  height: 2.h,
-                ),
-
-                Padding(
-                  padding: EdgeInsets.symmetric(
-                    horizontal: 3.w,
-                  ),
-                  child: Wrap(
-                    direction: Axis.horizontal,
-                    children: favProducts.map((product) {
-                      return favouriteProduct(
-                        product: product,
-                        context: context
-                      );
-                    }).toList(),
-                  ),
-                )
-              ],
-            ),
-          );
-        },
-      ),
+                          Padding(
+                            padding: EdgeInsets.symmetric(
+                              horizontal: 3.w,
+                            ),
+                            child: Wrap(
+                              direction: Axis.horizontal,
+                              children: favProducts.map((product) {
+                                return favouriteProduct(product: product, context: context);
+                              }).toList(),
+                            ),
+                          )
+                        ],
+                      ),
+                    )
+                  : const LoginWidget()
+            ],
+          ),
+        );
+      },
     );
   }
 
@@ -127,18 +131,20 @@ class FavouriteScreen extends StatelessWidget {
     if (state is AddToCartSuccessState) {
       defaultToast(msg: S.of(context).productAdded);
     } else if (state is AddToCartErrorState) {
-      mainErrorToast(
-          msg: ExceptionManager(state.exception).translatedMessage());
+      mainErrorToast(msg: ExceptionManager(state.exception).translatedMessage());
     }
   }
 }
 
 List<Product> _favProducts(List<Product> products) {
+  Customer? customer = ConstantsManager.appUser as Customer?;
+  if (customer == null) {
+    return [];
+  }
   List<Product> favProducts = [];
   favProducts = products
-      .where((element) => (ConstantsManager.appUser as Customer)
-          .favorites
-          .contains(element.productId))
+      .where(
+          (element) => (ConstantsManager.appUser as Customer).favorites.contains(element.productId))
       .toList();
   return favProducts;
 }

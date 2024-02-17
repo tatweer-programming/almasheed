@@ -2,6 +2,7 @@ import 'package:almasheed/chat/bloc/chat_bloc.dart';
 import 'package:almasheed/core/utils/constance_manager.dart';
 import 'package:almasheed/core/utils/localization_manager.dart';
 import 'package:almasheed/payment/bloc/payment_bloc.dart';
+import 'package:almasheed/payment/presentation/screens/cart_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
@@ -29,19 +30,16 @@ Future<void> main() async {
   FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) async {
     navigatorKey.currentState!.push(MaterialPageRoute(
         builder: (_) => ChatScreen(
-            receiverId: message.from!.substring(8),
-            receiverName: message.notification!.title!)));
+            receiverId: message.from!.substring(8), receiverName: message.notification!.title!)));
   });
   await LocalizationManager.init();
   ConstantsManager.userId = await CacheHelper.getData(key: "userId");
-  ConstantsManager.isNotificationsOn =
-      await CacheHelper.getData(key: "isNotificationsOn");
+  ConstantsManager.isNotificationsOn = await CacheHelper.getData(key: "isNotificationsOn");
   ConstantsManager.userType = await CacheHelper.getData(key: "userType");
   runApp(const Masheed());
 }
 
-final GlobalKey<NavigatorState> navigatorKey =
-    GlobalKey(debugLabel: "Main Navigator");
+final GlobalKey<NavigatorState> navigatorKey = GlobalKey(debugLabel: "Main Navigator");
 
 class Masheed extends StatelessWidget {
   const Masheed({super.key});
@@ -55,12 +53,9 @@ class Masheed extends StatelessWidget {
                 create: (BuildContext context) => sl()
                   ..add(GetProductsEvent())
                   ..add(GetMerchantsEvent())),
-            BlocProvider<AuthBloc>(
-                create: (BuildContext context) => AuthBloc()),
-            BlocProvider<PaymentBloc>(
-                create: (BuildContext context) => PaymentBloc()),
-            BlocProvider<ChatBloc>(
-                create: (BuildContext context) => ChatBloc(ChatInitial()))
+            BlocProvider<AuthBloc>(create: (BuildContext context) => AuthBloc()),
+            BlocProvider<PaymentBloc>(create: (BuildContext context) => PaymentBloc()),
+            BlocProvider<ChatBloc>(create: (BuildContext context) => ChatBloc(ChatInitial()))
           ],
           child: BlocBuilder<MainBloc, MainState>(
             builder: (context, state) {
@@ -78,8 +73,7 @@ class Masheed extends StatelessWidget {
                 locale: LocalizationManager.getCurrentLocale(),
                 theme: getAppTheme(),
                 // home: const MainScreen(),
-                home: ConstantsManager.userType != null &&
-                        ConstantsManager.userId != null
+                home: ConstantsManager.userType != null && ConstantsManager.userId != null
                     ? const MainScreen()
                     : const LoginScreen(),
               );

@@ -45,13 +45,167 @@ class _CartItemState extends State<CartItem> {
             width: double.infinity,
             decoration: BoxDecoration(
               borderRadius: BorderRadiusDirectional.only(
-                topEnd: Radius.circular(10.sp),
-                bottomEnd: Radius.circular(10.sp),
+                topStart: Radius.circular(20.sp),
+                bottomStart: Radius.circular(20.sp),
               ),
               color: ColorManager.primary,
             ),
             child: Row(
               children: [
+                Expanded(
+                  child: Padding(
+                    padding: EdgeInsetsDirectional.only(start: 10.sp),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        SizedBox(
+                          height: 1.h,
+                        ),
+
+                        Text(
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          widget.orderItem.product.productName,
+                          style: TextStyle(
+                              color: ColorManager.white,
+                              fontWeight: FontWeightManager.bold,
+                              fontSize: 17.sp),
+                        ),
+                        SizedBox(
+                          height: 1.h,
+                        ),
+                        Row(
+                          children: [
+                            Text(
+                              "${S.of(context).price}: ",
+                              style: TextStyle(
+                                  fontWeight: FontWeightManager.semiBold,
+                                  fontSize: 15.sp,
+                                  color: ColorManager.white),
+                            ),
+                            Text(
+                              "${widget.orderItem.product.productNewPrice} ",
+                              style: TextStyle(
+                                  fontWeight: FontWeightManager.bold,
+                                  fontSize: 15.sp,
+                                  color: ColorManager.secondary),
+                            ),
+                            Text(
+                              S.of(context).sar,
+                              style: TextStyle(
+                                  fontWeight: FontWeightManager.semiBold,
+                                  fontSize: 15.sp,
+                                  color: ColorManager.white),
+                            )
+                          ],
+                        ),
+                        // SizedBox(
+                        //   height: 1.h,
+                        // ),
+                        Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Text(
+                              "${S.of(context).quantity}: ",
+                              style: TextStyle(
+                                  fontWeight: FontWeightManager.semiBold,
+                                  fontSize: 15.sp,
+                                  color: ColorManager.white),
+                            ),
+                            if (!widget.isQuantityEditingEnabled)
+                              Text(
+                                "${widget.orderItem.quantity}",
+                                style: TextStyle(
+                                    fontWeight: FontWeightManager.bold,
+                                    fontSize: 15.sp,
+                                    color: ColorManager.secondary),
+                              ),
+                            SizedBox(
+                              width: 10.sp,
+                            ),
+                            if (!widget.isQuantityEditingEnabled)
+                              widget.bloc.state is RemoveFromCartLoadingState
+                                  ? const CircularProgressIndicator()
+                                  : IconButton(
+                                      onPressed: () {
+                                        setState(() {
+                                          widget.isQuantityEditingEnabled = true;
+                                        });
+                                      },
+                                      icon: const Icon(
+                                        Icons.edit,
+                                        color: ColorManager.white,
+                                      )),
+                          ],
+                        ),
+                        if (widget.isQuantityEditingEnabled)
+                          SizedBox(
+                            width: 20.w,
+                            child: defaultFormField(
+                              onSubmit: (value) {
+                                _editingCompleted();
+                              },
+                              type: TextInputType.number,
+                              label: S.of(context).quantity,
+                              controller: widget.quantityController,
+                              validator: (value) {
+                                if (value!.isEmpty || value == "0") {
+                                  return S.of(context).enterValidQuantity;
+                                }
+                                return null;
+                              },
+                            ),
+                          ),
+                        if (!widget.isQuantityEditingEnabled)
+                          Expanded(
+                            child: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Row(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    Text(
+                                      "${S.of(context).totalPrice}: ",
+                                      style: TextStyle(
+                                          fontWeight: FontWeightManager.semiBold,
+                                          fontSize: 15.sp,
+                                          color: ColorManager.white),
+                                    ),
+                                  ],
+                                ),
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    FittedBox(
+                                      child: Text(
+                                        "${widget.orderItem.quantity * widget.orderItem.product.productNewPrice} ",
+                                        style: TextStyle(
+                                            fontWeight: FontWeightManager.bold,
+                                            fontSize: 15.sp,
+                                            color: ColorManager.secondary),
+                                      ),
+                                    ),
+                                    Text(
+                                      S.of(context).sar,
+                                      style: TextStyle(
+                                          fontWeight: FontWeightManager.semiBold,
+                                          fontSize: 15.sp,
+                                          color: ColorManager.white),
+                                    )
+                                  ],
+                                ),
+                              ],
+                            ),
+                          ),
+                      ],
+                    ),
+                  ),
+                ),
+                SizedBox(
+                  width: 4.w,
+                ),
                 Container(
                   height: 40.h,
                   width: 35.w,
@@ -59,169 +213,18 @@ class _CartItemState extends State<CartItem> {
                     color: ColorManager.grey1,
                     image: DecorationImage(
                         fit: BoxFit.cover,
-                        image: NetworkImage(
-                            widget.orderItem.product.productsImagesUrl![0])),
+                        image: NetworkImage(widget.orderItem.product.productsImagesUrl![0])),
                   ),
                 ),
-                SizedBox(
-                  width: 4.w,
-                ),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    SizedBox(
-                      height: 1.h,
-                    ),
-
-                    Text(
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                      widget.orderItem.product.productName,
-                      style: TextStyle(
-                          color: ColorManager.white,
-                          fontWeight: FontWeightManager.bold,
-                          fontSize: 17.sp),
-                    ),
-                    SizedBox(
-                      height: 1.h,
-                    ),
-                    Row(
-                      children: [
-                        Text(
-                          "${S.of(context).price}: ",
-                          style: TextStyle(
-                              fontWeight: FontWeightManager.semiBold,
-                              fontSize: 15.sp,
-                              color: ColorManager.white),
-                        ),
-                        Text(
-                          "${widget.orderItem.product.productNewPrice} ",
-                          style: TextStyle(
-                              fontWeight: FontWeightManager.bold,
-                              fontSize: 15.sp,
-                              color: ColorManager.secondary),
-                        ),
-                        Text(
-                          S.of(context).sar,
-                          style: TextStyle(
-                              fontWeight: FontWeightManager.semiBold,
-                              fontSize: 15.sp,
-                              color: ColorManager.white),
-                        )
-                      ],
-                    ),
-                    // SizedBox(
-                    //   height: 1.h,
-                    // ),
-                    Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Text(
-                          "${S.of(context).quantity}: ",
-                          style: TextStyle(
-                              fontWeight: FontWeightManager.semiBold,
-                              fontSize: 15.sp,
-                              color: ColorManager.white),
-                        ),
-                        if (!widget.isQuantityEditingEnabled)
-                          Text(
-                            "${widget.orderItem.quantity}",
-                            style: TextStyle(
-                                fontWeight: FontWeightManager.bold,
-                                fontSize: 15.sp,
-                                color: ColorManager.secondary),
-                          ),
-                        SizedBox(
-                          width: 10.sp,
-                        ),
-                        if (!widget.isQuantityEditingEnabled)
-                          widget.bloc.state is RemoveFromCartLoadingState
-                              ? const CircularProgressIndicator()
-                              : IconButton(
-                                  onPressed: () {
-                                    setState(() {
-                                      widget.isQuantityEditingEnabled = true;
-                                    });
-                                  },
-                                  icon: const Icon(
-                                    Icons.edit,
-                                    color: ColorManager.white,
-                                  )),
-                      ],
-                    ),
-                    if (widget.isQuantityEditingEnabled)
-                      SizedBox(
-                        width: 20.w,
-                        child: defaultFormField(
-                          onSubmit: (value) {
-                            _editingCompleted();
-                          },
-                          type: TextInputType.number,
-                          label: S.of(context).quantity,
-                          controller: widget.quantityController,
-                          validator: (value) {
-                            if (value!.isEmpty || value == "0") {
-                              return S.of(context).enterValidQuantity;
-                            }
-                            return null;
-                          },
-                        ),
-                      ),
-                    if (!widget.isQuantityEditingEnabled)
-                      Expanded(
-                        child: Column(
-                          mainAxisSize: MainAxisSize.min,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Row(
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                Text(
-                                  "${S.of(context).totalPrice}: ",
-                                  style: TextStyle(
-                                      fontWeight: FontWeightManager.semiBold,
-                                      fontSize: 15.sp,
-                                      color: ColorManager.white),
-                                ),
-                              ],
-                            ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                FittedBox(
-                                  child: Text(
-                                    "${widget.orderItem.quantity * widget.orderItem.product.productNewPrice} ",
-                                    style: TextStyle(
-                                        fontWeight: FontWeightManager.bold,
-                                        fontSize: 15.sp,
-                                        color: ColorManager.secondary),
-                                  ),
-                                ),
-                                Text(
-                                  S.of(context).sar,
-                                  style: TextStyle(
-                                      fontWeight: FontWeightManager.semiBold,
-                                      fontSize: 15.sp,
-                                      color: ColorManager.white),
-                                )
-                              ],
-                            ),
-                          ],
-                        ),
-                      ),
-                  ],
-                )
               ],
             ),
           ),
         ),
         Align(
-          alignment: AlignmentDirectional.topStart,
+          alignment: AlignmentDirectional.topEnd,
           child: IconButton(
               onPressed: () {
-                widget.bloc.add(RemoveFromCart(
-                    productId: widget.orderItem.product.productId));
+                widget.bloc.add(RemoveFromCart(productId: widget.orderItem.product.productId));
               },
               icon: Icon(
                 Icons.remove_shopping_cart,
@@ -237,8 +240,7 @@ class _CartItemState extends State<CartItem> {
       widget.isQuantityEditingEnabled = false;
       widget.orderItem.quantity = int.parse(widget.quantityController.text);
       widget.bloc.add(EditQuantityInCart(
-          productId: widget.orderItem.product.productId,
-          quantity: widget.orderItem.quantity));
+          productId: widget.orderItem.product.productId, quantity: widget.orderItem.quantity));
     });
   }
 }
@@ -303,9 +305,7 @@ class OrderBuilder extends StatelessWidget {
                 SizedBox(
                   height: 1.h,
                 ),
-                Expanded(
-                    child: Text(
-                        "${order.orderItems.length} ${S.of(context).products}")),
+                Expanded(child: Text("${order.orderItems.length} ${S.of(context).products}")),
               ],
             ),
           ),

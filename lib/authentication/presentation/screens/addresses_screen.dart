@@ -18,15 +18,17 @@ class AddressesScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Customer customer = ConstantsManager.appUser as Customer;
+    Customer? customer = ConstantsManager.appUser as Customer?;
     AuthBloc bloc = AuthBloc.get(context);
     return Scaffold(
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          context.push(const AddAddressScreen());
-        },
-        child: const Icon(Icons.add),
-      ),
+      floatingActionButton: customer != null
+          ? FloatingActionButton(
+              onPressed: () {
+                context.push(const AddAddressScreen());
+              },
+              child: const Icon(Icons.add),
+            )
+          : null,
       body: BlocBuilder<AuthBloc, AuthState>(
         bloc: bloc,
         builder: (context, state) {
@@ -42,8 +44,7 @@ class AddressesScreen extends StatelessWidget {
                       height: 35.h,
                       color: ColorManager.primary,
                       child: Padding(
-                        padding: EdgeInsetsDirectional.only(
-                            start: 8.w, end: 8.w, top: 1.h),
+                        padding: EdgeInsetsDirectional.only(start: 8.w, end: 8.w, top: 1.h),
                         child: Column(
                           children: [
                             SizedBox(
@@ -69,35 +70,44 @@ class AddressesScreen extends StatelessWidget {
                     ),
                   ),
                 ),
-                SizedBox(
-                  height: 1.h,
-                ),
-                customer.addresses.isEmpty
-                    ? Text(
-                        S.of(context).noAddresses,
-                        style: const TextStyle(
-                            // color: ColorManager.white,
-                            // fontSize: 20.sp,
-                            fontWeight: FontWeight.bold),
+                customer != null
+                    ? Column(
+                        children: [
+                          SizedBox(
+                            height: 1.h,
+                          ),
+                          customer.addresses.isEmpty
+                              ? Text(
+                                  S.of(context).noAddresses,
+                                  style: const TextStyle(
+                                      // color: ColorManager.white,
+                                      // fontSize: 20.sp,
+                                      fontWeight: FontWeight.bold),
+                                )
+                              : Padding(
+                                  padding: EdgeInsetsDirectional.all(5.w),
+                                  child: ListView.separated(
+                                      shrinkWrap: true,
+                                      physics: const NeverScrollableScrollPhysics(),
+                                      itemBuilder: (context, index) => InkWell(
+                                            onTap: () {
+                                              context.push(AddressDetailsScreen(
+                                                  address: customer.addresses[index]));
+                                            },
+                                            child:
+                                                AddressBuilder(address: customer.addresses[index]),
+                                          ),
+                                      separatorBuilder: (context, index) => SizedBox(
+                                            height: 1.h,
+                                          ),
+                                      itemCount: customer.addresses.length),
+                                ),
+                        ],
                       )
                     : Padding(
-                        padding: EdgeInsetsDirectional.all(5.w),
-                        child: ListView.separated(
-                            shrinkWrap: true,
-                            physics: const NeverScrollableScrollPhysics(),
-                            itemBuilder: (context, index) => InkWell(
-                                  onTap: () {
-                                    context.push(AddressDetailsScreen(
-                                        address: customer.addresses[index]));
-                                  },
-                                  child: AddressBuilder(
-                                      address: customer.addresses[index]),
-                                ),
-                            separatorBuilder: (context, index) => SizedBox(
-                                  height: 1.h,
-                                ),
-                            itemCount: customer.addresses.length),
-                      ),
+                        padding: EdgeInsets.symmetric(vertical: 10.h),
+                        child: const Center(child: LoginWidget()),
+                      )
               ],
             ),
           );

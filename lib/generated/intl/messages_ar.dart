@@ -132,7 +132,10 @@ class MessageLookup extends MessageLookupByLibrary {
         "language": MessageLookupByLibrary.simpleMessage("اللغة"),
         "loginAsMerchant":
             MessageLookupByLibrary.simpleMessage("تسجيل الدخول كتاجر"),
+        "loginFirst":
+            MessageLookupByLibrary.simpleMessage("يجب تسجيل الدخول أولا"),
         "loginNow": MessageLookupByLibrary.simpleMessage("تسجيل الدخول الآن"),
+        "logout": MessageLookupByLibrary.simpleMessage("تسجيل الخروج"),
         "lowestToHighestPrice":
             MessageLookupByLibrary.simpleMessage("من الأقل إلى الأعلى سعرًا"),
         "mainUses":
@@ -199,6 +202,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "shareApp": MessageLookupByLibrary.simpleMessage("مشاركة التطبيق"),
         "signInNow":
             MessageLookupByLibrary.simpleMessage("قم بتسجيل الدخول الآن"),
+        "skipRegistration":
+            MessageLookupByLibrary.simpleMessage("تخطي التسجيل"),
         "sortByCity":
             MessageLookupByLibrary.simpleMessage("الترتيب حسب المدينة"),
         "street": MessageLookupByLibrary.simpleMessage("الشارع"),

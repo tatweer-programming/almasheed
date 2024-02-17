@@ -32,8 +32,7 @@ class CompleteOrderScreen extends StatelessWidget {
           },
         ),
         bottomNavigationBar: Padding(
-          padding:
-              EdgeInsets.only(top: 1.h, left: 3.w, right: 3.w, bottom: 1.h),
+          padding: EdgeInsets.only(top: 1.h, left: 3.w, right: 3.w, bottom: 1.h),
           child: Container(
             height: 8.h,
             width: double.infinity,
@@ -51,8 +50,7 @@ class CompleteOrderScreen extends StatelessWidget {
                 children: [
                   Text(
                     "${S.of(context).totalPrice}: ",
-                    style: const TextStyle(
-                        color: ColorManager.white, fontWeight: FontWeight.bold),
+                    style: const TextStyle(color: ColorManager.white, fontWeight: FontWeight.bold),
                   ),
                   Expanded(
                     child: Row(
@@ -67,8 +65,7 @@ class CompleteOrderScreen extends StatelessWidget {
                         Text(
                           S.of(context).sar,
                           style: const TextStyle(
-                              color: ColorManager.white,
-                              fontWeight: FontWeight.bold),
+                              color: ColorManager.white, fontWeight: FontWeight.bold),
                         ),
                       ],
                     ),
@@ -112,8 +109,7 @@ class CompleteOrderScreen extends StatelessWidget {
                           height: 35.h,
                           color: ColorManager.primary,
                           child: Padding(
-                            padding: EdgeInsetsDirectional.only(
-                                start: 8.w, end: 8.w, top: 1.h),
+                            padding: EdgeInsetsDirectional.only(start: 8.w, end: 8.w, top: 1.h),
                             child: Column(
                               children: [
                                 SizedBox(
@@ -154,42 +150,30 @@ class CompleteOrderScreen extends StatelessWidget {
                               builder: (context, state) {
                                 return ListView.separated(
                                     shrinkWrap: true,
-                                    physics:
-                                        const NeverScrollableScrollPhysics(),
+                                    physics: const NeverScrollableScrollPhysics(),
                                     itemBuilder: (context, index) => InkWell(
                                           onTap: () {
                                             bloc.add(ChooseAddress(index));
                                           },
                                           child: Stack(
                                             children: [
-                                              AddressBuilder(
-                                                  address: customer
-                                                      .addresses[index]),
+                                              AddressBuilder(address: customer.addresses[index]),
                                               Align(
-                                                alignment: AlignmentDirectional
-                                                    .topStart,
-                                                child:
-                                                    bloc.selectedAddressIndex ==
-                                                            index
-                                                        ? const Padding(
-                                                            padding:
-                                                                EdgeInsets.all(
-                                                                    8.0),
-                                                            child: Icon(
-                                                              Icons
-                                                                  .check_circle_rounded,
-                                                              color:
-                                                                  ColorManager
-                                                                      .primary,
-                                                            ),
-                                                          )
-                                                        : const SizedBox(),
+                                                alignment: AlignmentDirectional.topStart,
+                                                child: bloc.selectedAddressIndex == index
+                                                    ? const Padding(
+                                                        padding: EdgeInsets.all(8.0),
+                                                        child: Icon(
+                                                          Icons.check_circle_rounded,
+                                                          color: ColorManager.primary,
+                                                        ),
+                                                      )
+                                                    : const SizedBox(),
                                               )
                                             ],
                                           ),
                                         ),
-                                    separatorBuilder: (context, index) =>
-                                        SizedBox(
+                                    separatorBuilder: (context, index) => SizedBox(
                                           height: 10.sp,
                                         ),
                                     itemCount: customer.addresses.length);

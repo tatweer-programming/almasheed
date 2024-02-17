@@ -144,5 +144,8 @@
   "WorkCharacteristics": "خصائص العمل",
   "youMayLikeIt": "قد يعجبك",
   "detailsProduct": "تفاصيل المنتج",
-  "notificationsAreTurnedOff": "تم إيقاف الاشعارات"
+  "notificationsAreTurnedOff": "تم إيقاف الاشعارات",
+  "skipRegistration": "تخطي التسجيل",
+  "loginFirst" : "يجب تسجيل الدخول أولا",
+  "logout" : "تسجيل الخروج"
 }

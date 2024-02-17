@@ -1511,6 +1511,36 @@ class S {
       args: [],
     );
   }
+
+  /// `Skip registration`
+  String get skipRegistration {
+    return Intl.message(
+      'Skip registration',
+      name: 'skipRegistration',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `You should log in first`
+  String get loginFirst {
+    return Intl.message(
+      'You should log in first',
+      name: 'loginFirst',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Logout`
+  String get logout {
+    return Intl.message(
+      'Logout',
+      name: 'logout',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

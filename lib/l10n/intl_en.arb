@@ -145,5 +145,8 @@
   "WorkCharacteristics": "Work Characteristics",
   "youMayLikeIt": "You may like it",
   "detailsProduct": "Details Product",
-  "notificationsAreTurnedOff": "Notifications are turned off"
+  "notificationsAreTurnedOff": "Notifications are turned off",
+  "skipRegistration": "Skip registration",
+  "loginFirst": "You should log in first",
+  "logout" : "Logout"
 }
