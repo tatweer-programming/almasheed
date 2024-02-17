@@ -3,6 +3,7 @@ import 'package:almasheed/authentication/presentation/components.dart';
 import 'package:almasheed/authentication/presentation/screens/otp_screen.dart';
 import 'package:almasheed/core/utils/assets_manager.dart';
 import 'package:almasheed/core/utils/color_manager.dart';
+import 'package:almasheed/core/utils/constance_manager.dart';
 import 'package:almasheed/core/utils/font_manager.dart';
 import 'package:almasheed/core/utils/navigation_manager.dart';
 import 'package:almasheed/main/view/screens/main_screen.dart';
@@ -187,6 +188,7 @@ class LoginScreen extends StatelessWidget {
                               ),
                               InkWell(
                                 onTap: () {
+                                  ConstantsManager.registrationSkipped = true;
                                   context.pushAndRemove(const MainScreen());
                                 },
                                 child: Container(

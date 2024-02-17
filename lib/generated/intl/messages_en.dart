@@ -124,7 +124,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "evaluation": MessageLookupByLibrary.simpleMessage("Evaluation"),
         "faq": MessageLookupByLibrary.simpleMessage("FAQ"),
         "faqText": MessageLookupByLibrary.simpleMessage(
-            "What is the Al-Masheed application?\nAn application that aims to facilitate the connection between the customer and the service provider in an easy and clear manner.\nIs there an in-app conversation between the customer and the service provider?\nYes, there is a chat service within the application.\nIf I encounter a problem within the application, what should I do?\nContact customer service in the Contact Us box and the issue will be addressed as soon as possible."),
+            "What is the Al-Masheed application?\n - An application that aims to facilitate the connection between the customer and the service provider in an easy and clear manner.\nIs there an in-app conversation between the customer and the service provider?\n - Yes, there is a chat service within the application.\nIf I encounter a problem within the application, what should I do?\n -Contact customer service in the Contact Us box and the issue will be addressed as soon as possible."),
         "favourites": MessageLookupByLibrary.simpleMessage("Favorites"),
         "floor": MessageLookupByLibrary.simpleMessage("floor"),
         "highestToLowestPrice":

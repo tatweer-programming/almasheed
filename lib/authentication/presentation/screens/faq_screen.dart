@@ -58,7 +58,7 @@ class FAQScreen extends StatelessWidget {
                 child: Center(
                   child: SelectableText(
                       style: const TextStyle(fontWeight: FontWeightManager.bold),
-                      textAlign: TextAlign.center,
+                      textAlign: TextAlign.start,
                       S.of(context).faqText),
                 ),
               ),

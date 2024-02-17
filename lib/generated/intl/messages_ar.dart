@@ -122,7 +122,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "evaluation": MessageLookupByLibrary.simpleMessage("التقييم"),
         "faq": MessageLookupByLibrary.simpleMessage("الأسئلة الشائعة"),
         "faqText": MessageLookupByLibrary.simpleMessage(
-            "ما هو تطبيق المشيد ؟\nتطبيق يهدف إلى تسهيل الربط بين العميل ومقدم الخدمة بشكل سهل وواضح.\nهل يوجد محادثة داخل التطبيق بين العميل ومقدم الخدمة؟\nنعم توجد خدمة الدردشة داخل التطبيق .\nإذا واجهت مشكلة داخل التطبيق ماذا أفعل ؟\nتواصل مع خدمة العملاء في خانة تواصل معنا وسيتم معالجة المشكلة في أقرب وقت ممكن."),
+            "ما هو تطبيق المشيد ؟\n - تطبيق يهدف إلى تسهيل الربط بين العميل ومقدم الخدمة بشكل سهل وواضح.\nهل يوجد محادثة داخل التطبيق بين العميل ومقدم الخدمة؟\n - نعم توجد خدمة الدردشة داخل التطبيق .\nإذا واجهت مشكلة داخل التطبيق ماذا أفعل ؟\n - تواصل مع خدمة العملاء في خانة تواصل معنا وسيتم معالجة المشكلة في أقرب وقت ممكن."),
         "favourites": MessageLookupByLibrary.simpleMessage("المفضلة"),
         "floor": MessageLookupByLibrary.simpleMessage("الطابق"),
         "highestToLowestPrice":
