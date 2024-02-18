@@ -71,38 +71,38 @@ class AddressesScreen extends StatelessWidget {
                   ),
                 ),
                 customer != null
-                    ? Column(
-                        children: [
-                          SizedBox(
-                            height: 1.h,
-                          ),
-                          customer.addresses.isEmpty
-                              ? Text(
-                                  S.of(context).noAddresses,
-                                  style: const TextStyle(
-                                      // color: ColorManager.white,
-                                      // fontSize: 20.sp,
-                                      fontWeight: FontWeight.bold),
-                                )
-                              : Padding(
-                                  padding: EdgeInsetsDirectional.all(5.w),
-                                  child: ListView.separated(
-                                      shrinkWrap: true,
-                                      physics: const NeverScrollableScrollPhysics(),
-                                      itemBuilder: (context, index) => InkWell(
-                                            onTap: () {
-                                              context.push(AddressDetailsScreen(
-                                                  address: customer.addresses[index]));
-                                            },
-                                            child:
-                                                AddressBuilder(address: customer.addresses[index]),
-                                          ),
-                                      separatorBuilder: (context, index) => SizedBox(
-                                            height: 1.h,
-                                          ),
-                                      itemCount: customer.addresses.length),
-                                ),
-                        ],
+                    ? Padding(
+                        padding: EdgeInsets.all(5.w),
+                        child: Column(
+                          children: [
+                            customer.addresses.isEmpty
+                                ? Text(
+                                    S.of(context).noAddresses,
+                                    style: const TextStyle(
+                                        // color: ColorManager.white,
+                                        // fontSize: 20.sp,
+                                        fontWeight: FontWeight.bold),
+                                  )
+                                : Padding(
+                                    padding: EdgeInsetsDirectional.only(bottom: 10.h),
+                                    child: ListView.separated(
+                                        shrinkWrap: true,
+                                        physics: const NeverScrollableScrollPhysics(),
+                                        itemBuilder: (context, index) => InkWell(
+                                              onTap: () {
+                                                context.push(AddressDetailsScreen(
+                                                    address: customer.addresses[index]));
+                                              },
+                                              child: AddressBuilder(
+                                                  address: customer.addresses[index]),
+                                            ),
+                                        separatorBuilder: (context, index) => SizedBox(
+                                              height: 1.h,
+                                            ),
+                                        itemCount: customer.addresses.length),
+                                  ),
+                          ],
+                        ),
                       )
                     : Padding(
                         padding: EdgeInsets.symmetric(vertical: 10.h),

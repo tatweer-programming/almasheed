@@ -1,11 +1,16 @@
 import 'dart:async';
+import 'dart:async';
+import 'dart:async';
+import 'dart:io';
 import 'package:almasheed/authentication/data/models/user.dart';
 import 'package:almasheed/core/local/shared_prefrences.dart';
 import 'package:almasheed/core/utils/constance_manager.dart';
+import 'package:almasheed/core/utils/images_manager.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dartz/dartz.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 
@@ -53,7 +58,6 @@ class AuthService {
 
       await _firebaseAuth.signInWithCredential(credential).then((value) async {
         id = value.user!.uid;
-        print(id);
         // await FirebaseMessaging.instance.subscribeToTopic("/topic/$id");
       });
 
@@ -72,6 +76,7 @@ class AuthService {
       isExists = value.data()?["id"] == id;
       if (isExists) {
         AppUser user = AppUser.fromJson(value.data()!, userType);
+
         await _saveUser(user, userType);
       }
     });
@@ -137,14 +142,50 @@ class AuthService {
       await _firebaseAuth.signOut().then((value) async {
         await _clearUserData();
       });
-      return Right(unit);
+      return const Right(unit);
     } on FirebaseAuthException catch (e) {
       return Left(e);
     }
   }
 
+  Future<Either<FirebaseException, Unit>> updateProfilePic(File newImage) async {
+    try {
+      String newImageUrl = await _uploadNewImage(newImage);
+      await _firebaseAuth.currentUser?.updatePhotoURL(newImageUrl);
+      ConstantsManager.appUser?.image = newImageUrl;
+      return const Right(unit);
+    } on FirebaseException catch (e) {
+      return Left(e);
+    }
+  }
+
+  Future deleteOldPic(String url) async {
+    try {
+      Reference firebaseStorageRef =
+          FirebaseStorage.instance.refFromURL(ConstantsManager.appUser!.image!);
+      await firebaseStorageRef.delete();
+    } catch (e) {
+      print('Error deleting image from Firebase Storage: $e');
+    }
+  }
+
+  Future<String> _uploadNewImage(File newImage) async {
+    try {
+      String fileName = newImage.path.split("/").last;
+      Reference firebaseStorageRef = FirebaseStorage.instance.ref().child('profiles/$fileName');
+      UploadTask uploadTask = firebaseStorageRef.putFile(newImage);
+      TaskSnapshot taskSnapshot = await uploadTask;
+      String downloadURL = await taskSnapshot.ref.getDownloadURL();
+      return downloadURL;
+    } catch (e) {
+      return '';
+    }
+  }
+
   Future _clearUserData() async {
     ConstantsManager.appUser = null;
+    ConstantsManager.userType = null;
+    ConstantsManager.userId = null;
     await CacheHelper.removeData(key: "userId");
     await CacheHelper.removeData(key: "userType");
   }
@@ -167,8 +208,11 @@ class AuthService {
   }
 
   Future<void> _saveUser(AppUser user, String userType) async {
+    user.image = _firebaseAuth.currentUser?.photoURL ?? ImagesManager.defaultProfile;
     await CacheHelper.saveData(key: "userId", value: user.id);
     await CacheHelper.saveData(key: "userType", value: userType);
+    ConstantsManager.userId = user.id;
+    ConstantsManager.userType = user.getType();
     ConstantsManager.appUser = user;
   }
 

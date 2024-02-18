@@ -6,17 +6,22 @@ class Customer extends AppUser {
   List<String> favorites;
   List<String> orders;
   List<Address> addresses;
-  Customer(
-      {required this.cartItems,
-      required this.favorites,
-      required this.orders,
-      required this.addresses,
-      required super.id,
-      required super.phone});
+  final String name;
+  Customer({
+    required this.name,
+    required this.cartItems,
+    required this.favorites,
+    required this.orders,
+    required this.addresses,
+    required super.id,
+    required super.phone,
+    super.image,
+  });
 
   @override
   Map<String, dynamic> toJson() {
     return {
+      "name": name,
       'id': id,
       'phone': phone,
       'cartItems': cartItems,
@@ -32,8 +37,8 @@ class Customer extends AppUser {
       (key, value) => MapEntry(key, value is int ? value : 0),
     );
     return Customer(
-      addresses:
-          (json['addresses'] as List).map((e) => Address.fromJson(e)).toList(),
+      name: json["name"],
+      addresses: (json['addresses'] as List).map((e) => Address.fromJson(e)).toList(),
       cartItems: cartItems,
       favorites: (json['favorites'] as List).cast<String>(),
       orders: (json['orders'] as List).cast<String>(),
@@ -45,5 +50,10 @@ class Customer extends AppUser {
   @override
   String getType() {
     return "customer";
+  }
+
+  @override
+  String getName() {
+    return name;
   }
 }

@@ -1,7 +1,7 @@
 import 'package:almasheed/authentication/bloc/auth_bloc.dart';
 import 'package:almasheed/authentication/data/models/customer.dart';
 import 'package:almasheed/authentication/presentation/components.dart';
-import 'package:almasheed/core/utils/assets_manager.dart';
+import 'package:almasheed/core/utils/images_manager.dart';
 import 'package:almasheed/core/utils/color_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
@@ -18,14 +18,14 @@ class CustomerLoginScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     GlobalKey<FormState> formKey = GlobalKey<FormState>();
     TextEditingController phoneController = TextEditingController();
+    TextEditingController nameController = TextEditingController();
     AuthBloc bloc = AuthBloc.get(context);
 
     return BlocListener<AuthBloc, AuthState>(
       bloc: bloc,
       listener: (context, state) {
         if (state is SendCodeErrorState) {
-          errorToast(
-              msg: ExceptionManager(state.exception).translatedMessage());
+          errorToast(msg: ExceptionManager(state.exception).translatedMessage());
         } else if (state is CodeSent) {
           // defaultToast(msg: S.of(context).codeSent);
           // context.push(const OTPScreen());
@@ -37,14 +37,14 @@ class CustomerLoginScreen extends StatelessWidget {
           return Scaffold(
             body: Form(
               key: formKey,
-              child: Column(
-                children: [
-                  SizedBox(
-                    height: 30.h,
-                  ),
-                  Expanded(
-                    child: AuthBackground(
-                      imagePath: AssetsManager.building_2,
+              child: SingleChildScrollView(
+                child: Column(
+                  children: [
+                    SizedBox(
+                      height: 30.h,
+                    ),
+                    AuthBackground(
+                      imagePath: ImagesManager.building_2,
                       child: Padding(
                         padding: EdgeInsets.all(5.w),
                         child: Column(
@@ -72,12 +72,24 @@ class CustomerLoginScreen extends StatelessWidget {
                             SizedBox(
                               height: 2.8.h,
                             ),
+                            defaultFormField(
+                                label: S.of(context).name,
+                                controller: nameController,
+                                type: TextInputType.name,
+                                validator: (value) {
+                                  if (value!.isEmpty) {
+                                    return S.of(context).enterName;
+                                  }
+                                  return null;
+                                }),
+                            SizedBox(
+                              height: 10.sp,
+                            ),
                             PhoneNumberInput(controller: phoneController),
                             SizedBox(
                               height: 10.sp,
                             ),
-                            bloc.timeToResendCode != null &&
-                                    bloc.timeToResendCode! > 0
+                            bloc.timeToResendCode != null && bloc.timeToResendCode! > 0
                                 ? Row(
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
@@ -108,35 +120,29 @@ class CustomerLoginScreen extends StatelessWidget {
                                     ],
                                   )
                                 : state is SendCodeLoadingState
-                                    ? const Center(
-                                        child: CircularProgressIndicator())
+                                    ? const Center(child: CircularProgressIndicator())
                                     : Container(
                                         decoration: BoxDecoration(
                                           color: ColorManager.white,
-                                          borderRadius:
-                                              BorderRadius.circular(10.sp),
+                                          borderRadius: BorderRadius.circular(10.sp),
                                         ),
                                         width: 90.w,
                                         height: 40.sp,
                                         child: InkWell(
                                           onTap: () {
-                                            if (formKey.currentState!
-                                                    .validate() &&
+                                            if (formKey.currentState!.validate() &&
                                                 bloc.agreeToTerms) {
                                               Customer customer = Customer(
+                                                  name: nameController.text,
                                                   addresses: [],
                                                   cartItems: {},
                                                   favorites: [],
                                                   orders: [],
                                                   id: "",
-                                                  phone:
-                                                      "+966${phoneController.text}");
+                                                  phone: "+966${phoneController.text}");
                                               bloc.add(SendCodeEvent(customer));
                                             } else if (!bloc.agreeToTerms) {
-                                              errorToast(
-                                                  msg: S
-                                                      .of(context)
-                                                      .mustAgreeToTerms);
+                                              errorToast(msg: S.of(context).mustAgreeToTerms);
                                             }
                                           },
                                           child: Center(
@@ -153,14 +159,13 @@ class CustomerLoginScreen extends StatelessWidget {
                             SizedBox(
                               height: 10.sp,
                             ),
-                            TermsAgreementWidget(
-                                bloc: bloc, userType: "customer")
+                            TermsAgreementWidget(bloc: bloc, userType: "customer")
                           ],
                         ),
                       ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
           );

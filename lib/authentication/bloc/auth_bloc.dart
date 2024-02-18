@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:io';
 import 'package:almasheed/authentication/data/models/user.dart';
 import 'package:almasheed/authentication/data/services/auth_services.dart';
 import 'package:almasheed/authentication/presentation/components.dart';
@@ -12,7 +13,9 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
+import 'package:image_picker/image_picker.dart';
+import 'package:path_provider/path_provider.dart';
+import '../../core/utils/images_manager.dart';
 import '../../generated/l10n.dart';
 import '../data/models/address.dart';
 import '../data/repositories/auth_repository.dart';
@@ -135,6 +138,23 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     } else if (event is ChooseAddressTypeEvent) {
       addressType = event.addressType;
       emit(ChooseAddressTypeState(addressType: event.addressType));
+    } else if (event is UpdateProfilePictureEvent) {
+      String? oldPic;
+      if (ConstantsManager.appUser?.image != null &&
+          ConstantsManager.appUser?.image != ImagesManager.defaultProfile) {
+        oldPic = ConstantsManager.appUser!.image;
+      }
+      File? image = await _captureAndSaveGalleryImage();
+      if (image != null) {
+        emit(UpdateProfileLoadingState());
+        var response = await repository.updateProfilePic(image);
+        response.fold((l) {
+          emit(UpdateProfileErrorState(l));
+        }, (r) async {
+          emit(UpdateProfileSuccessState());
+          oldPic != null ? await repository.deleteOldPic(oldPic) : DoNothingAction();
+        });
+      }
     } else if (event is ChooseCityEvent) {
       city = event.city;
       emit(ChooseCityState(city: event.city));
@@ -188,5 +208,18 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         emit(const ChangeTimeToResendCodeState(time: 0));
       }
     });
+  }
+
+  Future<File?> _captureAndSaveGalleryImage() async {
+    final picker = ImagePicker();
+    final pickedFile = await picker.pickImage(source: ImageSource.gallery);
+
+    if (pickedFile != null) {
+      final image = File(pickedFile.path);
+
+      return image;
+    } else {
+      return null;
+    }
   }
 }

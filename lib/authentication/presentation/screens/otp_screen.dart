@@ -1,9 +1,10 @@
 import 'package:almasheed/authentication/presentation/components.dart';
-import 'package:almasheed/core/utils/assets_manager.dart';
+import 'package:almasheed/core/utils/images_manager.dart';
 import 'package:almasheed/core/utils/color_manager.dart';
 import 'package:almasheed/core/utils/constance_manager.dart';
 import 'package:almasheed/core/utils/navigation_manager.dart';
 import 'package:almasheed/main/view/screens/main_screen.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sizer/sizer.dart';
@@ -30,17 +31,17 @@ class OTPScreen extends StatelessWidget {
         } else if (state is UserNotFoundState) {
           errorToast(msg: S.of(context).userNotFound);
         } else if (state is VerifyCodeErrorState) {
-          errorToast(
-              msg: ExceptionManager(state.exception).translatedMessage());
+          errorToast(msg: ExceptionManager(state.exception).translatedMessage());
         } else if (state is CreateUserSuccessfulState) {
           defaultToast(msg: S.of(context).userCreated);
-          context.push(const MainScreen());
+          context.pushAndRemove(const MainScreen());
         } else if (state is CreateUserErrorState) {
-          errorToast(
-              msg: ExceptionManager(state.exception).translatedMessage());
+          errorToast(msg: ExceptionManager(state.exception).translatedMessage());
         } else if (state is Authenticated) {
-          print("authenticated");
-          context.push(const MainScreen());
+          if (kDebugMode) {
+            print("authenticated");
+          }
+          context.pushAndRemove(const MainScreen());
         }
       },
       child: BlocBuilder<AuthBloc, AuthState>(
@@ -54,14 +55,14 @@ class OTPScreen extends StatelessWidget {
                 ),
                 Expanded(
                   child: AuthBackground(
-                    imagePath: AssetsManager.building_3,
+                    imagePath: ImagesManager.building_3,
                     child: Padding(
                       padding: EdgeInsets.all(10.w),
                       child: ListView(
                         children: [
                           const SizedBox(height: 40),
                           Padding(
-                            padding: EdgeInsets.symmetric(vertical: 8.0),
+                            padding: const EdgeInsets.symmetric(vertical: 8.0),
                             child: Text(
                               S.of(context).phoneNumberVerification,
                               style: const TextStyle(
@@ -72,8 +73,7 @@ class OTPScreen extends StatelessWidget {
                             ),
                           ),
                           Padding(
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 30.0, vertical: 8),
+                            padding: const EdgeInsets.symmetric(horizontal: 30.0, vertical: 8),
                             child: RichText(
                               text: TextSpan(
                                   text: S.of(context).enterSentCode,
@@ -85,8 +85,7 @@ class OTPScreen extends StatelessWidget {
                                             fontWeight: FontWeight.bold,
                                             fontSize: 15)),
                                   ],
-                                  style: const TextStyle(
-                                      color: ColorManager.white, fontSize: 15)),
+                                  style: const TextStyle(color: ColorManager.white, fontSize: 15)),
                               textAlign: TextAlign.center,
                             ),
                           ),
@@ -96,8 +95,7 @@ class OTPScreen extends StatelessWidget {
                           Form(
                             key: formKey,
                             child: Padding(
-                                padding: const EdgeInsets.symmetric(
-                                    vertical: 8.0, horizontal: 30),
+                                padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 30),
                                 child: PinCodeTextField(
                                   appContext: context,
                                   length: 6,
@@ -117,8 +115,7 @@ class OTPScreen extends StatelessWidget {
                                       activeFillColor: ColorManager.white,
                                       inactiveFillColor: ColorManager.white),
                                   cursorColor: ColorManager.black,
-                                  animationDuration:
-                                      const Duration(milliseconds: 300),
+                                  animationDuration: const Duration(milliseconds: 300),
                                   controller: otpController,
                                   keyboardType: TextInputType.number,
                                   onCompleted: (v) {
@@ -133,8 +130,7 @@ class OTPScreen extends StatelessWidget {
                           const SizedBox(
                             height: 20,
                           ),
-                          bloc.timeToResendCode != null &&
-                                  bloc.timeToResendCode! > 0
+                          bloc.timeToResendCode != null && bloc.timeToResendCode! > 0
                               ? Row(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
@@ -169,14 +165,12 @@ class OTPScreen extends StatelessWidget {
                                   children: [
                                     Text(
                                       S.of(context).didNotReceiveCode,
-                                      style: const TextStyle(
-                                          color: ColorManager.white,
-                                          fontSize: 15),
+                                      style:
+                                          const TextStyle(color: ColorManager.white, fontSize: 15),
                                     ),
                                     TextButton(
                                         onPressed: () {
-                                          bloc.add(SendCodeEvent(
-                                              ConstantsManager.appUser!));
+                                          bloc.add(SendCodeEvent(ConstantsManager.appUser!));
                                         },
                                         child: Text(
                                           S.of(context).reSend,
@@ -197,8 +191,8 @@ class OTPScreen extends StatelessWidget {
                                   ),
                                 )
                               : Container(
-                                  margin: const EdgeInsets.symmetric(
-                                      vertical: 16.0, horizontal: 30),
+                                  margin:
+                                      const EdgeInsets.symmetric(vertical: 16.0, horizontal: 30),
                                   decoration: BoxDecoration(
                                     color: ColorManager.primary,
                                     borderRadius: BorderRadius.circular(5),

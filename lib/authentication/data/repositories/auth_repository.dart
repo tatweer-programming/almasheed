@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:almasheed/authentication/data/models/address.dart';
 import 'package:almasheed/authentication/data/services/auth_services.dart';
 import 'package:dartz/dartz.dart';
@@ -36,5 +38,13 @@ class AuthRepository {
 
   Future<Either<FirebaseException, Unit>> logout() {
     return _service.logout();
+  }
+
+  Future<Either<FirebaseException, Unit>> updateProfilePic(File newImage) {
+    return _service.updateProfilePic(newImage);
+  }
+
+  Future deleteOldPic(String url) async {
+    return _service.deleteOldPic(url);
   }
 }

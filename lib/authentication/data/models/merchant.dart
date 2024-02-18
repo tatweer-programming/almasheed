@@ -16,6 +16,7 @@ class Merchant extends AppUser {
       required this.orders,
       required super.id,
       required super.phone,
+      super.image,
       required this.productsIds});
 
   @override
@@ -47,5 +48,10 @@ class Merchant extends AppUser {
   @override
   String getType() {
     return "merchant";
+  }
+
+  @override
+  String getName() {
+    return companyName;
   }
 }

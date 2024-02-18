@@ -1,13 +1,17 @@
+import 'package:almasheed/core/utils/constance_manager.dart';
+import 'package:almasheed/core/utils/images_manager.dart';
+
 import 'customer.dart';
 import 'merchant.dart';
 
 abstract class AppUser {
   String id;
   final String phone;
+  String? image;
 
   Map<String, dynamic> toJson();
 
-  AppUser({required this.id, required this.phone});
+  AppUser({required this.id, required this.phone, this.image = ImagesManager.defaultProfile});
 
   static AppUser fromJson(Map<String, dynamic> json, String type) {
     if (type == 'customer') {
@@ -19,4 +23,5 @@ abstract class AppUser {
   }
 
   String getType();
+  String getName();
 }

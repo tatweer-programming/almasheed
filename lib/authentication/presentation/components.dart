@@ -75,7 +75,6 @@ class AccountTypeItem extends StatelessWidget {
 
 class PhoneNumberInput extends StatelessWidget {
   final TextEditingController controller;
-
   const PhoneNumberInput({super.key, required this.controller});
 
   @override
@@ -84,11 +83,12 @@ class PhoneNumberInput extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        SizedBox(
-          width: 5.sp,
-        ),
+        // SizedBox(
+        //   width: 5.sp,
+        // ),
         Expanded(
           child: defaultFormField(
+              textDirection: TextDirection.ltr,
               prefixIcon: SizedBox(
                 width: 50.sp,
                 child: Align(
@@ -121,6 +121,7 @@ Widget defaultFormField(
         //String? validatorText,
         TextInputType? type,
         Widget? prefixIcon,
+        TextDirection? textDirection,
         //   void Function()? suffixFunction,
         FormFieldValidator? validator,
         // bool obscureText = false,
@@ -128,6 +129,7 @@ Widget defaultFormField(
     SizedBox(
       height: 7.h,
       child: TextFormField(
+        textDirection: textDirection,
         onFieldSubmitted: onSubmit,
         controller: controller,
         keyboardType: type,
@@ -293,7 +295,7 @@ class AuthBackground extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 65.h,
+      height: 70.h,
       alignment: AlignmentDirectional.bottomCenter,
       decoration: BoxDecoration(
           // image: DecorationImage(image: AssetImage(imagePath , ) , opacity: 10),
@@ -389,7 +391,7 @@ class AddressBuilder extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 20.h,
+      height: 17.h,
       child: Card(
         elevation: 5,
         shape: OutlineInputBorder(
@@ -399,55 +401,33 @@ class AddressBuilder extends StatelessWidget {
         color: ColorManager.secondary,
         child: Padding(
             padding: EdgeInsets.all(10.sp),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
+            child: Row(
               children: [
+                Expanded(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      AddressItem(label: S.of(context).addressType, value: address.type),
+                      AddressItem(label: S.of(context).city, value: address.city),
+                      AddressItem(label: S.of(context).street, value: address.street),
+                    ],
+                  ),
+                ),
                 SizedBox(
-                  height: 1.h,
+                  width: 5.sp,
                 ),
                 Expanded(
-                    child: Row(
+                    child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          AddressItem(label: S.of(context).addressType, value: address.type),
-                          SizedBox(
-                            height: 1.h,
-                          ),
-                          AddressItem(label: S.of(context).city, value: address.city),
-                          SizedBox(
-                            height: 1.h,
-                          ),
-                          SizedBox(
-                            height: 1.h,
-                          ),
-                          AddressItem(label: S.of(context).street, value: address.street),
-                        ],
-                      ),
-                    ),
-                    SizedBox(
-                      width: 5.sp,
-                    ),
-                    Expanded(
-                        child: Column(
-                      children: [
-                        AddressItem(
-                            label: S.of(context).houseNumber,
-                            value: address.houseNumber.toString()),
-                        SizedBox(
-                          height: 1.h,
-                        ),
-                        AddressItem(label: S.of(context).floor, value: address.floor.toString()),
-                        SizedBox(
-                          height: 1.h,
-                        ),
-                        AddressItem(
-                            label: S.of(context).apartmentNumber,
-                            value: address.apartmentNumber.toString()),
-                      ],
-                    ))
+                    AddressItem(
+                        label: S.of(context).houseNumber, value: address.houseNumber.toString()),
+                    AddressItem(label: S.of(context).floor, value: address.floor.toString()),
+                    AddressItem(
+                        label: S.of(context).apartmentNumber,
+                        value: address.apartmentNumber.toString()),
                   ],
                 ))
               ],
@@ -466,34 +446,34 @@ class AddressItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Expanded(
-        child: Row(
-      textBaseline: TextBaseline.alphabetic,
-      children: [
-        Text(
-          "$label: ",
-          style: TextStyle(
-            fontSize: 12.sp,
-            color: ColorManager.black,
-            fontWeight: FontWeight.bold,
+      child: Row(
+        //  textBaseline: TextBaseline.alphabetic,
+        children: [
+          Text(
+            "$label:",
+            style: TextStyle(
+              fontSize: 12.sp,
+              color: ColorManager.black,
+              fontWeight: FontWeight.bold,
+            ),
           ),
-        ),
-        SizedBox(
-          width: 5.sp,
-        ),
-        Expanded(
-            child: Text(
-          value,
-          maxLines: 2,
-          overflow: TextOverflow.ellipsis,
-          style: TextStyle(
-            overflow: TextOverflow.visible,
-            fontSize: 13.sp,
-            color: ColorManager.primary,
-            fontWeight: FontWeight.bold,
+          SizedBox(
+            width: 5.sp,
           ),
-        )),
-      ],
-    ));
+          Text(
+            value,
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+            style: TextStyle(
+              overflow: TextOverflow.visible,
+              fontSize: 12.sp,
+              color: ColorManager.primary,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        ],
+      ),
+    );
   }
 }
 

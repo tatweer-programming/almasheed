@@ -1,7 +1,7 @@
 import 'package:almasheed/authentication/bloc/auth_bloc.dart';
 import 'package:almasheed/authentication/presentation/components.dart';
 import 'package:almasheed/authentication/presentation/screens/otp_screen.dart';
-import 'package:almasheed/core/utils/assets_manager.dart';
+import 'package:almasheed/core/utils/images_manager.dart';
 import 'package:almasheed/core/utils/color_manager.dart';
 import 'package:almasheed/core/utils/constance_manager.dart';
 import 'package:almasheed/core/utils/font_manager.dart';
@@ -25,7 +25,7 @@ class LoginScreen extends StatelessWidget {
     AuthBloc bloc = AuthBloc.get(context);
     GlobalKey<FormState> formKey = GlobalKey<FormState>();
     return Scaffold(
-      resizeToAvoidBottomInset: false,
+      resizeToAvoidBottomInset: true,
       body: BlocListener<AuthBloc, AuthState>(
         bloc: bloc,
         listenWhen: (context, state) {
@@ -52,7 +52,7 @@ class LoginScreen extends StatelessWidget {
                   Align(
                     alignment: Alignment.bottomCenter,
                     child: AuthBackground(
-                        imagePath: AssetsManager.building_3,
+                        imagePath: ImagesManager.building_3,
                         child: Padding(
                           padding: EdgeInsets.all(16.0.sp),
                           child: Column(
@@ -154,6 +154,7 @@ class LoginScreen extends StatelessWidget {
                                                 bloc.add(LoginByPhoneEvent(merchant));
                                               } else {
                                                 Customer customer = Customer(
+                                                    name: "",
                                                     addresses: [],
                                                     cartItems: {},
                                                     favorites: [],

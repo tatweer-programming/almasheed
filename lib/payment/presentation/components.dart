@@ -103,7 +103,6 @@ class _CartItemState extends State<CartItem> {
                         //   height: 1.h,
                         // ),
                         Row(
-                          mainAxisSize: MainAxisSize.min,
                           children: [
                             Text(
                               "${S.of(context).quantity}: ",
@@ -112,50 +111,50 @@ class _CartItemState extends State<CartItem> {
                                   fontSize: 15.sp,
                                   color: ColorManager.white),
                             ),
-                            if (!widget.isQuantityEditingEnabled)
-                              Text(
-                                "${widget.orderItem.quantity}",
-                                style: TextStyle(
-                                    fontWeight: FontWeightManager.bold,
-                                    fontSize: 15.sp,
-                                    color: ColorManager.secondary),
-                              ),
-                            SizedBox(
-                              width: 10.sp,
-                            ),
-                            if (!widget.isQuantityEditingEnabled)
-                              widget.bloc.state is RemoveFromCartLoadingState
-                                  ? const CircularProgressIndicator()
-                                  : IconButton(
-                                      onPressed: () {
-                                        setState(() {
-                                          widget.isQuantityEditingEnabled = true;
-                                        });
+                            Container(
+                              height: 4.h,
+                              decoration: BoxDecoration(
+                                  color: ColorManager.white,
+                                  borderRadius: BorderRadius.all(Radius.circular(5.sp))),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  InkWell(
+                                      onTap: () {
+                                        _decreaseCounter();
                                       },
-                                      icon: const Icon(
-                                        Icons.edit,
-                                        color: ColorManager.white,
+                                      child: Center(
+                                        child: Icon(
+                                          Icons.remove,
+                                          size: 20.sp,
+                                          color: ColorManager.primary,
+                                        ),
                                       )),
+                                  Text(
+                                    " ${widget.orderItem.quantity} ",
+                                    style: TextStyle(
+                                        fontWeight: FontWeightManager.bold,
+                                        fontSize: 15.sp,
+                                        color: ColorManager.primary),
+                                  ),
+                                  InkWell(
+                                      onTap: () {
+                                        _increaseCounter();
+                                      },
+                                      child: Center(
+                                        child: Icon(
+                                          Icons.add,
+                                          size: 20.sp,
+                                          color: ColorManager.primary,
+                                        ),
+                                      )),
+                                ],
+                              ),
+                            )
                           ],
                         ),
-                        if (widget.isQuantityEditingEnabled)
-                          SizedBox(
-                            width: 20.w,
-                            child: defaultFormField(
-                              onSubmit: (value) {
-                                _editingCompleted();
-                              },
-                              type: TextInputType.number,
-                              label: S.of(context).quantity,
-                              controller: widget.quantityController,
-                              validator: (value) {
-                                if (value!.isEmpty || value == "0") {
-                                  return S.of(context).enterValidQuantity;
-                                }
-                                return null;
-                              },
-                            ),
-                          ),
+
                         if (!widget.isQuantityEditingEnabled)
                           Expanded(
                             child: Column(
@@ -235,13 +234,24 @@ class _CartItemState extends State<CartItem> {
     );
   }
 
-  void _editingCompleted() {
+  void _increaseCounter() {
     setState(() {
-      widget.isQuantityEditingEnabled = false;
-      widget.orderItem.quantity = int.parse(widget.quantityController.text);
+      widget.orderItem.quantity = widget.orderItem.quantity + 1;
+      widget.quantityController.text = widget.orderItem.quantity.toString();
       widget.bloc.add(EditQuantityInCart(
           productId: widget.orderItem.product.productId, quantity: widget.orderItem.quantity));
     });
+  }
+
+  void _decreaseCounter() {
+    if (widget.orderItem.quantity != 1) {
+      setState(() {
+        widget.orderItem.quantity = int.parse(widget.quantityController.text) - 1;
+        widget.quantityController.text = widget.orderItem.quantity.toString();
+        widget.bloc.add(EditQuantityInCart(
+            productId: widget.orderItem.product.productId, quantity: widget.orderItem.quantity));
+      });
+    }
   }
 }
 

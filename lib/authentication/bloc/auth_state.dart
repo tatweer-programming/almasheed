@@ -197,3 +197,20 @@ class LogoutSuccessfulState extends AuthState {
   @override
   List<Object?> get props => [];
 }
+
+class UpdateProfileLoadingState extends AuthState {
+  @override
+  List<Object?> get props => [];
+}
+
+class UpdateProfileSuccessState extends AuthState {
+  @override
+  List<Object?> get props => [];
+}
+
+class UpdateProfileErrorState extends AuthState {
+  final Exception exception;
+  const UpdateProfileErrorState(this.exception);
+  @override
+  List<Object?> get props => [];
+}

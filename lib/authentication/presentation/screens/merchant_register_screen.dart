@@ -1,7 +1,7 @@
 import 'package:almasheed/authentication/data/models/merchant.dart';
 import 'package:almasheed/authentication/presentation/screens/otp_screen.dart';
 import 'package:almasheed/core/error/remote_error.dart';
-import 'package:almasheed/core/utils/assets_manager.dart';
+import 'package:almasheed/core/utils/images_manager.dart';
 import 'package:almasheed/core/utils/navigation_manager.dart';
 import 'package:almasheed/generated/l10n.dart';
 import 'package:flutter/material.dart';
@@ -24,15 +24,13 @@ class MerchantLoginScreen extends StatelessWidget {
     TextEditingController companyNameController = TextEditingController();
     TextEditingController cityController = TextEditingController();
     TextEditingController areaController = TextEditingController();
-    TextEditingController registrationNumberController =
-        TextEditingController();
+    TextEditingController registrationNumberController = TextEditingController();
     AuthBloc bloc = AuthBloc.get(context);
 
     return BlocListener<AuthBloc, AuthState>(
       listener: (context, state) {
         if (state is SendCodeErrorState) {
-          errorToast(
-              msg: ExceptionManager(state.exception).translatedMessage());
+          errorToast(msg: ExceptionManager(state.exception).translatedMessage());
         } else if (state is CodeSent) {
           defaultToast(msg: S.of(context).codeSent);
           context.push(const OTPScreen());
@@ -42,7 +40,6 @@ class MerchantLoginScreen extends StatelessWidget {
         bloc: bloc,
         builder: (context, state) {
           return Scaffold(
-            resizeToAvoidBottomInset: false,
             body: Form(
               key: formKey,
               child: Column(
@@ -52,7 +49,7 @@ class MerchantLoginScreen extends StatelessWidget {
                   ),
                   Expanded(
                     child: AuthBackground(
-                        imagePath: AssetsManager.building_1,
+                        imagePath: ImagesManager.building_1,
                         child: SingleChildScrollView(
                           child: Padding(
                             padding: EdgeInsets.all(5.w),
@@ -137,11 +134,9 @@ class MerchantLoginScreen extends StatelessWidget {
                                 SizedBox(
                                   height: 7.5.sp,
                                 ),
-                                bloc.timeToResendCode != null &&
-                                        bloc.timeToResendCode! > 0
+                                bloc.timeToResendCode != null && bloc.timeToResendCode! > 0
                                     ? Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
+                                        mainAxisAlignment: MainAxisAlignment.center,
                                         children: [
                                           Text(
                                             "${S.of(context).resendCodeIn} ",
@@ -170,53 +165,40 @@ class MerchantLoginScreen extends StatelessWidget {
                                         ],
                                       )
                                     : state is SendCodeLoadingState
-                                        ? const Center(
-                                            child: CircularProgressIndicator())
+                                        ? const Center(child: CircularProgressIndicator())
                                         : Container(
                                             decoration: BoxDecoration(
                                               color: ColorManager.white,
-                                              borderRadius:
-                                                  BorderRadius.circular(10.sp),
+                                              borderRadius: BorderRadius.circular(10.sp),
                                             ),
                                             width: 90.w,
                                             height: 40.sp,
                                             child: InkWell(
                                               onTap: () {
-                                                if (formKey.currentState!
-                                                        .validate() &&
+                                                if (formKey.currentState!.validate() &&
                                                     bloc.agreeToTerms == true) {
                                                   Merchant merchant = Merchant(
                                                       productsIds: [],
-                                                      companyName:
-                                                          companyNameController
-                                                              .text,
+                                                      companyName: companyNameController.text,
                                                       city: cityController.text,
                                                       area: areaController.text,
                                                       registrationNumber:
-                                                          registrationNumberController
-                                                              .text,
+                                                          registrationNumberController.text,
                                                       orders: [],
                                                       id: "",
-                                                      phone:
-                                                          "+966${phoneController.text}");
-                                                  bloc.add(
-                                                      SendCodeEvent(merchant));
+                                                      phone: "+966${phoneController.text}");
+                                                  bloc.add(SendCodeEvent(merchant));
                                                 } else if (!bloc.agreeToTerms) {
-                                                  errorToast(
-                                                      msg: S
-                                                          .of(context)
-                                                          .mustAgreeToTerms);
+                                                  errorToast(msg: S.of(context).mustAgreeToTerms);
                                                 }
                                               },
                                               child: Center(
                                                 child: Text(
                                                   S.of(context).sendCode,
                                                   style: const TextStyle(
-                                                      color:
-                                                          ColorManager.primary,
+                                                      color: ColorManager.primary,
                                                       fontSize: 18,
-                                                      fontWeight:
-                                                          FontWeight.bold),
+                                                      fontWeight: FontWeight.bold),
                                                 ),
                                               ),
                                             ),
@@ -224,8 +206,7 @@ class MerchantLoginScreen extends StatelessWidget {
                                 SizedBox(
                                   height: 7.5.sp,
                                 ),
-                                TermsAgreementWidget(
-                                    bloc: bloc, userType: "merchant")
+                                TermsAgreementWidget(bloc: bloc, userType: "merchant")
                               ],
                             ),
                           ),

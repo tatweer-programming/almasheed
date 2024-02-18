@@ -109,3 +109,8 @@ class LogoutEvent extends AuthEvent {
   @override
   List<Object?> get props => [];
 }
+
+class UpdateProfilePictureEvent extends AuthEvent {
+  @override
+  List<Object?> get props => [];
+}
