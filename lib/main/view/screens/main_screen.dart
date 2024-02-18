@@ -17,7 +17,7 @@ class MainScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     MainBloc bloc = sl();
-    ConstantsManager.appUser == null && ConstantsManager.registrationSkipped != null
+    ConstantsManager.appUser == null && ConstantsManager.registrationSkipped == null
         ? bloc.add(GetUserDataEvent())
         : DoNothingAction();
 

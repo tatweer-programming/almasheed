@@ -36,6 +36,7 @@ Future<void> main() async {
   ConstantsManager.userId = await CacheHelper.getData(key: "userId");
   ConstantsManager.isNotificationsOn = await CacheHelper.getData(key: "isNotificationsOn");
   ConstantsManager.userType = await CacheHelper.getData(key: "userType");
+  print("${ConstantsManager.userId}  ${ConstantsManager.userType}");
   runApp(const Masheed());
 }
 
@@ -73,7 +74,7 @@ class Masheed extends StatelessWidget {
                 locale: LocalizationManager.getCurrentLocale(),
                 theme: getAppTheme(),
                 // home: const MainScreen(),
-                home: ConstantsManager.userType != null && ConstantsManager.userId != null
+                home: (ConstantsManager.userType != null && ConstantsManager.userId != null)
                     ? const MainScreen()
                     : const LoginScreen(),
               );
