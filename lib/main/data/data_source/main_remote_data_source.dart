@@ -6,6 +6,7 @@ import 'package:almasheed/main/data/models/category.dart';
 import 'package:almasheed/main/data/models/product.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dartz/dartz.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:image_picker/image_picker.dart';
 import '../../../authentication/data/models/merchant.dart';
@@ -227,6 +228,7 @@ class MainRemoteDataSource {
           .get()
           .then((value) {
         ConstantsManager.appUser = AppUser.fromJson(value.data()!, "${ConstantsManager.userType}");
+        ConstantsManager.appUser!.image = FirebaseAuth.instance.currentUser!.photoURL;
       });
       return const Right(unit);
     } on FirebaseException catch (e) {
