@@ -50,20 +50,22 @@ class HomePageScreen extends StatelessWidget {
                 physics: const BouncingScrollPhysics(),
                 child: Padding(
                   padding: EdgeInsets.symmetric(horizontal: 6.w),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      defaultCarousel(
-                          bloc: bloc,
-                          list: list,
-                          controller: carouselController),
-                      SizedBox(height: 1.h),
-                      if (bloc.categories.isNotEmpty)
-                        _buildCategoriesList(context, bloc),
-                      if (ConstantsManager.appUser is Customer &&
-                          bloc.merchants.isNotEmpty)
-                        _buildMerchantsList(context, bloc),
-                    ],
+                  child: BlocBuilder<MainBloc, MainState>(
+                    bloc: bloc,
+                    builder: (context, state) {
+                      return Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          defaultCarousel(bloc: bloc, list: list, controller: carouselController),
+                          SizedBox(height: 1.h),
+                          if (bloc.categories.isNotEmpty) _buildCategoriesList(context, bloc),
+                          if ((ConstantsManager.appUser is Customer ||
+                                  ConstantsManager.appUser == null) &&
+                              (bloc.merchants.isNotEmpty))
+                            _buildMerchantsList(context, bloc),
+                        ],
+                      );
+                    },
                   ),
                 ),
               ),
@@ -99,8 +101,7 @@ class HomePageScreen extends StatelessWidget {
                 height: 35.h,
                 color: ColorManager.primary,
                 child: Padding(
-                  padding: EdgeInsetsDirectional.only(
-                      start: 8.w, end: 8.w, top: 1.h),
+                  padding: EdgeInsetsDirectional.only(start: 8.w, end: 8.w, top: 1.h),
                   child: Column(
                     children: [
                       SizedBox(
@@ -171,18 +172,16 @@ class HomePageScreen extends StatelessWidget {
             scrollDirection: Axis.horizontal,
             itemBuilder: (context, index) => categoryWidget(
               onTap: () => context.push(CategoryScreen(
-                category: ConstantsManager.appUser is Customer
+                category: ConstantsManager.appUser is Customer || ConstantsManager.appUser == null
                     ? bloc.categories[index]
                     : Category(
                         categoryName: "",
                         products: bloc.categories[index].products!
-                            .where((product) =>
-                                (ConstantsManager.appUser as Merchant)
-                                    .productsIds
-                                    .contains(product.productId))
+                            .where((product) => (ConstantsManager.appUser as Merchant)
+                                .productsIds
+                                .contains(product.productId))
                             .toList(),
-                        productsIds:
-                            (ConstantsManager.appUser as Merchant).productsIds,
+                        productsIds: (ConstantsManager.appUser as Merchant).productsIds,
                       ),
               )),
               category: bloc.categories[index],
@@ -211,8 +210,8 @@ class HomePageScreen extends StatelessWidget {
               category: Category(
                 categoryName: "",
                 products: bloc.products
-                    .where((product) => bloc.merchants[index].productsIds
-                        .contains(product.productId))
+                    .where(
+                        (product) => bloc.merchants[index].productsIds.contains(product.productId))
                     .toList(),
                 productsIds: bloc.merchants[index].productsIds,
               ),

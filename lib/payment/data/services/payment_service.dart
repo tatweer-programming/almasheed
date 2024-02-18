@@ -11,16 +11,16 @@ import '../../../core/utils/color_manager.dart';
 
 class PaymentService {
   FirebaseFirestore fireStore = FirebaseFirestore.instance;
-  Customer customer = ConstantsManager.appUser as Customer;
+  Customer? customer = ConstantsManager.appUser as Customer?;
 
   Future<Either<FirebaseException, bool>> addItem(
       {required String productId, int quantity = 1}) async {
     try {
-      customer.cartItems[productId] = quantity;
+      customer?.cartItems[productId] = quantity;
       await _updateCartInFireStore();
       return const Right(true);
     } on FirebaseException catch (e) {
-      customer.cartItems.remove(productId);
+      customer?.cartItems.remove(productId);
       return Left(e);
     }
   }
@@ -28,19 +28,18 @@ class PaymentService {
   Future<Either<FirebaseException, bool>> editQuantity(
       {required String productId, required int quantity}) async {
     try {
-      customer.cartItems[productId] = quantity;
+      customer!.cartItems[productId] = quantity;
       await _updateCartInFireStore();
       return const Right(true);
     } on FirebaseException catch (e) {
-      customer.cartItems.remove(productId);
+      customer!.cartItems.remove(productId);
       return Left(e);
     }
   }
 
-  Future<Either<FirebaseException, bool>> removeItem(
-      {required String productId}) async {
+  Future<Either<FirebaseException, bool>> removeItem({required String productId}) async {
     try {
-      customer.cartItems.remove(productId);
+      customer!.cartItems.remove(productId);
       await _updateCartInFireStore();
       return const Right(true);
     } on FirebaseException catch (e) {
@@ -50,13 +49,15 @@ class PaymentService {
 
   Future<PaymentResponse> completePayment(
       {required BuildContext context, required OrderModel order}) async {
-    print(customer.phone);
+    print(customer!.phone);
     return MyFatoorah.startPayment(
       context: context,
       request: MyfatoorahRequest.test(
         currencyIso: Country.SaudiArabia,
-        successUrl: "https://www.google.com",
-        errorUrl: "https://www.youtube.com",
+        successUrl:
+            "https://firebasestorage.googleapis.com/v0/b/masheed-d942d.appspot.com/o/payment%2Fsuccess%20(2).HTML?alt=media&token=2d979a52-9247-4abd-a264-fba2d5f0ae2e",
+        errorUrl:
+            "https://firebasestorage.googleapis.com/v0/b/masheed-d942d.appspot.com/o/payment%2Ffailed.HTML?alt=media&token=01fddc6e-e292-4080-bddb-0e3fa4f54993",
         invoiceAmount: order.totalPrice / 10,
         language: ApiLanguage.Arabic,
         token:
@@ -66,13 +67,10 @@ class PaymentService {
   }
 
   Future _updateCartInFireStore() async {
-    await fireStore
-        .doc('customers/${customer.id}')
-        .update({'cartItems': customer.cartItems});
+    await fireStore.doc('customers/${customer!.id}').update({'cartItems': customer?.cartItems});
   }
 
-  Future<Either<FirebaseException, Unit>> saveOrderData(
-      OrderModel order) async {
+  Future<Either<FirebaseException, Unit>> saveOrderData(OrderModel order) async {
     try {
       var batch = fireStore.batch();
       _saveOrderToFireStore(order, batch);
@@ -92,12 +90,12 @@ class PaymentService {
   }
 
   _clearCart(WriteBatch batch) async {
-    batch.update(fireStore.doc("customers/${customer.id}"), {"cartItems": {}});
-    customer.cartItems.clear();
+    batch.update(fireStore.doc("customers/${customer?.id}"), {"cartItems": {}});
+    customer?.cartItems.clear();
   }
 
   _saveOrderIdToUserOrders(OrderModel order, WriteBatch batch) async {
-    batch.update(fireStore.doc("customers/${customer.id}"), {
+    batch.update(fireStore.doc("customers/${customer?.id}"), {
       "orders": FieldValue.arrayUnion([order.id])
     });
   }
@@ -111,8 +109,7 @@ class PaymentService {
     }
   }
 
-  _createOrderChats(
-      {required WriteBatch batch, required OrderModel order}) async {
+  _createOrderChats({required WriteBatch batch, required OrderModel order}) async {
     for (var element in order.merchantIds) {
       var chat = Chat(
           receiverId: element,

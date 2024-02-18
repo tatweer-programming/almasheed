@@ -55,7 +55,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "chat": MessageLookupByLibrary.simpleMessage("الدردشة"),
         "chooseAccountType":
             MessageLookupByLibrary.simpleMessage("يرجى اختيار نوع الحساب"),
-        "chooseAddress": MessageLookupByLibrary.simpleMessage("اختار العنوان"),
+        "chooseAddress": MessageLookupByLibrary.simpleMessage("اختر العنوان"),
         "city": MessageLookupByLibrary.simpleMessage("المدينة"),
         "codeSent":
             MessageLookupByLibrary.simpleMessage("تم ارسال الرمز بنجاح"),
