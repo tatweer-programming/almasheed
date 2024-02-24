@@ -2,6 +2,7 @@ import 'package:almasheed/authentication/presentation/components.dart';
 import 'package:almasheed/core/utils/images_manager.dart';
 import 'package:almasheed/core/utils/color_manager.dart';
 import 'package:almasheed/core/utils/constance_manager.dart';
+import 'package:almasheed/core/utils/localization_manager.dart';
 import 'package:almasheed/core/utils/navigation_manager.dart';
 import 'package:almasheed/main/view/screens/main_screen.dart';
 import 'package:flutter/foundation.dart';
@@ -96,35 +97,39 @@ class OTPScreen extends StatelessWidget {
                             key: formKey,
                             child: Padding(
                                 padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 30),
-                                child: PinCodeTextField(
-                                  appContext: context,
-                                  length: 6,
-                                  animationType: AnimationType.fade,
-                                  validator: (v) {
-                                    if (v!.length < 6) {
-                                      return S.of(context).enterAllCode;
-                                    } else {
-                                      return null;
-                                    }
-                                  },
-                                  pinTheme: PinTheme(
-                                      shape: PinCodeFieldShape.box,
-                                      borderRadius: BorderRadius.circular(5),
-                                      fieldHeight: 50,
-                                      fieldWidth: 40,
-                                      activeFillColor: ColorManager.white,
-                                      inactiveFillColor: ColorManager.white),
-                                  cursorColor: ColorManager.black,
-                                  animationDuration: const Duration(milliseconds: 300),
-                                  controller: otpController,
-                                  keyboardType: TextInputType.number,
-                                  onCompleted: (v) {
-                                    bloc.add(VerifyCodeEvent(
-                                      code: otpController.text,
-                                    ));
-                                    print("Completed");
-                                  },
-                                  onChanged: (value) {},
+                                child: Directionality(
+                                  textDirection: TextDirection.ltr,
+                                  child: PinCodeTextField(
+                                    appContext: context,
+                                    length: 6,
+                                    enablePinAutofill: true,
+                                    animationType: AnimationType.fade,
+                                    validator: (v) {
+                                      if (v!.length < 6) {
+                                        return S.of(context).enterAllCode;
+                                      } else {
+                                        return null;
+                                      }
+                                    },
+                                    pinTheme: PinTheme(
+                                        shape: PinCodeFieldShape.box,
+                                        borderRadius: BorderRadius.circular(5),
+                                        fieldHeight: 50,
+                                        fieldWidth: 40,
+                                        activeFillColor: ColorManager.white,
+                                        inactiveFillColor: ColorManager.white),
+                                    cursorColor: ColorManager.black,
+                                    animationDuration: const Duration(milliseconds: 300),
+                                    controller: otpController,
+                                    keyboardType: TextInputType.number,
+                                    onCompleted: (v) {
+                                      bloc.add(VerifyCodeEvent(
+                                        code: otpController.text,
+                                      ));
+                                      print("Completed");
+                                    },
+                                    onChanged: (value) {},
+                                  ),
                                 )),
                           ),
                           const SizedBox(

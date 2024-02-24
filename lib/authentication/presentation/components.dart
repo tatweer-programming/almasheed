@@ -79,17 +79,19 @@ class PhoneNumberInput extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: [
-        // SizedBox(
-        //   width: 5.sp,
-        // ),
-        Expanded(
-          child: defaultFormField(
-              textDirection: TextDirection.ltr,
-              prefixIcon: SizedBox(
+    return Directionality(
+      textDirection: TextDirection.ltr,
+      child: Container(
+        decoration: BoxDecoration(
+            color: ColorManager.secondary, borderRadius: BorderRadius.all(Radius.circular(15))),
+        child: Row(
+          textDirection: TextDirection.ltr,
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Align(
+              alignment: Alignment.centerLeft,
+              child: SizedBox(
                 width: 50.sp,
                 child: Align(
                   alignment: AlignmentDirectional.centerStart,
@@ -97,17 +99,23 @@ class PhoneNumberInput extends StatelessWidget {
                       Text(" +966", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14.sp)),
                 ),
               ),
-              type: TextInputType.phone,
-              validator: (value) {
-                if (value!.isEmpty) {
-                  return S.of(context).enterPhone;
-                }
-                return null;
-              },
-              label: S.of(context).phoneNumber,
-              controller: controller),
+            ),
+            Expanded(
+              child: defaultFormField(
+                  textDirection: TextDirection.ltr,
+                  type: TextInputType.phone,
+                  validator: (value) {
+                    if (value!.isEmpty) {
+                      return S.of(context).enterPhone;
+                    }
+                    return null;
+                  },
+                  label: S.of(context).phoneNumber,
+                  controller: controller),
+            ),
+          ],
         ),
-      ],
+      ),
     );
   }
 }

@@ -63,8 +63,6 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       result.fold((l) {
         emit(SendCodeErrorState(l));
       }, (r) {
-        // codeSent = true;
-        // verificationId = r;
         emit(CodeSent());
         add(StartResendCodeTimerEvent());
       });
