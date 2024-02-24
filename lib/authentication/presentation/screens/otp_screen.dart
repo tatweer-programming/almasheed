@@ -95,42 +95,43 @@ class OTPScreen extends StatelessWidget {
                           ),
                           Form(
                             key: formKey,
-                            child: Padding(
+                            child: Directionality(
+                              textDirection: TextDirection.ltr,
+                              child: Padding(
                                 padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 30),
-                                child: Directionality(
-                                  textDirection: TextDirection.ltr,
-                                  child: PinCodeTextField(
-                                    appContext: context,
-                                    length: 6,
-                                    enablePinAutofill: true,
-                                    animationType: AnimationType.fade,
-                                    validator: (v) {
-                                      if (v!.length < 6) {
-                                        return S.of(context).enterAllCode;
-                                      } else {
-                                        return null;
-                                      }
-                                    },
-                                    pinTheme: PinTheme(
-                                        shape: PinCodeFieldShape.box,
-                                        borderRadius: BorderRadius.circular(5),
-                                        fieldHeight: 50,
-                                        fieldWidth: 40,
-                                        activeFillColor: ColorManager.white,
-                                        inactiveFillColor: ColorManager.white),
-                                    cursorColor: ColorManager.black,
-                                    animationDuration: const Duration(milliseconds: 300),
-                                    controller: otpController,
-                                    keyboardType: TextInputType.number,
-                                    onCompleted: (v) {
-                                      bloc.add(VerifyCodeEvent(
-                                        code: otpController.text,
-                                      ));
-                                      print("Completed");
-                                    },
-                                    onChanged: (value) {},
-                                  ),
-                                )),
+                                child: PinCodeTextField(
+                                  appContext: context,
+                                  length: 6,
+                                  enablePinAutofill: true,
+                                  animationType: AnimationType.fade,
+                                  validator: (v) {
+                                    if (v!.length < 6) {
+                                      return S.of(context).enterAllCode;
+                                    } else {
+                                      return null;
+                                    }
+                                  },
+                                  pinTheme: PinTheme(
+                                      shape: PinCodeFieldShape.box,
+                                      borderRadius: BorderRadius.circular(5),
+                                      fieldHeight: 50,
+                                      fieldWidth: 40,
+                                      activeFillColor: ColorManager.white,
+                                      inactiveFillColor: ColorManager.white),
+                                  cursorColor: ColorManager.black,
+                                  animationDuration: const Duration(milliseconds: 300),
+                                  controller: otpController,
+                                  keyboardType: TextInputType.number,
+                                  onCompleted: (v) {
+                                    bloc.add(VerifyCodeEvent(
+                                      code: otpController.text,
+                                    ));
+                                    print("Completed");
+                                  },
+                                  onChanged: (value) {},
+                                ),
+                              ),
+                            ),
                           ),
                           const SizedBox(
                             height: 20,
