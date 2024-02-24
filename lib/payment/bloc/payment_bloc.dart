@@ -23,7 +23,8 @@ class PaymentBloc extends Bloc<PaymentEvent, PaymentState> {
   late OrderModel order = OrderModel.create([], null);
 
   // variables
-  final PaymentRepository _repository = PaymentRepository();
+  final PaymentRepository? _repository =
+      ConstantsManager.appUser is Customer ? PaymentRepository() : null;
   int? selectedAddressIndex;
 
   PaymentBloc() : super(PaymentInitial()) {
@@ -31,15 +32,15 @@ class PaymentBloc extends Bloc<PaymentEvent, PaymentState> {
       if (event is AddToCartEvent) {
         emit(AddToCartLoadingState());
         var response =
-            await _repository.addItem(productId: event.productId, quantity: event.quantity);
-        response.fold((l) {
+            await _repository?.addItem(productId: event.productId, quantity: event.quantity);
+        response!.fold((l) {
           emit(AddToCartErrorState(l));
         }, (r) {
           emit(AddToCartSuccessState());
         });
       } else if (event is RemoveFromCart) {
         emit(RemoveFromCartLoadingState());
-        var response = await _repository.removeItem(
+        var response = await _repository!.removeItem(
           productId: event.productId,
         );
         response.fold((l) {
@@ -50,18 +51,18 @@ class PaymentBloc extends Bloc<PaymentEvent, PaymentState> {
       } else if (event is EditQuantityInCart) {
         emit(EditQuantityInCartLoadingState());
         var response =
-            await _repository.editQuantity(productId: event.productId, quantity: event.quantity);
+            await _repository!.editQuantity(productId: event.productId, quantity: event.quantity);
         response.fold((l) {
           emit(EditQuantityInCartErrorState(l));
         }, (r) {
           emit(EditQuantityInCartSuccessState());
         });
       } else if (event is CompletePaymentCart) {
-        var response = await _repository.completePayment(context: event.context, order: order);
+        var response = await _repository!.completePayment(context: event.context, order: order);
         print(response.status.toString() + response.url.toString());
         print(response.toString());
         if (response.isSuccess) {
-          await _repository.saveOrderData(order);
+          await _repository!.saveOrderData(order);
           emit(CompleteOrderSuccessState());
         } else {
           emit(const CompletePaymentErrorState());
