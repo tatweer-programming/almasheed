@@ -97,38 +97,42 @@ class OTPScreen extends StatelessWidget {
                             key: formKey,
                             child: Directionality(
                               textDirection: TextDirection.ltr,
-                              child: Padding(
-                                padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 30),
-                                child: PinCodeTextField(
-                                  appContext: context,
-                                  length: 6,
-                                  enablePinAutofill: true,
-                                  animationType: AnimationType.fade,
-                                  validator: (v) {
-                                    if (v!.length < 6) {
-                                      return S.of(context).enterAllCode;
-                                    } else {
-                                      return null;
-                                    }
-                                  },
-                                  pinTheme: PinTheme(
-                                      shape: PinCodeFieldShape.box,
-                                      borderRadius: BorderRadius.circular(5),
-                                      fieldHeight: 50,
-                                      fieldWidth: 40,
-                                      activeFillColor: ColorManager.white,
-                                      inactiveFillColor: ColorManager.white),
-                                  cursorColor: ColorManager.black,
-                                  animationDuration: const Duration(milliseconds: 300),
-                                  controller: otpController,
-                                  keyboardType: TextInputType.number,
-                                  onCompleted: (v) {
-                                    bloc.add(VerifyCodeEvent(
-                                      code: otpController.text,
-                                    ));
-                                    print("Completed");
-                                  },
-                                  onChanged: (value) {},
+                              child: SizedBox(
+                                width: 99.w,
+                                child: Padding(
+                                  padding:
+                                      const EdgeInsets.symmetric(vertical: 8.0, horizontal: 30),
+                                  child: PinCodeTextField(
+                                    appContext: context,
+                                    length: 6,
+                                    enablePinAutofill: true,
+                                    animationType: AnimationType.fade,
+                                    validator: (v) {
+                                      if (v!.length < 6) {
+                                        return S.of(context).enterAllCode;
+                                      } else {
+                                        return null;
+                                      }
+                                    },
+                                    pinTheme: PinTheme(
+                                        shape: PinCodeFieldShape.box,
+                                        borderRadius: BorderRadius.circular(5),
+                                        fieldHeight: 50,
+                                        fieldWidth: 40,
+                                        activeFillColor: ColorManager.white,
+                                        inactiveFillColor: ColorManager.white),
+                                    cursorColor: ColorManager.black,
+                                    animationDuration: const Duration(milliseconds: 300),
+                                    controller: otpController,
+                                    keyboardType: TextInputType.number,
+                                    onCompleted: (v) {
+                                      bloc.add(VerifyCodeEvent(
+                                        code: otpController.text,
+                                      ));
+                                      print("Completed");
+                                    },
+                                    onChanged: (value) {},
+                                  ),
                                 ),
                               ),
                             ),
