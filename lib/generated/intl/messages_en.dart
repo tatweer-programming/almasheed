@@ -182,6 +182,8 @@ class MessageLookup extends MessageLookupByLibrary {
             "The product has been added successfully"),
         "productCategory":
             MessageLookupByLibrary.simpleMessage("Product Category"),
+        "productDeleted": MessageLookupByLibrary.simpleMessage(
+            "The product has been added successfully"),
         "productModified": MessageLookupByLibrary.simpleMessage(
             "The product has been modified successfully"),
         "products": MessageLookupByLibrary.simpleMessage("products"),

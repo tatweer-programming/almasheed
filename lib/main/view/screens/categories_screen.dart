@@ -64,7 +64,7 @@ class CategoriesScreen extends StatelessWidget {
                     ),
                   ),
                   Align(
-                    alignment: Alignment.topLeft,
+                    alignment: AlignmentDirectional.topStart,
                     child: Padding(
                       padding:
                           EdgeInsetsDirectional.symmetric(horizontal: 12.w),
@@ -73,8 +73,10 @@ class CategoriesScreen extends StatelessWidget {
                         children: categoryProducts.map((product) {
                           return productVerticalWidget(
                             openProductPressed: () {
-                              context
-                                  .push(DetailsProductScreen(product: product,products: categoryProducts,));
+                              context.push(DetailsProductScreen(
+                                product: product,
+                                products: categoryProducts,
+                              ));
                             },
                             product: product,
                             context: context,
@@ -101,7 +103,6 @@ class CategoriesScreen extends StatelessWidget {
                 color: ColorManager.primary,
                 child: Center(
                   child: ListView.separated(
-                    physics: const NeverScrollableScrollPhysics(),
                     shrinkWrap: true,
                     itemBuilder: (context, index) {
                       return _categoryName(
@@ -136,14 +137,24 @@ Widget _categoryName(
     required String isContain}) {
   return InkWell(
     onTap: onTap,
-    child: Center(
-      child: Text(
-        text,
-        maxLines: 1,
-        overflow: TextOverflow.ellipsis,
-        style: TextStyle(
-            color: isContain == text ? ColorManager.white : ColorManager.grey2,
-            fontSize: 11.sp),
+    child: Padding(
+      padding: EdgeInsetsDirectional.symmetric(horizontal: 2.w),
+      child: Container(
+        height: 5.h,
+        decoration:
+            BoxDecoration(border: Border.all(), color: ColorManager.white),
+        child: Center(
+          child: Text(
+            text,
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+            style: TextStyle(
+                color:
+                    isContain == text ? ColorManager.black : ColorManager.grey2,
+                fontSize: 12.sp,
+                fontWeight: FontWeight.w700),
+          ),
+        ),
       ),
     ),
   );

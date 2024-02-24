@@ -1,8 +1,10 @@
+import 'package:almasheed/main.dart';
 import 'package:almasheed/payment/bloc/payment_bloc.dart';
 import 'package:carousel_slider/carousel_controller.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:sizer/sizer.dart';
 import 'package:almasheed/authentication/data/models/customer.dart';
 import 'package:almasheed/authentication/data/models/merchant.dart';
@@ -18,18 +20,12 @@ import '../../../authentication/presentation/components.dart';
 import '../../../generated/l10n.dart';
 import 'modify_screen.dart';
 
-//
-// Map<String, List<String>> data = {
-//   "Color": ["RED", "GREEN", "BLUE"],
-//   "Size": ["20", "30", "50"],
-//   "Quantity": ["1", "2", "3"],
-// };
-
 class DetailsProductScreen extends StatelessWidget {
-  final Product product;
+  Product product;
   final List<Product> products;
 
-  const DetailsProductScreen({super.key, required this.product, required this.products});
+  DetailsProductScreen(
+      {super.key, required this.product, required this.products});
 
   @override
   Widget build(BuildContext context) {
@@ -61,6 +57,10 @@ class DetailsProductScreen extends StatelessWidget {
           }
           if (state is CheckIfAvailablePropertiesState) {
             selectedProperties = state.availableProperties;
+          }
+          if (state is ProductRatingUpdateSuccessfullyState) {
+            product.productRating = state.rating;
+            product.ratingNumbers = state.numbers;
           }
         },
         builder: (context, state) {
@@ -119,16 +119,20 @@ class DetailsProductScreen extends StatelessWidget {
                             padding: EdgeInsets.symmetric(
                                 horizontal: 2.w, vertical: 2.h),
                             child: SizedBox(
-                              height: 35.h,
+                              height: 31.h,
                               child: ListView.separated(
                                 scrollDirection: Axis.horizontal,
                                 itemCount: products.length,
-                                separatorBuilder: (context, index) => SizedBox(width: 1.w,),
+                                separatorBuilder: (context, index) => SizedBox(
+                                  width: 1.w,
+                                ),
                                 itemBuilder: (context, index) =>
                                     productVerticalWidget(
                                   openProductPressed: () {
-                                    context.push(
-                                        DetailsProductScreen(product: products[index],products: products,));
+                                    context.push(DetailsProductScreen(
+                                      product: products[index],
+                                      products: products,
+                                    ));
                                   },
                                   product: products[index],
                                   addCardPressed: () {
@@ -156,8 +160,6 @@ class DetailsProductScreen extends StatelessWidget {
     );
   }
 
-  void _handleBlocState(BuildContext context, MainBloc bloc, MainState state,
-      List<String> selectedProperties) {}
 
   void _handlePaymentBlocState(BuildContext context, PaymentState state) {
     if (state is AddToCartSuccessState) {
@@ -177,10 +179,10 @@ class DetailsProductScreen extends StatelessWidget {
     return Padding(
       padding: EdgeInsetsDirectional.only(top: 5.h),
       child: Stack(
-        alignment: Alignment.bottomCenter,
+        alignment: AlignmentDirectional.bottomCenter,
         children: [
           Stack(
-            alignment: Alignment.topLeft,
+            alignment: AlignmentDirectional.topStart,
             children: [
               Column(
                 children: [
@@ -195,7 +197,7 @@ class DetailsProductScreen extends StatelessWidget {
                   ),
                   SizedBox(
                     height: product.customProperties!.properties.isNotEmpty
-                        ? 35
+                        ? 90
                         : 10.h,
                   ),
                 ],
@@ -203,15 +205,14 @@ class DetailsProductScreen extends StatelessWidget {
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: 2.w, vertical: 1.h),
                 child: iconContainer(
-                  size: 25.sp,
-                  padding: 5.sp,
+                  size: 22.sp,
                   onPressed: () => context.pop(),
                   icon: Icons.arrow_back_ios_new,
                 ),
               ),
               if (!isCustomer)
                 Align(
-                  alignment: Alignment.topRight,
+                  alignment: AlignmentDirectional.topEnd,
                   child: Padding(
                     padding:
                         EdgeInsets.symmetric(horizontal: 2.w, vertical: 1.h),
@@ -296,7 +297,6 @@ class DetailsProductScreen extends StatelessWidget {
                           Expanded(
                             child: iconContainer(
                               color: ColorManager.white,
-                              padding: 5.sp,
                               size: 20.sp,
                               onPressed: () {
                                 bloc.add(
@@ -318,7 +318,6 @@ class DetailsProductScreen extends StatelessWidget {
                           Expanded(
                             child: iconContainer(
                               color: ColorManager.white,
-                              padding: 5.sp,
                               size: 20.sp,
                               onPressed: () {},
                               icon: Icons.share_outlined,
@@ -328,7 +327,7 @@ class DetailsProductScreen extends StatelessWidget {
                       ),
                     if (product.customProperties!.properties.isNotEmpty)
                       SizedBox(
-                        height: 20.h,
+                        height: 16.h,
                         child: ListView.builder(
                             padding: EdgeInsets.zero,
                             itemCount:
@@ -396,7 +395,25 @@ class DetailsProductScreen extends StatelessWidget {
                                 ),
                               );
                             }),
-                      )
+                      ),
+                    RatingBar.builder(
+                      initialRating:
+                          (product.productRating / product.ratingNumbers),
+                      minRating: 1,
+                      itemSize: 25.sp,
+                      direction: Axis.horizontal,
+                      allowHalfRating: true,
+                      itemPadding: EdgeInsets.symmetric(horizontal: 0.5.w),
+                      itemBuilder: (context, _) => const Icon(
+                        Icons.star,
+                        color: Colors.amber,
+                      ),
+                      onRatingUpdate: (rating) {
+                        bloc.add(ProductRatingUpdateEvent(
+                            productRating: (product.productRating + rating),
+                            productId: product.productId));
+                      },
+                    )
                   ],
                 ),
               ),
@@ -419,6 +436,7 @@ class DetailsProductScreen extends StatelessWidget {
               children: [
                 SizedBox(
                   width: 20.w,
+                  height: 5.h,
                   child: TextFormField(
                     keyboardType: TextInputType.number,
                     controller: quantityController,
@@ -478,7 +496,7 @@ class DetailsProductScreen extends StatelessWidget {
         return AlertDialog(
           shape: OutlineInputBorder(borderRadius: BorderRadius.circular(5.sp)),
           content: Text(
-            S.of(context).productAdded,
+            S.of(context).productDeleted,
             style: const TextStyle(fontWeight: FontWeight.w500),
           ),
         );

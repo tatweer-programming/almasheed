@@ -14,6 +14,7 @@ import 'package:almasheed/main/view/screens/details_product.dart';
 import 'package:almasheed/main/view/widgets/widgets.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import '../../../generated/l10n.dart';
+import '../../../payment/bloc/payment_bloc.dart';
 import '../../../payment/presentation/screens/cart_screen.dart';
 import '../../bloc/main_bloc.dart';
 
@@ -31,6 +32,7 @@ class HomePageScreen extends StatelessWidget {
     final MainBloc bloc = sl();
     return BlocConsumer<MainBloc, MainState>(
       listener: (context, state) {
+        // print((ConstantsManager.appUser as Merchant).productsIds);
         if (state is GetProductsSuccessfullyState) {
           _handleProductSuccessState(context, bloc);
         } else if (state is GetProductsErrorState ||
@@ -63,6 +65,7 @@ class HomePageScreen extends StatelessWidget {
                                   ConstantsManager.appUser == null) &&
                               (bloc.merchants.isNotEmpty))
                             _buildMerchantsList(context, bloc),
+                          if(ConstantsManager.appUser is! Customer)SizedBox(height: 10.h,)
                         ],
                       );
                     },
@@ -139,19 +142,25 @@ class HomePageScreen extends StatelessWidget {
             )
           ],
         ),
-        const Stack(
-          alignment: Alignment.center,
-          children: [
-            CircleAvatar(
-              radius: 55,
-              backgroundColor: ColorManager.primary,
-            ),
-            CircleAvatar(
-              radius: 50,
-              backgroundColor: ColorManager.grey2,
-              backgroundImage: AssetImage("assets/images/cart.png"),
-            ),
-          ],
+        InkWell(
+          onTap: () {
+           context.push(const CartScreen());
+          },
+          customBorder: const CircleBorder(),
+          child: const Stack(
+            alignment: Alignment.center,
+            children: [
+              CircleAvatar(
+                radius: 55,
+                backgroundColor: ColorManager.primary,
+              ),
+              CircleAvatar(
+                radius: 50,
+                backgroundColor: ColorManager.grey2,
+                backgroundImage: AssetImage("assets/images/cart.png"),
+              ),
+            ],
+          ),
         )
       ],
     );

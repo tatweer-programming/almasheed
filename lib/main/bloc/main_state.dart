@@ -120,6 +120,19 @@ class AddAndRemoveFromFavoritesErrorState extends MainState {
 
   const AddAndRemoveFromFavoritesErrorState(this.error);
 }
+// Product Rating Update
+
+class ProductRatingUpdateSuccessfullyState extends MainState {
+  final double rating;
+  final int numbers;
+  ProductRatingUpdateSuccessfullyState({required this.rating,required this.numbers});
+}
+
+class ProductRatingUpdateErrorState extends MainState {
+  final FirebaseException error;
+
+  const ProductRatingUpdateErrorState(this.error);
+}
 
 // get best sales
 class GetBestSalesSuccessfullyState extends MainState {}

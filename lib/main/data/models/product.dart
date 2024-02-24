@@ -12,6 +12,8 @@ class Product extends Equatable {
   List<String>? productsImagesDelete;
   final double productOldPrice;
   final double productNewPrice;
+  double productRating;
+  int ratingNumbers;
   final String productOverview;
   final String productWorkCharacteristics;
   final String productMainUses;
@@ -24,9 +26,11 @@ class Product extends Equatable {
       {required this.productName,
       this.productCategory,
       required this.productId,
+      required this.productRating,
       required this.productMainUses,
       this.productsImagesUrl,
       required this.productOldPrice,
+      required this.ratingNumbers,
       required this.productNewPrice,
       required this.productWorkCharacteristics,
       required this.productCity,
@@ -42,6 +46,8 @@ class Product extends Equatable {
         productMainUses: json['productMainUses'],
         productWorkCharacteristics: json['productWorkCharacteristics'],
         productId: json['productId'],
+        ratingNumbers: json['ratingNumbers'],
+        productRating: json['productRating'].toDouble(),
         productCity: json['productCity'],
         productNewPrice: json['productNewPrice'].toDouble(),
         productsImagesUrl: List<String>.from(json['productsImages'])
@@ -50,6 +56,7 @@ class Product extends Equatable {
         productName: json['productName'],
         productOldPrice: json['productOldPrice'].toDouble(),
         merchantName: json['merchantName'],
+        productCategory: json['productCategory'],
         merchantId: json['merchantId'],
         customProperties:
             ProductCustomProperties.fromJson(json["customProperties"]),
@@ -67,6 +74,9 @@ class Product extends Equatable {
       "productsImages": productsImagesUrl,
       "productName": productName,
       "productOldPrice": productOldPrice,
+      "ratingNumbers": ratingNumbers,
+      "productRating": productRating,
+      "productCategory": productCategory,
       "merchantName": merchantName,
       "customProperties": customProperties?.toJson()
     };

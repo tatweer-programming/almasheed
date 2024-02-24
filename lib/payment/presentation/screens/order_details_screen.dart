@@ -148,6 +148,7 @@ OrderModel orderModel = OrderModel(
               productName: "شكارة اسمنت خمسين كيلو",
               productId: "",
               productOldPrice: 100,
+              ratingNumbers: 1,
               productNewPrice: 90,
               productCity: ConstantsManager.getSaudiCities[0],
               merchantId: "oVtWmHhUWJcVfi7MT1GyVvANHIA2",
@@ -157,22 +158,25 @@ OrderModel orderModel = OrderModel(
                   "شكارة اسمنت الممتاز خمسين كيلوجرام لاغراض البناء",
               productWorkCharacteristics:
                   "شكارة اسمنت الممتاز خمسين كيلوجرام لاغراض البناء",
+              productRating: 5,
               merchantName: "عبده اسمنت"),
           quantity: 5),
       OrderItem(
           product: Product(
               productName: "شكارة اسمنت خمسين كيلو",
               productId: "",
+              productRating: 5,
               productOldPrice: 100,
               productNewPrice: 90,
               productCity: ConstantsManager.getSaudiCities[0],
               merchantId: "oVtWmHhUWJcVfi7MT1GyVvANHIA1",
               productOverview:
-              "شكارة اسمنت الممتاز خمسين كيلوجرام لاغراض البناء",
+                  "شكارة اسمنت الممتاز خمسين كيلوجرام لاغراض البناء",
               productMainUses:
-              "شكارة اسمنت الممتاز خمسين كيلوجرام لاغراض البناء",
+                  "شكارة اسمنت الممتاز خمسين كيلوجرام لاغراض البناء",
+              ratingNumbers: 1,
               productWorkCharacteristics:
-              "شكارة اسمنت الممتاز خمسين كيلوجرام لاغراض البناء",
+                  "شكارة اسمنت الممتاز خمسين كيلوجرام لاغراض البناء",
               merchantName: "عبده اسمنت"),
           quantity: 2),
       OrderItem(
@@ -181,14 +185,17 @@ OrderModel orderModel = OrderModel(
               productId: "",
               productOldPrice: 100,
               productNewPrice: 90,
+              ratingNumbers: 1,
+              productRating: 5,
               productCity: ConstantsManager.getSaudiCities[0],
               merchantId: "oVtWmHhUWJcVfi7MT1GyVvANHIA2",
               productOverview:
-              "شكارة اسمنت الممتاز خمسين كيلوجرام لاغراض البناء",
+                  "شكارة اسمنت الممتاز خمسين كيلوجرام لاغراض البناء",
               productMainUses:
-              "شكارة اسمنت الممتاز خمسين كيلوجرام لاغراض البناء",
+                  "شكارة اسمنت الممتاز خمسين كيلوجرام لاغراض البناء",
               productWorkCharacteristics:
-              "شكارة اسمنت الممتاز خمسين كيلوجرام لاغراض البناء",              merchantName: "عبده اسمنت"),
+                  "شكارة اسمنت الممتاز خمسين كيلوجرام لاغراض البناء",
+              merchantName: "عبده اسمنت"),
           quantity: 2),
     ],
     merchantIds: [
