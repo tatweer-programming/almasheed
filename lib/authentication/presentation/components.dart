@@ -4,7 +4,9 @@ import 'package:almasheed/authentication/presentation/screens/login_screen.dart'
 import 'package:almasheed/authentication/presentation/screens/terms_and_conditions_screen.dart';
 import 'package:almasheed/core/utils/constance_manager.dart';
 import 'package:almasheed/core/utils/navigation_manager.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:sizer/sizer.dart';
 import '../../core/utils/color_manager.dart';
@@ -304,6 +306,7 @@ class AuthBackground extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       height: 70.h,
+      width: 100.w,
       alignment: AlignmentDirectional.bottomCenter,
       decoration: BoxDecoration(
           // image: DecorationImage(image: AssetImage(imagePath , ) , opacity: 10),
@@ -311,16 +314,18 @@ class AuthBackground extends StatelessWidget {
           borderRadius: BorderRadiusDirectional.vertical(top: Radius.circular(120.sp))),
       child: Stack(
         children: [
-          Align(
-              alignment: AlignmentDirectional.bottomCenter,
-              child: Opacity(
-                  opacity: .35,
-                  child: Image(
-                    image: AssetImage(
-                      imagePath,
-                    ),
-                  ))),
-          child
+          Positioned.fill(
+            child: Align(
+                alignment: AlignmentDirectional.bottomCenter,
+                child: Opacity(
+                    opacity: .35,
+                    child: Image(
+                      image: AssetImage(
+                        imagePath,
+                      ),
+                    ))),
+          ),
+          Positioned.fill(child: child)
         ],
       ),
     );
