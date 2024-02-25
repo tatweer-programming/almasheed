@@ -45,14 +45,16 @@ class LoginScreen extends StatelessWidget {
           builder: (context, state) {
             return Form(
               key: formKey,
-              child: Column(
-                children: [
-                  const Expanded(child: SizedBox()),
-                  Align(
-                    alignment: Alignment.bottomCenter,
-                    child: AuthBackground(
-                        imagePath: ImagesManager.building_3,
-                        child: SingleChildScrollView(
+              child: SingleChildScrollView(
+                child: Column(
+                  children: [
+                    SizedBox(
+                      height: 30.h,
+                    ),
+                    Align(
+                      alignment: Alignment.bottomCenter,
+                      child: AuthBackground(
+                          imagePath: ImagesManager.building_3,
                           child: Padding(
                             padding: EdgeInsets.all(15.0.sp),
                             child: Column(
@@ -206,10 +208,10 @@ class LoginScreen extends StatelessWidget {
                                 )
                               ],
                             ),
-                          ),
-                        )),
-                  )
-                ],
+                          )),
+                    )
+                  ],
+                ),
               ),
             );
           },

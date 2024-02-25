@@ -309,7 +309,6 @@ class AuthBackground extends StatelessWidget {
       width: 100.w,
       alignment: AlignmentDirectional.bottomCenter,
       decoration: BoxDecoration(
-          // image: DecorationImage(image: AssetImage(imagePath , ) , opacity: 10),
           color: ColorManager.primary,
           borderRadius: BorderRadiusDirectional.vertical(top: Radius.circular(120.sp))),
       child: Stack(

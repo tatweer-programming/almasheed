@@ -6,6 +6,7 @@ import 'package:almasheed/payment/presentation/screens/cart_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:sizer/sizer.dart';
@@ -30,8 +31,9 @@ Future<void> main() async {
   FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) async {
     navigatorKey.currentState!.push(MaterialPageRoute(
         builder: (_) => ChatScreen(
-          isEnd: false,
-            receiverId: message.from!.substring(8), receiverName: message.notification!.title!)));
+            isEnd: false,
+            receiverId: message.from!.substring(8),
+            receiverName: message.notification!.title!)));
   });
   await LocalizationManager.init();
   ConstantsManager.userId = await CacheHelper.getData(key: "userId");
@@ -61,6 +63,7 @@ class Masheed extends StatelessWidget {
           ],
           child: BlocBuilder<MainBloc, MainState>(
             builder: (context, state) {
+              SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
               return MaterialApp(
                 navigatorKey: navigatorKey,
                 debugShowCheckedModeBanner: false,

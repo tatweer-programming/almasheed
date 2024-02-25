@@ -50,17 +50,17 @@ class OTPScreen extends StatelessWidget {
         bloc: bloc,
         builder: (context, state) {
           return Scaffold(
-            body: Column(
-              children: [
-                SizedBox(
-                  height: 30.h,
-                ),
-                Expanded(
-                  child: AuthBackground(
+            body: SingleChildScrollView(
+              child: Column(
+                children: [
+                  SizedBox(
+                    height: 30.h,
+                  ),
+                  AuthBackground(
                     imagePath: ImagesManager.building_3,
                     child: Padding(
                       padding: EdgeInsets.all(10.w),
-                      child: ListView(
+                      child: Column(
                         children: [
                           const SizedBox(height: 40),
                           Padding(
@@ -75,7 +75,7 @@ class OTPScreen extends StatelessWidget {
                             ),
                           ),
                           Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 30.0, vertical: 8),
+                            padding: EdgeInsets.symmetric(horizontal: 7.w, vertical: 8),
                             child: RichText(
                               text: TextSpan(
                                   text: S.of(context).enterSentCode,
@@ -101,8 +101,7 @@ class OTPScreen extends StatelessWidget {
                               child: SizedBox(
                                 width: 99.w,
                                 child: Padding(
-                                  padding:
-                                      const EdgeInsets.symmetric(vertical: 8.0, horizontal: 30),
+                                  padding: EdgeInsets.symmetric(vertical: 8.0, horizontal: 7.w),
                                   child: Row(
                                     children: [
                                       Expanded(
@@ -238,8 +237,8 @@ class OTPScreen extends StatelessWidget {
                       ),
                     ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           );
         },
