@@ -115,7 +115,8 @@ class _CartItemState extends State<CartItem> {
                               height: 4.h,
                               decoration: BoxDecoration(
                                   color: ColorManager.white,
-                                  borderRadius: BorderRadius.all(Radius.circular(5.sp))),
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(5.sp))),
                               child: Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 crossAxisAlignment: CrossAxisAlignment.center,
@@ -167,7 +168,8 @@ class _CartItemState extends State<CartItem> {
                                     Text(
                                       "${S.of(context).totalPrice}: ",
                                       style: TextStyle(
-                                          fontWeight: FontWeightManager.semiBold,
+                                          fontWeight:
+                                              FontWeightManager.semiBold,
                                           fontSize: 15.sp,
                                           color: ColorManager.white),
                                     ),
@@ -189,7 +191,8 @@ class _CartItemState extends State<CartItem> {
                                     Text(
                                       S.of(context).sar,
                                       style: TextStyle(
-                                          fontWeight: FontWeightManager.semiBold,
+                                          fontWeight:
+                                              FontWeightManager.semiBold,
                                           fontSize: 15.sp,
                                           color: ColorManager.white),
                                     )
@@ -212,7 +215,8 @@ class _CartItemState extends State<CartItem> {
                     color: ColorManager.grey1,
                     image: DecorationImage(
                         fit: BoxFit.cover,
-                        image: NetworkImage(widget.orderItem.product.productsImagesUrl![0])),
+                        image: NetworkImage(
+                            widget.orderItem.product.productsImagesUrl![0])),
                   ),
                 ),
               ],
@@ -223,7 +227,8 @@ class _CartItemState extends State<CartItem> {
           alignment: AlignmentDirectional.topEnd,
           child: IconButton(
               onPressed: () {
-                widget.bloc.add(RemoveFromCart(productId: widget.orderItem.product.productId));
+                widget.bloc.add(RemoveFromCart(
+                    productId: widget.orderItem.product.productId));
               },
               icon: Icon(
                 Icons.remove_shopping_cart,
@@ -239,17 +244,20 @@ class _CartItemState extends State<CartItem> {
       widget.orderItem.quantity = widget.orderItem.quantity + 1;
       widget.quantityController.text = widget.orderItem.quantity.toString();
       widget.bloc.add(EditQuantityInCart(
-          productId: widget.orderItem.product.productId, quantity: widget.orderItem.quantity));
+          productId: widget.orderItem.product.productId,
+          quantity: widget.orderItem.quantity));
     });
   }
 
   void _decreaseCounter() {
     if (widget.orderItem.quantity != 1) {
       setState(() {
-        widget.orderItem.quantity = int.parse(widget.quantityController.text) - 1;
+        widget.orderItem.quantity =
+            int.parse(widget.quantityController.text) - 1;
         widget.quantityController.text = widget.orderItem.quantity.toString();
         widget.bloc.add(EditQuantityInCart(
-            productId: widget.orderItem.product.productId, quantity: widget.orderItem.quantity));
+            productId: widget.orderItem.product.productId,
+            quantity: widget.orderItem.quantity));
       });
     }
   }
@@ -315,7 +323,9 @@ class OrderBuilder extends StatelessWidget {
                 SizedBox(
                   height: 1.h,
                 ),
-                Expanded(child: Text("${order.orderItems.length} ${S.of(context).products}")),
+                Expanded(
+                    child: Text(
+                        "${order.orderItems.length} ${S.of(context).products}")),
               ],
             ),
           ),
@@ -328,6 +338,7 @@ class OrderBuilder extends StatelessWidget {
 class OrderDetailsItem extends StatelessWidget {
   final String title;
   final String value;
+
   const OrderDetailsItem({super.key, required this.title, required this.value});
 
   @override
@@ -347,7 +358,9 @@ class OrderDetailsItem extends StatelessWidget {
               child: Text(
             title,
             style: TextStyle(
-                color: ColorManager.primary, fontWeight: FontWeightManager.bold, fontSize: 13.sp),
+                color: ColorManager.primary,
+                fontWeight: FontWeightManager.bold,
+                fontSize: 13.sp),
           )),
           Text(
             value,

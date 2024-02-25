@@ -1562,6 +1562,16 @@ class S {
     );
   }
 
+  /// `The product has been added successfully`
+  String get productDeleted {
+    return Intl.message(
+      'The product has been added successfully',
+      name: 'productDeleted',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `You may like it`
   String get youMayLikeIt {
     return Intl.message(

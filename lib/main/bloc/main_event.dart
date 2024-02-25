@@ -53,6 +53,14 @@ class UpdateProductEvent extends MainEvent {
   const UpdateProductEvent({required this.product});
 }
 
+class ProductRatingUpdateEvent extends MainEvent {
+  final double productRating;
+  final String productId;
+
+  const ProductRatingUpdateEvent(
+      {required this.productRating, required this.productId});
+}
+
 class SetCategoryEvent extends MainEvent {
   final Category category;
 

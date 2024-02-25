@@ -23,7 +23,7 @@ class MainScreen extends StatelessWidget {
 
     return BlocConsumer<MainBloc, MainState>(
       bloc: bloc,
-      listener: (context, state) async {
+      listener: (context, state)  {
         if (state is GetProductsSuccessfullyState) {
           bloc.add(GetOffersEvent());
           bloc.add(GetCategoriesEvent());

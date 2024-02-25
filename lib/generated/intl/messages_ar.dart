@@ -178,6 +178,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "productAdded":
             MessageLookupByLibrary.simpleMessage("تمت إضافة المنتج بنجاح"),
         "productCategory": MessageLookupByLibrary.simpleMessage("فئة المنتج"),
+        "productDeleted":
+            MessageLookupByLibrary.simpleMessage("تم حذف المنتج بنجاح"),
         "productModified":
             MessageLookupByLibrary.simpleMessage("تم تعديل المنتج بنجاح"),
         "products": MessageLookupByLibrary.simpleMessage("المنتجات"),

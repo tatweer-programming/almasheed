@@ -2,6 +2,7 @@ import 'package:almasheed/main/data/models/category.dart';
 import 'package:almasheed/main/data/models/product.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:sizer/sizer.dart';
 import '../../../authentication/data/models/customer.dart';
@@ -85,7 +86,6 @@ Widget searchDropdownBuilder(
       contentPadding: EdgeInsets.symmetric(horizontal: 1.w),
     ),
     onSelected: onChanged,
-    menuHeight: 65.h,
     dropdownMenuEntries: items.map<DropdownMenuEntry<String>>(
       (String value) {
         return DropdownMenuEntry<String>(
@@ -258,15 +258,18 @@ Widget indicator(
 
 Widget textContainerWidget(String text) => Container(
     width: double.infinity,
-    height: 7.h,
+    height: 6.h,
     decoration: BoxDecoration(
         color: ColorManager.secondary,
         borderRadius: BorderRadiusDirectional.circular(10.sp)),
     child: Padding(
-      padding: EdgeInsets.all(10.sp),
-      child: Text(
-        text,
-        style: TextStyle(fontSize: 13.sp, fontWeight: FontWeight.w600),
+      padding: EdgeInsets.symmetric(horizontal: 3.w),
+      child: Align(
+        alignment: AlignmentDirectional.centerStart,
+        child: Text(
+          text,
+          style: TextStyle(fontSize: 13.sp, fontWeight: FontWeight.w600),
+        ),
       ),
     ));
 
@@ -381,7 +384,7 @@ Widget productVerticalWidget({
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Container(
-                  height: 20.h,
+                  height: 18.h,
                   decoration: BoxDecoration(
                     color: ColorManager.grey1,
                     image: product.productsImagesUrl != null &&
@@ -419,10 +422,17 @@ Widget productVerticalWidget({
                         height: 0.5.h,
                       ),
                       ConstantsManager.appUser is Customer
-                          ? defaultButton(
-                              onPressed: addCardPressed,
-                              height: 4.h,
-                              text: S.of(context).addToCart)
+                          ? Column(
+                              children: [
+                                defaultButton(
+                                    onPressed: addCardPressed,
+                                    height: 4.h,
+                                    text: S.of(context).addToCart),
+                                SizedBox(
+                                  height: 0.5.h,
+                                ),
+                              ],
+                            )
                           : const SizedBox()
                     ],
                   ),
@@ -449,44 +459,115 @@ Widget productVerticalWidget({
   );
 }
 
-Widget favouriteProduct({required Product product,required BuildContext context}) {
+Widget favouriteProduct(
+    {required Product product,
+    required VoidCallback addCardPressed,
+    required BuildContext context}) {
   return Padding(
-    padding: EdgeInsets.symmetric(horizontal: 5.w,vertical: 1.h),
+    padding: EdgeInsets.symmetric(horizontal: 5.w, vertical: 1.h),
     child: Container(
-      height: 20.h,
+      height: 26.h,
       width: double.infinity,
       color: ColorManager.grey1,
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Column(
-            children: [
-              Text(
-                S.of(context).mainUses,
-                style: TextStyle(fontSize: 15.sp, color: ColorManager.primary),
-              ),
-              Text(
-                product.productMainUses,
-                style: TextStyle(fontSize: 12.sp, color: ColorManager.black),
-              ),
-            ],
+          Expanded(
+            child: Column(
+              children: [
+                Text(
+                  S.of(context).mainUses,
+                  style:
+                      TextStyle(fontSize: 13.sp, color: ColorManager.primary),
+                ),
+                Expanded(
+                  child: Padding(
+                    padding: EdgeInsets.all(2.sp),
+                    child: Text(
+                      product.productMainUses,
+                      maxLines: 7,
+                      style:
+                          TextStyle(fontSize: 11.sp, color: ColorManager.black),
+                    ),
+                  ),
+                ),
+                RatingBar.builder(
+                  initialRating:
+                      (product.productRating / product.ratingNumbers),
+                  minRating: 1,
+                  itemSize: 20.sp,
+                  direction: Axis.horizontal,
+                  ignoreGestures: true,
+                  allowHalfRating: true,
+                  itemPadding: EdgeInsets.symmetric(horizontal: 0.5.w),
+                  itemBuilder: (context, _) => const Icon(
+                    Icons.star,
+                    color: Colors.amber,
+                  ),
+                  onRatingUpdate: (rating) {
+                    print(rating);
+                  },
+                ),
+                SizedBox(
+                  height: 2.h,
+                )
+              ],
+            ),
           ),
           SizedBox(
-            width: 15.w,
+            width: 5.w,
           ),
           Expanded(
-            child: Container(
-              height: 20.h,
-              decoration: BoxDecoration(
-                color: ColorManager.grey1,
-                image: product.productsImagesUrl != null &&
-                        product.productsImagesUrl!.isNotEmpty
-                    ? DecorationImage(
-                        image: NetworkImage(product.productsImagesUrl!.first),
-                        fit: BoxFit.cover,
-                      )
-                    : null,
-              ),
+            child: Column(
+              children: [
+                Container(
+                  height: 15.h,
+                  decoration: BoxDecoration(
+                    color: ColorManager.grey1,
+                    image: product.productsImagesUrl != null &&
+                            product.productsImagesUrl!.isNotEmpty
+                        ? DecorationImage(
+                            image:
+                                NetworkImage(product.productsImagesUrl!.first),
+                            fit: BoxFit.cover,
+                          )
+                        : null,
+                  ),
+                ),
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 2.w),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      SizedBox(
+                        height: 0.2.h,
+                      ),
+                      Text(
+                        product.productName,
+                        style: TextStyle(
+                            fontWeight: FontWeight.w600, fontSize: 12.sp),
+                      ),
+                      SizedBox(
+                        height: 0.2.h,
+                      ),
+                      Text(
+                        "${product.productOldPrice} ${S.of(context).sar}",
+                        style: TextStyle(
+                            fontWeight: FontWeight.w500, fontSize: 12.sp),
+                      ),
+                      SizedBox(
+                        height: 0.5.h,
+                      ),
+                      ConstantsManager.appUser is Customer
+                          ? defaultButton(
+                              onPressed: addCardPressed,
+                              height: 4.h,
+                              text: S.of(context).addToCart)
+                          : const SizedBox()
+                    ],
+                  ),
+                ),
+              ],
             ),
           ),
         ],
@@ -597,13 +678,15 @@ Map<String, List<String>> convertToMap(
     List<List<TextEditingController>> propertyList,
     List<TextEditingController> propertyNameList) {
   Map<String, List<String>> result = {};
+  if(propertyNameList.length == 1 && propertyNameList.first.text==""){
+    return {};
+  }
   for (int i = 0; i < propertyNameList.length; i++) {
     String propertyName = propertyNameList[i].text;
     List<String> properties =
         propertyList[i].map((controller) => controller.text).toList();
     result[propertyName] = properties;
   }
-  print(result);
   return result;
 }
 
@@ -625,20 +708,28 @@ Widget defaultButton({
   double? height,
   double? fontSize,
 }) =>
-    Container(
-      clipBehavior: Clip.antiAliasWithSaveLayer,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadiusDirectional.circular(10.sp),
-      ),
-      child: MaterialButton(
-        onPressed: onPressed,
-        minWidth: double.infinity,
-        height: height ?? 5.h,
-        color: ColorManager.primary,
-        child: Text(
-          text,
-          style:
-              TextStyle(fontSize: fontSize ?? 12.sp, color: ColorManager.white),
+    Material(
+      color: Colors.transparent,
+      child: InkWell(
+        onTap: onPressed,
+        splashColor: ColorManager.grey2,
+        child: Container(
+          width: double.infinity,
+          height: height ?? 5.h,
+          clipBehavior: Clip.antiAliasWithSaveLayer,
+          decoration: BoxDecoration(
+            color: ColorManager.primary,
+            borderRadius: BorderRadiusDirectional.circular(10.sp),
+          ),
+          child: Center(
+            child: Text(
+              text,
+              style: TextStyle(
+                  fontWeight: FontWeight.w600,
+                  fontSize: fontSize ?? 12.sp,
+                  color: ColorManager.white),
+            ),
+          ),
         ),
       ),
     );
@@ -646,12 +737,11 @@ Widget defaultButton({
 Widget iconContainer({
   required VoidCallback onPressed,
   required IconData icon,
-  double? padding,
   double? size,
   Color? color,
 }) =>
     Container(
-      padding: EdgeInsets.all(padding ?? 5.sp),
+      padding: EdgeInsets.symmetric(vertical: 0.5.h, horizontal: 1.5.w),
       decoration: const BoxDecoration(
           shape: BoxShape.circle, color: ColorManager.primary),
       child: InkWell(

@@ -76,7 +76,6 @@ class AddProductScreen extends StatelessWidget {
           selectedProperties = state.selectedProperties;
         }
         if (state is SetProductSuccessfullyState) {
-          bloc.add(GetProductsEvent());
           bloc.add(MakeImagesFilesEmptyEvent());
           context.pop();
           context.pop();
@@ -95,6 +94,8 @@ class AddProductScreen extends StatelessWidget {
               );
             },
           );
+          bloc.add(GetProductsEvent());
+
         }
       },
       builder: (context, state) {
@@ -426,6 +427,8 @@ class AddProductScreen extends StatelessWidget {
                             bloc.add(
                               SetProductEvent(
                                 product: Product(
+                                  productRating: 5,
+                                  ratingNumbers: 1,
                                   customProperties: ProductCustomProperties(
                                       availableProperties: transformList(
                                           selectedPropertiesSaved),

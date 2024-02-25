@@ -225,6 +225,8 @@ class ModifyProductScreen extends StatelessWidget {
                         bloc.add(UpdateProductEvent(
                             product: Product(
                                 productName: nameController.text,
+                                productRating: product.productRating,
+                                ratingNumbers: product.ratingNumbers,
                                 productId: product.productId,
                                 productMainUses: mainUsesController.text,
                                 productWorkCharacteristics: workCharacteristicsController.text,

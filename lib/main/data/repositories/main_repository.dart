@@ -58,6 +58,14 @@ class MainRepository {
         favorites: favorites);
   }
 
+  Future<Either<FirebaseException, (double,int)>> productRatingUpdate({
+    required double productRating,
+    required String productId,
+  }) async {
+    return await mainRemoteDataSource.productRatingUpdate(
+        productId: productId, productRating: productRating);
+  }
+
   Future<Either<FirebaseException, Unit>> getUserData() {
     return mainRemoteDataSource.getUserData();
   }

@@ -53,7 +53,8 @@ class FavouriteScreen extends StatelessWidget {
                           children: [
                             Expanded(
                               child: Padding(
-                                padding: EdgeInsetsDirectional.only(start: 10.w),
+                                padding:
+                                    EdgeInsetsDirectional.only(start: 10.w),
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.center,
                                   mainAxisAlignment: MainAxisAlignment.center,
@@ -80,7 +81,8 @@ class FavouriteScreen extends StatelessWidget {
                             ),
                             if (ConstantsManager.appUser is Customer)
                               IconButton(
-                                onPressed: () => context.push(const CartScreen()),
+                                onPressed: () =>
+                                    context.push(const CartScreen()),
                                 icon: const Icon(
                                   Icons.shopping_cart_outlined,
                                   color: ColorManager.white,
@@ -112,7 +114,18 @@ class FavouriteScreen extends StatelessWidget {
                             child: Wrap(
                               direction: Axis.horizontal,
                               children: favProducts.map((product) {
-                                return favouriteProduct(product: product, context: context);
+                                return favouriteProduct(
+                                  product: product,
+                                  context: context,
+                                  addCardPressed: () {
+                                    final PaymentBloc paymentBloc = PaymentBloc.bloc;
+                                    paymentBloc.add(
+                                      AddToCartEvent(
+                                        productId: product.productId,
+                                      ),
+                                    );
+                                  },
+                                );
                               }).toList(),
                             ),
                           )
@@ -131,7 +144,8 @@ class FavouriteScreen extends StatelessWidget {
     if (state is AddToCartSuccessState) {
       defaultToast(msg: S.of(context).productAdded);
     } else if (state is AddToCartErrorState) {
-      mainErrorToast(msg: ExceptionManager(state.exception).translatedMessage());
+      mainErrorToast(
+          msg: ExceptionManager(state.exception).translatedMessage());
     }
   }
 }
@@ -143,8 +157,9 @@ List<Product> _favProducts(List<Product> products) {
   }
   List<Product> favProducts = [];
   favProducts = products
-      .where(
-          (element) => (ConstantsManager.appUser as Customer).favorites.contains(element.productId))
+      .where((element) => (ConstantsManager.appUser as Customer)
+          .favorites
+          .contains(element.productId))
       .toList();
   return favProducts;
 }
