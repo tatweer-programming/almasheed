@@ -124,7 +124,7 @@ class OTPScreen extends StatelessWidget {
                                               activeFillColor: ColorManager.white,
                                               inactiveFillColor: ColorManager.white),
                                           cursorColor: ColorManager.black,
-                                          animationDuration: Duration(milliseconds: 300),
+                                          animationDuration: const Duration(milliseconds: 300),
                                           controller: otpController,
                                           keyboardType: TextInputType.number,
                                           onCompleted: (v) {
