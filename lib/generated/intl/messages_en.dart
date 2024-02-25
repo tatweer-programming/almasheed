@@ -84,6 +84,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "doNotHaveAccount": MessageLookupByLibrary.simpleMessage(
             "You don\'t have an account ?"),
         "edit": MessageLookupByLibrary.simpleMessage("Edit"),
+        "endChat": MessageLookupByLibrary.simpleMessage("End Chat"),
         "enterAddressType":
             MessageLookupByLibrary.simpleMessage("please enter area"),
         "enterAllCode": MessageLookupByLibrary.simpleMessage(
@@ -133,6 +134,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "house": MessageLookupByLibrary.simpleMessage("house"),
         "houseNumber": MessageLookupByLibrary.simpleMessage("house number"),
         "language": MessageLookupByLibrary.simpleMessage("Language"),
+        "lastSeen": MessageLookupByLibrary.simpleMessage("Last Seen"),
         "loginAsMerchant":
             MessageLookupByLibrary.simpleMessage("Login as merchant"),
         "loginFirst":

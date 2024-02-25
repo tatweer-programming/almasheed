@@ -62,6 +62,7 @@ class ChatsScreen extends StatelessWidget {
                           context.push(ChatScreen(
                             receiverName: chatBloc.chats[index].receiverName,
                             receiverId: chatBloc.chats[index].receiverId,
+                            isEnd: chatBloc.chats[index].isEnd,
                           ));
                         }),
                     separatorBuilder: (context, index) => SizedBox(

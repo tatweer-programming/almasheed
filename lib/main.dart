@@ -30,6 +30,7 @@ Future<void> main() async {
   FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) async {
     navigatorKey.currentState!.push(MaterialPageRoute(
         builder: (_) => ChatScreen(
+          isEnd: false,
             receiverId: message.from!.substring(8), receiverName: message.notification!.title!)));
   });
   await LocalizationManager.init();

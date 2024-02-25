@@ -150,6 +150,8 @@
   "logout" : "تسجيل الخروج",
   "totalElements": "مجموع العناصر",
   "totalValue" : "مجموع القيمة",
+  "endChat" : "إنهاء المحادثة",
   "productDeleted" : "تم حذف المنتج بنجاح",
+  "lastSeen" : "اخر ما تمت مساهدته",
   "deposit": "العربون"
 }

@@ -33,6 +33,7 @@ class DetailsProductScreen extends StatelessWidget {
     final CarouselController carouselController = CarouselController();
     TextEditingController quantityController = TextEditingController();
     final MainBloc mainBloc = sl();
+    mainBloc.lastSeenProducts.add(product);
     List<String> selectedProperties = [];
     quantityController.text = "1";
     return BlocListener<PaymentBloc, PaymentState>(

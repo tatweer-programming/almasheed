@@ -16,6 +16,7 @@ import 'package:sizer/sizer.dart';
 
 import '../../../core/utils/color_manager.dart';
 import '../../../generated/l10n.dart';
+import '../../../main/view/screens/last_seen_screen.dart';
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
@@ -131,7 +132,7 @@ class ProfileScreen extends StatelessWidget {
                 Text(
                   textDirection: TextDirection.ltr,
                   "+966 ${ConstantsManager.appUser!.phone.replaceAll("+966", "")}",
-                  style: TextStyle(
+                  style: const TextStyle(
                       // color: ColorManager.primary,
                       // fontSize: 22.sp,
                       fontWeight: FontWeight.bold),
@@ -158,6 +159,12 @@ class ProfileScreen extends StatelessWidget {
                         iconData: Icons.map_outlined,
                         label: S.of(context).addressesList,
                         nextScreen: const AddressesScreen(),
+                      ),
+                    if (ConstantsManager.appUser is Customer)
+                      ProfileItemBuilder(
+                        iconData: Icons.remove_red_eye_rounded,
+                        label: S.of(context).lastSeen,
+                        nextScreen: const LastSeenScreen(),
                       ),
                     ProfileItemBuilder(
                       iconData: Icons.question_mark_outlined,

@@ -14,6 +14,10 @@ class ChatRepository {
     return service.getMessage(receiverId: receiverId);
   }
 
+  Future<Either<FirebaseException, Unit>> endChat(String receiverId) {
+    return service.endChat(receiverId);
+  }
+
   Future<Either<FirebaseException, Unit>> sendMessage(
       {required Message message}) async {
     return await service.sendMessage(message: message);

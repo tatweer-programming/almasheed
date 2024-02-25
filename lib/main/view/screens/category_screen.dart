@@ -205,39 +205,39 @@ class CategoryScreen extends StatelessWidget {
     showDialog(
       context: context,
       builder: (BuildContext context) {
-        return AlertDialog(
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(10.sp),
-          ),
-          actions: [
-            TextButton(
-              onPressed: () {
-                bloc.add(CancelSortProductsEvent(products: category.products!));
-                context.pop();
-              },
-              child: Text(S.of(context).cancel),
-            ),
-            TextButton(
-              onPressed: () {
-                context.pop();
-              },
-              child: Text(S.of(context).ok),
-            ),
-          ],
-          content: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              searchDropdownBuilder(
+        return Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            AlertDialog(
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10.sp),
+              ),
+              actions: [
+                TextButton(
+                  onPressed: () {
+                    bloc.add(CancelSortProductsEvent(products: category.products!));
+                    context.pop();
+                  },
+                  child: Text(S.of(context).cancel),
+                ),
+                TextButton(
+                  onPressed: () {
+                    context.pop();
+                  },
+                  child: Text(S.of(context).ok),
+                ),
+              ],
+              content: searchDropdownBuilder(
                 text: S.of(context).city,
                 onChanged: (city) {
                   bloc.add(
                       CancelSortProductsEvent(products: category.products!));
                   bloc.add(SelectCityEvent(selectedCity: city!));
                 },
-                items: ConstantsManager.saudiCitiesEnglish,
+                items: ConstantsManager.getSaudiCities,
               ),
-            ],
-          ),
+            ),
+          ],
         );
       },
     );

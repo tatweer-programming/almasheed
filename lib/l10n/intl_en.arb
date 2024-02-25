@@ -151,7 +151,9 @@
   "welcomeToAlmasheed": "Welcome to almasheed",
   "whoAreWe": "Who Are We",
   "work": "work",
+  "endChat" : "End Chat",
   "productDeleted": "The product has been added successfully",
+  "lastSeen" : "Last Seen",
   "youMayLikeIt": "You may like it"
 }
 

@@ -38,33 +38,52 @@ class CategoriesScreen extends StatelessWidget {
                       height: 28.h,
                       color: ColorManager.primary,
                       width: double.infinity,
-                      child: Column(
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
                         children: [
-                          SizedBox(
-                            height: 5.h,
+                          Column(
+                            children: [
+                              SizedBox(
+                                height: 5.h,
+                              ),
+                              Text(
+                                S.of(context).categories,
+                                style: TextStyle(
+                                  fontSize: 25.sp,
+                                  color: ColorManager.white,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
+                              SizedBox(
+                                height: 2.h,
+                              ),
+                              Icon(
+                                Icons.category_outlined,
+                                size: 30.sp,
+                                color: ColorManager.white,
+                              )
+                            ],
                           ),
-                          Text(
-                            S.of(context).categories,
-                            style: TextStyle(
-                              fontSize: 25.sp,
-                              color: ColorManager.white,
-                              fontWeight: FontWeight.w600,
+                          SizedBox(width: 10.w,),
+                          Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 5.w,vertical: 8.h),
+                            child: Align(
+                              alignment: AlignmentDirectional.topEnd,
+                              child: Container(
+                                color: Colors.white,
+                                width: 20.w,height: 5.h,
+                                child: Center(child: Text(S.of(context).addCategory,style: const TextStyle(
+                                  fontWeight: FontWeight.w600
+                                ),),),
+                              ),
                             ),
-                          ),
-                          SizedBox(
-                            height: 2.h,
-                          ),
-                          Icon(
-                            Icons.category_outlined,
-                            size: 30.sp,
-                            color: ColorManager.white,
                           )
                         ],
                       ),
                     ),
                   ),
                   Align(
-                    alignment: AlignmentDirectional.topStart,
+                    alignment: AlignmentDirectional.topEnd,
                     child: Padding(
                       padding:
                           EdgeInsetsDirectional.symmetric(horizontal: 12.w),

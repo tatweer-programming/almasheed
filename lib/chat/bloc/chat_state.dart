@@ -14,6 +14,14 @@ class GetMessagesSuccessState extends ChatState {
 
 class SendMessagesSuccessState extends ChatState {}
 
+class EndChatSuccessState extends ChatState {}
+class ScrollingDownState extends ChatState {}
+
+class EndChatErrorState extends ChatState {
+  final FirebaseException error;
+
+  const EndChatErrorState(this.error);}
+
 class StartRecordState extends ChatState {}
 
 class PickImageState extends ChatState {}

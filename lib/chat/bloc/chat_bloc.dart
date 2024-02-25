@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:audioplayers/audioplayers.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
@@ -25,7 +26,7 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
   bool isComplete = false;
   bool isPlaying = false;
   String? imageFilePath;
-  List<Chat>chats = [];
+  List<Chat> chats = [];
 
   ChatBloc(ChatInitial chatInitial) : super(ChatInitial()) {
     on<ChatEvent>((event, emit) async {
@@ -52,6 +53,19 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
       } else if (event is EndRecordingEvent) {
         await stopRecord();
         emit(EndRecordState());
+      } else if (event is EndChatEvent) {
+        var result = await chatRepository.endChat(event.receiverId);
+        result.fold((l) {
+          emit(EndChatErrorState(l));
+        }, (r) {
+          emit(EndChatSuccessState());
+        });
+      } else if (event is ScrollingDownEvent) {
+        if (event.listScrollController.hasClients) {
+          final position = event.listScrollController.position.maxScrollExtent;
+          event.listScrollController.jumpTo(position);
+          emit(ScrollingDownState());
+        }
       } else if (event is TurnOnRecordUrlEvent) {
         await audioPlayer.play(UrlSource(event.voiceNoteUrl));
         event.isPlaying = true;
@@ -84,7 +98,7 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
         }
       } else if (event is PickImageEvent) {
         final pickedFile =
-        await ImagePicker().pickImage(source: ImageSource.gallery);
+            await ImagePicker().pickImage(source: ImageSource.gallery);
         if (pickedFile != null) {
           imageFilePath = pickedFile.path;
           emit(PickImageState());
@@ -116,10 +130,7 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
     if (!d.existsSync()) {
       d.createSync(recursive: true);
     }
-    return "$sdPath/${DateTime
-        .now()
-        .millisecondsSinceEpoch
-        .toString()}.mp3";
+    return "$sdPath/${DateTime.now().millisecondsSinceEpoch.toString()}.mp3";
   }
 
   Future<void> startRecord() async {

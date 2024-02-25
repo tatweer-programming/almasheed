@@ -113,6 +113,7 @@ class PaymentService {
     for (var element in order.merchantIds) {
       var chat = Chat(
           receiverId: element,
+          isEnd: false,
           receiverName: order.orderItems
               .firstWhere((item) => item.product.merchantId == element)
               .product

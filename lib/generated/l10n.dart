@@ -1562,11 +1562,31 @@ class S {
     );
   }
 
+  /// `End Chat`
+  String get endChat {
+    return Intl.message(
+      'End Chat',
+      name: 'endChat',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `The product has been added successfully`
   String get productDeleted {
     return Intl.message(
       'The product has been added successfully',
       name: 'productDeleted',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Last Seen`
+  String get lastSeen {
+    return Intl.message(
+      'Last Seen',
+      name: 'lastSeen',
       desc: '',
       args: [],
     );

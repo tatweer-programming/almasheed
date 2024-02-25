@@ -86,6 +86,7 @@ Widget searchDropdownBuilder(
       contentPadding: EdgeInsets.symmetric(horizontal: 1.w),
     ),
     onSelected: onChanged,
+    menuHeight: 40.h,
     dropdownMenuEntries: items.map<DropdownMenuEntry<String>>(
       (String value) {
         return DropdownMenuEntry<String>(
@@ -105,6 +106,7 @@ Widget searchProductDropdownBuilder(
   return DropdownMenu<Product>(
     enableFilter: true,
     requestFocusOnTap: true,
+    menuHeight: 40.h,
     expandedInsets: EdgeInsets.zero,
     leadingIcon: const Icon(Icons.search),
     inputDecorationTheme: InputDecorationTheme(

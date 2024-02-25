@@ -98,6 +98,29 @@ class ChatService {
     }
   }
 
+  Future<Either<FirebaseException, Unit>> endChat(String receiverId) async {
+    try {
+      var batch = FirebaseFirestore.instance.batch();
+
+      var merchant = firebaseInstance
+          .collection("merchants")
+          .doc(ConstantsManager.appUser!.id)
+          .collection("chats")
+          .doc(receiverId);
+      var customer = firebaseInstance
+          .collection("customers")
+          .doc(receiverId)
+          .collection("chats")
+          .doc(ConstantsManager.appUser!.id);
+      batch.update(merchant,{"isEnd": true});
+      batch.update(customer,{"isEnd": true});
+      batch.commit();
+      return const Right(unit);
+    } on FirebaseException catch (e) {
+      return Left(e);
+    }
+  }
+
   Stream<List<Message>> getMessagesForUser({
     required String userType,
     required String userId,

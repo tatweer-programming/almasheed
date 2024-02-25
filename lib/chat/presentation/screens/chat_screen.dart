@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:almasheed/authentication/data/models/merchant.dart';
 import 'package:almasheed/chat/bloc/chat_bloc.dart';
 import 'package:almasheed/chat/data/models/message.dart';
 import 'package:almasheed/core/utils/color_manager.dart';
@@ -15,9 +16,15 @@ import '../../../generated/l10n.dart';
 class ChatScreen extends StatelessWidget {
   final String receiverId;
   final String receiverName;
+  bool isEnd;
 
-  const ChatScreen(
-      {super.key, required this.receiverId, required this.receiverName});
+  ChatScreen(
+      {super.key,
+      required this.isEnd,
+      required this.receiverId,
+      required this.receiverName});
+
+  final ScrollController listScrollController = ScrollController();
 
   @override
   Widget build(BuildContext context) {
@@ -28,6 +35,7 @@ class ChatScreen extends StatelessWidget {
       ..add(GetMessagesEvent(receiverId: receiverId));
     return BlocConsumer<ChatBloc, ChatState>(
       listener: (context, state) {
+        print(state);
         if (state is GetMessagesSuccessState) {
           messagesStream = state.messages;
         }
@@ -38,9 +46,20 @@ class ChatScreen extends StatelessWidget {
       builder: (context, state) {
         return Scaffold(
           appBar: AppBar(
-            backgroundColor: ColorManager.primary,
-            title: Text(receiverName),
-          ),
+              backgroundColor: ColorManager.primary,
+              title: Text(receiverName),
+              actions: [
+                if (ConstantsManager.appUser is Merchant)
+                  TextButton(
+                      onPressed: () {
+                        isEnd = true;
+                        bloc.add(EndChatEvent(receiverId: receiverId));
+                      },
+                      child: Text(
+                        S.of(context).endChat,
+                        style: const TextStyle(color: ColorManager.white),
+                      )),
+              ]),
           body: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -57,6 +76,7 @@ class ChatScreen extends StatelessWidget {
                           if (snapshot.hasData) {
                             List<Message> messages = snapshot.data!;
                             return ListView.separated(
+                              controller: listScrollController,
                               itemBuilder: (context, index) {
                                 if (messages[index].voiceNoteUrl != null) {
                                   return messageWidget(
@@ -138,94 +158,109 @@ class ChatScreen extends StatelessWidget {
                   ),
                 ),
               Container(
-                padding: EdgeInsets.symmetric(vertical: 2.h, horizontal: 2.w),
-                decoration: BoxDecoration(
-                  color: Colors.grey[300],
-                  border: Border(
-                    top: BorderSide(
-                      color: ColorManager.grey1,
+                decoration: const BoxDecoration(
+                  shape: BoxShape.circle,
+                  color: ColorManager.primary,
+                ),
+                child: IconButton(
+                    icon: const Icon(Icons.arrow_circle_down_outlined,color:Colors.white),
+                    onPressed: () {
+                      bloc.add(ScrollingDownEvent(
+                          listScrollController: listScrollController));
+                    }),
+              ),
+              if (!isEnd)
+                Container(
+                  padding: EdgeInsets.symmetric(vertical: 2.h, horizontal: 2.w),
+                  decoration: BoxDecoration(
+                    color: Colors.grey[300],
+                    border: Border(
+                      top: BorderSide(
+                        color: ColorManager.grey1,
+                      ),
                     ),
                   ),
-                ),
-                child: Row(
-                  children: [
-                    InkWell(
-                      child: Icon(
-                        Icons.camera_alt,
-                        color: Colors.black,
-                        size: 22.sp,
-                      ),
-                      onTap: () {
-                        bloc.add(PickImageEvent());
-                      },
-                    ),
-                    SizedBox(
-                      width: 2.w,
-                    ),
-                    GestureDetector(
-                      child: Icon(
-                        Icons.mic,
-                        color: Colors.black,
-                        size: 22.sp,
-                      ),
-                      onLongPress: () {
-                        bloc.add(StartRecordingEvent());
-                      },
-                      onLongPressEnd: (_) {
-                        bloc.add(EndRecordingEvent());
-                      },
-                    ),
-                    SizedBox(
-                      width: 2.w,
-                    ),
-                    Expanded(
-                      child: TextField(
-                        controller: messageController,
-                        onChanged: (value) {
-                          messageController.text = value;
+                  child: Row(
+                    children: [
+                      InkWell(
+                        child: Icon(
+                          Icons.camera_alt,
+                          color: Colors.black,
+                          size: 22.sp,
+                        ),
+                        onTap: () {
+                          bloc.add(PickImageEvent());
                         },
-                        decoration: InputDecoration(
-                          contentPadding: EdgeInsets.symmetric(horizontal: 2.w),
-                          hintText: S.of(context).typeMessage,
-                          enabledBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(
-                            25.sp,
-                          )),
-                          focusedBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(
-                            25.sp,
-                          )),
+                      ),
+                      SizedBox(
+                        width: 2.w,
+                      ),
+                      GestureDetector(
+                        child: Icon(
+                          Icons.mic,
+                          color: Colors.black,
+                          size: 22.sp,
+                        ),
+                        onLongPress: () {
+                          bloc.add(StartRecordingEvent());
+                        },
+                        onLongPressEnd: (_) {
+                          bloc.add(EndRecordingEvent());
+                        },
+                      ),
+                      SizedBox(
+                        width: 2.w,
+                      ),
+                      Expanded(
+                        child: TextField(
+                          controller: messageController,
+                          onChanged: (value) {
+                            messageController.text = value;
+                          },
+                          decoration: InputDecoration(
+                            contentPadding:
+                                EdgeInsets.symmetric(horizontal: 2.w),
+                            hintText: S.of(context).typeMessage,
+                            enabledBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(
+                              25.sp,
+                            )),
+                            focusedBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(
+                              25.sp,
+                            )),
+                          ),
                         ),
                       ),
-                    ),
-                    IconButton(
-                      icon: const Icon(
-                        Icons.send,
-                        color: ColorManager.primary,
+                      IconButton(
+                        icon: const Icon(
+                          Icons.send,
+                          color: ColorManager.primary,
+                        ),
+                        onPressed: () {
+                          if (messageController.text != "" ||
+                              bloc.voiceNoteFilePath != null ||
+                              bloc.imageFilePath != null) {
+                            bloc.add(RemovePickedImageEvent());
+                            bloc.add(RemoveRecordEvent());
+                            bloc.add(SendMessageEvent(
+                              message: Message(
+                                receiverName: receiverName,
+                                createdTime: Timestamp.now(),
+                                message: messageController.text,
+                                imageFilePath: bloc.imageFilePath,
+                                voiceNoteFilePath: bloc.voiceNoteFilePath,
+                                senderId: ConstantsManager.appUser!.id,
+                                receiverId: receiverId,
+                              ),
+                            ));
+                            messageController.clear();
+                          }
+                        },
                       ),
-                      onPressed: () {
-                        if (messageController.text != "" ||
-                            bloc.voiceNoteFilePath != null ||
-                            bloc.imageFilePath != null) {
-                          bloc.add(RemovePickedImageEvent());
-                          bloc.add(RemoveRecordEvent());
-                          bloc.add(SendMessageEvent(
-                            message: Message(
-                              receiverName: receiverName,
-                              createdTime: Timestamp.now(),
-                              message: messageController.text,
-                              imageFilePath: bloc.imageFilePath,
-                              voiceNoteFilePath: bloc.voiceNoteFilePath,
-                              senderId: ConstantsManager.appUser!.id,
-                              receiverId: receiverId,
-                            ),
-                          ));
-                        }
-                      },
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
-              ),
             ],
           ),
         );

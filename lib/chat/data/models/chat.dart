@@ -3,15 +3,18 @@ import 'package:equatable/equatable.dart';
 class Chat extends Equatable {
   final String receiverName;
   final String receiverId;
+  bool isEnd;
 
-  const Chat({
+  Chat({
     required this.receiverId,
     required this.receiverName,
+    required this.isEnd,
   });
 
   factory Chat.fromJson(Map<String, dynamic> json) {
     return Chat(
       receiverId: json["receiverId"],
+      isEnd: json["isEnd"],
       receiverName: json["receiverName"],
     );
   }

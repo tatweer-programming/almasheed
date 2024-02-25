@@ -10,6 +10,12 @@ class GetMessagesEvent extends ChatEvent {
   const GetMessagesEvent({required this.receiverId});
 }
 
+class EndChatEvent extends ChatEvent {
+  final String receiverId;
+
+  const EndChatEvent({required this.receiverId});
+}
+
 class SendMessageEvent extends ChatEvent {
   final Message message;
 
@@ -27,6 +33,12 @@ class RemoveRecordEvent extends ChatEvent {}
 class StartRecordingEvent extends ChatEvent {}
 
 class EndRecordingEvent extends ChatEvent {}
+
+class ScrollingDownEvent extends ChatEvent {
+  final ScrollController listScrollController;
+
+  ScrollingDownEvent({required this.listScrollController});
+}
 
 class TurnOnRecordUrlEvent extends ChatEvent {
   final String voiceNoteUrl;

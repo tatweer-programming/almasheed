@@ -82,6 +82,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "doNotHaveAccount":
             MessageLookupByLibrary.simpleMessage("ليس لديك حساب؟"),
         "edit": MessageLookupByLibrary.simpleMessage("تعديل"),
+        "endChat": MessageLookupByLibrary.simpleMessage("إنهاء المحادثة"),
         "enterAddressType":
             MessageLookupByLibrary.simpleMessage("الرجاء إدخال نوع العنوان"),
         "enterAllCode": MessageLookupByLibrary.simpleMessage(
@@ -131,6 +132,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "house": MessageLookupByLibrary.simpleMessage("المنزل"),
         "houseNumber": MessageLookupByLibrary.simpleMessage("رقم المنزل"),
         "language": MessageLookupByLibrary.simpleMessage("اللغة"),
+        "lastSeen": MessageLookupByLibrary.simpleMessage("اخر ما تمت مساهدته"),
         "loginAsMerchant":
             MessageLookupByLibrary.simpleMessage("تسجيل الدخول كتاجر"),
         "loginFirst":

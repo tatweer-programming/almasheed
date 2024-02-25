@@ -28,6 +28,7 @@ class MainBloc extends Bloc<MainEvent, MainState> {
   int pageIndex = 0;
   int carouselIndicatorIndex = 0;
   List<Product> products = [];
+  Set<Product> lastSeenProducts = {};
   List<Merchant> merchants = [];
   List<Product> offers = [];
   List<Product> bestSales = [];
