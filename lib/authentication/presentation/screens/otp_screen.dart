@@ -121,8 +121,6 @@ class OTPScreen extends StatelessWidget {
                                           pinTheme: PinTheme(
                                               shape: PinCodeFieldShape.box,
                                               borderRadius: BorderRadius.circular(5),
-                                              fieldHeight: 50,
-                                              fieldWidth: 40,
                                               activeFillColor: ColorManager.white,
                                               inactiveFillColor: ColorManager.white),
                                           cursorColor: ColorManager.black,
