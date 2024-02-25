@@ -1,5 +1,7 @@
 import 'package:almasheed/authentication/data/models/user.dart';
 
+import '../../../core/utils/images_manager.dart';
+
 class Merchant extends AppUser {
   String companyName;
   String city;
@@ -22,6 +24,7 @@ class Merchant extends AppUser {
   @override
   Map<String, dynamic> toJson() {
     return {
+      "image": image ?? ImagesManager.defaultProfile,
       "productsIds": productsIds,
       'id': id,
       'phone': phone,
@@ -35,6 +38,7 @@ class Merchant extends AppUser {
 
   factory Merchant.fromJson(Map<String, dynamic> json) {
     return Merchant(
+        image: json["image"] ?? ImagesManager.defaultProfile,
         productsIds: (json['productsIds'] as List).cast<String>(),
         companyName: json['companyName'],
         city: json['city'],

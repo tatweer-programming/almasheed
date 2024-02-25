@@ -132,7 +132,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "house": MessageLookupByLibrary.simpleMessage("المنزل"),
         "houseNumber": MessageLookupByLibrary.simpleMessage("رقم المنزل"),
         "language": MessageLookupByLibrary.simpleMessage("اللغة"),
-        "lastSeen": MessageLookupByLibrary.simpleMessage("اخر ما تمت مساهدته"),
+        "lastSeen": MessageLookupByLibrary.simpleMessage("آخر ما تمت مشاهدته"),
         "loginAsMerchant":
             MessageLookupByLibrary.simpleMessage("تسجيل الدخول كتاجر"),
         "loginFirst":

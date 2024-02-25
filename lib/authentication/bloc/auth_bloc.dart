@@ -40,7 +40,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   String? city;
   int? timeToResendCode;
   Timer? timeToResendCodeTimer;
-
+  String? oldPicUrl;
   List<String> addressTypes(BuildContext context) {
     return [
       S.of(context).house,
@@ -139,20 +139,21 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       addressType = event.addressType;
       emit(ChooseAddressTypeState(addressType: event.addressType));
     } else if (event is UpdateProfilePictureEvent) {
-      String? oldPic;
-      if (ConstantsManager.appUser?.image != null &&
-          ConstantsManager.appUser?.image != ImagesManager.defaultProfile) {
-        oldPic = ConstantsManager.appUser!.image;
-      }
       File? image = await _captureAndSaveGalleryImage();
       if (image != null) {
+        if (ConstantsManager.appUser?.image != null &&
+            ConstantsManager.appUser?.image != ImagesManager.defaultProfile) {
+          oldPicUrl = ConstantsManager.appUser?.image.toString();
+        }
         emit(UpdateProfileLoadingState());
         var response = await repository.updateProfilePic(image);
         response.fold((l) {
           emit(UpdateProfileErrorState(l));
         }, (r) async {
           emit(UpdateProfileSuccessState());
-          oldPic != null ? await repository.deleteOldPic(oldPic) : DoNothingAction();
+          await repository.updateImageInFireStore(r).then((value) async {
+            oldPicUrl != null ? await repository.deleteOldPic(oldPicUrl!) : DoNothingAction();
+          });
         });
       }
     } else if (event is ChooseCityEvent) {

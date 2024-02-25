@@ -1,5 +1,6 @@
 import 'package:almasheed/authentication/data/models/address.dart';
 import 'package:almasheed/authentication/data/models/user.dart';
+import 'package:almasheed/core/utils/images_manager.dart';
 
 class Customer extends AppUser {
   Map<String, int> cartItems;
@@ -21,6 +22,7 @@ class Customer extends AppUser {
   @override
   Map<String, dynamic> toJson() {
     return {
+      "image": image ?? ImagesManager.defaultProfile,
       "name": name,
       'id': id,
       'phone': phone,
@@ -37,6 +39,7 @@ class Customer extends AppUser {
       (key, value) => MapEntry(key, value is int ? value : 0),
     );
     return Customer(
+      image: json["image"] ?? ImagesManager.defaultProfile,
       name: json["name"],
       addresses: (json['addresses'] as List).map((e) => Address.fromJson(e)).toList(),
       cartItems: cartItems,

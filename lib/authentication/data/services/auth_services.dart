@@ -148,21 +148,25 @@ class AuthService {
     }
   }
 
-  Future<Either<FirebaseException, Unit>> updateProfilePic(File newImage) async {
+  Future<Either<FirebaseException, String>> uploadProfilePic(File newImage) async {
     try {
       String newImageUrl = await _uploadNewImage(newImage);
-      await _firebaseAuth.currentUser?.updatePhotoURL(newImageUrl);
       ConstantsManager.appUser?.image = newImageUrl;
-      return const Right(unit);
+      return Right(newImageUrl);
     } on FirebaseException catch (e) {
       return Left(e);
     }
   }
 
+  Future updateImageInFireStore(String newImageUrl) async {
+    _fireStore
+        .doc("${ConstantsManager.appUser?.getType()}s/${ConstantsManager.userId}")
+        .update({"image": newImageUrl});
+  }
+
   Future deleteOldPic(String url) async {
     try {
-      Reference firebaseStorageRef =
-          FirebaseStorage.instance.refFromURL(ConstantsManager.appUser!.image!);
+      Reference firebaseStorageRef = FirebaseStorage.instance.refFromURL(url);
       await firebaseStorageRef.delete();
     } catch (e) {
       print('Error deleting image from Firebase Storage: $e');
@@ -171,8 +175,9 @@ class AuthService {
 
   Future<String> _uploadNewImage(File newImage) async {
     try {
-      String fileName = newImage.path.split("/").last;
-      Reference firebaseStorageRef = FirebaseStorage.instance.ref().child('profiles/$fileName');
+      String fileExtension = newImage.path.split(".").last;
+      Reference firebaseStorageRef = FirebaseStorage.instance.ref().child(
+          'profiles/${ConstantsManager.appUser!.getType()}s/${ConstantsManager.userId}.$fileExtension');
       UploadTask uploadTask = firebaseStorageRef.putFile(newImage);
       TaskSnapshot taskSnapshot = await uploadTask;
       String downloadURL = await taskSnapshot.ref.getDownloadURL();
@@ -208,7 +213,6 @@ class AuthService {
   }
 
   Future<void> _saveUser(AppUser user, String userType) async {
-    user.image = _firebaseAuth.currentUser?.photoURL ?? ImagesManager.defaultProfile;
     await CacheHelper.saveData(key: "userId", value: user.id);
     await CacheHelper.saveData(key: "userType", value: userType);
     ConstantsManager.userId = user.id;

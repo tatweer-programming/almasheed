@@ -40,8 +40,12 @@ class AuthRepository {
     return _service.logout();
   }
 
-  Future<Either<FirebaseException, Unit>> updateProfilePic(File newImage) {
-    return _service.updateProfilePic(newImage);
+  Future<Either<FirebaseException, String>> updateProfilePic(File newImage) {
+    return _service.uploadProfilePic(newImage);
+  }
+
+  Future updateImageInFireStore(String newImageUrl) async {
+    return _service.updateImageInFireStore(newImageUrl);
   }
 
   Future deleteOldPic(String url) async {
