@@ -66,6 +66,7 @@ dependencies:
   firebase_core:
   cloud_firestore:
   firebase_messaging:
+  firebase_app_check:
   flutter_localizations:
 
     sdk: flutter
