@@ -52,14 +52,14 @@ class MerchantLoginScreen extends StatelessWidget {
                         imagePath: ImagesManager.building_1,
                         child: Padding(
                           padding: EdgeInsets.all(5.w),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            mainAxisSize: MainAxisSize.min,
+                          child: ListView(
                             children: [
                               SizedBox(
                                 height: 4.h,
                               ),
-                              Text(S.of(context).welcomeToAlmasheed,
+                              Text(
+                                  textAlign: TextAlign.center,
+                                  S.of(context).welcomeToAlmasheed,
                                   style: TextStyle(
                                     fontSize: 20.sp,
                                     fontWeight: FontWeightManager.bold,
@@ -68,7 +68,9 @@ class MerchantLoginScreen extends StatelessWidget {
                               SizedBox(
                                 height: 4.sp,
                               ),
-                              Text(S.of(context).createYourAccountNow,
+                              Text(
+                                  textAlign: TextAlign.center,
+                                  S.of(context).createYourAccountNow,
                                   style: TextStyle(
                                     fontSize: 13.sp,
                                     //fontWeight: FontWeightManager.bold,
