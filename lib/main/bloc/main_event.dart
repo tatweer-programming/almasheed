@@ -111,6 +111,12 @@ class SelectEditOrDeleteProductEvent extends MainEvent {
   const SelectEditOrDeleteProductEvent(
       {required this.selected, required this.product, required this.context});
 }
+class SelectAddProductOrAddCategoryEvent extends MainEvent {
+  final String selected;
+
+  const SelectAddProductOrAddCategoryEvent(
+      {required this.selected,});
+}
 
 class SelectProductCategoryEvent extends MainEvent {
   final String selectedProductCategory;

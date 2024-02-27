@@ -230,6 +230,8 @@ class SelectEditProductState extends MainState {
 
   List<Object> get props => [product];
 }
+class SelectAddProductState extends MainState {}
+class SelectAddCategoryState extends MainState {}
 
 class ChangeLocaleState extends MainState {
   final int index;

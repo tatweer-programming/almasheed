@@ -71,14 +71,6 @@ class MainScreen extends StatelessWidget {
                   )),
             ],
           ),
-          floatingActionButton: ConstantsManager.appUser is Merchant
-              ? FloatingActionButton(
-                  onPressed: () {
-                    context.push(const AddProductScreen());
-                  },
-                  child: const Icon(Icons.add),
-                )
-              : null,
           body: RefreshIndicator(
               onRefresh: () async {
                 bloc.add(GetProductsEvent());

@@ -245,6 +245,12 @@ class MainBloc extends Bloc<MainEvent, MainState> {
           products.remove(event.product);
           emit(SelectDeleteProductState(event.product));
         }
+      }else if (event is SelectAddProductOrAddCategoryEvent) {
+        if (event.selected == "AddProduct") {
+          emit(SelectAddProductState());
+        } else {
+          emit(SelectAddCategoryState());
+        }
       } else if (event is GetUserDataEvent) {
         emit(GetUserDataLoadingState());
         var response = await MainRepository(sl()).getUserData();
