@@ -1,3 +1,4 @@
+import 'package:almasheed/authentication/data/models/customer.dart';
 import 'package:almasheed/core/utils/color_manager.dart';
 import 'package:almasheed/core/utils/navigation_manager.dart';
 import 'package:almasheed/main/view/screens/add_category_screen.dart';
@@ -12,6 +13,7 @@ import '../../bloc/main_bloc.dart';
 import '../../data/models/product.dart';
 import 'add_product_screen.dart';
 import 'details_product.dart';
+import 'package:almasheed/core/utils/constance_manager.dart';
 
 class CategoriesScreen extends StatelessWidget {
   const CategoriesScreen({super.key});
@@ -27,10 +29,9 @@ class CategoriesScreen extends StatelessWidget {
           categoryProducts = state.categoryProducts;
           isContain = state.categoryName;
         }
-        if(state is SelectAddProductState){
+        if (state is SelectAddProductState) {
           context.push(const AddProductScreen());
-        }
-        else if (state is SelectAddCategoryState){
+        } else if (state is SelectAddCategoryState) {
           context.push(const AddCategoryScreen());
         }
       },
@@ -47,7 +48,9 @@ class CategoriesScreen extends StatelessWidget {
                       color: ColorManager.primary,
                       width: double.infinity,
                       child: Row(
-                        mainAxisAlignment: MainAxisAlignment.end,
+                        mainAxisAlignment: ConstantsManager.appUser is! Customer
+                            ? MainAxisAlignment.end
+                            : MainAxisAlignment.center,
                         children: [
                           Column(
                             children: [
@@ -73,39 +76,44 @@ class CategoriesScreen extends StatelessWidget {
                             ],
                           ),
                           SizedBox(
-                            width: 15.w,
+                            width:
+                                (ConstantsManager.appUser is Customer ? 0 : 15)
+                                    .w,
                           ),
-                          Padding(
-                            padding: EdgeInsets.symmetric(
-                                horizontal: 5.w, vertical: 8.h),
-                            child: Align(
-                              alignment: AlignmentDirectional.topEnd,
-                              child: Container(
-                                color: Colors.white,
-                                width: 15.w,
-                                height: 5.h,
-                                child: PopupMenuButton<String>(
-                                  icon: const Icon(
-                                    Icons.add,
+                          if (ConstantsManager.appUser is! Customer)
+                            Padding(
+                              padding: EdgeInsets.symmetric(
+                                  horizontal: 5.w, vertical: 8.h),
+                              child: Align(
+                                alignment: AlignmentDirectional.topEnd,
+                                child: Container(
+                                  color: Colors.white,
+                                  width: 15.w,
+                                  height: 5.h,
+                                  child: PopupMenuButton<String>(
+                                    icon: const Icon(
+                                      Icons.add,
+                                    ),
+                                    onSelected: (String value) {
+                                      bloc.add(
+                                          SelectAddProductOrAddCategoryEvent(
+                                              selected: value));
+                                    },
+                                    itemBuilder: (BuildContext context) =>
+                                        <PopupMenuEntry<String>>[
+                                      PopupMenuItem<String>(
+                                        value: 'AddProduct',
+                                        child: Text(S.of(context).addProduct),
+                                      ),
+                                      PopupMenuItem<String>(
+                                        value: 'AddCategory',
+                                        child: Text(S.of(context).addCategory),
+                                      ),
+                                    ],
                                   ),
-                                  onSelected: (String value) {
-                                    bloc.add(SelectAddProductOrAddCategoryEvent(selected: value));
-                                  },
-                                  itemBuilder: (BuildContext context) =>
-                                  <PopupMenuEntry<String>>[
-                                    PopupMenuItem<String>(
-                                      value: 'AddProduct',
-                                      child: Text(S.of(context).addProduct),
-                                    ),
-                                    PopupMenuItem<String>(
-                                      value: 'AddCategory',
-                                      child: Text(S.of(context).addCategory),
-                                    ),
-                                  ],
                                 ),
                               ),
-                            ),
-                          )
+                            )
                         ],
                       ),
                     ),
