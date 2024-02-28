@@ -100,42 +100,40 @@ class OTPScreen extends StatelessWidget {
                               textDirection: TextDirection.ltr,
                               child: Padding(
                                 padding: EdgeInsets.symmetric(horizontal: 4.w),
-                                child: Expanded(
-                                  child: PinCodeTextField(
-                                    appContext: context,
-                                    length: 6,
-                                    enablePinAutofill: true,
-                                    animationType: AnimationType.fade,
-                                    validator: (v) {
-                                      if (v!.length < 6) {
-                                        return S.of(context).enterAllCode;
-                                      } else {
-                                        return null;
-                                      }
-                                    },
-                                    pinTheme: PinTheme(
-                                        shape: PinCodeFieldShape.box,
-                                        borderRadius: BorderRadius.circular(5),
-                                        activeFillColor: ColorManager.white,
-                                        inactiveFillColor: ColorManager.white),
-                                    cursorColor: ColorManager.black,
-                                    animationDuration: const Duration(milliseconds: 300),
-                                    controller: otpController,
-                                    keyboardType: TextInputType.number,
-                                    onCompleted: (v) {
-                                      bloc.add(VerifyCodeEvent(
-                                        code: otpController.text,
-                                      ));
-                                      print("Completed");
-                                    },
-                                    onChanged: (value) {},
-                                  ),
+                                child: PinCodeTextField(
+                                  appContext: context,
+                                  length: 6,
+                                  enablePinAutofill: true,
+                                  animationType: AnimationType.fade,
+                                  validator: (v) {
+                                    if (v!.length < 6) {
+                                      return S.of(context).enterAllCode;
+                                    } else {
+                                      return null;
+                                    }
+                                  },
+                                  pinTheme: PinTheme(
+                                      shape: PinCodeFieldShape.box,
+                                      borderRadius: BorderRadius.circular(5),
+                                      activeFillColor: ColorManager.white,
+                                      inactiveFillColor: ColorManager.white),
+                                  cursorColor: ColorManager.black,
+                                  animationDuration: const Duration(milliseconds: 300),
+                                  controller: otpController,
+                                  keyboardType: TextInputType.number,
+                                  onCompleted: (v) {
+                                    bloc.add(VerifyCodeEvent(
+                                      code: otpController.text,
+                                    ));
+                                    print("Completed");
+                                  },
+                                  onChanged: (value) {},
                                 ),
                               ),
                             ),
                           ),
-                          const SizedBox(
-                            height: 20,
+                           SizedBox(
+                            height: 5.h,
                           ),
                           bloc.timeToResendCode != null && bloc.timeToResendCode! > 0
                               ? Row(

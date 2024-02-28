@@ -105,6 +105,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         // emit(CodeVerified());
         ConstantsManager.appUser?.id = r;
         await _createUser();
+        add(ResetCodeTimerEvent());
       });
     } else if (event is SelectAccountTypeEvent) {
       selectedAccountTypeIndex = event.index;
@@ -161,7 +162,10 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       emit(ChooseCityState(city: event.city));
     } else if (event is StartResendCodeTimerEvent) {
       _startResendCodeTimer();
-    }
+    }else if (event is ResetCodeTimerEvent) {
+      _resetTimeToResendCode();
+      emit(ResetCodeTimerState());
+;    }
   }
 
   Future _createUser() async {
