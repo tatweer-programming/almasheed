@@ -12,14 +12,14 @@ class OrderModel extends Equatable {
   final List<OrderItem> orderItems;
   final List<String> merchantIds;
   final String id;
-  Address address;
+  Address? address;
 
   OrderModel(
       {required this.id,
       required this.totalPrice,
       required this.orderItems,
       required this.merchantIds,
-      required this.address});
+      this.address});
 
   static OrderModel create(
     List<OrderItem> orderItems,
@@ -33,17 +33,22 @@ class OrderModel extends Equatable {
           ? null
           : merchantIds.add(element.product.merchantId);
     }
+
     /// TODO : error null check
-    if(ConstantsManager.appUser is Customer){
+    if (ConstantsManager.appUser is Customer) {
       return OrderModel(
           id: DateTime.now().toString(),
           totalPrice: totalPrice,
           orderItems: orderItems,
           merchantIds: merchantIds,
-          address:
-          address ?? (ConstantsManager.appUser as Customer).addresses.first);
+          address: address);
     }
-    return OrderModel(id: "id", totalPrice: totalPrice, orderItems: orderItems, merchantIds: merchantIds, address: address!);
+    return OrderModel(
+        id: "id",
+        totalPrice: totalPrice,
+        orderItems: orderItems,
+        merchantIds: merchantIds,
+        address: address!);
   }
 
   Map<String, dynamic> toJson() => {
@@ -52,7 +57,7 @@ class OrderModel extends Equatable {
         "merchantIds": merchantIds,
         "customerId": ConstantsManager.appUser!.id,
         "date": id,
-        "address": address.toJson()
+        "address": address!.toJson()
       };
 
   @override

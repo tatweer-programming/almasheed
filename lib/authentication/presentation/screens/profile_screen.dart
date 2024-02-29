@@ -208,7 +208,9 @@ class ProfileScreen extends StatelessWidget {
 
   void _handleAuthStates(BuildContext context, state) {
     if (state is LogoutSuccessfulState) {
-      context.pushAndRemove(const LoginScreen());
+      Future.delayed(Duration.zero, () {
+        context.pushAndRemove(const LoginScreen());
+      });
     } else if (state is LogoutErrorState) {
       errorToast(msg: ExceptionManager(state.exception).translatedMessage());
     }
