@@ -15,64 +15,72 @@ class ChatsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     ChatBloc chatBloc = ChatBloc.get(context)
       ..add(GetChatsEvent());
-    return Scaffold(
-      body: Column(
-        children: [
-          ClipPath(
-            clipper: HalfCircleCurve(18.h),
-            child: Container(
-              height: 35.h,
-              width: double.infinity,
-              color: ColorManager.primary,
-              child: Padding(
-                padding:
-                    EdgeInsetsDirectional.only(start: 8.w, end: 8.w, top: 1.h),
-                child: Column(
-                  children: [
-                    SizedBox(
-                      height: 5.h,
-                    ),
-                    Text(
-                      S.of(context).chat,
-                      style: TextStyle(
-                          color: ColorManager.white,
-                          fontSize: 30.sp,
-                          fontWeight: FontWeight.bold),
-                    ),
-                    Expanded(
-                      child: Icon(
-                        Icons.chat_bubble,
-                        color: ColorManager.white,
-                        size: 40.sp,
+    return RefreshIndicator(
+      onRefresh: () async{
+        chatBloc.add(GetChatsEvent());
+      },
+      child: Scaffold(
+        body: Column(
+          children: [
+            ClipPath(
+              clipper: HalfCircleCurve(18.h),
+              child: Container(
+                height: 35.h,
+                width: double.infinity,
+                color: ColorManager.primary,
+                child: Padding(
+                  padding:
+                      EdgeInsetsDirectional.only(start: 8.w, end: 8.w, top: 1.h),
+                  child: Column(
+                    children: [
+                      SizedBox(
+                        height: 5.h,
                       ),
-                    ),
-                    SizedBox(height: 10.h),
-                  ],
+                      Text(
+                        S.of(context).chat,
+                        style: TextStyle(
+                            color: ColorManager.white,
+                            fontSize: 30.sp,
+                            fontWeight: FontWeight.bold),
+                      ),
+                      Expanded(
+                        child: Icon(
+                          Icons.chat_bubble,
+                          color: ColorManager.white,
+                          size: 40.sp,
+                        ),
+                      ),
+                      SizedBox(height: 10.h),
+                    ],
+                  ),
                 ),
               ),
             ),
-          ),
-          Expanded(
-            child: BlocBuilder<ChatBloc, ChatState>(
-              builder: (context, state) {
-                return ListView.separated(
-                    itemBuilder: (context, index) => _chatsWidget(
-                        text: chatBloc.chats[index].receiverName,
-                        onTap: () {
-                          context.push(ChatScreen(
-                            receiverName: chatBloc.chats[index].receiverName,
-                            receiverId: chatBloc.chats[index].receiverId,
-                            isEnd: chatBloc.chats[index].isEnd,
-                          ));
-                        }),
-                    separatorBuilder: (context, index) => SizedBox(
-                          height: 1.h,
-                        ),
-                    itemCount: chatBloc.chats.length);
-              },
+            Expanded(
+              child: BlocBuilder<ChatBloc, ChatState>(
+                builder: (context, state) {
+                  return ListView.separated(
+                    padding: EdgeInsets.zero,
+                      physics: const BouncingScrollPhysics(),
+                      itemBuilder: (context, index) => _chatsWidget(
+                          text: chatBloc.chats[index].receiverName,
+                          onTap: () {
+                            context.push(ChatScreen(
+                              receiverName: chatBloc.chats[index].receiverName,
+                              receiverId: chatBloc.chats[index].receiverId,
+                              isEnd: chatBloc.chats[index].isEnd,
+                            ));
+                          }),
+                      separatorBuilder: (context, index) => SizedBox(
+                            height: 1.h,
+                          ),
+                      itemCount: chatBloc.chats.length);
+                },
+              ),
             ),
-          )
-        ],
+            SizedBox(height: 1.h,),
+          ],
+        ),
       ),
     );
   }

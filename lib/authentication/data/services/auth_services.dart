@@ -10,6 +10,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dartz/dartz.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
@@ -58,7 +59,9 @@ class AuthService {
 
       await _firebaseAuth.signInWithCredential(credential).then((value) async {
         id = value.user!.uid;
-        // await FirebaseMessaging.instance.subscribeToTopic("/topic/$id");
+        await FirebaseMessaging.instance.subscribeToTopic("$id").then((value) async {
+          await CacheHelper.saveData(key: "isNotificationsOn", value: true);
+        });
       });
 
       return Right(id!);

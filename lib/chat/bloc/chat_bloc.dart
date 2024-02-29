@@ -61,14 +61,22 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
           emit(EndChatSuccessState());
         });
       } else if (event is ScrollingDownEvent) {
-        if (event.listScrollController.hasClients) {
-          final position = event.listScrollController.position.maxScrollExtent;
+        // if (event.listScrollController.hasClients) {
+        Future.delayed(Duration(seconds: 1)).then((value) async {
+          final position = await event.listScrollController.position.maxScrollExtent;
           event.listScrollController.jumpTo(position);
-          emit(ScrollingDownState());
-        }
+          print("object");
+        });
+        emit(ScrollingDownState());
+        // }
       } else if (event is TurnOnRecordUrlEvent) {
-        await audioPlayer.play(UrlSource(event.voiceNoteUrl));
-        event.isPlaying = true;
+        if (!event.isPlaying) {
+          await audioPlayer.play(UrlSource(event.voiceNoteUrl));
+          event.isPlaying = true;
+        } else {
+          await audioPlayer.stop();
+          event.isPlaying = false;
+        }
         emit(PlayRecordUrlState(
             voiceNoteUrl: event.voiceNoteUrl, isPlaying: event.isPlaying));
         audioPlayer.onPlayerComplete.listen((_) {

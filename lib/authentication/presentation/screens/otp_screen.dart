@@ -4,6 +4,7 @@ import 'package:almasheed/core/utils/color_manager.dart';
 import 'package:almasheed/core/utils/constance_manager.dart';
 import 'package:almasheed/core/utils/localization_manager.dart';
 import 'package:almasheed/core/utils/navigation_manager.dart';
+import 'package:almasheed/main/bloc/main_bloc.dart';
 import 'package:almasheed/main/view/screens/main_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
@@ -12,6 +13,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sizer/sizer.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 import '../../../core/error/remote_error.dart';
+import '../../../core/services/dep_injection.dart';
 import '../../../generated/l10n.dart';
 import '../../bloc/auth_bloc.dart';
 
@@ -24,9 +26,10 @@ class OTPScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     GlobalKey<FormState> formKey = GlobalKey<FormState>();
     final otpController = TextEditingController();
-    AuthBloc bloc = AuthBloc.get(context);
+    AuthBloc authBloc = AuthBloc.get(context);
+    MainBloc mainBloc = sl();
     return BlocListener<AuthBloc, AuthState>(
-      bloc: bloc,
+      bloc: authBloc,
       listener: (context, state) {
         if (state is CodeVerified) {
           defaultToast(msg: S.of(context).codeVerified);
@@ -35,8 +38,9 @@ class OTPScreen extends StatelessWidget {
         } else if (state is VerifyCodeErrorState) {
           errorToast(msg: ExceptionManager(state.exception).translatedMessage());
         } else if (state is CreateUserSuccessfulState) {
-          defaultToast(msg: S.of(context).userCreated);
           context.pushAndRemove(const MainScreen());
+          defaultToast(msg: S.of(context).userCreated);
+          mainBloc.add(GetProductsEvent());
         } else if (state is CreateUserErrorState) {
           errorToast(msg: ExceptionManager(state.exception).translatedMessage());
         } else if (state is Authenticated) {
@@ -47,7 +51,7 @@ class OTPScreen extends StatelessWidget {
         }
       },
       child: BlocBuilder<AuthBloc, AuthState>(
-        bloc: bloc,
+        bloc: authBloc,
         builder: (context, state) {
           return Scaffold(
             body: SingleChildScrollView(
@@ -122,7 +126,7 @@ class OTPScreen extends StatelessWidget {
                                   controller: otpController,
                                   keyboardType: TextInputType.number,
                                   onCompleted: (v) {
-                                    bloc.add(VerifyCodeEvent(
+                                    authBloc.add(VerifyCodeEvent(
                                       code: otpController.text,
                                     ));
                                     print("Completed");
@@ -135,7 +139,7 @@ class OTPScreen extends StatelessWidget {
                            SizedBox(
                             height: 5.h,
                           ),
-                          bloc.timeToResendCode != null && bloc.timeToResendCode! > 0
+                          authBloc.timeToResendCode != null && authBloc.timeToResendCode! > 0
                               ? Row(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
@@ -146,10 +150,10 @@ class OTPScreen extends StatelessWidget {
                                       ),
                                     ),
                                     BlocBuilder<AuthBloc, AuthState>(
-                                      bloc: bloc,
+                                      bloc: authBloc,
                                       builder: (context, state) {
                                         return Text(
-                                          "${bloc.timeToResendCode} ",
+                                          "${authBloc.timeToResendCode} ",
                                           style: const TextStyle(
                                             color: ColorManager.white,
                                             fontWeight: FontWeight.bold,
@@ -175,7 +179,7 @@ class OTPScreen extends StatelessWidget {
                                     ),
                                     TextButton(
                                         onPressed: () {
-                                          bloc.add(SendCodeEvent(ConstantsManager.appUser!));
+                                          authBloc.add(SendCodeEvent(ConstantsManager.appUser!));
                                         },
                                         child: Text(
                                           S.of(context).reSend,
@@ -206,7 +210,7 @@ class OTPScreen extends StatelessWidget {
                                     height: 50,
                                     child: TextButton(
                                       onPressed: () {
-                                        bloc.add(VerifyCodeEvent(
+                                        authBloc.add(VerifyCodeEvent(
                                           code: otpController.text,
                                         ));
                                       },

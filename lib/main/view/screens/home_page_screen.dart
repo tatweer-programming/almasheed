@@ -32,7 +32,6 @@ class HomePageScreen extends StatelessWidget {
     final MainBloc bloc = sl();
     return BlocConsumer<MainBloc, MainState>(
       listener: (context, state) {
-        // print((ConstantsManager.appUser as Merchant).productsIds);
         if (state is GetProductsSuccessfullyState) {
           _handleProductSuccessState(context, bloc);
         } else if (state is GetProductsErrorState ||
@@ -65,7 +64,6 @@ class HomePageScreen extends StatelessWidget {
                                   ConstantsManager.appUser == null) &&
                               (bloc.merchants.isNotEmpty))
                             _buildMerchantsList(context, bloc),
-                          if(ConstantsManager.appUser is! Customer)SizedBox(height: 10.h,)
                         ],
                       );
                     },
@@ -73,6 +71,7 @@ class HomePageScreen extends StatelessWidget {
                 ),
               ),
             ),
+            SizedBox(height: 10.h,),
           ],
         );
       },
@@ -142,9 +141,9 @@ class HomePageScreen extends StatelessWidget {
             )
           ],
         ),
-        if (ConstantsManager.appUser is Customer)
         InkWell(
           onTap: () {
+            if (ConstantsManager.appUser is Customer)
            context.push(const CartScreen());
           },
           customBorder: const CircleBorder(),
@@ -218,7 +217,7 @@ class HomePageScreen extends StatelessWidget {
             merchant: bloc.merchants[index],
             onTap: () => context.push(CategoryScreen(
               category: Category(
-                categoryName: "",
+                categoryName: bloc.merchants[index].companyName,
                 products: bloc.products
                     .where(
                         (product) => bloc.merchants[index].productsIds.contains(product.productId))

@@ -22,6 +22,7 @@ import 'generated/l10n.dart';
 import 'main/bloc/main_bloc.dart';
 import 'main/data/models/custom_properties.dart';
 import 'main/view/screens/main_screen.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -30,6 +31,12 @@ Future<void> main() async {
     androidProvider: AndroidProvider.debug,
     appleProvider: AppleProvider.appAttest,
   );
+  await Permission.notification.isDenied.then((value) {
+    if (value) {
+      Permission.notification.request();
+    }
+  });
+  await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
   await CacheHelper.init();
   ServiceLocator().init();
   FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);

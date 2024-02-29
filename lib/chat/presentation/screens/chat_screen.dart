@@ -5,6 +5,7 @@ import 'package:almasheed/chat/bloc/chat_bloc.dart';
 import 'package:almasheed/chat/data/models/message.dart';
 import 'package:almasheed/core/utils/color_manager.dart';
 import 'package:almasheed/core/utils/constance_manager.dart';
+import 'package:almasheed/generated/intl/messages_ar.dart';
 import 'package:chat_bubbles/bubbles/bubble_normal_image.dart';
 import 'package:chat_bubbles/bubbles/bubble_special_three.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -25,6 +26,7 @@ class ChatScreen extends StatelessWidget {
       required this.receiverName});
 
   final ScrollController listScrollController = ScrollController();
+  bool isDown = true;
 
   @override
   Widget build(BuildContext context) {
@@ -38,9 +40,21 @@ class ChatScreen extends StatelessWidget {
         print(state);
         if (state is GetMessagesSuccessState) {
           messagesStream = state.messages;
+          print("messages $messagesStream");
+          bloc.add(
+              ScrollingDownEvent(listScrollController: listScrollController));
         }
         if (state is PlayRecordUrlState) {
+          print(state.isPlaying);
           isPlayingMap[state.voiceNoteUrl] = state.isPlaying;
+        }
+        if (state is CompleteRecordUrlState) {
+          print(state.isPlaying);
+          isPlayingMap[state.voiceNoteUrl] = state.isPlaying;
+        }
+        if (state is SendMessagesSuccessState) {
+          bloc.add(
+              ScrollingDownEvent(listScrollController: listScrollController));
         }
       },
       builder: (context, state) {
@@ -49,7 +63,7 @@ class ChatScreen extends StatelessWidget {
               backgroundColor: ColorManager.primary,
               title: Text(receiverName),
               actions: [
-                if (ConstantsManager.appUser is Merchant)
+                if (ConstantsManager.appUser is Merchant && (!isEnd))
                   TextButton(
                       onPressed: () {
                         isEnd = true;
@@ -157,18 +171,20 @@ class ChatScreen extends StatelessWidget {
                     ],
                   ),
                 ),
-              Container(
-                decoration: const BoxDecoration(
-                  shape: BoxShape.circle,
-                  color: ColorManager.primary,
+              if (!isDown)
+                Container(
+                  decoration: const BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: Color(0xffCDAE8A),
+                  ),
+                  child: IconButton(
+                      icon: Icon(Icons.arrow_circle_down_outlined,
+                          color: Colors.white),
+                      onPressed: () {
+                        bloc.add(ScrollingDownEvent(
+                            listScrollController: listScrollController));
+                      }),
                 ),
-                child: IconButton(
-                    icon: const Icon(Icons.arrow_circle_down_outlined,color:Colors.white),
-                    onPressed: () {
-                      bloc.add(ScrollingDownEvent(
-                          listScrollController: listScrollController));
-                    }),
-              ),
               if (!isEnd)
                 Container(
                   padding: EdgeInsets.symmetric(vertical: 2.h, horizontal: 2.w),
@@ -277,9 +293,9 @@ Widget messageWidget(
   if (ConstantsManager.appUser!.id == message.senderId) {
     if (message.voiceNoteUrl != null && playAudio != null) {
       return _voiceWidget(
-          isSender: false, playAudio: playAudio, isPlaying: isPlaying!);
+          isSender: true, playAudio: playAudio, isPlaying: isPlaying!);
     } else if (message.imageUrl != null) {
-      return _imageWidget(image: message.imageUrl!, isSender: false);
+      return _imageWidget(image: message.imageUrl!, isSender: true);
     } else {
       return _textWidget(message: message.message ?? "", isSender: false);
     }
@@ -330,7 +346,7 @@ Widget _imageWidget({required bool isSender, required String image}) {
     id: image,
     image: Image.network(image),
     isSender: isSender,
-    color: !isSender ? ColorManager.primary : const Color(0xffac793d),
+    color: isSender ? ColorManager.primary : const Color(0xffac793d),
   );
 }
 
