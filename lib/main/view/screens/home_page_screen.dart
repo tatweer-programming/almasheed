@@ -142,6 +142,7 @@ class HomePageScreen extends StatelessWidget {
             )
           ],
         ),
+        if (ConstantsManager.appUser is Customer)
         InkWell(
           onTap: () {
            context.push(const CartScreen());

@@ -42,7 +42,8 @@ class ProfileScreen extends StatelessWidget {
                     height: 35.h,
                     color: ColorManager.primary,
                     child: Padding(
-                      padding: EdgeInsetsDirectional.only(start: 8.w, end: 8.w, top: 1.h),
+                      padding: EdgeInsetsDirectional.only(
+                          start: 8.w, end: 8.w, top: 1.h),
                       child: Column(
                         children: [
                           SizedBox(
@@ -78,7 +79,8 @@ class ProfileScreen extends StatelessWidget {
                   builder: (context, state) {
                     return CircleAvatar(
                       radius: 20.w,
-                      backgroundImage: NetworkImage(ConstantsManager.appUser!.image!),
+                      backgroundImage:
+                          NetworkImage(ConstantsManager.appUser!.image!),
                       child: Align(
                         alignment: AlignmentDirectional.bottomEnd,
                         child: IconButton(
@@ -150,10 +152,7 @@ class ProfileScreen extends StatelessWidget {
                             label: S.of(context).myOrders,
                             nextScreen: const CartScreen(),
                           )
-                        : const SizedBox(
-                            height: 0,
-                            width: 0,
-                          ),
+                        : const SizedBox(),
                     if (ConstantsManager.appUser is Customer)
                       ProfileItemBuilder(
                         iconData: Icons.map_outlined,

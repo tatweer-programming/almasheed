@@ -42,7 +42,6 @@ class AddProductScreen extends StatelessWidget {
     Map<String, List<String>> result = {};
     return BlocConsumer<MainBloc, MainState>(
       listener: (context, state) {
-        print(state);
         if (state is SetProductErrorState) {
           bloc.add(MakeImagesFilesEmptyEvent());
           context.pop();
@@ -101,22 +100,12 @@ class AddProductScreen extends StatelessWidget {
       builder: (context, state) {
         return Scaffold(
           appBar: AppBar(
-            actions: [
-              Padding(
-                padding: EdgeInsetsDirectional.only(end: 3.w),
-                child: TextButton(
-                    onPressed: () {
-                      context.push(const AddCategoryScreen());
-                    },
-                    child: Text(
-                      S.of(context).addCategory,
-                      style: TextStyle(
-                          fontWeight: FontWeight.w500,
-                          color: ColorManager.white,
-                          fontSize: 14.sp),
-                    )),
-              ),
-            ],
+           title: Text(
+             S.of(context).addProduct,
+             style: const TextStyle(
+                 color: ColorManager.white,
+                 ),
+           ),
             leading: IconButton(
                 onPressed: () {
                   context.pop();

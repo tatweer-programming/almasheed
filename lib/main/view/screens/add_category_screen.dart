@@ -7,6 +7,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sizer/sizer.dart';
 import '../../../core/error/remote_error.dart';
 import '../../../core/services/dep_injection.dart';
+import '../../../core/utils/color_manager.dart';
 import '../../../generated/l10n.dart';
 import '../../bloc/main_bloc.dart';
 
@@ -69,6 +70,12 @@ class AddCategoryScreen extends StatelessWidget {
       builder: (context, state) {
         return Scaffold(
           appBar: AppBar(
+            title: Text(
+              S.of(context).addCategory,
+              style: const TextStyle(
+                color: ColorManager.white,
+              ),
+            ),
             leading: IconButton(
                 onPressed: () {
                   bloc.add(MakeImagesFilesEmptyEvent());
