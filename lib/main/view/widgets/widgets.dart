@@ -415,10 +415,25 @@ Widget productVerticalWidget({
                       SizedBox(
                         height: 0.5.h,
                       ),
-                      Text(
-                        "${product.productOldPrice} ${S.of(context).sar}",
-                        style: TextStyle(
-                            fontWeight: FontWeight.w500, fontSize: 12.sp),
+                      Row(
+                        children: [
+                          Text(
+                            "${product.productNewPrice} ${S.of(context).sar}",
+                            style: TextStyle(
+                                fontWeight: FontWeight.w500, fontSize: 12.sp),
+                          ),
+                          Spacer(),
+                          if (product.productNewPrice !=
+                              product.productOldPrice)
+                            Text(
+                              "${product.productOldPrice.toStringAsFixed(2)} SAR",
+                              style: TextStyle(
+                                  decoration: TextDecoration.lineThrough,
+                                  fontWeight: FontWeight.w500,
+                                  color: ColorManager.red,
+                                  fontSize: 10.sp),
+                            ),
+                        ],
                       ),
                       SizedBox(
                         height: 0.5.h,
@@ -456,6 +471,200 @@ Widget productVerticalWidget({
                 )
               : const SizedBox()
         ],
+      ),
+    ),
+  );
+}
+
+Widget categoryProductsVerticalWidget({
+  required BuildContext context,
+  required Product product,
+  required VoidCallback addCardPressed,
+  required VoidCallback openProductPressed,
+  required TextEditingController controller,
+}) {
+  return InkWell(
+    onTap: openProductPressed,
+    child: Card(
+      shape: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(5.sp),
+          borderSide: BorderSide.none),
+      elevation: 4.sp,
+      child: Stack(
+        children: [
+          Container(
+            width: 44.w,
+            clipBehavior: Clip.antiAliasWithSaveLayer,
+            decoration: BoxDecoration(
+                color: ColorManager.white,
+                borderRadius: BorderRadiusDirectional.circular(5.sp)),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Container(
+                  height: 18.h,
+                  decoration: BoxDecoration(
+                    color: ColorManager.grey1,
+                    image: product.productsImagesUrl != null &&
+                            product.productsImagesUrl!.isNotEmpty
+                        ? DecorationImage(
+                            image:
+                                NetworkImage(product.productsImagesUrl!.first),
+                            fit: BoxFit.cover,
+                          )
+                        : null,
+                  ),
+                ),
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 2.w),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      SizedBox(
+                        height: 0.5.h,
+                      ),
+                      Text(
+                        product.productName,
+                        style: TextStyle(
+                            fontWeight: FontWeight.w600, fontSize: 12.sp),
+                      ),
+                      SizedBox(
+                        height: 0.5.h,
+                      ),
+                      Row(
+                        children: [
+                          Text(
+                            "${product.productNewPrice} ${S.of(context).sar}",
+                            style: TextStyle(
+                                fontWeight: FontWeight.w500, fontSize: 12.sp),
+                          ),
+                          Spacer(),
+                          if (product.productNewPrice !=
+                              product.productOldPrice)
+                            Text(
+                              "${product.productOldPrice.toStringAsFixed(2)} ${S.of(context).sar}",
+                              style: TextStyle(
+                                  decoration: TextDecoration.lineThrough,
+                                  fontWeight: FontWeight.w500,
+                                  color: ColorManager.red,
+                                  fontSize: 10.sp),
+                            ),
+                        ],
+                      ),
+                      SizedBox(
+                        height: 0.5.h,
+                      ),
+                      ConstantsManager.appUser is Customer
+                          ? Column(
+                              children: [
+                                Row(
+                                  children: [
+                                    Expanded(
+                                      child: defaultButton(
+                                          onPressed: addCardPressed,
+                                          height: 4.h,
+                                          text: S.of(context).addToCart,
+                                          fontSize: 11.sp),
+                                    ),
+                                    SizedBox(
+                                      width: 2.w,
+                                    ),
+                                    SizedBox(
+                                      width: 10.w,
+                                      height: 4.h,
+                                      child: mainFormField(
+                                          controller: controller,
+                                          type: TextInputType.number),
+                                    ),
+                                  ],
+                                ),
+                                SizedBox(
+                                  height: 1.h,
+                                ),
+                              ],
+                            )
+                          : const SizedBox()
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
+          ConstantsManager.appUser is Customer
+              ? Padding(
+                  padding: EdgeInsets.all(5.sp),
+                  child: Icon(
+                    (ConstantsManager.appUser as Customer)
+                            .favorites
+                            .contains(product.productId)
+                        ? Icons.favorite_sharp
+                        : Icons.favorite_border,
+                    color: ColorManager.red,
+                  ),
+                )
+              : const SizedBox()
+        ],
+      ),
+    ),
+  );
+}
+
+Widget categoryVerticalWidget({
+  required Category category,
+  required VoidCallback categoryPressed,
+}) {
+  return InkWell(
+    onTap: categoryPressed,
+    child: Card(
+      shape: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(5.sp),
+          borderSide: BorderSide.none),
+      elevation: 4.sp,
+      child: Container(
+        width: 42.w,
+        clipBehavior: Clip.antiAliasWithSaveLayer,
+        decoration: BoxDecoration(
+            color: ColorManager.white,
+            borderRadius: BorderRadiusDirectional.circular(5.sp)),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Container(
+              height: 20.h,
+              decoration: BoxDecoration(
+                color: ColorManager.grey1,
+                image: category.categoryImage != null &&
+                        category.categoryImage!.isNotEmpty
+                    ? DecorationImage(
+                        image: NetworkImage(category.categoryImage!),
+                        fit: BoxFit.cover,
+                      )
+                    : null,
+              ),
+            ),
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 2.w),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  SizedBox(
+                    height: 0.5.h,
+                  ),
+                  Text(
+                    category.categoryName,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style:
+                        TextStyle(fontWeight: FontWeight.w600, fontSize: 12.sp),
+                  ),
+                  SizedBox(
+                    height: 1.h,
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
       ),
     ),
   );
@@ -680,7 +889,7 @@ Map<String, List<String>> convertToMap(
     List<List<TextEditingController>> propertyList,
     List<TextEditingController> propertyNameList) {
   Map<String, List<String>> result = {};
-  if(propertyNameList.length == 1 && propertyNameList.first.text==""){
+  if (propertyNameList.length == 1 && propertyNameList.first.text == "") {
     return {};
   }
   for (int i = 0; i < propertyNameList.length; i++) {

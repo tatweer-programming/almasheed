@@ -274,13 +274,27 @@ class DetailsProductScreen extends StatelessWidget {
                           fontWeight: FontWeight.w600, fontSize: 17.sp),
                     ),
                     SizedBox(height: 1.h),
-                    Text(
-                      "${S.of(context).price} ${product.productOldPrice} ${S.of(context).sar}",
-                      style: TextStyle(
-                        fontWeight: FontWeight.w500,
-                        fontSize: 14.sp,
-                        color: const Color(0xff496591),
-                      ),
+                    Row(
+                      children: [
+                        Text(
+                          "${S.of(context).price} ${product.productNewPrice} ${S.of(context).sar}",
+                          style: TextStyle(
+                            fontWeight: FontWeight.w500,
+                            fontSize: 14.sp,
+                            color: const Color(0xff496591),
+                          ),
+                        ),
+                        Spacer(),
+                        if (product.productNewPrice != product.productOldPrice)
+                          Text(
+                            "${product.productOldPrice.toStringAsFixed(2)} ${S.of(context).sar}",
+                            style: TextStyle(
+                                decoration: TextDecoration.lineThrough,
+                                fontWeight: FontWeight.w500,
+                                color: ColorManager.red,
+                                fontSize: 10.sp),
+                          ),
+                      ],
                     ),
                     SizedBox(height: 1.h),
                     Text(

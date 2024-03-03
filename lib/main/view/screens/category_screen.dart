@@ -26,7 +26,10 @@ class CategoryScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final MainBloc mainBloc = sl()..sortedProducts = category.products ?? [];
     bool isHorizontal = false;
-    TextEditingController quantityController = TextEditingController();
+    List<TextEditingController> quantityController = List.generate(
+      mainBloc.sortedProducts.length,
+      (index) => TextEditingController(),
+    );
     return BlocListener<PaymentBloc, PaymentState>(
       listener: _handlePaymentBlocState,
       child: BlocConsumer<MainBloc, MainState>(
@@ -74,7 +77,7 @@ class CategoryScreen extends StatelessWidget {
     );
   }
 
-  void _handlePaymentBlocState(BuildContext context, PaymentState state) {
+  void _handlePaymentBlocState(BuildContext context, PaymentState state,) {
     if (state is AddToCartSuccessState) {
       defaultToast(msg: S.of(context).productAdded);
     } else if (state is AddToCartErrorState) {
@@ -134,7 +137,10 @@ class CategoryScreen extends StatelessWidget {
       text: S.of(context).search,
       onChanged: (product) {
         bloc.add(SelectProductEvent(product: product!));
-        context.push(DetailsProductScreen(product: product, products: category.products??[],));
+        context.push(DetailsProductScreen(
+          product: product,
+          products: category.products ?? [],
+        ));
       },
       items: bloc.products,
       context: context,
@@ -215,7 +221,8 @@ class CategoryScreen extends StatelessWidget {
               actions: [
                 TextButton(
                   onPressed: () {
-                    bloc.add(CancelSortProductsEvent(products: category.products!));
+                    bloc.add(
+                        CancelSortProductsEvent(products: category.products!));
                     context.pop();
                   },
                   child: Text(S.of(context).cancel),
@@ -377,24 +384,33 @@ class CategoryScreen extends StatelessWidget {
     required BuildContext context,
     required MainBloc mainBloc,
     required bool isHorizontal,
-    required TextEditingController quantityController,
+    required List<TextEditingController> quantityController,
   }) {
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 2.w, vertical: 2.h),
       child: Wrap(
         direction: Axis.horizontal,
-        children: mainBloc.sortedProducts.map((product) {
+        children: mainBloc.sortedProducts.asMap().entries.map((entry) {
+          final int index = entry.key;
+          final Product product = entry.value;
           if (isHorizontal) {
             return productHorizontalWidget(
               openProductPressed: () {
-                context.push(DetailsProductScreen(product: product,products: category.products??[],));
+                context.push(DetailsProductScreen(
+                  product: product,
+                  products: category.products ?? [],
+                ));
               },
               product: product,
             );
           }
-          return productVerticalWidget(
+          return categoryProductsVerticalWidget(
+            controller: quantityController[index],
             openProductPressed: () {
-              context.push(DetailsProductScreen(product: product,products: category.products??[],));
+              context.push(DetailsProductScreen(
+                product: product,
+                products: category.products ?? [],
+              ));
             },
             product: product,
             addCardPressed: () {
@@ -402,8 +418,10 @@ class CategoryScreen extends StatelessWidget {
               paymentBloc.add(
                 AddToCartEvent(
                   productId: product.productId,
+                  quantity: int.parse(quantityController[index].text),
                 ),
               );
+              quantityController[index] = TextEditingController();
             },
             context: context,
           );

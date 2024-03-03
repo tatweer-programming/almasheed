@@ -12,6 +12,7 @@ import '../../../payment/bloc/payment_bloc.dart';
 import '../../bloc/main_bloc.dart';
 import '../../data/models/product.dart';
 import 'add_product_screen.dart';
+import 'all_categories_screen.dart';
 import 'details_product.dart';
 import 'package:almasheed/core/utils/constance_manager.dart';
 
@@ -41,142 +42,145 @@ class CategoriesScreen extends StatelessWidget {
             SingleChildScrollView(
               child: Column(
                 children: [
-                  ClipPath(
-                    clipper: HalfCircleCurve(10.h),
-                    child: Container(
-                      height: 28.h,
-                      color: ColorManager.primary,
-                      width: double.infinity,
+                  Container(
+                    height: 20.h,
+                    color: ColorManager.primary,
+                    width: double.infinity,
+                    child: Row(
+                      mainAxisAlignment: ConstantsManager.appUser is! Customer
+                          ? MainAxisAlignment.end
+                          : MainAxisAlignment.center,
+                      children: [
+                        Column(
+                          children: [
+                            SizedBox(
+                              height: 6.h,
+                            ),
+                            Text(
+                              S.of(context).categories,
+                              style: TextStyle(
+                                fontSize: 25.sp,
+                                color: ColorManager.white,
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
+                            SizedBox(
+                              height: 1.h,
+                            ),
+                            Icon(
+                              Icons.category_outlined,
+                              size: 30.sp,
+                              color: ColorManager.white,
+                            )
+                          ],
+                        ),
+                        SizedBox(
+                          width:
+                              (ConstantsManager.appUser is Customer ? 0 : 15).w,
+                        ),
+                        if (ConstantsManager.appUser is! Customer)
+                          Padding(
+                            padding: EdgeInsets.symmetric(
+                                horizontal: 5.w, vertical: 8.h),
+                            child: Align(
+                              alignment: AlignmentDirectional.topEnd,
+                              child: Container(
+                                color: Colors.white,
+                                width: 15.w,
+                                height: 5.h,
+                                child: PopupMenuButton<String>(
+                                  icon: const Icon(
+                                    Icons.add,
+                                  ),
+                                  onSelected: (String value) {
+                                    bloc.add(SelectAddProductOrAddCategoryEvent(
+                                        selected: value));
+                                  },
+                                  itemBuilder: (BuildContext context) =>
+                                      <PopupMenuEntry<String>>[
+                                    PopupMenuItem<String>(
+                                      value: 'AddProduct',
+                                      child: Text(S.of(context).addProduct),
+                                    ),
+                                    PopupMenuItem<String>(
+                                      value: 'AddCategory',
+                                      child: Text(S.of(context).addCategory),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          )
+                      ],
+                    ),
+                  ),
+                  Container(
+                    height: 8.h,
+                    width: double.infinity,
+                    color: ColorManager.secondary,
+                    child: Padding(
+                      padding: EdgeInsetsDirectional.symmetric(horizontal: 3.w),
                       child: Row(
-                        mainAxisAlignment: ConstantsManager.appUser is! Customer
-                            ? MainAxisAlignment.end
-                            : MainAxisAlignment.center,
                         children: [
                           Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              SizedBox(
-                                height: 5.h,
+                              Wrap(
+                                direction: Axis.horizontal,
+                                children: bloc.categories
+                                    .map((category) {
+                                      return _categoryName(
+                                        onTap: () {
+                                          bloc.add(ChooseCategoryEvent(
+                                              categoryName:
+                                                  category.categoryName,
+                                              categoryProducts:
+                                                  category.products ?? []));
+                                        },
+                                        text: category.categoryName,
+                                        isContain: isContain,
+                                      );
+                                    })
+                                    .take(3)
+                                    .toList(),
                               ),
-                              Text(
-                                S.of(context).categories,
-                                style: TextStyle(
-                                  fontSize: 25.sp,
-                                  color: ColorManager.white,
-                                  fontWeight: FontWeight.w600,
-                                ),
-                              ),
-                              SizedBox(
-                                height: 2.h,
-                              ),
-                              Icon(
-                                Icons.category_outlined,
-                                size: 30.sp,
-                                color: ColorManager.white,
-                              )
                             ],
                           ),
-                          SizedBox(
-                            width:
-                                (ConstantsManager.appUser is Customer ? 0 : 15)
-                                    .w,
-                          ),
-                          if (ConstantsManager.appUser is! Customer)
-                            Padding(
-                              padding: EdgeInsets.symmetric(
-                                  horizontal: 5.w, vertical: 8.h),
-                              child: Align(
-                                alignment: AlignmentDirectional.topEnd,
-                                child: Container(
-                                  color: Colors.white,
-                                  width: 15.w,
-                                  height: 5.h,
-                                  child: PopupMenuButton<String>(
-                                    icon: const Icon(
-                                      Icons.add,
-                                    ),
-                                    onSelected: (String value) {
-                                      bloc.add(
-                                          SelectAddProductOrAddCategoryEvent(
-                                              selected: value));
-                                    },
-                                    itemBuilder: (BuildContext context) =>
-                                        <PopupMenuEntry<String>>[
-                                      PopupMenuItem<String>(
-                                        value: 'AddProduct',
-                                        child: Text(S.of(context).addProduct),
-                                      ),
-                                      PopupMenuItem<String>(
-                                        value: 'AddCategory',
-                                        child: Text(S.of(context).addCategory),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                            )
+                          Spacer(),
+                          TextButton(
+                              onPressed: () {
+                                context.push(AllCategoriesScreen());
+                              },
+                              child: Text(S.of(context).showMore))
                         ],
                       ),
                     ),
                   ),
-                  Align(
-                    alignment: AlignmentDirectional.topEnd,
-                    child: Padding(
-                      padding:
-                          EdgeInsetsDirectional.symmetric(horizontal: 12.w),
-                      child: Wrap(
-                        direction: Axis.horizontal,
-                        children: categoryProducts.map((product) {
-                          return productVerticalWidget(
-                            openProductPressed: () {
-                              context.push(DetailsProductScreen(
-                                product: product,
-                                products: categoryProducts,
-                              ));
-                            },
+                  Wrap(
+                    direction: Axis.horizontal,
+                    children: categoryProducts.map((product) {
+                      return productVerticalWidget(
+                        openProductPressed: () {
+                          context.push(DetailsProductScreen(
                             product: product,
-                            context: context,
-                            addCardPressed: () {
-                              final PaymentBloc paymentBloc = PaymentBloc.bloc;
-                              paymentBloc.add(
-                                AddToCartEvent(
-                                  productId: product.productId,
-                                ),
-                              );
-                            },
-                          );
-                        }).toList(),
-                      ),
-                    ),
-                  )
-                ],
-              ),
-            ),
-            Align(
-              alignment: Alignment.topRight,
-              child: Container(
-                width: 30.w,
-                color: ColorManager.primary,
-                child: Center(
-                  child: ListView.separated(
-                    shrinkWrap: true,
-                    itemBuilder: (context, index) {
-                      return _categoryName(
-                        onTap: () {
-                          bloc.add(ChooseCategoryEvent(
-                              categoryName: bloc.categories[index].categoryName,
-                              categoryProducts:
-                                  bloc.categories[index].products ?? []));
+                            products: categoryProducts,
+                          ));
                         },
-                        text: bloc.categories[index].categoryName,
-                        isContain: isContain,
+                        product: product,
+                        context: context,
+                        addCardPressed: () {
+                          final PaymentBloc paymentBloc = PaymentBloc.bloc;
+                          paymentBloc.add(
+                            AddToCartEvent(
+                              productId: product.productId,
+                            ),
+                          );
+                        },
                       );
-                    },
-                    separatorBuilder: (context, index) => SizedBox(
-                      height: 2.h,
-                    ),
-                    itemCount: bloc.categories.length,
+                    }).toList(),
                   ),
-                ),
+                ],
               ),
             ),
           ],
@@ -195,6 +199,7 @@ Widget _categoryName(
     child: Padding(
       padding: EdgeInsetsDirectional.symmetric(horizontal: 2.w),
       child: Container(
+        width: 18.w,
         height: 5.h,
         decoration:
             BoxDecoration(border: Border.all(), color: ColorManager.white),

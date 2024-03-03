@@ -151,6 +151,8 @@
   "totalElements": "مجموع العناصر",
   "totalValue" : "مجموع القيمة",
   "endChat" : "إنهاء المحادثة",
+  "showMore" : "رؤية المزيد",
+  "allCategories" : "كل الأقسام",
   "productDeleted" : "تم حذف المنتج بنجاح",
   "lastSeen" : "آخر ما تمت مشاهدته",
   "deposit": "العربون"

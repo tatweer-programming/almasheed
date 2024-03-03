@@ -1572,6 +1572,26 @@ class S {
     );
   }
 
+  /// `Show More`
+  String get showMore {
+    return Intl.message(
+      'Show More',
+      name: 'showMore',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `All Categories`
+  String get allCategories {
+    return Intl.message(
+      'All Categories',
+      name: 'allCategories',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `The product has been added successfully`
   String get productDeleted {
     return Intl.message(

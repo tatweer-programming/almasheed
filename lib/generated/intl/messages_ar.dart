@@ -40,6 +40,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "addresses": MessageLookupByLibrary.simpleMessage("العناوين"),
         "addressesList": MessageLookupByLibrary.simpleMessage("قائمة العناوين"),
         "agreeTo": MessageLookupByLibrary.simpleMessage("أوافق على"),
+        "allCategories": MessageLookupByLibrary.simpleMessage("كل الأقسام"),
         "alphabet": MessageLookupByLibrary.simpleMessage("الأبجدية"),
         "alreadyHaveAccount":
             MessageLookupByLibrary.simpleMessage("لديك حساب بالفعل؟"),
@@ -205,6 +206,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "services": MessageLookupByLibrary.simpleMessage("خدمات"),
         "setting": MessageLookupByLibrary.simpleMessage("الاعدادات"),
         "shareApp": MessageLookupByLibrary.simpleMessage("مشاركة التطبيق"),
+        "showMore": MessageLookupByLibrary.simpleMessage("رؤية المزيد"),
         "signInNow":
             MessageLookupByLibrary.simpleMessage("قم بتسجيل الدخول الآن"),
         "skipRegistration":

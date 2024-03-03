@@ -57,9 +57,13 @@ class HomePageScreen extends StatelessWidget {
                       return Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          defaultCarousel(bloc: bloc, list: list, controller: carouselController),
+                          defaultCarousel(
+                              bloc: bloc,
+                              list: list,
+                              controller: carouselController),
                           SizedBox(height: 1.h),
-                          if (bloc.categories.isNotEmpty) _buildCategoriesList(context, bloc),
+                          if (bloc.categories.isNotEmpty)
+                            _buildCategoriesList(context, bloc),
                           if ((ConstantsManager.appUser is Customer ||
                                   ConstantsManager.appUser == null) &&
                               (bloc.merchants.isNotEmpty))
@@ -71,7 +75,6 @@ class HomePageScreen extends StatelessWidget {
                 ),
               ),
             ),
-            SizedBox(height: 10.h,),
           ],
         );
       },
@@ -91,78 +94,84 @@ class HomePageScreen extends StatelessWidget {
   }
 
   Widget _buildAppBar(BuildContext context, MainBloc bloc) {
-    return Stack(
-      alignment: const Alignment(0, 0.7),
-      children: [
-        Stack(
-          alignment: Alignment.bottomCenter,
-          children: [
-            ClipPath(
-              clipper: HalfCircleCurve(18.h),
-              child: Container(
-                height: 35.h,
-                color: ColorManager.primary,
-                child: Padding(
-                  padding: EdgeInsetsDirectional.only(start: 8.w, end: 8.w, top: 1.h),
-                  child: Column(
-                    children: [
-                      SizedBox(
-                        height: 8.h,
-                      ),
-                      Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 2.w),
-                        child: searchProductDropdownBuilder(
-                          text: S.of(context).search,
-                          onChanged: (product) {
-                            bloc.add(SelectProductEvent(product: product!));
-                            context.push(DetailsProductScreen(
-                              product: product,
-                              products: bloc.products,
-                            ));
-                          },
-                          items: bloc.products,
-                          context: context,
+    return Align(
+      alignment: AlignmentDirectional.topCenter,
+      heightFactor: 0.119.h,
+      child: Stack(
+        alignment: const Alignment(0, 0.7),
+        children: [
+          Stack(
+            alignment: Alignment.bottomCenter,
+            children: [
+              ClipPath(
+                clipper: HalfCircleCurve(18.h),
+                clipBehavior: Clip.antiAlias,
+                child: Container(
+                  height: 35.h,
+                  color: ColorManager.primary,
+                  child: Padding(
+                    padding: EdgeInsetsDirectional.only(
+                        start: 8.w, end: 8.w, top: 1.h),
+                    child: Column(
+                      children: [
+                        SizedBox(
+                          height: 8.h,
                         ),
-                      ),
-                    ],
+                        Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 2.w),
+                          child: searchProductDropdownBuilder(
+                            text: S.of(context).search,
+                            onChanged: (product) {
+                              bloc.add(SelectProductEvent(product: product!));
+                              context.push(DetailsProductScreen(
+                                product: product,
+                                products: bloc.products,
+                              ));
+                            },
+                            items: bloc.products,
+                            context: context,
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ),
-            ),
-            ClipPath(
-              clipper: HalfCircleCurve(13.h),
-              child: ClipPath(
-                clipper: RainBowCurve(),
-                child: Container(
-                  height: 15.h,
-                  color: ColorManager.primary,
+              ClipPath(
+                clipper: HalfCircleCurve(13.h),
+                child: ClipPath(
+                  clipper: RainBowCurve(),
+                  child: Container(
+                    height: 15.h,
+                    color: ColorManager.primary,
+                  ),
                 ),
-              ),
-            )
-          ],
-        ),
-        InkWell(
-          onTap: () {
-            if (ConstantsManager.appUser is Customer)
-           context.push(const CartScreen());
-          },
-          customBorder: const CircleBorder(),
-          child: const Stack(
-            alignment: Alignment.center,
-            children: [
-              CircleAvatar(
-                radius: 55,
-                backgroundColor: ColorManager.primary,
-              ),
-              CircleAvatar(
-                radius: 50,
-                backgroundColor: ColorManager.grey2,
-                backgroundImage: AssetImage("assets/images/cart.png"),
-              ),
+              )
             ],
           ),
-        )
-      ],
+          InkWell(
+            onTap: () {
+              if (ConstantsManager.appUser is Customer)
+                context.push(const CartScreen());
+            },
+            customBorder: const CircleBorder(),
+            child: const Stack(
+              alignment: Alignment.center,
+              children: [
+                CircleAvatar(
+                  radius: 55,
+                  backgroundColor: ColorManager.primary,
+                ),
+                CircleAvatar(
+                  radius: 50,
+                  backgroundColor: ColorManager.grey2,
+                  backgroundImage: AssetImage("assets/images/cart.png"),
+                ),
+              ],
+            ),
+          )
+        ],
+      ),
     );
   }
 
@@ -181,16 +190,19 @@ class HomePageScreen extends StatelessWidget {
             scrollDirection: Axis.horizontal,
             itemBuilder: (context, index) => categoryWidget(
               onTap: () => context.push(CategoryScreen(
-                category: ConstantsManager.appUser is Customer || ConstantsManager.appUser == null
+                category: ConstantsManager.appUser is Customer ||
+                        ConstantsManager.appUser == null
                     ? bloc.categories[index]
                     : Category(
                         categoryName: "",
                         products: bloc.categories[index].products!
-                            .where((product) => (ConstantsManager.appUser as Merchant)
-                                .productsIds
-                                .contains(product.productId))
+                            .where((product) =>
+                                (ConstantsManager.appUser as Merchant)
+                                    .productsIds
+                                    .contains(product.productId))
                             .toList(),
-                        productsIds: (ConstantsManager.appUser as Merchant).productsIds,
+                        productsIds:
+                            (ConstantsManager.appUser as Merchant).productsIds,
                       ),
               )),
               category: bloc.categories[index],
@@ -219,8 +231,8 @@ class HomePageScreen extends StatelessWidget {
               category: Category(
                 categoryName: bloc.merchants[index].companyName,
                 products: bloc.products
-                    .where(
-                        (product) => bloc.merchants[index].productsIds.contains(product.productId))
+                    .where((product) => bloc.merchants[index].productsIds
+                        .contains(product.productId))
                     .toList(),
                 productsIds: bloc.merchants[index].productsIds,
               ),

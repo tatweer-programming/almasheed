@@ -40,6 +40,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "addresses": MessageLookupByLibrary.simpleMessage("Addresses"),
         "addressesList": MessageLookupByLibrary.simpleMessage("Addresses List"),
         "agreeTo": MessageLookupByLibrary.simpleMessage("I Agree to"),
+        "allCategories": MessageLookupByLibrary.simpleMessage("All Categories"),
         "alphabet": MessageLookupByLibrary.simpleMessage("Alphabet"),
         "alreadyHaveAccount":
             MessageLookupByLibrary.simpleMessage("Already have account ?"),
@@ -209,6 +210,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "services": MessageLookupByLibrary.simpleMessage("Services"),
         "setting": MessageLookupByLibrary.simpleMessage("Setting"),
         "shareApp": MessageLookupByLibrary.simpleMessage("Share App"),
+        "showMore": MessageLookupByLibrary.simpleMessage("Show More"),
         "signInNow": MessageLookupByLibrary.simpleMessage("Sign in now"),
         "skipRegistration":
             MessageLookupByLibrary.simpleMessage("Skip registration"),
