@@ -9,8 +9,8 @@ class PaymentRepository {
   PaymentService service = PaymentService();
 
   Future<Either<FirebaseException, bool>> addItem(
-      {required String productId, int quantity = 1}) {
-    return service.addItem(productId: productId);
+      {required String productId, required int quantity}) {
+    return service.addItem(productId: productId, quantity: quantity);
   }
 
   Future<Either<FirebaseException, bool>> editQuantity(
@@ -18,8 +18,7 @@ class PaymentRepository {
     return service.editQuantity(productId: productId, quantity: quantity);
   }
 
-  Future<Either<FirebaseException, bool>> removeItem(
-      {required String productId}) {
+  Future<Either<FirebaseException, bool>> removeItem({required String productId}) {
     return service.removeItem(productId: productId);
   }
 
@@ -28,8 +27,7 @@ class PaymentRepository {
     return service.completePayment(context: context, order: order);
   }
 
-  Future<Either<FirebaseException, Unit>> saveOrderData(
-      OrderModel order) async {
+  Future<Either<FirebaseException, Unit>> saveOrderData(OrderModel order) async {
     return service.saveOrderData(order);
   }
 }

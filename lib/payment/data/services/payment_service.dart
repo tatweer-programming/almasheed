@@ -14,7 +14,7 @@ class PaymentService {
   Customer? customer = ConstantsManager.appUser as Customer?;
 
   Future<Either<FirebaseException, bool>> addItem(
-      {required String productId, int quantity = 1}) async {
+      {required String productId, required int quantity}) async {
     try {
       customer?.cartItems[productId] = quantity;
       await _updateCartInFireStore();

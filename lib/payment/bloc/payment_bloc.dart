@@ -32,8 +32,8 @@ class PaymentBloc extends Bloc<PaymentEvent, PaymentState> {
     on<PaymentEvent>((event, emit) async {
       if (event is AddToCartEvent) {
         emit(AddToCartLoadingState());
-        var response = await _repository?.addItem(
-            productId: event.productId, quantity: event.quantity);
+        var response =
+            await _repository?.addItem(productId: event.productId, quantity: event.quantity ?? 1);
         response!.fold((l) {
           emit(AddToCartErrorState(l));
         }, (r) {
@@ -51,16 +51,15 @@ class PaymentBloc extends Bloc<PaymentEvent, PaymentState> {
         });
       } else if (event is EditQuantityInCart) {
         emit(EditQuantityInCartLoadingState());
-        var response = await _repository!
-            .editQuantity(productId: event.productId, quantity: event.quantity);
+        var response =
+            await _repository!.editQuantity(productId: event.productId, quantity: event.quantity);
         response.fold((l) {
           emit(EditQuantityInCartErrorState(l));
         }, (r) {
           emit(EditQuantityInCartSuccessState());
         });
       } else if (event is CompletePaymentCart) {
-        var response = await _repository!
-            .completePayment(context: event.context, order: order);
+        var response = await _repository!.completePayment(context: event.context, order: order);
         print(response.status.toString() + response.url.toString());
         print(response.toString());
         if (response.isSuccess) {
@@ -88,8 +87,7 @@ class PaymentBloc extends Bloc<PaymentEvent, PaymentState> {
     print(customer.cartItems.toString());
     customer.cartItems.forEach((key, value) {
       orderItems.add(OrderItem(
-          product: mainBloc.products
-              .firstWhere((element) => element.productId == key),
+          product: mainBloc.products.firstWhere((element) => element.productId == key),
           quantity: value));
     });
 
