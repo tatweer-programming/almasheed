@@ -1,5 +1,4 @@
 import 'package:almasheed/authentication/presentation/components.dart';
-import 'package:almasheed/authentication/presentation/screens/addresses_screen.dart';
 import 'package:almasheed/authentication/presentation/screens/faq_screen.dart';
 import 'package:almasheed/authentication/presentation/screens/terms_and_conditions_screen.dart';
 import 'package:almasheed/core/utils/constance_manager.dart';

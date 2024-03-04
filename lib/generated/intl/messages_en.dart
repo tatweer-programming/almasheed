@@ -63,6 +63,8 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Code Sent Successfully"),
         "codeVerified":
             MessageLookupByLibrary.simpleMessage("Code Verified Successfully"),
+        "commercialLicenseNumber":
+            MessageLookupByLibrary.simpleMessage("Commercial License Number"),
         "companyName": MessageLookupByLibrary.simpleMessage("Company name"),
         "completeOrder": MessageLookupByLibrary.simpleMessage("complete order"),
         "contactUs": MessageLookupByLibrary.simpleMessage("Contact Us"),
@@ -98,8 +100,12 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("please enter avenue"),
         "enterCity":
             MessageLookupByLibrary.simpleMessage("please enter city name"),
+        "enterCommercialLicense": MessageLookupByLibrary.simpleMessage(
+            "please enter Commercial license number"),
         "enterCompanyName":
             MessageLookupByLibrary.simpleMessage("please enter company name"),
+        "enterFacility": MessageLookupByLibrary.simpleMessage(
+            "please enter the name of the facility you belong to"),
         "enterFloor":
             MessageLookupByLibrary.simpleMessage("please enter floor"),
         "enterHouseNumber":
@@ -124,6 +130,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "enterValidQuantity": MessageLookupByLibrary.simpleMessage(
             "Please enter a valid quantity"),
         "evaluation": MessageLookupByLibrary.simpleMessage("Evaluation"),
+        "facility": MessageLookupByLibrary.simpleMessage(
+            "The name of the facility I belong to"),
         "faq": MessageLookupByLibrary.simpleMessage("FAQ"),
         "faqText": MessageLookupByLibrary.simpleMessage(
             "What is the Al-Masheed application?\n - An application that aims to facilitate the connection between the customer and the service provider in an easy and clear manner.\nIs there an in-app conversation between the customer and the service provider?\n - Yes, there is a chat service within the application.\nIf I encounter a problem within the application, what should I do?\n -Contact customer service in the Contact Us box and the issue will be addressed as soon as possible."),
@@ -136,8 +144,11 @@ class MessageLookup extends MessageLookupByLibrary {
         "houseNumber": MessageLookupByLibrary.simpleMessage("house number"),
         "language": MessageLookupByLibrary.simpleMessage("Language"),
         "lastSeen": MessageLookupByLibrary.simpleMessage("Last Seen"),
+        "location": MessageLookupByLibrary.simpleMessage("Location"),
         "loginAsMerchant":
             MessageLookupByLibrary.simpleMessage("Login as merchant"),
+        "loginAsWorker":
+            MessageLookupByLibrary.simpleMessage("Login As Worker"),
         "loginFirst":
             MessageLookupByLibrary.simpleMessage("You should log in first"),
         "loginNow": MessageLookupByLibrary.simpleMessage("Login now"),
@@ -145,6 +156,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "lowestToHighestPrice":
             MessageLookupByLibrary.simpleMessage("Lowest to highest price"),
         "mainUses": MessageLookupByLibrary.simpleMessage("Main Uses"),
+        "maintenance": MessageLookupByLibrary.simpleMessage("Maintenance"),
         "merchant": MessageLookupByLibrary.simpleMessage("Merchant"),
         "merchants": MessageLookupByLibrary.simpleMessage("Merchants"),
         "modifyProduct": MessageLookupByLibrary.simpleMessage("Modify Product"),
@@ -224,6 +236,7 @@ class MessageLookup extends MessageLookupByLibrary {
             "- The AlMasheed platform is dedicated to facilitating the purchasing process and communication between the customer and the facility owner. To complete the purchase, the platform deducts a nominal amount from the purchase value as a fee for platform services and as a non-refundable deposit upon order completion.\n- Customers have the right to communicate with the facility owner (the seller) for inquiries and to finalize or cancel purchase orders based on their mutual agreement. It is important to note that the platform is not responsible for any financial or other disputes that may arise between the customer and the facility owner.\n- If a customer wishes to cancel an order before receiving it, they must contact the facility owner and inform them. In the event that the order reaches the customer and they decide to cancel it, the customer is responsible for the cost of transporting the purchased items from the delivery location to the facility owner\'s premises or as otherwise agreed upon.\n- The platform reserves the right to delete or suspend the activities of any customer violating the platform\'s policies through any means, including fraudulent orders and lack of seriousness in placing orders. Customers can also communicate with the facility owner in case of any comments or concerns related to the order.\n- The AlMasheed platform retains the terms and conditions, prohibiting the trading or dissemination of these terms through any means.\n- Approved communication channels within the platform:\n  - Email: almasheed-1380@hotmail.com\n  - WhatsApp: 0537014738"),
         "termsToMerchant": MessageLookupByLibrary.simpleMessage(
             "- The AlMasheed platform is dedicated to facilitating the purchasing process and communication between the customer and the facility owner in a clear and simple manner, while saving effort and time for both parties.\n- Upon completing a purchase order from the customer, the platform deducts a nominal fee not exceeding 10% of the purchase value as a platform fee and a non-refundable deposit upon order completion.\n- The facility owner is committed to providing the order to the customer accurately, including quality, material safety, and delivery speed as agreed upon between them.\n- There is room for communication between the customer and the service provider to agree on purchase details such as purchase requests, total cost calculation, delivery method, and other matters related to purchase orders.\n- The customer has the right to cancel the order before receiving it by contacting the facility owner, and in case of receiving the order and wishing to cancel it, the customer is obliged to pay the transportation cost from the place of receipt to the facility owner\'s location or as agreed upon between them.\n- AlMasheed\'s goal is to facilitate communication between the parties, and it is not responsible for any disputes between the customer and the facility owner, including financial disputes and others, including but not limited to: inaccuracies in the order, delivery-related errors causing damage to purchase orders, and others.\n- The platform has the right to delete or suspend the activity of any facility that violates the platform\'s policies by any means. Facility owners can contact the support team in case of any issues related to platform services.\n- AlMasheed retains the terms and conditions outlined and prohibits the circulation or publication of these terms in any way.\n- The approved communication channels within the platform:\n   Email: almasheed-1380@hotmail.com\n   WhatsApp: 0537014738"),
+        "tools": MessageLookupByLibrary.simpleMessage("Tools"),
         "totalElements": MessageLookupByLibrary.simpleMessage("Total elements"),
         "totalPrice": MessageLookupByLibrary.simpleMessage("Total Price"),
         "totalValue": MessageLookupByLibrary.simpleMessage("Total value"),
@@ -240,6 +253,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Welcome to almasheed"),
         "whoAreWe": MessageLookupByLibrary.simpleMessage("Who Are We"),
         "work": MessageLookupByLibrary.simpleMessage("work"),
+        "worker": MessageLookupByLibrary.simpleMessage("Technical"),
         "youMayLikeIt": MessageLookupByLibrary.simpleMessage("You may like it")
       };
 }

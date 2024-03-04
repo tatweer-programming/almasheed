@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sizer/sizer.dart';
 import '../../../authentication/data/models/customer.dart';
+// import '../../../authentication/presentation/components.dart';
 import '../../../authentication/presentation/components.dart';
 import '../../../core/error/remote_error.dart';
 import '../../../core/services/dep_injection.dart';
@@ -43,8 +44,13 @@ class CategoryScreen extends StatelessWidget {
           if (state is ChangeShowingProductsState) {
             isHorizontal = state.isHorizontal;
           }
+          if (state is IncreaseQuantityState) {
+            quantityController[state.index].text = state.quantity.toString();
+            print(quantityController[state.index].text);
+          }
         },
         builder: (context, state) {
+          print(quantityController[0].text);
           return RefreshIndicator(
             onRefresh: () async {
               mainBloc
@@ -77,7 +83,10 @@ class CategoryScreen extends StatelessWidget {
     );
   }
 
-  void _handlePaymentBlocState(BuildContext context, PaymentState state,) {
+  void _handlePaymentBlocState(
+    BuildContext context,
+    PaymentState state,
+  ) {
     if (state is AddToCartSuccessState) {
       defaultToast(msg: S.of(context).productAdded);
     } else if (state is AddToCartErrorState) {
@@ -386,6 +395,8 @@ class CategoryScreen extends StatelessWidget {
     required bool isHorizontal,
     required List<TextEditingController> quantityController,
   }) {
+    PaymentBloc paymentBloc = PaymentBloc.bloc;
+    print(quantityController[0].text);
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 2.w, vertical: 2.h),
       child: Wrap(
@@ -414,14 +425,18 @@ class CategoryScreen extends StatelessWidget {
             },
             product: product,
             addCardPressed: () {
-              PaymentBloc paymentBloc = PaymentBloc.bloc;
+              mainBloc.add(
+                IncreaseQuantityEvent(
+                  quantity: int.parse(quantityController[index].text),
+                  index: index,
+                ),
+              );
               paymentBloc.add(
                 AddToCartEvent(
                   productId: product.productId,
-                  quantity: int.parse(quantityController[index].text),
+                  quantity: int.parse(quantityController[index].text) + 1,
                 ),
               );
-              quantityController[index] = TextEditingController();
             },
             context: context,
           );

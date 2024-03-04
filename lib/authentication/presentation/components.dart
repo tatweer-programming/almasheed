@@ -1,8 +1,8 @@
 import 'package:almasheed/authentication/bloc/auth_bloc.dart';
 import 'package:almasheed/authentication/presentation/screens/account_type_screen.dart';
-import 'package:almasheed/authentication/presentation/screens/login_screen.dart';
+import 'package:almasheed/authentication/presentation/screens/maintenance_login_screen.dart';
 import 'package:almasheed/authentication/presentation/screens/terms_and_conditions_screen.dart';
-import 'package:almasheed/core/utils/constance_manager.dart';
+import 'package:almasheed/authentication/presentation/screens/account_type_2_screen.dart';
 import 'package:almasheed/core/utils/navigation_manager.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -16,9 +16,7 @@ import '../data/models/address.dart';
 class AccountTypeItem extends StatelessWidget {
   final String type;
   final AuthBloc bloc;
-
   final int index;
-
   final IconData iconData;
 
   const AccountTypeItem({
@@ -39,8 +37,9 @@ class AccountTypeItem extends StatelessWidget {
         height: 35.w,
         width: 35.w,
         child: Card(
-          color:
-              index == bloc.selectedAccountTypeIndex ? ColorManager.secondary : ColorManager.white,
+          color: index == bloc.selectedAccountTypeIndex
+              ? ColorManager.secondary
+              : ColorManager.white,
           elevation: 5,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -77,6 +76,7 @@ class AccountTypeItem extends StatelessWidget {
 
 class PhoneNumberInput extends StatelessWidget {
   final TextEditingController controller;
+
   const PhoneNumberInput({super.key, required this.controller});
 
   @override
@@ -84,8 +84,9 @@ class PhoneNumberInput extends StatelessWidget {
     return Directionality(
       textDirection: TextDirection.ltr,
       child: Container(
-        decoration: BoxDecoration(
-            color: ColorManager.secondary, borderRadius: BorderRadius.all(Radius.circular(15))),
+        decoration: const BoxDecoration(
+            color: ColorManager.secondary,
+            borderRadius: BorderRadius.all(Radius.circular(15))),
         child: Row(
           textDirection: TextDirection.ltr,
           mainAxisAlignment: MainAxisAlignment.center,
@@ -97,8 +98,9 @@ class PhoneNumberInput extends StatelessWidget {
                 width: 50.sp,
                 child: Align(
                   alignment: AlignmentDirectional.centerStart,
-                  child:
-                      Text(" +966", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14.sp)),
+                  child: Text(" +966",
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold, fontSize: 14.sp)),
                 ),
               ),
             ),
@@ -120,6 +122,40 @@ class PhoneNumberInput extends StatelessWidget {
       ),
     );
   }
+}
+
+Widget dropdownBuilder(
+    {required String text,
+    IconData? icon,
+    required Function(String? value) onChanged,
+    required List<String> items}) {
+    return DropdownMenu<String>(
+    label: Text(text),
+    enableFilter: false,
+    requestFocusOnTap: false,
+    expandedInsets: EdgeInsets.zero,
+    enableSearch: false,
+    leadingIcon: Icon(icon ?? Icons.search),
+    inputDecorationTheme: InputDecorationTheme(
+      filled: true,
+      fillColor: ColorManager.secondary,
+      enabledBorder:
+          OutlineInputBorder(borderRadius: BorderRadius.circular(10.sp)),
+      focusedBorder:
+          OutlineInputBorder(borderRadius: BorderRadius.circular(10.sp)),
+      contentPadding: EdgeInsets.symmetric(horizontal: 1.w),
+    ),
+    onSelected: onChanged,
+    menuHeight: 40.h,
+    dropdownMenuEntries: items.map<DropdownMenuEntry<String>>(
+      (String value) {
+        return DropdownMenuEntry<String>(
+          value: value,
+          label: value
+        );
+      },
+    ).toList(),
+  );
 }
 
 Widget defaultFormField(
@@ -146,11 +182,14 @@ Widget defaultFormField(
         cursorColor: ColorManager.primary,
         decoration: InputDecoration(
             border: OutlineInputBorder(
-                borderSide: BorderSide.none, borderRadius: BorderRadius.circular(10.sp)),
+                borderSide: BorderSide.none,
+                borderRadius: BorderRadius.circular(10.sp)),
             focusedErrorBorder: OutlineInputBorder(
-                borderSide: BorderSide.none, borderRadius: BorderRadius.circular(10.sp)),
+                borderSide: BorderSide.none,
+                borderRadius: BorderRadius.circular(10.sp)),
             errorBorder: OutlineInputBorder(
-                borderSide: BorderSide.none, borderRadius: BorderRadius.circular(10.sp)),
+                borderSide: BorderSide.none,
+                borderRadius: BorderRadius.circular(10.sp)),
             isDense: true,
             errorStyle: const TextStyle(color: ColorManager.white),
             prefixIcon: prefixIcon,
@@ -160,9 +199,11 @@ Widget defaultFormField(
             filled: true,
             fillColor: ColorManager.secondary,
             enabledBorder: OutlineInputBorder(
-                borderSide: BorderSide.none, borderRadius: BorderRadius.circular(10.sp)),
+                borderSide: BorderSide.none,
+                borderRadius: BorderRadius.circular(10.sp)),
             focusedBorder: OutlineInputBorder(
-                borderSide: BorderSide.none, borderRadius: BorderRadius.circular(10.sp)),
+                borderSide: BorderSide.none,
+                borderRadius: BorderRadius.circular(10.sp)),
             labelText: label,
             labelStyle: const TextStyle(
               color: ColorManager.black,
@@ -193,12 +234,14 @@ void errorToast({
   );
 }
 
+
 class TermsAgreementWidget extends StatelessWidget {
   final AuthBloc bloc;
 
   final String userType;
 
-  const TermsAgreementWidget({super.key, required this.bloc, required this.userType});
+  const TermsAgreementWidget(
+      {super.key, required this.bloc, required this.userType});
 
   @override
   Widget build(BuildContext context) {
@@ -236,7 +279,9 @@ class TermsAgreementWidget extends StatelessWidget {
 }
 
 class RegisterNowWidget extends StatelessWidget {
-  const RegisterNowWidget({super.key});
+  final String type;
+
+  const RegisterNowWidget({super.key, required this.type});
 
   @override
   Widget build(BuildContext context) {
@@ -249,7 +294,9 @@ class RegisterNowWidget extends StatelessWidget {
           ),
           TextButton(
               onPressed: () {
-                context.push(const AccountTypeScreen());
+                context.push(AccountType2Screen(
+                  type: type,
+                ));
               },
               child: Text(
                 S.of(context).registerNow,
@@ -279,7 +326,7 @@ class LoginNowWidget extends StatelessWidget {
           ),
           TextButton(
               onPressed: () {
-                context.pushAndRemove(const LoginScreen());
+                context.pushAndRemove(const MaintenanceLoginScreen());
               },
               child: Text(
                 S.of(context).loginNow,
@@ -300,33 +347,46 @@ class AuthBackground extends StatelessWidget {
 
   final Widget child;
 
-  const AuthBackground({super.key, required this.imagePath, required this.child});
+  const AuthBackground(
+      {super.key, required this.imagePath, required this.child});
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: 70.h,
-      width: 100.w,
-      alignment: AlignmentDirectional.bottomCenter,
-      decoration: BoxDecoration(
-          color: ColorManager.primary,
-          borderRadius: BorderRadiusDirectional.vertical(top: Radius.circular(120.sp))),
-      child: Stack(
-        children: [
-          Positioned.fill(
-            child: Align(
-                alignment: AlignmentDirectional.bottomCenter,
-                child: Opacity(
-                    opacity: .35,
-                    child: Image(
-                      image: AssetImage(
-                        imagePath,
-                      ),
-                    ))),
+    return Column(
+      children: [
+        Container(
+          height: 30.h,
+          decoration: const BoxDecoration(
+              image: DecorationImage(
+                  fit: BoxFit.cover,
+                  image: AssetImage("assets/images/logo.png"))),
+        ),
+        Container(
+          height: 70.h,
+          width: 100.w,
+          alignment: AlignmentDirectional.bottomCenter,
+          decoration: BoxDecoration(
+              color: ColorManager.primary,
+              borderRadius:
+                  BorderRadiusDirectional.vertical(top: Radius.circular(120.sp))),
+          child: Stack(
+            children: [
+              Positioned.fill(
+                child: Align(
+                    alignment: AlignmentDirectional.bottomCenter,
+                    child: Opacity(
+                        opacity: .35,
+                        child: Image(
+                          image: AssetImage(
+                            imagePath,
+                          ),
+                        ))),
+              ),
+              Positioned.fill(child: child)
+            ],
           ),
-          Positioned.fill(child: child)
-        ],
-      ),
+        ),
+      ],
     );
   }
 }
@@ -336,6 +396,7 @@ class ProfileItemBuilder extends StatelessWidget {
   final IconData iconData;
   final Widget nextScreen;
   final void Function()? onPressed;
+
   const ProfileItemBuilder(
       {super.key,
       required this.label,
@@ -395,6 +456,7 @@ class ProfileItemBuilder extends StatelessWidget {
 
 class AddressBuilder extends StatelessWidget {
   final Address address;
+
   const AddressBuilder({
     super.key,
     required this.address,
@@ -420,9 +482,13 @@ class AddressBuilder extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      AddressItem(label: S.of(context).addressType, value: address.type),
-                      AddressItem(label: S.of(context).city, value: address.city),
-                      AddressItem(label: S.of(context).street, value: address.street),
+                      AddressItem(
+                          label: S.of(context).addressType,
+                          value: address.type),
+                      AddressItem(
+                          label: S.of(context).city, value: address.city),
+                      AddressItem(
+                          label: S.of(context).street, value: address.street),
                     ],
                   ),
                 ),
@@ -435,8 +501,11 @@ class AddressBuilder extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     AddressItem(
-                        label: S.of(context).houseNumber, value: address.houseNumber.toString()),
-                    AddressItem(label: S.of(context).floor, value: address.floor.toString()),
+                        label: S.of(context).houseNumber,
+                        value: address.houseNumber.toString()),
+                    AddressItem(
+                        label: S.of(context).floor,
+                        value: address.floor.toString()),
                     AddressItem(
                         label: S.of(context).apartmentNumber,
                         value: address.apartmentNumber.toString()),
@@ -503,7 +572,7 @@ class ShouldLoginWidget extends StatelessWidget {
         MaterialButton(
           color: ColorManager.primary,
           onPressed: () {
-            context.pushAndRemove(const LoginScreen());
+            context.pushAndRemove(const MaintenanceLoginScreen());
           },
           child: Text(
             S.of(context).loginNow,

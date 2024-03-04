@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:equatable/equatable.dart';
-
+//ignore: must_be_immutable
 class Message extends Equatable {
   final Timestamp createdTime;
   String? message;

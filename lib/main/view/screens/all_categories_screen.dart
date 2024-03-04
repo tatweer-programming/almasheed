@@ -1,14 +1,11 @@
-import 'package:almasheed/authentication/data/models/customer.dart';
 import 'package:almasheed/core/utils/color_manager.dart';
 import 'package:almasheed/core/utils/navigation_manager.dart';
-import 'package:almasheed/main/view/screens/add_category_screen.dart';
 import 'package:almasheed/main/view/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sizer/sizer.dart';
 import '../../../core/services/dep_injection.dart';
 import '../../../generated/l10n.dart';
-import '../../../payment/bloc/payment_bloc.dart';
 import '../../bloc/main_bloc.dart';
 import 'category_screen.dart';
 

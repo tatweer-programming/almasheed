@@ -8,8 +8,9 @@ import 'package:sizer/sizer.dart';
 import '../../../core/utils/color_manager.dart';
 import '../../../core/utils/font_manager.dart';
 
-class AccountTypeScreen extends StatelessWidget {
-  const AccountTypeScreen({super.key});
+class AccountType2Screen extends StatelessWidget {
+  final String type;
+  const AccountType2Screen({super.key, required this.type});
 
   @override
   Widget build(BuildContext context) {
@@ -55,15 +56,15 @@ class AccountTypeScreen extends StatelessWidget {
                                 CrossAxisAlignment.center,
                             children: [
                               AccountTypeItem(
-                                type: S.of(context).maintenance,
+                                type:type == "maintenance"? S.of(context).worker:S.of(context).merchant,
                                 bloc: bloc,
                                 iconData:
                                     Icons.store_mall_directory_outlined,
-                                index: 0,
+                                index: type == "maintenance"? 0:2,
                               ),
                               const Spacer(),
                               AccountTypeItem(
-                                type: S.of(context).tools,
+                                type: S.of(context).customer,
                                 bloc: bloc,
                                 iconData: Icons.person_outlined,
                                 index: 1,
@@ -85,7 +86,7 @@ class AccountTypeScreen extends StatelessWidget {
                         onPressed: () {
                           if (bloc.selectedAccountTypeIndex != null) {
                             bloc.add(
-                                NavigateToAccountTypesScreenEvent(context));
+                                NavigateToRegisterScreenEvent(context));
                           } else {
                             errorToast(msg: "Please choose account type");
                           }

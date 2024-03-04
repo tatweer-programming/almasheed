@@ -7,6 +7,7 @@ import 'package:almasheed/authentication/data/services/auth_services.dart';
 import 'package:almasheed/authentication/presentation/components.dart';
 import 'package:almasheed/authentication/presentation/screens/merchant_register_screen.dart';
 import 'package:almasheed/authentication/presentation/screens/customer_register_screen.dart';
+import 'package:almasheed/authentication/presentation/screens/tools_login_screen.dart';
 import 'package:almasheed/core/error/remote_error.dart';
 import 'package:almasheed/core/utils/constance_manager.dart';
 import 'package:almasheed/core/utils/navigation_manager.dart';
@@ -16,11 +17,12 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:path_provider/path_provider.dart';
 import '../../core/utils/images_manager.dart';
 import '../../generated/l10n.dart';
 import '../data/models/address.dart';
 import '../data/repositories/auth_repository.dart';
+import '../presentation/screens/maintenance_login_screen.dart';
+import '../presentation/screens/worker_register_screen.dart';
 
 part 'auth_event.dart';
 
@@ -32,15 +34,18 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   static AuthBloc get(BuildContext context) => bloc;
   bool agreeToTerms = false;
   bool isMerchant = false;
+  bool isWorker = false;
   bool codeSent = false;
   bool authCompleted = false;
   String? verificationId = AuthService.verificationID;
   int? selectedAccountTypeIndex;
   String? addressType;
   String? city;
+  List<String> works = [];
   int? timeToResendCode;
   Timer? timeToResendCodeTimer;
   String? oldPicUrl;
+
   List<String> addressTypes(BuildContext context) {
     return [
       S.of(context).house,
@@ -50,18 +55,27 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   }
 
   late AuthRepository repository;
-  List<Widget> registerScreens = const [MerchantLoginScreen(), CustomerLoginScreen()];
+  List<Widget> registerScreens = const [
+    WorkerRegisterScreen(),
+    CustomerRegisterScreen(),
+    MerchantRegisterScreen(),
+  ];
+  List<Widget> accountTypesScreens = const [
+    MaintenanceLoginScreen(),
+    ToolsLoginScreen(),
+  ];
 
   AuthBloc() : super(AuthInitial()) {
     repository = AuthRepository();
     on<AuthEvent>(_handleEvents);
   }
 
-  _handleEvents(event, emit) async {
+  _handleEvents(event, Emitter<AuthState> emit) async {
     if (event is SendCodeEvent) {
       emit(SendCodeLoadingState());
       ConstantsManager.appUser = event.user;
-      final result = await repository.verifyPhoneNumber(ConstantsManager.appUser!.phone);
+      final result =
+          await repository.verifyPhoneNumber(ConstantsManager.appUser!.phone);
       result.fold((l) {
         emit(SendCodeErrorState(l));
       }, (r) {
@@ -89,9 +103,15 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     } else if (event is ChangeAgreeToTermsStateEvent) {
       agreeToTerms = !agreeToTerms;
       emit(ChangeAgreeToTermsState(state: agreeToTerms));
-    } else if (event is ChangeIsMerchantTypeStateEvent) {
+    }else if (event is MakeSelectedAccountTypeNullEvent) {
+      selectedAccountTypeIndex = null;
+      emit(MakeSelectedAccountTypeNullState());
+    } else if (event is ChangeIsMerchantTypeEvent) {
       isMerchant = !isMerchant;
       emit(ChangeIsMerchantTypeState(state: isMerchant));
+    } else if (event is ChangeIsWorkerTypeEvent) {
+      isWorker = !isWorker;
+      emit(ChangeIsWorkerTypeState(state: isWorker));
     } else if (event is VerifyCodeEvent) {
       emit(VerifyCodeLoadingState());
       if (kDebugMode) {
@@ -104,7 +124,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       }, (r) async {
         // emit(CodeVerified());
         ConstantsManager.appUser?.id = r;
-        await _createUser();
+        await _createUser(emit);
         add(ResetCodeTimerEvent());
       });
     } else if (event is SelectAccountTypeEvent) {
@@ -112,6 +132,10 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       emit(SelectAccountTypeState(index: event.index));
     } else if (event is NavigateToRegisterScreenEvent) {
       event.context.push(registerScreens[selectedAccountTypeIndex!]);
+      add(MakeSelectedAccountTypeNullEvent());
+    }else if (event is NavigateToAccountTypesScreenEvent) {
+      event.context.push(accountTypesScreens[selectedAccountTypeIndex!]);
+      add(MakeSelectedAccountTypeNullEvent());
     } else if (event is AddAddressEvent) {
       emit(AddAddressLoadingState());
       var result = await repository.addAddress(event.address);
@@ -153,22 +177,29 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         }, (r) async {
           emit(UpdateProfileSuccessState());
           await repository.updateImageInFireStore(r).then((value) async {
-            oldPicUrl != null ? await repository.deleteOldPic(oldPicUrl!) : DoNothingAction();
+            oldPicUrl != null
+                ? await repository.deleteOldPic(oldPicUrl!)
+                : DoNothingAction();
           });
         });
       }
     } else if (event is ChooseCityEvent) {
       city = event.city;
       emit(ChooseCityState(city: event.city));
+    }else if (event is ChooseWorkEvent) {
+      works = event.works;
+      print(works);
+      emit(ChooseWorkState(works: event.works));
     } else if (event is StartResendCodeTimerEvent) {
-      _startResendCodeTimer();
-    }else if (event is ResetCodeTimerEvent) {
+      _startResendCodeTimer(emit);
+    } else if (event is ResetCodeTimerEvent) {
       _resetTimeToResendCode();
       emit(ResetCodeTimerState());
-;    }
+      ;
+    }
   }
 
-  Future _createUser() async {
+  Future _createUser(Emitter<AuthState> emit) async {
     var result = await repository.createUser(ConstantsManager.appUser!);
     result.fold((l) {
       errorToast(msg: ExceptionManager(l).translatedMessage());
@@ -201,7 +232,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     timeToResendCodeTimer = null;
   }
 
-  void _startResendCodeTimer() {
+  void _startResendCodeTimer(Emitter<AuthState>emit) {
     _setTimeToResendCode();
     timeToResendCodeTimer = Timer.periodic(const Duration(seconds: 1), (timer) {
       if (timeToResendCode != null && timeToResendCode! > 0) {

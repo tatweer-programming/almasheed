@@ -5,7 +5,6 @@ import 'package:almasheed/chat/bloc/chat_bloc.dart';
 import 'package:almasheed/chat/data/models/message.dart';
 import 'package:almasheed/core/utils/color_manager.dart';
 import 'package:almasheed/core/utils/constance_manager.dart';
-import 'package:almasheed/generated/intl/messages_ar.dart';
 import 'package:chat_bubbles/bubbles/bubble_normal_image.dart';
 import 'package:chat_bubbles/bubbles/bubble_special_three.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -14,6 +13,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sizer/sizer.dart';
 import '../../../generated/l10n.dart';
 
+//ignore: must_be_immutable
 class ChatScreen extends StatelessWidget {
   final String receiverId;
   final String receiverName;

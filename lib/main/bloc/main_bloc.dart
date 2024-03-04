@@ -1,4 +1,3 @@
-import 'package:almasheed/authentication/presentation/components.dart';
 import 'package:almasheed/core/utils/constance_manager.dart';
 import 'package:almasheed/core/utils/localization_manager.dart';
 import 'package:almasheed/main/data/models/category.dart';
@@ -245,12 +244,16 @@ class MainBloc extends Bloc<MainEvent, MainState> {
           products.remove(event.product);
           emit(SelectDeleteProductState(event.product));
         }
-      }else if (event is SelectAddProductOrAddCategoryEvent) {
+      } else if (event is SelectAddProductOrAddCategoryEvent) {
         if (event.selected == "AddProduct") {
           emit(SelectAddProductState());
         } else {
           emit(SelectAddCategoryState());
         }
+      } else if (event is IncreaseQuantityEvent) {
+        event.quantity++;
+        print(event.quantity);
+        emit(IncreaseQuantityState(quantity: event.quantity, index: event.index));
       } else if (event is GetUserDataEvent) {
         emit(GetUserDataLoadingState());
         var response = await MainRepository(sl()).getUserData();

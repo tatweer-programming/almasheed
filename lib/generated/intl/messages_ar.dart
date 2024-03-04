@@ -62,6 +62,8 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("تم ارسال الرمز بنجاح"),
         "codeVerified":
             MessageLookupByLibrary.simpleMessage("تم تأكيد الرمز بنجاح"),
+        "commercialLicenseNumber":
+            MessageLookupByLibrary.simpleMessage("رقم الترخيص التجاري"),
         "companyName": MessageLookupByLibrary.simpleMessage("اسم الشركة"),
         "completeOrder": MessageLookupByLibrary.simpleMessage("إكمال الطلب"),
         "contactUs": MessageLookupByLibrary.simpleMessage("تواصل معنا"),
@@ -96,8 +98,12 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("الرجاء إدخال اسم الجادة"),
         "enterCity":
             MessageLookupByLibrary.simpleMessage("الرجاء إدخال اسم المدينة"),
+        "enterCommercialLicense": MessageLookupByLibrary.simpleMessage(
+            "من فضلك ادخل رقم الترخيص التجاري"),
         "enterCompanyName":
             MessageLookupByLibrary.simpleMessage("من فضلك ادخل اسم الشركة"),
+        "enterFacility": MessageLookupByLibrary.simpleMessage(
+            "من فضلك ادخل اسم المنشأة التي تنتمي إليها"),
         "enterFloor":
             MessageLookupByLibrary.simpleMessage("الرجاء إدخال رقم الطابق"),
         "enterHouseNumber":
@@ -122,6 +128,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "enterValidQuantity":
             MessageLookupByLibrary.simpleMessage("الرجاء إدخال كمية صالحة"),
         "evaluation": MessageLookupByLibrary.simpleMessage("التقييم"),
+        "facility":
+            MessageLookupByLibrary.simpleMessage("اسم المنشأة التي أنتمي لها"),
         "faq": MessageLookupByLibrary.simpleMessage("الأسئلة الشائعة"),
         "faqText": MessageLookupByLibrary.simpleMessage(
             "ما هو تطبيق المشيد ؟\n - تطبيق يهدف إلى تسهيل الربط بين العميل ومقدم الخدمة بشكل سهل وواضح.\nهل يوجد محادثة داخل التطبيق بين العميل ومقدم الخدمة؟\n - نعم توجد خدمة الدردشة داخل التطبيق .\nإذا واجهت مشكلة داخل التطبيق ماذا أفعل ؟\n - تواصل مع خدمة العملاء في خانة تواصل معنا وسيتم معالجة المشكلة في أقرب وقت ممكن."),
@@ -134,8 +142,11 @@ class MessageLookup extends MessageLookupByLibrary {
         "houseNumber": MessageLookupByLibrary.simpleMessage("رقم المنزل"),
         "language": MessageLookupByLibrary.simpleMessage("اللغة"),
         "lastSeen": MessageLookupByLibrary.simpleMessage("آخر ما تمت مشاهدته"),
+        "location": MessageLookupByLibrary.simpleMessage("موقع"),
         "loginAsMerchant":
             MessageLookupByLibrary.simpleMessage("تسجيل الدخول كتاجر"),
+        "loginAsWorker":
+            MessageLookupByLibrary.simpleMessage("تسجيل الدخول كعامل"),
         "loginFirst":
             MessageLookupByLibrary.simpleMessage("يجب تسجيل الدخول أولا"),
         "loginNow": MessageLookupByLibrary.simpleMessage("تسجيل الدخول الآن"),
@@ -144,6 +155,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("من الأقل إلى الأعلى سعرًا"),
         "mainUses":
             MessageLookupByLibrary.simpleMessage("الأستخدامات الرئيسية"),
+        "maintenance": MessageLookupByLibrary.simpleMessage("صيانة"),
         "merchant": MessageLookupByLibrary.simpleMessage("تاجر"),
         "merchants": MessageLookupByLibrary.simpleMessage("التجار"),
         "modifyProduct": MessageLookupByLibrary.simpleMessage("تعديل المنتج"),
@@ -221,6 +233,7 @@ class MessageLookup extends MessageLookupByLibrary {
             "- تهدف منصة المشيد إلى تسهيل عملية الشراء والتواصل بين العميل وصاحب المنشأة. لإتمام الشراء، تقوم المنصة بخصم مبلغ رمزي من قيمة الشراء كرسوم لخدمات المنصة وكعربون غير قابل للاسترداد عند إتمام الطلب.\n- يحق للعملاء التواصل مع صاحب المنشأة (البائع) للتحقيق وإتمام أو إلغاء طلبات الشراء بناءً على اتفاقهم المتبادل. يجدر بالذكر أن المنصة غير مسؤولة عن أي نزاعات مالية أو غير ذلك قد تنشأ بين العميل وصاحب المنشأة.\n- إذا أراد العميل إلغاء طلب قبل استلامه، يجب عليه الاتصال بصاحب المنشأة وإبلاغه. في حال وصول الطلب إلى العميل ورغبته في إلغاء الطلب، يتحمل العميل تكلفة نقل العناصر المشتراة من مكان التسليم إلى مقر صاحب المنشأة أو حسب الاتفاق.\n- تحتفظ المنصة بالحق في حذف أو تعليق أنشطة أي عميل ينتهك سياسات المنصة بأي وسيلة، بما في ذلك الطلبات الاحتيالية وعدم الجدية في تقديم الطلبات. يمكن للعملاء أيضًا التواصل مع صاحب المنشأة في حال وجود أي تعليقات أو مخاوف تتعلق بالطلب.\n- تحتفظ منصة المشيد بالشروط والأحكام، وتمنع تداول أو نشر هذه الشروط بأي وسيلة.\n- وسائل التواصل المعتمدة داخل المنصة:\n - البريد الإلكتروني: almasheed-1380@hotmail.com\n - واتساب: 0537014738"),
         "termsToMerchant": MessageLookupByLibrary.simpleMessage(
             "- تهدف منصة المشيد إلى تسهيل عملية الشراء والتواصل بين العميل وصاحب المنشأة بطريقة واضحة وبسيطة، مع توفير الجهد والوقت لكلا الطرفين.\n- عند إتمام طلب الشراء من العميل، تقوم المنصة بخصم رمزي لا يتجاوز 10٪ من قيمة الشراء كرسوم لخدمات المنصة وكعربون غير قابل للاسترداد عند إتمام الطلب.\n- يلتزم صاحب المنشأة بتوفير الطلب للعميل بشكل دقيق، بما في ذلك الجودة وسلامة المواد وسرعة التوصيل حسب الاتفاق بينهما.\n- يوجد مجال للتواصل بين العميل ومقدم الخدمة للاتفاق على تفاصيل الشراء، مثل طلبات الشراء وحساب التكلفة الإجمالية وطريقة التوصيل وغيرها من الأمور المتعلقة بطلبات الشراء.\n- يحق للعميل إلغاء الطلب قبل استلامه من خلال الاتصال بصاحب المنشأة، وفي حال استلام الطلب ورغبة العميل في إلغاء الطلب، يلزم العميل بدفع تكلفة النقل من مكان الاستلام إلى مقر صاحب المنشأة أو حسب الاتفاق بينهما.\n- هدف منصة المشيد هو تسهيل التواصل بين الطرفين، ولا تتحمل المسؤولية عن أي نزاعات بين العميل وصاحب المنشأة، بما في ذلك النزاعات المالية وغيرها، مثل عدم دقة الطلب، والأخطاء الناجمة عن التوصيل التي قد تتسبب في تلف طلبات الشراء وغيرها.\n- للمنصة الحق في حذف أو تعليق نشاط أي منشأة تخالف سياسات المنصة بأي وسيلة. يمكن لصاحب المنشأة التواصل مع فريق الدعم في حال مواجهته لأي مشكلة تتعلق بخدمات المنصة.\n- تحتفظ منصة المشيد بلائحة الشروط والأحكام المحددة وتمنع تداول أو نشر هذه اللائحة بأي وسيلة كانت.\n- وسائل التواصل المعتمدة داخل المنصة:\n - البريد الإلكتروني: almasheed-1380@hotmail.com\n - واتساب: 0537014738"),
+        "tools": MessageLookupByLibrary.simpleMessage("ادوات"),
         "totalElements": MessageLookupByLibrary.simpleMessage("مجموع العناصر"),
         "totalPrice": MessageLookupByLibrary.simpleMessage("اجمالي السعر"),
         "totalValue": MessageLookupByLibrary.simpleMessage("مجموع القيمة"),
@@ -237,6 +250,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("مرحبًا بك في المشيد"),
         "whoAreWe": MessageLookupByLibrary.simpleMessage("من نحن"),
         "work": MessageLookupByLibrary.simpleMessage("العمل"),
+        "worker": MessageLookupByLibrary.simpleMessage("فني"),
         "youMayLikeIt": MessageLookupByLibrary.simpleMessage("قد يعجبك")
       };
 }

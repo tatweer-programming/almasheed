@@ -2,7 +2,6 @@ import 'package:almasheed/chat/bloc/chat_bloc.dart';
 import 'package:almasheed/core/utils/constance_manager.dart';
 import 'package:almasheed/core/utils/localization_manager.dart';
 import 'package:almasheed/payment/bloc/payment_bloc.dart';
-import 'package:almasheed/payment/presentation/screens/cart_screen.dart';
 import 'package:firebase_app_check/firebase_app_check.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -12,7 +11,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:sizer/sizer.dart';
 import 'authentication/bloc/auth_bloc.dart';
-import 'authentication/presentation/screens/login_screen.dart';
+import 'authentication/presentation/screens/account_type_screen.dart';
+import 'authentication/presentation/screens/maintenance_login_screen.dart';
 import 'chat/presentation/screens/chat_screen.dart';
 import 'core/local/shared_prefrences.dart';
 import 'core/services/dep_injection.dart';
@@ -20,9 +20,9 @@ import 'core/services/firebase_options.dart';
 import 'core/utils/theme_manager.dart';
 import 'generated/l10n.dart';
 import 'main/bloc/main_bloc.dart';
-import 'main/data/models/custom_properties.dart';
 import 'main/view/screens/main_screen.dart';
 import 'package:permission_handler/permission_handler.dart';
+
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -49,13 +49,15 @@ Future<void> main() async {
   });
   await LocalizationManager.init();
   ConstantsManager.userId = await CacheHelper.getData(key: "userId");
-  ConstantsManager.isNotificationsOn = await CacheHelper.getData(key: "isNotificationsOn");
+  ConstantsManager.isNotificationsOn =
+      await CacheHelper.getData(key: "isNotificationsOn");
   ConstantsManager.userType = await CacheHelper.getData(key: "userType");
   print("${ConstantsManager.userId}  ${ConstantsManager.userType}");
   runApp(const Masheed());
 }
 
-final GlobalKey<NavigatorState> navigatorKey = GlobalKey(debugLabel: "Main Navigator");
+final GlobalKey<NavigatorState> navigatorKey =
+    GlobalKey(debugLabel: "Main Navigator");
 
 class Masheed extends StatelessWidget {
   const Masheed({super.key});
@@ -69,13 +71,17 @@ class Masheed extends StatelessWidget {
                 create: (BuildContext context) => sl()
                   ..add(GetProductsEvent())
                   ..add(GetMerchantsEvent())),
-            BlocProvider<AuthBloc>(create: (BuildContext context) => AuthBloc()),
-            BlocProvider<PaymentBloc>(create: (BuildContext context) => PaymentBloc()),
-            BlocProvider<ChatBloc>(create: (BuildContext context) => ChatBloc(ChatInitial()))
+            BlocProvider<AuthBloc>(
+                create: (BuildContext context) => AuthBloc()),
+            BlocProvider<PaymentBloc>(
+                create: (BuildContext context) => PaymentBloc()),
+            BlocProvider<ChatBloc>(
+                create: (BuildContext context) => ChatBloc(ChatInitial()))
           ],
           child: BlocBuilder<MainBloc, MainState>(
             builder: (context, state) {
-              SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
+              SystemChrome.setPreferredOrientations(
+                  [DeviceOrientation.portraitUp]);
               return MaterialApp(
                 navigatorKey: navigatorKey,
                 debugShowCheckedModeBanner: false,
@@ -89,10 +95,15 @@ class Masheed extends StatelessWidget {
                 title: 'Al Masheed',
                 locale: LocalizationManager.getCurrentLocale(),
                 theme: getAppTheme(),
-                // home: const MainScreen(),
-                home: (ConstantsManager.userType != null && ConstantsManager.userId != null)
+                // home: SplashScreen(
+                //   nextScreen: (ConstantsManager.userType != null &&
+                //           ConstantsManager.userId != null)
+                //       ? const MainScreen()
+                //       : const LoginScreen(),
+                home: (ConstantsManager.userType != null &&
+                        ConstantsManager.userId != null)
                     ? const MainScreen()
-                    : const LoginScreen(),
+                    : const AccountTypeScreen(),
               );
             },
           ));

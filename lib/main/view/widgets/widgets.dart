@@ -483,6 +483,7 @@ Widget categoryProductsVerticalWidget({
   required VoidCallback openProductPressed,
   required TextEditingController controller,
 }) {
+  if(controller.text == "")controller.text = "1";
   return InkWell(
     onTap: openProductPressed,
     child: Card(

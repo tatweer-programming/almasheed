@@ -1,5 +1,5 @@
 import 'package:almasheed/authentication/data/models/user.dart';
-import '../../authentication/data/models/merchant.dart';
+import 'package:multi_dropdown/models/value_item.dart';
 import 'localization_manager.dart';
 
 class ConstantsManager {
@@ -8,7 +8,8 @@ class ConstantsManager {
   static String? userId;
   static String? userType;
   static bool? isNotificationsOn;
-  static const String baseUrlNotification = "https://fcm.googleapis.com/fcm/send";
+  static const String baseUrlNotification =
+      "https://fcm.googleapis.com/fcm/send";
   static const String firebaseMessagingAPI =
       "AAAAg2F4b1U:APA91bEp1nenkuZMlwu3PmiNRJTWOiG4zncmBF_23UiLcdtm42HZ1lDaoR-sRP21PFquem76ZHVKj5wGXI76Mx6WvqgUS2xxFAjuvM0hBMMd8cNvDcLEH6XKc65wBk_3C4IRr5znOi1M";
 
@@ -128,6 +129,35 @@ class ConstantsManager {
       return saudiCitiesArabic;
     } else {
       return saudiCitiesEnglish;
+    }
+  }
+
+  static const List<ValueItem<String>> worksEnglish = [
+    ValueItem(label: "Electricity technician", value: "Electricity technician"),
+    ValueItem(label: "Plumbing", value: "Plumbing"),
+    ValueItem(label: "Paint", value: "Paint"),
+    ValueItem(label: "Tile", value: "Tile"),
+    ValueItem(label: "Air conditioning technician", value: "Air conditioning technician"),
+    ValueItem(label: "Carpenter", value: "Carpenter"),
+    ValueItem(label: "Smith", value: "Smith"),
+    ValueItem(label: "Another", value: "Another"),
+  ];
+  static const List<ValueItem<String>> worksArabic = [
+    ValueItem(label: "فني كهرباء", value: "فني كهرباء"),
+    ValueItem(label: "سباكة", value: "سباكة"),
+    ValueItem(label: "دهان", value: "دهان"),
+    ValueItem(label: "بليط", value: "بليط"),
+    ValueItem(label: "فني تكييف", value: "فني تكييف"),
+    ValueItem(label: "نجار", value: "نجار"),
+    ValueItem(label: "حداد", value: "حداد"),
+    ValueItem(label: "أخري", value: "أخري"),
+  ];
+
+  static List<ValueItem<String>> get getWorks {
+    if (LocalizationManager.getCurrentLocale().languageCode == "ar") {
+      return worksEnglish;
+    } else {
+      return worksArabic;
     }
   }
 }

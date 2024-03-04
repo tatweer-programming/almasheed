@@ -14,7 +14,6 @@ import '../../../payment/bloc/payment_bloc.dart';
 import '../../../payment/presentation/screens/cart_screen.dart';
 import '../../bloc/main_bloc.dart';
 import '../../data/models/product.dart';
-import 'details_product.dart';
 
 class FavouriteScreen extends StatelessWidget {
   const FavouriteScreen({super.key});

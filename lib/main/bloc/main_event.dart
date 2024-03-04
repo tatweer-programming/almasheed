@@ -46,6 +46,12 @@ class SetProductEvent extends MainEvent {
 
   const SetProductEvent({required this.product});
 }
+class IncreaseQuantityEvent extends MainEvent {
+  int quantity;
+  final int index;
+
+  IncreaseQuantityEvent({required this.quantity,required this.index});
+}
 
 class UpdateProductEvent extends MainEvent {
   final Product product;

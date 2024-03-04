@@ -13,7 +13,6 @@ import '../../../core/utils/constance_manager.dart';
 import '../../../generated/l10n.dart';
 import '../../bloc/main_bloc.dart';
 import '../../data/models/custom_properties.dart';
-import 'add_category_screen.dart';
 
 class AddProductScreen extends StatelessWidget {
   const AddProductScreen({super.key});

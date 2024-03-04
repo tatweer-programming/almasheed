@@ -8,14 +8,18 @@ abstract class AuthEvent extends Equatable {
 
 class SendCodeEvent extends AuthEvent {
   final AppUser user;
+
   const SendCodeEvent(this.user);
+
   @override
   List<Object?> get props => [user];
 }
 
 class LoginByPhoneEvent extends AuthEvent {
   final AppUser user;
+
   const LoginByPhoneEvent(this.user);
+
   @override
   List<Object?> get props => [user];
 }
@@ -42,10 +46,17 @@ class ChangeAgreeToTermsStateEvent extends AuthEvent {
   List<Object?> get props => [];
 }
 
-class ChangeIsMerchantTypeStateEvent extends AuthEvent {
+class ChangeIsMerchantTypeEvent extends AuthEvent {
   final bool state;
 
-  const ChangeIsMerchantTypeStateEvent({required this.state});
+  const ChangeIsMerchantTypeEvent({required this.state});
+
+  @override
+  List<Object?> get props => [state];
+}class ChangeIsWorkerTypeEvent extends AuthEvent {
+  final bool state;
+
+  const ChangeIsWorkerTypeEvent({required this.state});
 
   @override
   List<Object?> get props => [state];
@@ -62,7 +73,17 @@ class SelectAccountTypeEvent extends AuthEvent {
 
 class NavigateToRegisterScreenEvent extends AuthEvent {
   final BuildContext context;
+
   const NavigateToRegisterScreenEvent(this.context);
+
+  @override
+  List<Object?> get props => [context];
+}
+
+class NavigateToAccountTypesScreenEvent extends AuthEvent {
+  final BuildContext context;
+
+  const NavigateToAccountTypesScreenEvent(this.context);
 
   @override
   List<Object?> get props => [context];
@@ -88,22 +109,38 @@ class RemoveAddressEvent extends AuthEvent {
 
 class ChooseAddressTypeEvent extends AuthEvent {
   final String addressType;
+
   const ChooseAddressTypeEvent(this.addressType);
+
+  @override
+  List<Object?> get props => [];
+}
+class MakeSelectedAccountTypeNullEvent extends AuthEvent {
   @override
   List<Object?> get props => [];
 }
 
 class ChooseCityEvent extends AuthEvent {
   final String city;
+
   const ChooseCityEvent(this.city);
+
   @override
   List<Object?> get props => [city];
+}class ChooseWorkEvent extends AuthEvent {
+  final List<String> works;
+
+  const ChooseWorkEvent(this.works);
+
+  @override
+  List<Object?> get props => [works];
 }
 
 class StartResendCodeTimerEvent extends AuthEvent {
   @override
   List<Object?> get props => [];
 }
+
 class ResetCodeTimerEvent extends AuthEvent {
   @override
   List<Object?> get props => [];

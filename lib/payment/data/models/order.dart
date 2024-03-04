@@ -1,7 +1,6 @@
 // ignore_for_file: must_be_immutable
 
 import 'package:almasheed/authentication/data/models/customer.dart';
-import 'package:dartz/dartz.dart';
 import 'package:equatable/equatable.dart';
 import '../../../authentication/data/models/address.dart';
 import '../../../core/utils/constance_manager.dart';

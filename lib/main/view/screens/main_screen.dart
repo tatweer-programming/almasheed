@@ -1,7 +1,6 @@
 import 'package:almasheed/authentication/data/models/merchant.dart';
 import 'package:almasheed/core/utils/color_manager.dart';
 import 'package:almasheed/core/utils/constance_manager.dart';
-import 'package:almasheed/core/utils/navigation_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../authentication/presentation/components.dart';
@@ -9,7 +8,6 @@ import '../../../core/error/remote_error.dart';
 import '../../../core/services/dep_injection.dart';
 import '../../../generated/l10n.dart';
 import '../../bloc/main_bloc.dart';
-import 'add_product_screen.dart';
 
 class MainScreen extends StatelessWidget {
   const MainScreen({super.key});

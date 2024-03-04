@@ -14,7 +14,6 @@ import 'package:almasheed/main/view/screens/details_product.dart';
 import 'package:almasheed/main/view/widgets/widgets.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import '../../../generated/l10n.dart';
-import '../../../payment/bloc/payment_bloc.dart';
 import '../../../payment/presentation/screens/cart_screen.dart';
 import '../../bloc/main_bloc.dart';
 

@@ -1562,6 +1562,96 @@ class S {
     );
   }
 
+  /// `Commercial License Number`
+  String get commercialLicenseNumber {
+    return Intl.message(
+      'Commercial License Number',
+      name: 'commercialLicenseNumber',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Technical`
+  String get worker {
+    return Intl.message(
+      'Technical',
+      name: 'worker',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `The name of the facility I belong to`
+  String get facility {
+    return Intl.message(
+      'The name of the facility I belong to',
+      name: 'facility',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `please enter the name of the facility you belong to`
+  String get enterFacility {
+    return Intl.message(
+      'please enter the name of the facility you belong to',
+      name: 'enterFacility',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `please enter Commercial license number`
+  String get enterCommercialLicense {
+    return Intl.message(
+      'please enter Commercial license number',
+      name: 'enterCommercialLicense',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Login As Worker`
+  String get loginAsWorker {
+    return Intl.message(
+      'Login As Worker',
+      name: 'loginAsWorker',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Maintenance`
+  String get maintenance {
+    return Intl.message(
+      'Maintenance',
+      name: 'maintenance',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Tools`
+  String get tools {
+    return Intl.message(
+      'Tools',
+      name: 'tools',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Location`
+  String get location {
+    return Intl.message(
+      'Location',
+      name: 'location',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `End Chat`
   String get endChat {
     return Intl.message(

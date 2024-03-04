@@ -7,7 +7,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:my_fatoorah/my_fatoorah.dart';
 
 import '../../../chat/data/models/chat.dart';
-import '../../../core/utils/color_manager.dart';
 
 class PaymentService {
   FirebaseFirestore fireStore = FirebaseFirestore.instance;

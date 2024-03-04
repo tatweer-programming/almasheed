@@ -1,4 +1,3 @@
-import 'package:almasheed/core/utils/constance_manager.dart';
 import 'package:almasheed/core/utils/images_manager.dart';
 
 import 'customer.dart';

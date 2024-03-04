@@ -1,4 +1,3 @@
-import 'package:almasheed/main.dart';
 import 'package:almasheed/payment/bloc/payment_bloc.dart';
 import 'package:carousel_slider/carousel_controller.dart';
 import 'package:flutter/foundation.dart';
@@ -20,6 +19,7 @@ import '../../../authentication/presentation/components.dart';
 import '../../../generated/l10n.dart';
 import 'modify_screen.dart';
 
+//ignore: must_be_immutable
 class DetailsProductScreen extends StatelessWidget {
   Product product;
   final List<Product> products;
@@ -160,7 +160,6 @@ class DetailsProductScreen extends StatelessWidget {
       ),
     );
   }
-
 
   void _handlePaymentBlocState(BuildContext context, PaymentState state) {
     if (state is AddToCartSuccessState) {

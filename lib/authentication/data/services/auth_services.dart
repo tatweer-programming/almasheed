@@ -1,11 +1,8 @@
 import 'dart:async';
-import 'dart:async';
-import 'dart:async';
 import 'dart:io';
 import 'package:almasheed/authentication/data/models/user.dart';
 import 'package:almasheed/core/local/shared_prefrences.dart';
 import 'package:almasheed/core/utils/constance_manager.dart';
-import 'package:almasheed/core/utils/images_manager.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dartz/dartz.dart';
 import 'package:firebase_auth/firebase_auth.dart';

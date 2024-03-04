@@ -104,6 +104,13 @@ class GetUserDataSuccessfullyState extends MainState {}
 
 class GetUserDataLoadingState extends MainState {}
 
+class IncreaseQuantityState extends MainState {
+  final int quantity;
+  final int index;
+
+  IncreaseQuantityState({required this.quantity,required this.index});
+}
+
 class GetUserDataErrorState extends MainState {
   final FirebaseException error;
 
@@ -125,7 +132,9 @@ class AddAndRemoveFromFavoritesErrorState extends MainState {
 class ProductRatingUpdateSuccessfullyState extends MainState {
   final double rating;
   final int numbers;
-  ProductRatingUpdateSuccessfullyState({required this.rating,required this.numbers});
+
+  ProductRatingUpdateSuccessfullyState(
+      {required this.rating, required this.numbers});
 }
 
 class ProductRatingUpdateErrorState extends MainState {
@@ -230,7 +239,9 @@ class SelectEditProductState extends MainState {
 
   List<Object> get props => [product];
 }
+
 class SelectAddProductState extends MainState {}
+
 class SelectAddCategoryState extends MainState {}
 
 class ChangeLocaleState extends MainState {
@@ -272,10 +283,13 @@ class RemovePropertyState extends MainState {}
 class AddPropertyNameState extends MainState {}
 
 class AddPropertyState extends MainState {}
+
 class SelectedPropertiesSavedState extends MainState {
   final List<String> selectedProperties;
+
   SelectedPropertiesSavedState(this.selectedProperties);
 }
+
 class RemoveSelectedPropertiesSavedState extends MainState {}
 
 class FinishedAddPropertiesState extends MainState {
