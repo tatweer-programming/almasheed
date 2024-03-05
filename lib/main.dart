@@ -20,7 +20,7 @@ import 'core/services/firebase_options.dart';
 import 'core/utils/theme_manager.dart';
 import 'generated/l10n.dart';
 import 'main/bloc/main_bloc.dart';
-import 'main/view/screens/main_screen.dart';
+import 'main/view/screens/main/main_screen.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 
@@ -70,6 +70,8 @@ class Masheed extends StatelessWidget {
             BlocProvider<MainBloc>(
                 create: (BuildContext context) => sl()
                   ..add(GetProductsEvent())
+                  ..add(GetWorkersEvent())
+                  ..add(GetBannersEvent())
                   ..add(GetMerchantsEvent())),
             BlocProvider<AuthBloc>(
                 create: (BuildContext context) => AuthBloc()),

@@ -1,21 +1,24 @@
 import 'package:almasheed/authentication/bloc/auth_bloc.dart';
 import 'package:almasheed/authentication/data/models/customer.dart';
 import 'package:almasheed/authentication/presentation/components.dart';
+import 'package:almasheed/authentication/presentation/screens/account_type_screen.dart';
 import 'package:almasheed/authentication/presentation/screens/addresses_screen.dart';
 import 'package:almasheed/authentication/presentation/screens/faq_screen.dart';
 import 'package:almasheed/authentication/presentation/screens/maintenance_login_screen.dart';
 import 'package:almasheed/core/error/remote_error.dart';
 import 'package:almasheed/core/utils/constance_manager.dart';
 import 'package:almasheed/core/utils/navigation_manager.dart';
+import 'package:almasheed/main/bloc/main_bloc.dart';
 import 'package:almasheed/main/view/widgets/widgets.dart';
 import 'package:almasheed/payment/presentation/screens/cart_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sizer/sizer.dart';
 
+import '../../../core/services/dep_injection.dart';
 import '../../../core/utils/color_manager.dart';
 import '../../../generated/l10n.dart';
-import '../../../main/view/screens/last_seen_screen.dart';
+import '../../../main/view/screens/products/last_seen_screen.dart';
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
@@ -23,6 +26,7 @@ class ProfileScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     AuthBloc? authBloc;
+    MainBloc mainBloc = sl();
     if (ConstantsManager.appUser != null) {
       authBloc = AuthBloc();
     }
@@ -189,6 +193,7 @@ class ProfileScreen extends StatelessWidget {
                                       iconData: Icons.logout,
                                       onTap: () async {
                                         authBloc!.add(LogoutEvent());
+                                        mainBloc.pageIndex = 0;
                                       });
                             },
                             listener: _handleAuthStates,
@@ -207,7 +212,7 @@ class ProfileScreen extends StatelessWidget {
   void _handleAuthStates(BuildContext context, state) {
     if (state is LogoutSuccessfulState) {
       Future.delayed(Duration.zero, () {
-        context.pushAndRemove(const MaintenanceLoginScreen());
+        context.pushAndRemove(const AccountTypeScreen());
       });
     } else if (state is LogoutErrorState) {
       errorToast(msg: ExceptionManager(state.exception).translatedMessage());

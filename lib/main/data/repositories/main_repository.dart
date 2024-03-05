@@ -1,10 +1,12 @@
 import 'package:almasheed/authentication/data/models/merchant.dart';
+import 'package:almasheed/authentication/data/models/worker.dart';
 import 'package:almasheed/main/data/models/category.dart';
 import 'package:almasheed/main/data/models/product.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dartz/dartz.dart';
 
 import '../data_source/main_remote_data_source.dart';
+import '../models/order_for_workers.dart';
 
 class MainRepository {
   final MainRemoteDataSource mainRemoteDataSource;
@@ -31,6 +33,14 @@ class MainRepository {
     return await mainRemoteDataSource.getMerchants();
   }
 
+  Future<Either<FirebaseException, List<Worker>>> getWorkers() async {
+    return await mainRemoteDataSource.getWorkers();
+  }
+
+  Future<Either<FirebaseException, List<String>>> getBanners() async {
+    return await mainRemoteDataSource.getBanners();
+  }
+
   Future<Either<FirebaseException, Unit>> setProduct(
       {required Product product}) async {
     return await mainRemoteDataSource.setProduct(product: product);
@@ -46,6 +56,12 @@ class MainRepository {
     return await mainRemoteDataSource.setCategory(category: category);
   }
 
+  Future<Either<FirebaseException, Unit>> setOrderForWorkers(
+      {required OrderForWorkers orderForWorkers}) async {
+    return await mainRemoteDataSource.setOrderForWorkers(
+        orderForWorkers: orderForWorkers);
+  }
+
   Future<Either<FirebaseException, Unit>> deleteProduct(
       {required Product product}) async {
     return await mainRemoteDataSource.deleteProduct(product: product);
@@ -58,7 +74,7 @@ class MainRepository {
         favorites: favorites);
   }
 
-  Future<Either<FirebaseException, (double,int)>> productRatingUpdate({
+  Future<Either<FirebaseException, (double, int)>> productRatingUpdate({
     required double productRating,
     required String productId,
   }) async {

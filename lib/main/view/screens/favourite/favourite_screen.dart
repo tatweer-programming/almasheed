@@ -4,16 +4,16 @@ import 'package:almasheed/main/view/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sizer/sizer.dart';
-import '../../../authentication/data/models/customer.dart';
-import '../../../authentication/presentation/components.dart';
-import '../../../core/error/remote_error.dart';
-import '../../../core/services/dep_injection.dart';
-import '../../../core/utils/constance_manager.dart';
-import '../../../generated/l10n.dart';
-import '../../../payment/bloc/payment_bloc.dart';
-import '../../../payment/presentation/screens/cart_screen.dart';
-import '../../bloc/main_bloc.dart';
-import '../../data/models/product.dart';
+import '../../../../authentication/data/models/customer.dart';
+import '../../../../authentication/presentation/components.dart';
+import '../../../../core/error/remote_error.dart';
+import '../../../../core/services/dep_injection.dart';
+import '../../../../core/utils/constance_manager.dart';
+import '../../../../generated/l10n.dart';
+import '../../../../payment/bloc/payment_bloc.dart';
+import '../../../../payment/presentation/screens/cart_screen.dart';
+import '../../../bloc/main_bloc.dart';
+import '../../../data/models/product.dart';
 
 class FavouriteScreen extends StatelessWidget {
   const FavouriteScreen({super.key});

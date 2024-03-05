@@ -6,13 +6,13 @@ import 'package:almasheed/main/view/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sizer/sizer.dart';
-import '../../../authentication/data/models/merchant.dart';
-import '../../../core/error/remote_error.dart';
-import '../../../core/services/dep_injection.dart';
-import '../../../core/utils/constance_manager.dart';
-import '../../../generated/l10n.dart';
-import '../../bloc/main_bloc.dart';
-import '../../data/models/custom_properties.dart';
+import '../../../../authentication/data/models/merchant.dart';
+import '../../../../core/error/remote_error.dart';
+import '../../../../core/services/dep_injection.dart';
+import '../../../../core/utils/constance_manager.dart';
+import '../../../../generated/l10n.dart';
+import '../../../bloc/main_bloc.dart';
+import '../../../data/models/custom_properties.dart';
 
 class AddProductScreen extends StatelessWidget {
   const AddProductScreen({super.key});
@@ -35,7 +35,7 @@ class AddProductScreen extends StatelessWidget {
     bloc.imagesFiles = [];
     List<String> selectedProperties = [];
     List<List<String>> selectedPropertiesSaved = [];
-    bloc.selectedProductCategory = null;
+    String? selectedProductCategory;
     Merchant merchant = ConstantsManager.appUser as Merchant;
     var formKey = GlobalKey<FormState>();
     Map<String, List<String>> result = {};
@@ -72,6 +72,9 @@ class AddProductScreen extends StatelessWidget {
         }
         if (state is SelectedPropertiesSavedState) {
           selectedProperties = state.selectedProperties;
+        }
+        if (state is SelectProductCategoryState) {
+          selectedProductCategory = state.selectedProductCategory;
         }
         if (state is SetProductSuccessfullyState) {
           bloc.add(MakeImagesFilesEmptyEvent());
@@ -407,7 +410,7 @@ class AddProductScreen extends StatelessWidget {
                   ),
                   defaultButton(
                       onPressed: () {
-                        if (bloc.selectedProductCategory == null) {
+                        if (selectedProductCategory == null) {
                           mainErrorToast(
                               msg: S.of(context).enterSelectedCategory);
                         } else {
@@ -426,7 +429,7 @@ class AddProductScreen extends StatelessWidget {
                                   productMainUses: mainUsesController.text,
                                   productWorkCharacteristics:
                                       workCharacteristicsController.text,
-                                  productCategory: bloc.selectedProductCategory,
+                                  productCategory: selectedProductCategory,
                                   productsImagesFile: bloc.imagesFiles,
                                   merchantId: merchant.id,
                                   productId: DateTime.now().toString(),

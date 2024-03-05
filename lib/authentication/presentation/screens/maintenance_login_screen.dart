@@ -7,7 +7,7 @@ import 'package:almasheed/core/utils/color_manager.dart';
 import 'package:almasheed/core/utils/constance_manager.dart';
 import 'package:almasheed/core/utils/font_manager.dart';
 import 'package:almasheed/core/utils/navigation_manager.dart';
-import 'package:almasheed/main/view/screens/main_screen.dart';
+import 'package:almasheed/main/view/screens/main/main_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sizer/sizer.dart';
@@ -153,18 +153,19 @@ class MaintenanceLoginScreen extends StatelessWidget {
                                                 .validate()) {
                                               if (bloc.isWorker) {
                                                 Worker worker = Worker(
-                                                    commercialLicenseNumber:
-                                                        "",
+                                                    commercialLicenseNumber: "",
                                                     name: "",
                                                     city: "",
+                                                    latitude: 24.774265,
                                                     location: "",
+                                                    longitude: 46.738586,
                                                     works: [],
                                                     id: "",
                                                     phone:
                                                         "+966${phoneController.text}",
                                                     facility: '');
-                                                bloc.add(LoginByPhoneEvent(
-                                                    worker));
+                                                bloc.add(
+                                                    LoginByPhoneEvent(worker));
                                               } else {
                                                 Customer customer = Customer(
                                                     name: "",
@@ -185,17 +186,13 @@ class MaintenanceLoginScreen extends StatelessWidget {
                                                       is SendCodeLoadingState
                                                   ? const CircularProgressIndicator()
                                                   : Text(
-                                                      S
-                                                          .of(context)
-                                                          .sendCode,
+                                                      S.of(context).sendCode,
                                                       style: const TextStyle(
-                                                          color:
-                                                              ColorManager
-                                                                  .primary,
+                                                          color: ColorManager
+                                                              .primary,
                                                           fontSize: 18,
                                                           fontWeight:
-                                                              FontWeight
-                                                                  .bold),
+                                                              FontWeight.bold),
                                                     )),
                                         ),
                                       ),
@@ -213,8 +210,7 @@ class MaintenanceLoginScreen extends StatelessWidget {
                               ),
                               InkWell(
                                 onTap: () {
-                                  ConstantsManager.registrationSkipped =
-                                      true;
+                                  ConstantsManager.registrationSkipped = true;
                                   context.pushAndRemove(const MainScreen());
                                 },
                                 child: Container(

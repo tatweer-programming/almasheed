@@ -41,16 +41,42 @@ class ChangeCarouselIndicatorEvent extends MainEvent {
 
 class GetProductsEvent extends MainEvent {}
 
+class GetMyCurrentLocationEvent extends MainEvent {}
+
+class GetNameOfLocationEvent extends MainEvent {
+  final String locationName;
+
+  GetNameOfLocationEvent(this.locationName);
+}
+
+class GetLocationEvent extends MainEvent {
+  final LatLng tappedPoint;
+
+  GetLocationEvent({required this.tappedPoint});
+}
+
+class OnMapCreatedEvent extends MainEvent {
+  final GoogleMapController controller;
+
+  OnMapCreatedEvent({required this.controller});
+}
+
 class SetProductEvent extends MainEvent {
   final Product product;
 
   const SetProductEvent({required this.product});
 }
+class SetOrderForWorkersEvent extends MainEvent {
+  final OrderForWorkers orderForWorkers;
+
+  const SetOrderForWorkersEvent({required this.orderForWorkers});
+}
+
 class IncreaseQuantityEvent extends MainEvent {
   int quantity;
   final int index;
 
-  IncreaseQuantityEvent({required this.quantity,required this.index});
+  IncreaseQuantityEvent({required this.quantity, required this.index});
 }
 
 class UpdateProductEvent extends MainEvent {
@@ -80,6 +106,10 @@ class DeleteProductEvent extends MainEvent {
 }
 
 class GetMerchantsEvent extends MainEvent {}
+
+class GetBannersEvent extends MainEvent {}
+
+class GetWorkersEvent extends MainEvent {}
 
 class GetUserDataEvent extends MainEvent {}
 
@@ -117,17 +147,25 @@ class SelectEditOrDeleteProductEvent extends MainEvent {
   const SelectEditOrDeleteProductEvent(
       {required this.selected, required this.product, required this.context});
 }
+
 class SelectAddProductOrAddCategoryEvent extends MainEvent {
   final String selected;
 
-  const SelectAddProductOrAddCategoryEvent(
-      {required this.selected,});
+  const SelectAddProductOrAddCategoryEvent({
+    required this.selected,
+  });
 }
 
 class SelectProductCategoryEvent extends MainEvent {
   final String selectedProductCategory;
 
   const SelectProductCategoryEvent({required this.selectedProductCategory});
+}
+
+class SelectWorkEvent extends MainEvent {
+  final String selectedWork;
+
+  const SelectWorkEvent({required this.selectedWork});
 }
 
 class CancelSortProductsEvent extends MainEvent {

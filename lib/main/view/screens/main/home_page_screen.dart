@@ -1,3 +1,5 @@
+import 'package:almasheed/main/view/screens/show_all_merchants_or_workers_screen.dart';
+import 'package:almasheed/main/view/screens/worker_details_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sizer/sizer.dart';
@@ -9,18 +11,14 @@ import 'package:almasheed/core/utils/color_manager.dart';
 import 'package:almasheed/core/utils/constance_manager.dart';
 import 'package:almasheed/core/utils/navigation_manager.dart';
 import 'package:almasheed/main/data/models/category.dart';
-import 'package:almasheed/main/view/screens/category_screen.dart';
-import 'package:almasheed/main/view/screens/details_product.dart';
+import 'package:almasheed/main/view/screens/categories/category_screen.dart';
+import 'package:almasheed/main/view/screens/products/details_product.dart';
 import 'package:almasheed/main/view/widgets/widgets.dart';
 import 'package:carousel_slider/carousel_slider.dart';
-import '../../../generated/l10n.dart';
-import '../../../payment/presentation/screens/cart_screen.dart';
-import '../../bloc/main_bloc.dart';
+import '../../../../generated/l10n.dart';
+import '../../../../payment/presentation/screens/cart_screen.dart';
+import '../../../bloc/main_bloc.dart';
 
-List<String> list = [
-  "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQIy4RZNPjkGfpN7itM2sEbE7g7sm76WGELCQ&usqp=CAU",
-  "https://gate.ahram.org.eg/Media/News/2023/7/8/19_2023-638244132690781587-78.JPG"
-];
 
 class HomePageScreen extends StatelessWidget {
   const HomePageScreen({super.key});
@@ -58,7 +56,7 @@ class HomePageScreen extends StatelessWidget {
                         children: [
                           defaultCarousel(
                               bloc: bloc,
-                              list: list,
+                              list: bloc.banners,
                               controller: carouselController),
                           SizedBox(height: 1.h),
                           if (bloc.categories.isNotEmpty)
@@ -67,6 +65,10 @@ class HomePageScreen extends StatelessWidget {
                                   ConstantsManager.appUser == null) &&
                               (bloc.merchants.isNotEmpty))
                             _buildMerchantsList(context, bloc),
+                          if ((ConstantsManager.appUser is Customer ||
+                                  ConstantsManager.appUser == null) &&
+                              (bloc.workers.isNotEmpty))
+                            _buildWorkersList(context, bloc),
                         ],
                       );
                     },
@@ -150,8 +152,9 @@ class HomePageScreen extends StatelessWidget {
           ),
           InkWell(
             onTap: () {
-              if (ConstantsManager.appUser is Customer)
+              if (ConstantsManager.appUser is Customer) {
                 context.push(const CartScreen());
+              }
             },
             customBorder: const CircleBorder(),
             child: const Stack(
@@ -181,7 +184,7 @@ class HomePageScreen extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        textContainerWidget(S.of(context).categories),
+        textContainerWidget(text: S.of(context).categories),
         SizedBox(height: 1.h),
         SizedBox(
           height: 14.h,
@@ -218,14 +221,22 @@ class HomePageScreen extends StatelessWidget {
     return Column(
       children: [
         SizedBox(height: 1.h),
-        textContainerWidget(S.of(context).merchants),
+        textContainerWidget(
+          text: S.of(context).merchants,
+          widget: TextButton(
+              onPressed: () {
+                context.push(const ShowAllMerchantsOrWorkers());
+              },
+              child: Text(S.of(context).showAll)),
+        ),
         SizedBox(height: 1.h),
         ListView.separated(
           padding: EdgeInsets.zero,
           shrinkWrap: true,
           physics: const NeverScrollableScrollPhysics(),
-          itemBuilder: (context, index) => merchantWidget(
-            merchant: bloc.merchants[index],
+          itemBuilder: (context, index) => merchantAndWorkerWidget(
+            name: bloc.merchants[index].companyName,
+            details: bloc.merchants[index].city,
             onTap: () => context.push(CategoryScreen(
               category: Category(
                 categoryName: bloc.merchants[index].companyName,
@@ -238,7 +249,39 @@ class HomePageScreen extends StatelessWidget {
             )),
           ),
           separatorBuilder: (context, index) => SizedBox(height: 1.h),
-          itemCount: bloc.merchants.length,
+          itemCount: bloc.merchants.length <= 3 ? bloc.merchants.length : 3,
+        ),
+      ],
+    );
+  }
+
+  Widget _buildWorkersList(BuildContext context, MainBloc bloc) {
+    return Column(
+      children: [
+        SizedBox(height: 1.h),
+        textContainerWidget(
+          text: S.of(context).workers,
+          widget: TextButton(
+            onPressed: () {
+              context.push(const ShowAllMerchantsOrWorkers());
+            },
+            child: Text(S.of(context).showAll),
+          ),
+        ),
+        SizedBox(height: 1.h),
+        ListView.separated(
+          padding: EdgeInsets.zero,
+          shrinkWrap: true,
+          physics: const NeverScrollableScrollPhysics(),
+          itemBuilder: (context, index) => merchantAndWorkerWidget(
+            name: bloc.workers[index].name,
+            details: bloc.workers[index].works.first,
+            onTap: () {
+              context.push(WorkerDetailsScreen(worker: bloc.workers[index],));
+            },
+          ),
+          separatorBuilder: (context, index) => SizedBox(height: 1.h),
+          itemCount: bloc.workers.length <= 3 ? bloc.workers.length : 3,
         ),
       ],
     );

@@ -45,7 +45,8 @@ class AddAddressScreen extends StatelessWidget {
                             height: 35.h,
                             color: ColorManager.primary,
                             child: Padding(
-                              padding: EdgeInsetsDirectional.only(start: 8.w, end: 8.w, top: 1.h),
+                              padding: EdgeInsetsDirectional.only(
+                                  start: 8.w, end: 8.w, top: 1.h),
                               child: Column(
                                 children: [
                                   SizedBox(
@@ -75,7 +76,8 @@ class AddAddressScreen extends StatelessWidget {
                         height: 3.h,
                       ),
                       Padding(
-                          padding: EdgeInsetsDirectional.only(start: 5.w, end: 5.w),
+                          padding:
+                              EdgeInsetsDirectional.only(start: 5.w, end: 5.w),
                           child: Column(
                             children: [
                               searchDropdownBuilder(
@@ -161,7 +163,9 @@ class AddAddressScreen extends StatelessWidget {
                                         },
                                         type: TextInputType.text,
                                         label: S.of(context).area,
-                                        prefix: Icons.location_city,
+                                        prefix: const Icon(
+                                          Icons.location_city,
+                                        ),
                                       ),
                                       SizedBox(
                                         height: 2.h,
@@ -176,7 +180,7 @@ class AddAddressScreen extends StatelessWidget {
                                         },
                                         type: TextInputType.text,
                                         label: S.of(context).street,
-                                        prefix: Icons.location_pin,
+                                        prefix: const Icon(Icons.location_pin),
                                       ),
                                       SizedBox(
                                         height: 2.h,
@@ -185,13 +189,15 @@ class AddAddressScreen extends StatelessWidget {
                                         controller: buildingController,
                                         validator: (value) {
                                           if (value!.isEmpty) {
-                                            return S.of(context).enterHouseNumber;
+                                            return S
+                                                .of(context)
+                                                .enterHouseNumber;
                                           }
                                           return null;
                                         },
                                         type: TextInputType.number,
                                         label: S.of(context).houseNumber,
-                                        prefix: Icons.home,
+                                        prefix: const Icon(Icons.home),
                                       ),
                                       SizedBox(
                                         height: 2.h,
@@ -200,13 +206,15 @@ class AddAddressScreen extends StatelessWidget {
                                         controller: apartmentController,
                                         validator: (value) {
                                           if (value!.isEmpty) {
-                                            return S.of(context).enterApartmentNumber;
+                                            return S
+                                                .of(context)
+                                                .enterApartmentNumber;
                                           }
                                           return null;
                                         },
                                         type: TextInputType.number,
                                         label: S.of(context).apartmentNumber,
-                                        prefix: Icons.apartment_sharp,
+                                        prefix: const Icon(Icons.apartment_sharp),
                                       ),
                                     ],
                                   )),
@@ -228,9 +236,12 @@ class AddAddressScreen extends StatelessWidget {
                                           bloc.add(AddAddressEvent(Address(
                                               street: streetController.text,
                                               city: bloc.city!,
-                                              houseNumber: int.parse(buildingController.text),
-                                              floor: int.parse(floorController.text),
-                                              apartmentNumber: int.parse(apartmentController.text),
+                                              houseNumber: int.parse(
+                                                  buildingController.text),
+                                              floor: int.parse(
+                                                  floorController.text),
+                                              apartmentNumber: int.parse(
+                                                  apartmentController.text),
                                               area: areaController.text,
                                               plot: plotController.text,
                                               avenue: avenueController.text,
@@ -248,7 +259,9 @@ class AddAddressScreen extends StatelessWidget {
                   defaultToast(msg: S.of(context).addedSuccessfully);
                   Navigator.pop(context);
                 } else if (state is AddAddressErrorState) {
-                  errorToast(msg: ExceptionManager(state.exception).translatedMessage());
+                  errorToast(
+                      msg: ExceptionManager(state.exception)
+                          .translatedMessage());
                 }
               });
         },

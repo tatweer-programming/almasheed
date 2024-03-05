@@ -3,16 +3,20 @@ import 'package:almasheed/authentication/data/models/user.dart';
 import '../../../core/utils/images_manager.dart';
 
 class Worker extends AppUser {
-  String name;
-  String city;
-  String location;
-  String facility;
-  List<String> works;
-  String commercialLicenseNumber;
+  final String name;
+  final String city;
+  final String location;
+  final double longitude;
+  final double latitude;
+  final String facility;
+  final List<String> works;
+  final String commercialLicenseNumber;
 
   Worker(
       {required this.name,
       required this.city,
+      required this.latitude,
+      required this.longitude,
       required this.location,
       required this.facility,
       required this.commercialLicenseNumber,
@@ -26,10 +30,12 @@ class Worker extends AppUser {
       'id': id,
       'phone': phone,
       'facility': facility,
+      'location': location,
       'name': name,
       'works': works,
       'city': city,
-      'location': location,
+      'latitude': latitude,
+      'longitude': longitude,
       'commercialLicenseNumber': commercialLicenseNumber,
     };
   }
@@ -41,6 +47,8 @@ class Worker extends AppUser {
         works: (json['works'] as List).cast<String>(),
         facility: json['facility'],
         location: json['location'],
+        latitude: json['latitude'],
+        longitude: json['longitude'],
         commercialLicenseNumber: json['commercialLicenseNumber'],
         id: json['id'],
         phone: json['phone']);

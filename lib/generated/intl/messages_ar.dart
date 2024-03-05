@@ -29,6 +29,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "addAddress": MessageLookupByLibrary.simpleMessage("اضافة عنوان"),
         "addCategory": MessageLookupByLibrary.simpleMessage("إضافة فئة"),
         "addImage": MessageLookupByLibrary.simpleMessage("إضافة صورة"),
+        "addOrder": MessageLookupByLibrary.simpleMessage("إضافة طلب"),
         "addProduct": MessageLookupByLibrary.simpleMessage("إضافة منتج"),
         "addToCart": MessageLookupByLibrary.simpleMessage("إضافة إلى السلة"),
         "addedSuccessfully":
@@ -77,6 +78,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "deposit": MessageLookupByLibrary.simpleMessage("العربون"),
         "description": MessageLookupByLibrary.simpleMessage("الوصف"),
         "detailsProduct": MessageLookupByLibrary.simpleMessage("تفاصيل المنتج"),
+        "detailsYourOrder": MessageLookupByLibrary.simpleMessage("تفاصيل طلبك"),
         "determineQuantity":
             MessageLookupByLibrary.simpleMessage("يجب تحديد الكمية"),
         "didNotReceiveCode":
@@ -102,12 +104,16 @@ class MessageLookup extends MessageLookupByLibrary {
             "من فضلك ادخل رقم الترخيص التجاري"),
         "enterCompanyName":
             MessageLookupByLibrary.simpleMessage("من فضلك ادخل اسم الشركة"),
+        "enterDetailsYourOrder":
+            MessageLookupByLibrary.simpleMessage(" من فضلك ادخل تفاصيل طلبك"),
         "enterFacility": MessageLookupByLibrary.simpleMessage(
             "من فضلك ادخل اسم المنشأة التي تنتمي إليها"),
         "enterFloor":
             MessageLookupByLibrary.simpleMessage("الرجاء إدخال رقم الطابق"),
         "enterHouseNumber":
             MessageLookupByLibrary.simpleMessage("الرجاء إدخال رقم المنزل"),
+        "enterLocation":
+            MessageLookupByLibrary.simpleMessage("من فضلك ادخل موقعك"),
         "enterName": MessageLookupByLibrary.simpleMessage("الرجاء إدخال اسم"),
         "enterPhone":
             MessageLookupByLibrary.simpleMessage("الرجاء إدخال رقم الهاتف"),
@@ -166,6 +172,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "mustChooseAddress":
             MessageLookupByLibrary.simpleMessage("يجب اختيار عنوان"),
         "myAccount": MessageLookupByLibrary.simpleMessage("حسابي"),
+        "myCurrentLocation":
+            MessageLookupByLibrary.simpleMessage("موقعي الحالي"),
         "myOrders": MessageLookupByLibrary.simpleMessage("طلباتي"),
         "name": MessageLookupByLibrary.simpleMessage("الاسم"),
         "next": MessageLookupByLibrary.simpleMessage("التالي"),
@@ -179,6 +187,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("تم تشغيل الاشعارات"),
         "offers": MessageLookupByLibrary.simpleMessage("العروض"),
         "ok": MessageLookupByLibrary.simpleMessage("موافق"),
+        "orderAdded": MessageLookupByLibrary.simpleMessage("تم إضافة طلبك"),
         "orderBy": MessageLookupByLibrary.simpleMessage("ترتيب حسب..."),
         "orderDetails": MessageLookupByLibrary.simpleMessage("تفاصيل الطلب"),
         "other": MessageLookupByLibrary.simpleMessage("أخرى"),
@@ -218,6 +227,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "services": MessageLookupByLibrary.simpleMessage("خدمات"),
         "setting": MessageLookupByLibrary.simpleMessage("الاعدادات"),
         "shareApp": MessageLookupByLibrary.simpleMessage("مشاركة التطبيق"),
+        "showAll": MessageLookupByLibrary.simpleMessage("رؤية الكل"),
         "showMore": MessageLookupByLibrary.simpleMessage("رؤية المزيد"),
         "signInNow":
             MessageLookupByLibrary.simpleMessage("قم بتسجيل الدخول الآن"),
@@ -251,6 +261,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "whoAreWe": MessageLookupByLibrary.simpleMessage("من نحن"),
         "work": MessageLookupByLibrary.simpleMessage("العمل"),
         "worker": MessageLookupByLibrary.simpleMessage("فني"),
+        "workers": MessageLookupByLibrary.simpleMessage("الفنيين"),
         "youMayLikeIt": MessageLookupByLibrary.simpleMessage("قد يعجبك")
       };
 }

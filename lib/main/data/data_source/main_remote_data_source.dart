@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:almasheed/authentication/data/models/user.dart';
+import 'package:almasheed/authentication/data/models/worker.dart';
 import 'package:almasheed/core/utils/constance_manager.dart';
 import 'package:almasheed/main/data/models/category.dart';
 import 'package:almasheed/main/data/models/product.dart';
@@ -10,6 +11,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:image_picker/image_picker.dart';
 import '../../../authentication/data/models/merchant.dart';
+import '../models/order_for_workers.dart';
 
 class MainRemoteDataSource {
   final FirebaseFirestore firebaseInstance = FirebaseFirestore.instance;
@@ -173,6 +175,20 @@ class MainRemoteDataSource {
     }
   }
 
+  Future<Either<FirebaseException, Unit>> setOrderForWorkers({
+    required OrderForWorkers orderForWorkers,
+  }) async {
+    try {
+      await firebaseInstance
+          .collection("orders_for_workers")
+          .doc()
+          .set(orderForWorkers.toJson());
+      return const Right(unit);
+    } on FirebaseException catch (error) {
+      return Left(error);
+    }
+  }
+
   Future<Either<FirebaseException, Unit>> addAndRemoveFromFavorites({
     required List<String> favorites,
   }) async {
@@ -187,7 +203,7 @@ class MainRemoteDataSource {
     }
   }
 
-  Future<Either<FirebaseException, (double,int)>> productRatingUpdate({
+  Future<Either<FirebaseException, (double, int)>> productRatingUpdate({
     required double productRating,
     required String productId,
   }) async {
@@ -197,11 +213,15 @@ class MainRemoteDataSource {
         "productRating": productRating,
         "ratingNumbers": FieldValue.increment(1)
       }).then((value) async {
-        await firebaseInstance.collection("products").doc(productId).get().then((value) {
+        await firebaseInstance
+            .collection("products")
+            .doc(productId)
+            .get()
+            .then((value) {
           ratingNumbers = value.data()!["ratingNumbers"];
         });
       });
-      return Right((productRating,ratingNumbers));
+      return Right((productRating, ratingNumbers));
     } on FirebaseException catch (error) {
       return Left(error);
     }
@@ -268,6 +288,37 @@ class MainRemoteDataSource {
         }
       });
       return Right(merchants);
+    } on FirebaseException catch (error) {
+      return Left(error);
+    }
+  }
+
+  Future<Either<FirebaseException, List<Worker>>> getWorkers() async {
+    try {
+      List<Worker> workers = [];
+      await firebaseInstance.collection("workers").get().then((value) {
+        for (var element in value.docs) {
+          workers.add(Worker.fromJson(element.data()));
+          print(workers);
+        }
+      });
+      return Right(workers);
+    } on FirebaseException catch (error) {
+      return Left(error);
+    }
+  }
+
+  Future<Either<FirebaseException, List<String>>> getBanners() async {
+    try {
+      List<String> banners = [];
+      await firebaseInstance.collection("banners").get().then((value) {
+        for (var element in value.docs) {
+          if (element.data().isNotEmpty) {
+            banners.add(element.data()["link"]);
+          }
+        }
+      });
+      return Right(banners);
     } on FirebaseException catch (error) {
       return Left(error);
     }

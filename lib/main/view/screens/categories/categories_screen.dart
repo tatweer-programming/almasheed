@@ -1,19 +1,19 @@
 import 'package:almasheed/authentication/data/models/customer.dart';
 import 'package:almasheed/core/utils/color_manager.dart';
 import 'package:almasheed/core/utils/navigation_manager.dart';
-import 'package:almasheed/main/view/screens/add_category_screen.dart';
+import 'package:almasheed/main/view/screens/categories/add_category_screen.dart';
 import 'package:almasheed/main/view/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sizer/sizer.dart';
-import '../../../core/services/dep_injection.dart';
-import '../../../generated/l10n.dart';
-import '../../../payment/bloc/payment_bloc.dart';
-import '../../bloc/main_bloc.dart';
-import '../../data/models/product.dart';
-import 'add_product_screen.dart';
+import '../../../../core/services/dep_injection.dart';
+import '../../../../generated/l10n.dart';
+import '../../../../payment/bloc/payment_bloc.dart';
+import '../../../bloc/main_bloc.dart';
+import '../../../data/models/product.dart';
+import '../products/add_product_screen.dart';
 import 'all_categories_screen.dart';
-import 'details_product.dart';
+import '../products/details_product.dart';
 import 'package:almasheed/core/utils/constance_manager.dart';
 
 class CategoriesScreen extends StatelessWidget {

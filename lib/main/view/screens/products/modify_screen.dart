@@ -4,13 +4,13 @@ import 'package:almasheed/main/bloc/main_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sizer/sizer.dart';
-import '../../../authentication/data/models/merchant.dart';
-import '../../../core/error/remote_error.dart';
-import '../../../core/services/dep_injection.dart';
-import '../../../core/utils/constance_manager.dart';
-import '../../../generated/l10n.dart';
-import '../../data/models/product.dart';
-import '../widgets/widgets.dart';
+import '../../../../authentication/data/models/merchant.dart';
+import '../../../../core/error/remote_error.dart';
+import '../../../../core/services/dep_injection.dart';
+import '../../../../core/utils/constance_manager.dart';
+import '../../../../generated/l10n.dart';
+import '../../../data/models/product.dart';
+import '../../widgets/widgets.dart';
 
 class ModifyProductScreen extends StatelessWidget {
   final Product product;

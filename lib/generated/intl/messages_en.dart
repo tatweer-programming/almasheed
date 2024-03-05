@@ -29,6 +29,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "addAddress": MessageLookupByLibrary.simpleMessage("Add Address"),
         "addCategory": MessageLookupByLibrary.simpleMessage("Add Category"),
         "addImage": MessageLookupByLibrary.simpleMessage("Add Image"),
+        "addOrder": MessageLookupByLibrary.simpleMessage("Add order"),
         "addProduct": MessageLookupByLibrary.simpleMessage("Add Product"),
         "addToCart": MessageLookupByLibrary.simpleMessage("Add To Cart"),
         "addedSuccessfully":
@@ -79,6 +80,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "description": MessageLookupByLibrary.simpleMessage("Description"),
         "detailsProduct":
             MessageLookupByLibrary.simpleMessage("Details Product"),
+        "detailsYourOrder":
+            MessageLookupByLibrary.simpleMessage("Details your order"),
         "determineQuantity":
             MessageLookupByLibrary.simpleMessage("You must determine quantity"),
         "didNotReceiveCode":
@@ -104,12 +107,16 @@ class MessageLookup extends MessageLookupByLibrary {
             "please enter Commercial license number"),
         "enterCompanyName":
             MessageLookupByLibrary.simpleMessage("please enter company name"),
+        "enterDetailsYourOrder": MessageLookupByLibrary.simpleMessage(
+            "Please endter details your order"),
         "enterFacility": MessageLookupByLibrary.simpleMessage(
             "please enter the name of the facility you belong to"),
         "enterFloor":
             MessageLookupByLibrary.simpleMessage("please enter floor"),
         "enterHouseNumber":
             MessageLookupByLibrary.simpleMessage("please enter house number"),
+        "enterLocation":
+            MessageLookupByLibrary.simpleMessage("please enter the Location"),
         "enterName":
             MessageLookupByLibrary.simpleMessage("Please enter a name"),
         "enterPhone":
@@ -167,6 +174,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "mustChooseAddress":
             MessageLookupByLibrary.simpleMessage("you must choose an address"),
         "myAccount": MessageLookupByLibrary.simpleMessage("My account"),
+        "myCurrentLocation":
+            MessageLookupByLibrary.simpleMessage("My Current Location"),
         "myOrders": MessageLookupByLibrary.simpleMessage("My Orders"),
         "name": MessageLookupByLibrary.simpleMessage("Name"),
         "next": MessageLookupByLibrary.simpleMessage("Next"),
@@ -182,6 +191,8 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Notifications are turned on"),
         "offers": MessageLookupByLibrary.simpleMessage("Offers"),
         "ok": MessageLookupByLibrary.simpleMessage("Ok"),
+        "orderAdded": MessageLookupByLibrary.simpleMessage(
+            "Your order has been added successfully"),
         "orderBy": MessageLookupByLibrary.simpleMessage("Order by .."),
         "orderDetails": MessageLookupByLibrary.simpleMessage("Order details"),
         "other": MessageLookupByLibrary.simpleMessage("other"),
@@ -222,6 +233,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "services": MessageLookupByLibrary.simpleMessage("Services"),
         "setting": MessageLookupByLibrary.simpleMessage("Setting"),
         "shareApp": MessageLookupByLibrary.simpleMessage("Share App"),
+        "showAll": MessageLookupByLibrary.simpleMessage("Show All"),
         "showMore": MessageLookupByLibrary.simpleMessage("Show More"),
         "signInNow": MessageLookupByLibrary.simpleMessage("Sign in now"),
         "skipRegistration":
@@ -254,6 +266,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "whoAreWe": MessageLookupByLibrary.simpleMessage("Who Are We"),
         "work": MessageLookupByLibrary.simpleMessage("work"),
         "worker": MessageLookupByLibrary.simpleMessage("Technical"),
+        "workers": MessageLookupByLibrary.simpleMessage("Technicals"),
         "youMayLikeIt": MessageLookupByLibrary.simpleMessage("You may like it")
       };
 }

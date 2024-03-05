@@ -155,9 +155,9 @@ class ConstantsManager {
 
   static List<ValueItem<String>> get getWorks {
     if (LocalizationManager.getCurrentLocale().languageCode == "ar") {
-      return worksEnglish;
-    } else {
       return worksArabic;
+    } else {
+      return worksEnglish;
     }
   }
 }

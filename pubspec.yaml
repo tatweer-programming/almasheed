@@ -51,6 +51,11 @@ dependencies:
   shape_of_view_null_safe:
   multi_dropdown:
 
+  # maps
+  google_maps_flutter:
+  location: ^5.0.3
+  geocoding: ^2.2.0
+
   #chat
   chat_bubbles: ^1.5.0
   audioplayers: ^5.2.1

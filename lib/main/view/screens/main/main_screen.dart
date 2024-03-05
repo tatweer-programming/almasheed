@@ -1,13 +1,16 @@
 import 'package:almasheed/authentication/data/models/merchant.dart';
 import 'package:almasheed/core/utils/color_manager.dart';
 import 'package:almasheed/core/utils/constance_manager.dart';
+import 'package:almasheed/core/utils/navigation_manager.dart';
+import 'package:almasheed/main/view/screens/maps/add_order_to_worker_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../../authentication/presentation/components.dart';
-import '../../../core/error/remote_error.dart';
-import '../../../core/services/dep_injection.dart';
-import '../../../generated/l10n.dart';
-import '../../bloc/main_bloc.dart';
+import '../../../../authentication/data/models/customer.dart';
+import '../../../../authentication/presentation/components.dart';
+import '../../../../core/error/remote_error.dart';
+import '../../../../core/services/dep_injection.dart';
+import '../../../../generated/l10n.dart';
+import '../../../bloc/main_bloc.dart';
 
 class MainScreen extends StatelessWidget {
   const MainScreen({super.key});
@@ -15,13 +18,14 @@ class MainScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     MainBloc bloc = sl();
-    ConstantsManager.appUser == null && ConstantsManager.registrationSkipped == null
+    ConstantsManager.appUser == null &&
+            ConstantsManager.registrationSkipped == null
         ? bloc.add(GetUserDataEvent())
         : DoNothingAction();
 
     return BlocConsumer<MainBloc, MainState>(
       bloc: bloc,
-      listener: (context, state)  {
+      listener: (context, state) {
         if (state is GetProductsSuccessfullyState) {
           bloc.add(GetOffersEvent());
           bloc.add(GetCategoriesEvent());
@@ -32,6 +36,14 @@ class MainScreen extends StatelessWidget {
       },
       builder: (context, state) {
         return Scaffold(
+          floatingActionButton: ConstantsManager.appUser is Customer
+              ? FloatingActionButton(
+                  onPressed: () {
+                    context.push(const AddOrderToWorkerScreen());
+                  },
+                  child: const Icon(Icons.add),
+                )
+              : null,
           bottomNavigationBar: BottomNavigationBar(
             currentIndex: bloc.pageIndex,
             selectedItemColor: ColorManager.white,
@@ -72,6 +84,7 @@ class MainScreen extends StatelessWidget {
           body: RefreshIndicator(
               onRefresh: () async {
                 bloc.add(GetProductsEvent());
+                bloc.add(GetWorkersEvent());
                 bloc.add(GetMerchantsEvent());
               },
               child: (ConstantsManager.appUser is Merchant)

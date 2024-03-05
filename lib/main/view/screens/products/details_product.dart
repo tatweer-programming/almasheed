@@ -15,8 +15,8 @@ import 'package:almasheed/core/utils/navigation_manager.dart';
 import 'package:almasheed/main/bloc/main_bloc.dart';
 import 'package:almasheed/main/data/models/product.dart';
 import 'package:almasheed/main/view/widgets/widgets.dart';
-import '../../../authentication/presentation/components.dart';
-import '../../../generated/l10n.dart';
+import '../../../../authentication/presentation/components.dart';
+import '../../../../generated/l10n.dart';
 import 'modify_screen.dart';
 
 //ignore: must_be_immutable
@@ -114,7 +114,7 @@ class DetailsProductScreen extends StatelessWidget {
                           padding: EdgeInsets.symmetric(
                               horizontal: 3.w, vertical: 1.h),
                           child:
-                              textContainerWidget(S.of(context).youMayLikeIt),
+                              textContainerWidget(text:S.of(context).youMayLikeIt,),
                         ),
                         Padding(
                             padding: EdgeInsets.symmetric(

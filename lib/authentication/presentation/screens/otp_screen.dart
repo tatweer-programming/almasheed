@@ -4,7 +4,7 @@ import 'package:almasheed/core/utils/color_manager.dart';
 import 'package:almasheed/core/utils/constance_manager.dart';
 import 'package:almasheed/core/utils/navigation_manager.dart';
 import 'package:almasheed/main/bloc/main_bloc.dart';
-import 'package:almasheed/main/view/screens/main_screen.dart';
+import 'package:almasheed/main/view/screens/main/main_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -43,15 +43,13 @@ class OTPScreen extends StatelessWidget {
         } else if (state is CreateUserErrorState) {
           errorToast(msg: ExceptionManager(state.exception).translatedMessage());
         } else if (state is Authenticated) {
-          if (kDebugMode) {
-            print("authenticated");
-          }
           context.pushAndRemove(const MainScreen());
         }
       },
       child: BlocBuilder<AuthBloc, AuthState>(
         bloc: authBloc,
         builder: (context, state) {
+          print(state);
           return Scaffold(
             body: SingleChildScrollView(
               child: AuthBackground(

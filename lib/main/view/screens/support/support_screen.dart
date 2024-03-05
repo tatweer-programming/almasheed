@@ -1,6 +1,7 @@
 import 'package:almasheed/authentication/presentation/components.dart';
 import 'package:almasheed/authentication/presentation/screens/faq_screen.dart';
 import 'package:almasheed/authentication/presentation/screens/terms_and_conditions_screen.dart';
+import 'package:almasheed/core/local/shared_prefrences.dart';
 import 'package:almasheed/core/utils/constance_manager.dart';
 import 'package:almasheed/main/view/widgets/widgets.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -8,12 +9,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sizer/sizer.dart';
 import 'package:share_plus/share_plus.dart';
-import '../../../chat/presentation/screens/chats_screen.dart';
-import '../../../core/local/shared_prefrences.dart';
-import '../../../core/services/dep_injection.dart';
-import '../../../core/utils/color_manager.dart';
-import '../../../generated/l10n.dart';
-import '../../bloc/main_bloc.dart';
+
+import '../../../../chat/presentation/screens/chats_screen.dart';
+import '../../../../core/services/dep_injection.dart';
+import '../../../../core/utils/color_manager.dart';
+import '../../../../generated/l10n.dart';
+import '../../../bloc/main_bloc.dart';
 
 class SupportScreen extends StatelessWidget {
   const SupportScreen({super.key});
@@ -39,11 +40,11 @@ class SupportScreen extends StatelessWidget {
                 !ConstantsManager.isNotificationsOn!) {
               defaultToast(msg: S.of(context).notificationsAreTurnedOff);
               await FirebaseMessaging.instance
-                  .unsubscribeFromTopic("${ConstantsManager.appUser!.id}");
+                  .unsubscribeFromTopic(ConstantsManager.appUser!.id);
             } else {
               defaultToast(msg: S.of(context).notificationsAreTurnedOn);
               await FirebaseMessaging.instance
-                  .subscribeToTopic("${ConstantsManager.appUser!.id}");
+                  .subscribeToTopic(ConstantsManager.appUser!.id);
             }
           });
         }

@@ -59,16 +59,11 @@ class TermsAndConditionsScreen extends StatelessWidget {
                 ),
               ),
             ),
-            SizedBox(
-              height: 1.h,
-            ),
             Padding(
               padding: EdgeInsets.all(8.0.sp),
-              child: SingleChildScrollView(
-                child: Center(
-                  child: SelectableText(
-                      textAlign: TextAlign.center, termsAndConditions),
-                ),
+              child: Center(
+                child: SelectableText(
+                    textAlign: TextAlign.center, termsAndConditions),
               ),
             ),
           ],

@@ -1,20 +1,26 @@
+import 'dart:async';
+
 import 'package:almasheed/core/utils/constance_manager.dart';
 import 'package:almasheed/core/utils/localization_manager.dart';
 import 'package:almasheed/main/data/models/category.dart';
+import 'package:almasheed/main/data/models/order_for_workers.dart';
 import 'package:almasheed/main/data/models/product.dart';
 import 'package:almasheed/main/data/repositories/main_repository.dart';
 import 'package:almasheed/authentication/presentation/screens/profile_screen.dart';
-import 'package:almasheed/main/view/screens/support_screen.dart';
+import 'package:almasheed/main/view/screens/support/support_screen.dart';
 import 'package:almasheed/main/view/widgets/widgets.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:location/location.dart';
 import '../../authentication/data/models/merchant.dart';
+import '../../authentication/data/models/worker.dart';
 import '../../core/services/dep_injection.dart';
-import '../view/screens/categories_screen.dart';
-import '../view/screens/favourite_screen.dart';
-import '../view/screens/home_page_screen.dart';
+import '../view/screens/categories/categories_screen.dart';
+import '../view/screens/favourite/favourite_screen.dart';
+import '../view/screens/main/home_page_screen.dart';
 
 part 'main_event.dart';
 
@@ -29,13 +35,12 @@ class MainBloc extends Bloc<MainEvent, MainState> {
   List<Product> products = [];
   Set<Product> lastSeenProducts = {};
   List<Merchant> merchants = [];
+  List<Worker> workers = [];
+  List<String> banners = [];
   List<Product> offers = [];
   List<Product> bestSales = [];
   List<Category> categories = [];
   List<XFile> imagesFiles = [];
-  Product? selectedProduct;
-  String? selectedProductCategory;
-  String? selectedCity;
   List<Product> sortedProducts = [];
   List<String> selectedProperties = [];
   List<Widget> pagesCustomer = [
@@ -51,6 +56,13 @@ class MainBloc extends Bloc<MainEvent, MainState> {
     const ProfileScreen(),
     const SupportScreen(),
   ];
+
+  /// maps
+  final Completer<GoogleMapController> controller =
+      Completer<GoogleMapController>();
+  late GoogleMapController mapController;
+  Set<Marker> markers = {};
+  LatLng? latLng;
 
   MainBloc(MainInitial mainInitial) : super(MainInitial()) {
     on<MainEvent>((event, emit) async {
@@ -79,6 +91,15 @@ class MainBloc extends Bloc<MainEvent, MainState> {
           emit(SetProductErrorState(l));
         }, (r) {
           emit(SetProductSuccessfullyState());
+        });
+      } else if (event is SetOrderForWorkersEvent) {
+        emit(SetOrderForWorkersLoadingState());
+        var result =
+            await MainRepository(sl()).setOrderForWorkers(orderForWorkers: event.orderForWorkers);
+        result.fold((l) {
+          emit(SetOrderForWorkersErrorState(l));
+        }, (r) {
+          emit(SetOrderForWorkersSuccessfullyState());
         });
       } else if (event is UpdateProductEvent) {
         emit(UpdateProductLoadingState());
@@ -115,6 +136,24 @@ class MainBloc extends Bloc<MainEvent, MainState> {
         }, (r) {
           merchants = r;
           emit(GetMerchantsSuccessfullyState());
+        });
+      } else if (event is GetBannersEvent) {
+        emit(GetBannersLoadingState());
+        var result = await MainRepository(sl()).getBanners();
+        result.fold((l) {
+          emit(GetBannersErrorState(l));
+        }, (r) {
+          banners = r;
+          emit(GetBannersSuccessfullyState());
+        });
+      } else if (event is GetWorkersEvent) {
+        emit(GetWorkersLoadingState());
+        var result = await MainRepository(sl()).getWorkers();
+        result.fold((l) {
+          emit(GetWorkersErrorState(l));
+        }, (r) {
+          workers = r;
+          emit(GetWorkersSuccessfullyState());
         });
       } else if (event is GetOffersEvent) {
         emit(GetOffersLoadingState());
@@ -178,13 +217,12 @@ class MainBloc extends Bloc<MainEvent, MainState> {
               rating: r.$1, numbers: r.$2));
         });
       } else if (event is SelectProductEvent) {
-        selectedProduct = event.product;
-        emit(SelectProductState());
+        emit(SelectProductState(event.product));
       } else if (event is SelectProductCategoryEvent) {
-        selectedProductCategory = event.selectedProductCategory;
-        emit(SelectProductCategoryState());
+        emit(SelectProductCategoryState(event.selectedProductCategory));
+      } else if (event is SelectWorkEvent) {
+        emit(SelectWorkState(event.selectedWork));
       } else if (event is SelectCityEvent) {
-        selectedCity = event.selectedCity;
         sortedProducts = sortedProducts
             .where((product) => product.productCity == event.selectedCity)
             .toList();
@@ -192,7 +230,6 @@ class MainBloc extends Bloc<MainEvent, MainState> {
             selectedCity: event.selectedCity, sortedProducts: sortedProducts));
       } else if (event is CancelSortProductsEvent) {
         sortedProducts = event.products;
-        selectedCity = null;
         emit(CancelSortProductsState(
           products: event.products,
         ));
@@ -253,7 +290,8 @@ class MainBloc extends Bloc<MainEvent, MainState> {
       } else if (event is IncreaseQuantityEvent) {
         event.quantity++;
         print(event.quantity);
-        emit(IncreaseQuantityState(quantity: event.quantity, index: event.index));
+        emit(IncreaseQuantityState(
+            quantity: event.quantity, index: event.index));
       } else if (event is GetUserDataEvent) {
         emit(GetUserDataLoadingState());
         var response = await MainRepository(sl()).getUserData();
@@ -326,8 +364,72 @@ class MainBloc extends Bloc<MainEvent, MainState> {
         event.selectedPropertiesSaved
             .remove(event.selectedPropertiesSaved[event.index]);
         emit(RemoveSelectedPropertiesSavedState());
+      } else if (event is GetMyCurrentLocationEvent) {
+        await _myCurrentLocation().then((value) {
+          add(GetLocationEvent(tappedPoint: latLng!));
+        });
+        emit(GetMyCurrentLocationState());
+
+      } else if (event is OnMapCreatedEvent) {
+        if (!controller.isCompleted) {
+          controller.complete(event.controller);
+          mapController = event.controller;
+        }
+        emit(OnMapCreatedState());
+      } else if (event is GetLocationEvent) {
+        markers.clear();
+        addMarker(event.tappedPoint, event.tappedPoint.latitude.toString());
+        latLng =
+            LatLng(event.tappedPoint.latitude, event.tappedPoint.longitude);
+        mapController.animateCamera(CameraUpdate.newLatLng(event.tappedPoint));
+        emit(GetLocationState());
+      }else if (event is GetNameOfLocationEvent) {
+        emit(GetNameOfLocationState(event.locationName));
       }
     });
+  }
+
+  Future<void> _myCurrentLocation() async {
+    Location location = Location();
+
+    bool serviceEnabled;
+    PermissionStatus permissionGranted;
+    LocationData locationData;
+
+    serviceEnabled = await location.serviceEnabled();
+    if (!serviceEnabled) {
+      serviceEnabled = await location.requestService();
+      if (!serviceEnabled) {
+        return;
+      }
+    }
+
+    permissionGranted = await location.hasPermission();
+    if (permissionGranted == PermissionStatus.denied) {
+      permissionGranted = await location.requestPermission();
+      if (permissionGranted != PermissionStatus.granted) {
+        return;
+      }
+    }
+    locationData = await location.getLocation();
+    final GoogleMapController _controller = await controller.future;
+    CameraPosition myLocation = CameraPosition(
+      target: LatLng(locationData.latitude ?? 24.774265,
+          locationData.longitude ?? 46.738586),
+      zoom: 14.4746,
+    );
+    latLng = LatLng(locationData.latitude ?? 24.774265,
+        locationData.longitude ?? 46.738586);
+    await _controller.animateCamera(CameraUpdate.newCameraPosition(myLocation));
+  }
+
+  void addMarker(LatLng position, String markerId) {
+    final marker = Marker(
+      markerId: MarkerId(markerId),
+      position: position,
+      infoWindow: InfoWindow(title: markerId),
+    );
+    markers.add(marker);
   }
 
   List<String> getFavorites({

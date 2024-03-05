@@ -70,7 +70,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     on<AuthEvent>(_handleEvents);
   }
 
-  _handleEvents(event, Emitter<AuthState> emit) async {
+  _handleEvents(event,emit) async {
     if (event is SendCodeEvent) {
       emit(SendCodeLoadingState());
       ConstantsManager.appUser = event.user;
@@ -103,7 +103,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     } else if (event is ChangeAgreeToTermsStateEvent) {
       agreeToTerms = !agreeToTerms;
       emit(ChangeAgreeToTermsState(state: agreeToTerms));
-    }else if (event is MakeSelectedAccountTypeNullEvent) {
+    } else if (event is MakeSelectedAccountTypeNullEvent) {
       selectedAccountTypeIndex = null;
       emit(MakeSelectedAccountTypeNullState());
     } else if (event is ChangeIsMerchantTypeEvent) {
@@ -124,7 +124,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       }, (r) async {
         // emit(CodeVerified());
         ConstantsManager.appUser?.id = r;
-        await _createUser(emit);
+        await _createUser();
         add(ResetCodeTimerEvent());
       });
     } else if (event is SelectAccountTypeEvent) {
@@ -133,7 +133,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     } else if (event is NavigateToRegisterScreenEvent) {
       event.context.push(registerScreens[selectedAccountTypeIndex!]);
       add(MakeSelectedAccountTypeNullEvent());
-    }else if (event is NavigateToAccountTypesScreenEvent) {
+    } else if (event is NavigateToAccountTypesScreenEvent) {
       event.context.push(accountTypesScreens[selectedAccountTypeIndex!]);
       add(MakeSelectedAccountTypeNullEvent());
     } else if (event is AddAddressEvent) {
@@ -186,20 +186,18 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     } else if (event is ChooseCityEvent) {
       city = event.city;
       emit(ChooseCityState(city: event.city));
-    }else if (event is ChooseWorkEvent) {
+    } else if (event is ChooseWorkEvent) {
       works = event.works;
-      print(works);
       emit(ChooseWorkState(works: event.works));
     } else if (event is StartResendCodeTimerEvent) {
-      _startResendCodeTimer(emit);
+      _startResendCodeTimer();
     } else if (event is ResetCodeTimerEvent) {
       _resetTimeToResendCode();
       emit(ResetCodeTimerState());
-      ;
     }
   }
 
-  Future _createUser(Emitter<AuthState> emit) async {
+  Future _createUser() async {
     var result = await repository.createUser(ConstantsManager.appUser!);
     result.fold((l) {
       errorToast(msg: ExceptionManager(l).translatedMessage());
@@ -207,8 +205,9 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     }, (r) async {
       bool isExists = r;
       if (isExists) {
-        authCompleted = true;
         emit(const CreateUserSuccessfulState());
+
+        authCompleted = true;
 
         if (kDebugMode) {
           print(ConstantsManager.appUser);
@@ -232,7 +231,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     timeToResendCodeTimer = null;
   }
 
-  void _startResendCodeTimer(Emitter<AuthState>emit) {
+  void _startResendCodeTimer() {
     _setTimeToResendCode();
     timeToResendCodeTimer = Timer.periodic(const Duration(seconds: 1), (timer) {
       if (timeToResendCode != null && timeToResendCode! > 0) {

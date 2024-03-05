@@ -3,20 +3,21 @@ import 'package:almasheed/payment/bloc/payment_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sizer/sizer.dart';
-import '../../../authentication/data/models/customer.dart';
+import '../../../../authentication/data/models/customer.dart';
+
 // import '../../../authentication/presentation/components.dart';
-import '../../../authentication/presentation/components.dart';
-import '../../../core/error/remote_error.dart';
-import '../../../core/services/dep_injection.dart';
-import '../../../core/utils/color_manager.dart';
-import '../../../core/utils/constance_manager.dart';
-import '../../../generated/l10n.dart';
-import '../../../payment/presentation/screens/cart_screen.dart';
-import '../../bloc/main_bloc.dart';
-import '../../data/models/category.dart';
-import '../../data/models/product.dart';
-import '../widgets/widgets.dart';
-import 'details_product.dart';
+import '../../../../authentication/presentation/components.dart';
+import '../../../../core/error/remote_error.dart';
+import '../../../../core/services/dep_injection.dart';
+import '../../../../core/utils/color_manager.dart';
+import '../../../../core/utils/constance_manager.dart';
+import '../../../../generated/l10n.dart';
+import '../../../../payment/presentation/screens/cart_screen.dart';
+import '../../../bloc/main_bloc.dart';
+import '../../../data/models/category.dart';
+import '../../../data/models/product.dart';
+import '../../widgets/widgets.dart';
+import '../products/details_product.dart';
 
 class CategoryScreen extends StatelessWidget {
   final Category category;
@@ -46,15 +47,14 @@ class CategoryScreen extends StatelessWidget {
           }
           if (state is IncreaseQuantityState) {
             quantityController[state.index].text = state.quantity.toString();
-            print(quantityController[state.index].text);
           }
         },
         builder: (context, state) {
-          print(quantityController[0].text);
           return RefreshIndicator(
             onRefresh: () async {
               mainBloc
                 ..add(GetProductsEvent())
+                ..add(GetWorkersEvent())
                 ..add(GetMerchantsEvent());
             },
             child: Scaffold(
@@ -396,7 +396,6 @@ class CategoryScreen extends StatelessWidget {
     required List<TextEditingController> quantityController,
   }) {
     PaymentBloc paymentBloc = PaymentBloc.bloc;
-    print(quantityController[0].text);
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 2.w, vertical: 2.h),
       child: Wrap(

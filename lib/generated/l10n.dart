@@ -1522,6 +1522,16 @@ class S {
     );
   }
 
+  /// `Your order has been added successfully`
+  String get orderAdded {
+    return Intl.message(
+      'Your order has been added successfully',
+      name: 'orderAdded',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Welcome`
   String get welcome {
     return Intl.message(
@@ -1582,6 +1592,16 @@ class S {
     );
   }
 
+  /// `Technicals`
+  String get workers {
+    return Intl.message(
+      'Technicals',
+      name: 'workers',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `The name of the facility I belong to`
   String get facility {
     return Intl.message(
@@ -1597,6 +1617,26 @@ class S {
     return Intl.message(
       'please enter the name of the facility you belong to',
       name: 'enterFacility',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `please enter the Location`
+  String get enterLocation {
+    return Intl.message(
+      'please enter the Location',
+      name: 'enterLocation',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `My Current Location`
+  String get myCurrentLocation {
+    return Intl.message(
+      'My Current Location',
+      name: 'myCurrentLocation',
       desc: '',
       args: [],
     );
@@ -1672,6 +1712,16 @@ class S {
     );
   }
 
+  /// `Show All`
+  String get showAll {
+    return Intl.message(
+      'Show All',
+      name: 'showAll',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `All Categories`
   String get allCategories {
     return Intl.message(
@@ -1697,6 +1747,36 @@ class S {
     return Intl.message(
       'Last Seen',
       name: 'lastSeen',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Details your order`
+  String get detailsYourOrder {
+    return Intl.message(
+      'Details your order',
+      name: 'detailsYourOrder',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Please endter details your order`
+  String get enterDetailsYourOrder {
+    return Intl.message(
+      'Please endter details your order',
+      name: 'enterDetailsYourOrder',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Add order`
+  String get addOrder {
+    return Intl.message(
+      'Add order',
+      name: 'addOrder',
       desc: '',
       args: [],
     );

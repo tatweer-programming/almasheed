@@ -27,6 +27,16 @@ class SetProductErrorState extends MainState {
 
   const SetProductErrorState(this.error);
 }
+// set OrderForWorkers
+class SetOrderForWorkersSuccessfullyState extends MainState {}
+
+class SetOrderForWorkersLoadingState extends MainState {}
+
+class SetOrderForWorkersErrorState extends MainState {
+  final FirebaseException error;
+
+  const SetOrderForWorkersErrorState(this.error);
+}
 
 // update product
 class UpdateProductSuccessfullyState extends MainState {}
@@ -65,16 +75,31 @@ class GetMerchantsSuccessfullyState extends MainState {}
 
 class GetMerchantsLoadingState extends MainState {}
 
-class ChangeShowingProductsState extends MainState {
-  final bool isHorizontal;
-
-  const ChangeShowingProductsState({required this.isHorizontal});
-}
-
 class GetMerchantsErrorState extends MainState {
   final FirebaseException error;
 
   const GetMerchantsErrorState(this.error);
+} // get Banners
+
+class GetBannersSuccessfullyState extends MainState {}
+
+class GetBannersLoadingState extends MainState {}
+
+class GetBannersErrorState extends MainState {
+  final FirebaseException error;
+
+  const GetBannersErrorState(this.error);
+}
+
+// get Workers
+class GetWorkersSuccessfullyState extends MainState {}
+
+class GetWorkersLoadingState extends MainState {}
+
+class GetWorkersErrorState extends MainState {
+  final FirebaseException error;
+
+  const GetWorkersErrorState(this.error);
 }
 
 // get offer
@@ -108,7 +133,7 @@ class IncreaseQuantityState extends MainState {
   final int quantity;
   final int index;
 
-  IncreaseQuantityState({required this.quantity,required this.index});
+  IncreaseQuantityState({required this.quantity, required this.index});
 }
 
 class GetUserDataErrorState extends MainState {
@@ -156,9 +181,22 @@ class GetBestSalesErrorState extends MainState {
 
 // logic
 
-class SelectProductState extends MainState {}
+class SelectProductState extends MainState {
+  final Product product;
 
-class SelectProductCategoryState extends MainState {}
+  SelectProductState(this.product);
+}
+
+class SelectProductCategoryState extends MainState {
+  final String selectedProductCategory;
+
+  SelectProductCategoryState(this.selectedProductCategory);
+}
+class SelectWorkState extends MainState {
+  final String work;
+
+  SelectWorkState(this.work);
+}
 
 class SelectedCityState extends MainState {
   final String selectedCity;
@@ -296,4 +334,22 @@ class FinishedAddPropertiesState extends MainState {
   final Map<String, List<String>> result;
 
   const FinishedAddPropertiesState(this.result);
+}
+
+class ChangeShowingProductsState extends MainState {
+  final bool isHorizontal;
+
+  const ChangeShowingProductsState({required this.isHorizontal});
+}
+
+class GetMyCurrentLocationState extends MainState {}
+
+class OnMapCreatedState extends MainState {}
+
+class GetLocationState extends MainState {}
+
+class GetNameOfLocationState extends MainState {
+  final String location;
+
+  GetNameOfLocationState(this.location);
 }

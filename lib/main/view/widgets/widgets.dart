@@ -7,6 +7,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:sizer/sizer.dart';
 import '../../../authentication/data/models/customer.dart';
 import '../../../authentication/data/models/merchant.dart';
+import '../../../authentication/data/models/worker.dart';
 import '../../../core/utils/color_manager.dart';
 import '../../../core/utils/constance_manager.dart';
 import '../../../generated/l10n.dart';
@@ -14,10 +15,11 @@ import '../../bloc/main_bloc.dart';
 
 mainFormField(
         {String? label,
-        IconData? prefix,
+        Icon? prefix,
         String? hint,
         IconButton? suffix,
         bool? enabled = true,
+        Color? fillColor,
         String? validatorText,
         TextInputType? type,
         void Function()? suffixFunction,
@@ -25,6 +27,7 @@ mainFormField(
         bool obscureText = false,
         double? width,
         TextStyle? labelStyle,
+        int? maxLines,
         TextAlign? textAlign,
         required TextEditingController controller}) =>
     SizedBox(
@@ -38,12 +41,15 @@ mainFormField(
         keyboardType: type,
         enabled: enabled,
         obscureText: obscureText,
+        maxLines: maxLines,
         style: const TextStyle(color: ColorManager.black),
         decoration: InputDecoration(
+            prefixIcon: prefix,
             disabledBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(10.sp),
             ),
-            contentPadding: EdgeInsetsDirectional.symmetric(horizontal: 2.w),
+            contentPadding:
+                EdgeInsetsDirectional.symmetric(horizontal: 2.w, vertical: 1.h),
             focusedBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(10.sp),
             ),
@@ -51,7 +57,7 @@ mainFormField(
               borderRadius: BorderRadius.circular(10.sp),
             ),
             errorStyle: TextStyle(color: ColorManager.error),
-            fillColor: ColorManager.white,
+            fillColor: fillColor ?? ColorManager.white,
             filled: true,
             suffixIcon: suffix,
             labelText: label,
@@ -258,7 +264,7 @@ Widget indicator(
       }).toList(),
     );
 
-Widget textContainerWidget(String text) => Container(
+Widget textContainerWidget({required String text, Widget? widget}) => Container(
     width: double.infinity,
     height: 6.h,
     decoration: BoxDecoration(
@@ -266,17 +272,25 @@ Widget textContainerWidget(String text) => Container(
         borderRadius: BorderRadiusDirectional.circular(10.sp)),
     child: Padding(
       padding: EdgeInsets.symmetric(horizontal: 3.w),
-      child: Align(
-        alignment: AlignmentDirectional.centerStart,
-        child: Text(
-          text,
-          style: TextStyle(fontSize: 13.sp, fontWeight: FontWeight.w600),
-        ),
+      child: Row(
+        children: [
+          Align(
+            alignment: AlignmentDirectional.centerStart,
+            child: Text(
+              text,
+              style: TextStyle(fontSize: 13.sp, fontWeight: FontWeight.w600),
+            ),
+          ),
+          const Spacer(),
+          widget ?? const SizedBox()
+        ],
       ),
     ));
 
-Widget merchantWidget(
-        {required Merchant merchant, required VoidCallback onTap}) =>
+Widget merchantAndWorkerWidget(
+        {required String name,
+        required String details,
+        required VoidCallback onTap}) =>
     InkWell(
       onTap: onTap,
       child: Card(
@@ -310,7 +324,7 @@ Widget merchantWidget(
                         ),
                         Expanded(
                           child: Text(
-                            merchant.companyName,
+                            name,
                             style: TextStyle(
                                 fontSize: 14.sp, fontWeight: FontWeight.w500),
                           ),
@@ -327,7 +341,7 @@ Widget merchantWidget(
                         ),
                         Expanded(
                           child: Text(
-                            merchant.city,
+                            details,
                             style: TextStyle(
                                 fontSize: 14.sp, fontWeight: FontWeight.w500),
                           ),
@@ -341,6 +355,72 @@ Widget merchantWidget(
             )),
       ),
     );
+
+// Widget workerWidget({required Worker worker, required VoidCallback onTap}) =>
+//     InkWell(
+//       onTap: onTap,
+//       child: Card(
+//         shape: OutlineInputBorder(
+//             borderRadius: BorderRadius.circular(10.sp),
+//             borderSide: BorderSide.none),
+//         elevation: 4.sp,
+//         child: Container(
+//             width: double.infinity,
+//             height: 6.h,
+//             decoration: BoxDecoration(
+//                 color: ColorManager.white,
+//                 gradient:
+//                     const LinearGradient(begin: Alignment.topCenter, colors: [
+//                   Color(0xffd7b58e),
+//                   Color(0xffca9d68),
+//                   Color(0xffca9d68),
+//                   Color(0xffbc8443),
+//                 ]),
+//                 borderRadius: BorderRadiusDirectional.circular(10.sp)),
+//             child: Padding(
+//               padding: EdgeInsets.symmetric(horizontal: 4.w, vertical: 1.h),
+//               child: Row(
+//                 children: [
+//                   Expanded(
+//                     child: Row(
+//                       children: [
+//                         const Icon(Icons.drive_file_rename_outline),
+//                         SizedBox(
+//                           width: 2.w,
+//                         ),
+//                         Expanded(
+//                           child: Text(
+//                             worker.name,
+//                             style: TextStyle(
+//                                 fontSize: 14.sp, fontWeight: FontWeight.w500),
+//                           ),
+//                         ),
+//                       ],
+//                     ),
+//                   ),
+//                   Expanded(
+//                     child: Row(
+//                       children: [
+//                         const Icon(Icons.location_city),
+//                         SizedBox(
+//                           width: 2.w,
+//                         ),
+//                         Expanded(
+//                           child: Text(
+//                             worker.works.first,
+//                             style: TextStyle(
+//                                 fontSize: 14.sp, fontWeight: FontWeight.w500),
+//                           ),
+//                         ),
+//                       ],
+//                     ),
+//                   ),
+//                   const Icon(Icons.arrow_forward_ios_sharp),
+//                 ],
+//               ),
+//             )),
+//       ),
+//     );
 
 Widget categoryWidget(
         {required Category category, required VoidCallback onTap}) =>
@@ -422,11 +502,11 @@ Widget productVerticalWidget({
                             style: TextStyle(
                                 fontWeight: FontWeight.w500, fontSize: 12.sp),
                           ),
-                          Spacer(),
+                          const Spacer(),
                           if (product.productNewPrice !=
                               product.productOldPrice)
                             Text(
-                              "${product.productOldPrice.toStringAsFixed(2)} SAR",
+                              "${product.productOldPrice.toStringAsFixed(2)}  ${S.of(context).sar}",
                               style: TextStyle(
                                   decoration: TextDecoration.lineThrough,
                                   fontWeight: FontWeight.w500,
@@ -483,7 +563,7 @@ Widget categoryProductsVerticalWidget({
   required VoidCallback openProductPressed,
   required TextEditingController controller,
 }) {
-  if(controller.text == "")controller.text = "1";
+  if (controller.text == "") controller.text = "1";
   return InkWell(
     onTap: openProductPressed,
     child: Card(
@@ -539,7 +619,7 @@ Widget categoryProductsVerticalWidget({
                             style: TextStyle(
                                 fontWeight: FontWeight.w500, fontSize: 12.sp),
                           ),
-                          Spacer(),
+                          const Spacer(),
                           if (product.productNewPrice !=
                               product.productOldPrice)
                             Text(
@@ -716,9 +796,7 @@ Widget favouriteProduct(
                     Icons.star,
                     color: Colors.amber,
                   ),
-                  onRatingUpdate: (rating) {
-                    print(rating);
-                  },
+                  onRatingUpdate: (rating) {},
                 ),
                 SizedBox(
                   height: 2.h,
