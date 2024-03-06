@@ -47,9 +47,11 @@ class EditQuantityInCart extends PaymentEvent {
 
 class CompletePaymentCart extends PaymentEvent {
   final BuildContext context;
+  final double totalPrice;
 
   const CompletePaymentCart({
     required this.context,
+    required this.totalPrice,
   });
 
   @override
@@ -58,7 +60,9 @@ class CompletePaymentCart extends PaymentEvent {
 
 class ChooseAddress extends PaymentEvent {
   final int index;
+
   const ChooseAddress(this.index);
+
   @override
   List<Object?> get props => [index];
 }
@@ -66,4 +70,26 @@ class ChooseAddress extends PaymentEvent {
 class GetUserOrders extends PaymentEvent {
   @override
   List<Object?> get props => [];
+}
+
+class AcceptedOrderForWorkersEvent extends PaymentEvent {
+  final OrderForWorkers orderForWorkers;
+
+  const AcceptedOrderForWorkersEvent({required this.orderForWorkers});
+
+  @override
+  List<Object?> get props => [orderForWorkers];
+}
+
+class IgnoredOrderForWorkersEvent extends PaymentEvent {
+  final String orderId;
+
+  const IgnoredOrderForWorkersEvent({
+    required this.orderId,
+  });
+
+  @override
+  List<Object?> get props => [
+        orderId,
+      ];
 }

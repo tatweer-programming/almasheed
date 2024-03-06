@@ -35,40 +35,7 @@ class CartScreen extends StatelessWidget {
                 child: SingleChildScrollView(
                   child: Column(
                     children: [
-                      SizedBox(
-                        width: 100.w,
-                        child: ClipPath(
-                          clipper: HalfCircleCurve(12.h),
-                          child: Container(
-                            height: 35.h,
-                            color: ColorManager.primary,
-                            child: Padding(
-                              padding: EdgeInsetsDirectional.only(start: 8.w, end: 8.w, top: 1.h),
-                              child: Column(
-                                children: [
-                                  SizedBox(
-                                    height: 5.h,
-                                  ),
-                                  Text(
-                                    S.of(context).cart,
-                                    style: TextStyle(
-                                        color: ColorManager.white,
-                                        fontSize: 30.sp,
-                                        fontWeight: FontWeight.bold),
-                                  ),
-                                  SizedBox(width: 3.h),
-                                  Icon(
-                                    Icons.shopping_cart_outlined,
-                                    color: ColorManager.white,
-                                    size: 40.sp,
-                                  ),
-                                  SizedBox(width: 1.h),
-                                ],
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
+                      appBarWidget( S.of(context).cart,Icons.shopping_cart_outlined,),
                       customer != null
                           ? BlocListener<PaymentBloc, PaymentState>(
                               bloc: bloc,
@@ -79,27 +46,38 @@ class CartScreen extends StatelessWidget {
                                   return Column(
                                     children: [
                                       bloc!.order.orderItems.isEmpty
-                                          ? Center(child: Text(S.of(context).noItems))
+                                          ? Center(
+                                              child:
+                                                  Text(S.of(context).noItems))
                                           : Padding(
                                               padding: EdgeInsets.all(5.0.w),
                                               child: Column(
                                                 children: [
-                                                  BlocBuilder<PaymentBloc, PaymentState>(
+                                                  BlocBuilder<PaymentBloc,
+                                                      PaymentState>(
                                                     bloc: bloc,
                                                     builder: (context, state) {
                                                       return ListView.separated(
                                                         shrinkWrap: true,
                                                         physics:
                                                             const NeverScrollableScrollPhysics(),
-                                                        itemBuilder: (context, index) => CartItem(
-                                                            bloc: bloc!,
-                                                            orderItem: bloc.order.orderItems[index],
-                                                            quantityController: quantityController),
-                                                        separatorBuilder: (context, index) =>
-                                                            SizedBox(
+                                                        itemBuilder: (context,
+                                                                index) =>
+                                                            CartItem(
+                                                                bloc: bloc!,
+                                                                orderItem: bloc
+                                                                        .order
+                                                                        .orderItems[
+                                                                    index],
+                                                                quantityController:
+                                                                    quantityController),
+                                                        separatorBuilder:
+                                                            (context, index) =>
+                                                                SizedBox(
                                                           height: 2.h,
                                                         ),
-                                                        itemCount: bloc!.order.orderItems.length,
+                                                        itemCount: bloc!.order
+                                                            .orderItems.length,
                                                       );
                                                     },
                                                   ),
@@ -134,7 +112,8 @@ class CartScreen extends StatelessWidget {
                           height: 8.h,
                           width: double.infinity,
                           decoration: BoxDecoration(
-                            borderRadius: BorderRadiusDirectional.all(Radius.circular(10.sp)),
+                            borderRadius: BorderRadiusDirectional.all(
+                                Radius.circular(10.sp)),
                             color: ColorManager.primary,
                           ),
                           child: defaultButton(

@@ -1,5 +1,7 @@
+import 'package:almasheed/authentication/data/models/merchant.dart';
 import 'package:almasheed/core/utils/constance_manager.dart';
 import 'package:almasheed/main/bloc/main_bloc.dart';
+import 'package:almasheed/main/data/models/order_for_workers.dart';
 import 'package:almasheed/payment/data/models/order.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:equatable/equatable.dart';
@@ -22,15 +24,15 @@ class PaymentBloc extends Bloc<PaymentEvent, PaymentState> {
 
   // variables
   final PaymentRepository? _repository =
-      ConstantsManager.appUser is Customer ? PaymentRepository() : null;
+      ConstantsManager.appUser is! Merchant ? PaymentRepository() : null;
   int? selectedAddressIndex;
 
   PaymentBloc() : super(PaymentInitial()) {
     on<PaymentEvent>((event, emit) async {
       if (event is AddToCartEvent) {
         emit(AddToCartLoadingState());
-        var response =
-            await _repository?.addItem(productId: event.productId, quantity: event.quantity ?? 1);
+        var response = await _repository?.addItem(
+            productId: event.productId, quantity: event.quantity ?? 1);
         response!.fold((l) {
           emit(AddToCartErrorState(l));
         }, (r) {
@@ -48,24 +50,26 @@ class PaymentBloc extends Bloc<PaymentEvent, PaymentState> {
         });
       } else if (event is EditQuantityInCart) {
         emit(EditQuantityInCartLoadingState());
-        var response =
-            await _repository!.editQuantity(productId: event.productId, quantity: event.quantity);
+        var response = await _repository!
+            .editQuantity(productId: event.productId, quantity: event.quantity);
         response.fold((l) {
           emit(EditQuantityInCartErrorState(l));
         }, (r) {
           emit(EditQuantityInCartSuccessState());
         });
       } else if (event is CompletePaymentCart) {
-        var response = await _repository!.completePayment(context: event.context, order: order);
+        var response = await _repository!.completePayment(
+            context: event.context, totalPrice: event.totalPrice);
         print(response.status.toString() + response.url.toString());
         print(response.toString());
+        print(order);
         if (response.isSuccess) {
           await _repository!.saveOrderData(order);
           emit(CompleteOrderSuccessState());
         } else {
           emit(const CompletePaymentErrorState());
         }
-      } else if (event is PrepareCart) {
+      }  else if (event is PrepareCart) {
         _generateOrder();
         emit(CartPreparedState());
       } else if (event is ChooseAddress) {
@@ -73,6 +77,26 @@ class PaymentBloc extends Bloc<PaymentEvent, PaymentState> {
         Customer customer = ConstantsManager.appUser as Customer;
         order.address = customer.addresses[event.index];
         emit(ChooseAddressState(event.index));
+      } else if (event is AcceptedOrderForWorkersEvent) {
+        emit(AcceptedOrderForWorkersLoadingState());
+        var result = await _repository!.acceptedOrderForWorkers(
+          orderForWorkers: event.orderForWorkers,
+        );
+        result.fold((l) {
+          emit(AcceptedOrderForWorkersErrorState(l));
+        }, (r) {
+          emit(AcceptedOrderForWorkersSuccessfullyState());
+        });
+      } else if (event is IgnoredOrderForWorkersEvent) {
+        emit(IgnoredOrderForWorkersLoadingState());
+        var result = await _repository!.ignoredOrderForWorkers(
+          orderId: event.orderId,
+        );
+        result.fold((l) {
+          emit(IgnoredOrderForWorkersErrorState(l));
+        }, (r) {
+          emit(IgnoredOrderForWorkersSuccessfullyState());
+        });
       }
     });
   }
@@ -84,7 +108,8 @@ class PaymentBloc extends Bloc<PaymentEvent, PaymentState> {
     print(customer.cartItems.toString());
     customer.cartItems.forEach((key, value) {
       orderItems.add(OrderItem(
-          product: mainBloc.products.firstWhere((element) => element.productId == key),
+          product: mainBloc.products
+              .firstWhere((element) => element.productId == key),
           quantity: value));
     });
 

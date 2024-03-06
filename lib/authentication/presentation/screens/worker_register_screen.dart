@@ -279,6 +279,7 @@ class WorkerRegisterScreen extends StatelessWidget {
                                                       Worker merchant = Worker(
                                                           city: cityController
                                                               .text,
+                                                          ordersIds: <String>[],
                                                           longitude: mainBloc
                                                               .latLng!.longitude,
                                                           latitude: mainBloc

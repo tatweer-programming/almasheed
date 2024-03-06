@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:multi_dropdown/multiselect_dropdown.dart';
 import 'package:sizer/sizer.dart';
+import '../../../core/services/dep_injection.dart';
 import '../../../core/utils/color_manager.dart';
 import '../../../core/utils/localization_manager.dart';
 import '../../../main/bloc/main_bloc.dart';
@@ -48,6 +49,8 @@ class EditProfileScreen extends StatelessWidget {
       }
     }
     AuthBloc bloc = AuthBloc.get(context);
+    MainBloc mainBloc = sl();
+    bloc.works = works.map((e) => e.label).toList();
     return BlocListener<MainBloc, MainState>(
       listener: (context, state) {
         if (state is GetNameOfLocationState) {
@@ -106,8 +109,7 @@ class EditProfileScreen extends StatelessWidget {
               child: Form(
                 key: formKey,
                 child: Padding(
-                  padding:
-                      EdgeInsets.symmetric(horizontal: 3.w, vertical: 2.h),
+                  padding: EdgeInsets.symmetric(horizontal: 3.w, vertical: 2.h),
                   child: Column(
                     children: [
                       Column(
@@ -133,6 +135,7 @@ class EditProfileScreen extends StatelessWidget {
                             label: S.of(context).brief,
                             maxLines: 5,
                             minLines: 3,
+                            border: false,
                             controller: briefController,
                             fillColor: ColorManager.secondary,
                             validator: (value) {
@@ -154,8 +157,7 @@ class EditProfileScreen extends StatelessWidget {
                               List<String> selectedValues = options
                                   .map((item) => item.value)
                                   .where((value) => value != null)
-                                  .cast<
-                                      String>() // Cast to non-nullable string
+                                  .cast<String>() // Cast to non-nullable string
                                   .toList();
                               bloc.add(ChooseWorkEvent(selectedValues));
                             },
@@ -166,8 +168,7 @@ class EditProfileScreen extends StatelessWidget {
                                 const ChipConfig(wrapType: WrapType.wrap),
                             dropdownHeight: 200,
                             optionTextStyle: const TextStyle(fontSize: 16),
-                            selectedOptionIcon:
-                                const Icon(Icons.check_circle),
+                            selectedOptionIcon: const Icon(Icons.check_circle),
                           ),
                           SizedBox(
                             height: 7.5.sp,
@@ -192,6 +193,7 @@ class EditProfileScreen extends StatelessWidget {
                             child: mainFormField(
                               label: S.of(context).location,
                               controller: locationController,
+                              border: false,
                               fillColor: ColorManager.secondary,
                               enabled: false,
                               validator: (value) {
@@ -239,6 +241,7 @@ class EditProfileScreen extends StatelessWidget {
                                   brief: briefController.text,
                                   latitude: worker.latitude,
                                   longitude: worker.longitude,
+                                  ordersIds: worker.ordersIds,
                                   location: locationController.text,
                                   facility: facilityController.text,
                                   commercialLicenseNumber:
@@ -246,6 +249,7 @@ class EditProfileScreen extends StatelessWidget {
                                   id: ConstantsManager.userId!,
                                   works: bloc.works,
                                   phone: phoneController.text)));
+                              mainBloc.add(GetUserDataEvent());
                             },
                             text: S.of(context).edit,
                           ),

@@ -1,6 +1,7 @@
 import 'package:almasheed/chat/bloc/chat_bloc.dart';
 import 'package:almasheed/core/utils/constance_manager.dart';
 import 'package:almasheed/core/utils/localization_manager.dart';
+import 'package:almasheed/core/utils/navigation_manager.dart';
 import 'package:almasheed/payment/bloc/payment_bloc.dart';
 import 'package:firebase_app_check/firebase_app_check.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -23,7 +24,6 @@ import 'main/bloc/main_bloc.dart';
 import 'main/view/screens/main/main_screen.dart';
 import 'package:permission_handler/permission_handler.dart';
 
-
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
@@ -40,13 +40,6 @@ Future<void> main() async {
   await CacheHelper.init();
   ServiceLocator().init();
   FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
-  FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) async {
-    navigatorKey.currentState!.push(MaterialPageRoute(
-        builder: (_) => ChatScreen(
-            isEnd: false,
-            receiverId: message.from!.substring(8),
-            receiverName: message.notification!.title!)));
-  });
   await LocalizationManager.init();
   ConstantsManager.userId = await CacheHelper.getData(key: "userId");
   ConstantsManager.isNotificationsOn =
@@ -56,14 +49,18 @@ Future<void> main() async {
   runApp(const Masheed());
 }
 
-final GlobalKey<NavigatorState> navigatorKey =
-    GlobalKey(debugLabel: "Main Navigator");
-
 class Masheed extends StatelessWidget {
   const Masheed({super.key});
 
   @override
   Widget build(BuildContext context) {
+    FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) async {
+      context.push(ChatScreen(
+          isEnd: false,
+          receiverId: message.from!.substring(8),
+          receiverName: message.notification!.title!));
+    });
+
     return Sizer(builder: (context, orientation, deviceType) {
       return MultiBlocProvider(
           providers: [
@@ -85,7 +82,7 @@ class Masheed extends StatelessWidget {
               SystemChrome.setPreferredOrientations(
                   [DeviceOrientation.portraitUp]);
               return MaterialApp(
-                navigatorKey: navigatorKey,
+                // navigatorKey: navigatorKey,
                 debugShowCheckedModeBanner: false,
                 localizationsDelegates: const [
                   S.delegate,

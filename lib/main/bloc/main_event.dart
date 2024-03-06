@@ -41,6 +41,8 @@ class ChangeCarouselIndicatorEvent extends MainEvent {
 
 class GetProductsEvent extends MainEvent {}
 
+class GetOrderForWorkersEvent extends MainEvent {}
+
 class GetMyCurrentLocationEvent extends MainEvent {}
 
 class GetNameOfLocationEvent extends MainEvent {
@@ -66,6 +68,7 @@ class SetProductEvent extends MainEvent {
 
   const SetProductEvent({required this.product});
 }
+
 class SetOrderForWorkersEvent extends MainEvent {
   final OrderForWorkers orderForWorkers;
 

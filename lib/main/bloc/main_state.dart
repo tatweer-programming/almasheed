@@ -27,6 +27,7 @@ class SetProductErrorState extends MainState {
 
   const SetProductErrorState(this.error);
 }
+
 // set OrderForWorkers
 class SetOrderForWorkersSuccessfullyState extends MainState {}
 
@@ -113,6 +114,17 @@ class GetOffersErrorState extends MainState {
   const GetOffersErrorState(this.error);
 }
 
+// get OrderForWorkers
+class GetOrderForWorkersSuccessfullyState extends MainState {}
+
+class GetOrderForWorkersLoadingState extends MainState {}
+
+class GetOrderForWorkersErrorState extends MainState {
+  final FirebaseException error;
+
+  const GetOrderForWorkersErrorState(this.error);
+}
+
 // get category
 class GetCategoriesSuccessfullyState extends MainState {}
 
@@ -192,6 +204,7 @@ class SelectProductCategoryState extends MainState {
 
   SelectProductCategoryState(this.selectedProductCategory);
 }
+
 class SelectWorkState extends MainState {
   final String work;
 
@@ -347,6 +360,8 @@ class GetMyCurrentLocationState extends MainState {}
 class OnMapCreatedState extends MainState {}
 
 class GetLocationState extends MainState {}
+
+class GetLocationLoadingState extends MainState {}
 
 class GetNameOfLocationState extends MainState {
   final String location;

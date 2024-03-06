@@ -22,40 +22,7 @@ class LastSeenScreen extends StatelessWidget {
           return SingleChildScrollView(
             child: Column(
               children: [
-                ClipPath(
-                  clipper: HalfCircleCurve(18.h),
-                  child: Container(
-                    height: 35.h,
-                    width: double.infinity,
-                    color: ColorManager.primary,
-                    child: Padding(
-                      padding: EdgeInsetsDirectional.only(start: 8.w, end: 8.w, top: 1.h),
-                      child: Column(
-                        children: [
-                          SizedBox(
-                            height: 5.h,
-                          ),
-                          Text(
-                            S.of(context).lastSeen,
-                            style: TextStyle(
-                              color: ColorManager.white,
-                              fontSize: 30.sp,
-                              fontWeight: FontWeight.w600,
-                            ),
-                          ),
-                          Expanded(
-                            child: Icon(
-                              Icons.remove_red_eye_rounded,
-                              color: ColorManager.white,
-                              size: 40.sp,
-                            ),
-                          ),
-                          SizedBox(height: 10.h),
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
+                appBarWidget(S.of(context).lastSeen, Icons.remove_red_eye_rounded),
                 _buildProductList(
                     context: context,
                     mainBloc: bloc

@@ -25,6 +25,11 @@ class MessageLookup extends MessageLookupByLibrary {
         "WorkCharacteristics":
             MessageLookupByLibrary.simpleMessage("Work Characteristics"),
         "aboutApp": MessageLookupByLibrary.simpleMessage("About App"),
+        "accept": MessageLookupByLibrary.simpleMessage("Accept"),
+        "acceptOrder": MessageLookupByLibrary.simpleMessage(
+            "The order has been accepted. A notification will be sent to the customer to pay the deposit"),
+        "acceptOrderFrom": MessageLookupByLibrary.simpleMessage(
+            "The order has been accepted from "),
         "add": MessageLookupByLibrary.simpleMessage("Add"),
         "addAddress": MessageLookupByLibrary.simpleMessage("Add Address"),
         "addCategory": MessageLookupByLibrary.simpleMessage("Add Category"),
@@ -60,6 +65,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "chooseAccountType":
             MessageLookupByLibrary.simpleMessage("please choose account type"),
         "chooseAddress": MessageLookupByLibrary.simpleMessage("choose address"),
+        "chooseLocation":
+            MessageLookupByLibrary.simpleMessage("You must choose a location"),
         "city": MessageLookupByLibrary.simpleMessage("City"),
         "codeSent":
             MessageLookupByLibrary.simpleMessage("Code Sent Successfully"),
@@ -79,8 +86,6 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Deleted Successfully"),
         "deposit": MessageLookupByLibrary.simpleMessage("Deposit"),
         "description": MessageLookupByLibrary.simpleMessage("Description"),
-        "detailsProduct":
-            MessageLookupByLibrary.simpleMessage("Details Product"),
         "detailsYourOrder":
             MessageLookupByLibrary.simpleMessage("Details your order"),
         "determineQuantity":
@@ -156,6 +161,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "home": MessageLookupByLibrary.simpleMessage("Home"),
         "house": MessageLookupByLibrary.simpleMessage("house"),
         "houseNumber": MessageLookupByLibrary.simpleMessage("house number"),
+        "ignore": MessageLookupByLibrary.simpleMessage("Ignore"),
         "language": MessageLookupByLibrary.simpleMessage("Language"),
         "lastSeen": MessageLookupByLibrary.simpleMessage("Last Seen"),
         "location": MessageLookupByLibrary.simpleMessage("Location"),
@@ -202,6 +208,7 @@ class MessageLookup extends MessageLookupByLibrary {
             "Your order has been added successfully"),
         "orderBy": MessageLookupByLibrary.simpleMessage("Order by .."),
         "orderDetails": MessageLookupByLibrary.simpleMessage("Order details"),
+        "orders": MessageLookupByLibrary.simpleMessage("Orders"),
         "other": MessageLookupByLibrary.simpleMessage("other"),
         "overview": MessageLookupByLibrary.simpleMessage("Overview"),
         "payDeposit": MessageLookupByLibrary.simpleMessage("Pay deposit"),
@@ -217,6 +224,8 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Product Category"),
         "productDeleted": MessageLookupByLibrary.simpleMessage(
             "The product has been added successfully"),
+        "productDetails":
+            MessageLookupByLibrary.simpleMessage("Details Product"),
         "productModified": MessageLookupByLibrary.simpleMessage(
             "The product has been modified successfully"),
         "products": MessageLookupByLibrary.simpleMessage("products"),
@@ -273,6 +282,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "whoAreWe": MessageLookupByLibrary.simpleMessage("Who Are We"),
         "work": MessageLookupByLibrary.simpleMessage("work"),
         "worker": MessageLookupByLibrary.simpleMessage("Technical"),
+        "workerDetails": MessageLookupByLibrary.simpleMessage("Worker details"),
         "workers": MessageLookupByLibrary.simpleMessage("Technicals"),
         "youMayLikeIt": MessageLookupByLibrary.simpleMessage("You may like it")
       };

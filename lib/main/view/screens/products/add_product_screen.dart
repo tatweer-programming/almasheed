@@ -476,7 +476,7 @@ Widget props({
           Expanded(
             child: mainFormField(
                 controller: propertyNameController,
-                label: S.of(context).detailsProduct),
+                label: S.of(context).productDetails),
           ),
           SizedBox(
             width: 3.w,

@@ -461,10 +461,10 @@ class S {
   }
 
   /// `Details Product`
-  String get detailsProduct {
+  String get productDetails {
     return Intl.message(
       'Details Product',
-      name: 'detailsProduct',
+      name: 'productDetails',
       desc: '',
       args: [],
     );
@@ -1817,6 +1817,76 @@ class S {
     return Intl.message(
       'Add order',
       name: 'addOrder',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Orders`
+  String get orders {
+    return Intl.message(
+      'Orders',
+      name: 'orders',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Ignore`
+  String get ignore {
+    return Intl.message(
+      'Ignore',
+      name: 'ignore',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Accept`
+  String get accept {
+    return Intl.message(
+      'Accept',
+      name: 'accept',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `The order has been accepted. A notification will be sent to the customer to pay the deposit`
+  String get acceptOrder {
+    return Intl.message(
+      'The order has been accepted. A notification will be sent to the customer to pay the deposit',
+      name: 'acceptOrder',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `You must choose a location`
+  String get chooseLocation {
+    return Intl.message(
+      'You must choose a location',
+      name: 'chooseLocation',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Worker details`
+  String get workerDetails {
+    return Intl.message(
+      'Worker details',
+      name: 'workerDetails',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `The order has been accepted from `
+  String get acceptOrderFrom {
+    return Intl.message(
+      'The order has been accepted from ',
+      name: 'acceptOrderFrom',
       desc: '',
       args: [],
     );

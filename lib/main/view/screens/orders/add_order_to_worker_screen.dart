@@ -1,7 +1,9 @@
+import 'package:almasheed/authentication/data/models/customer.dart';
 import 'package:almasheed/core/utils/constance_manager.dart';
 import 'package:almasheed/core/utils/navigation_manager.dart';
 import 'package:almasheed/main/bloc/main_bloc.dart';
 import 'package:almasheed/main/data/models/order_for_workers.dart';
+import 'package:almasheed/main/view/screens/maps/google_maps_screen.dart';
 import 'package:almasheed/main/view/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -10,7 +12,6 @@ import '../../../../core/error/remote_error.dart';
 import '../../../../core/services/dep_injection.dart';
 import '../../../../core/utils/color_manager.dart';
 import '../../../../generated/l10n.dart';
-import 'google_maps_screen.dart';
 
 class AddOrderToWorkerScreen extends StatelessWidget {
   const AddOrderToWorkerScreen({super.key});
@@ -81,41 +82,7 @@ class AddOrderToWorkerScreen extends StatelessWidget {
               key: formKey,
               child: Column(
                 children: [
-                  ClipPath(
-                    clipper: HalfCircleCurve(18.h),
-                    child: Container(
-                      height: 35.h,
-                      width: double.infinity,
-                      color: ColorManager.primary,
-                      child: Padding(
-                        padding: EdgeInsetsDirectional.only(
-                            start: 8.w, end: 8.w, top: 1.h),
-                        child: Column(
-                          children: [
-                            SizedBox(
-                              height: 5.h,
-                            ),
-                            Text(
-                              S.of(context).addOrder,
-                              style: TextStyle(
-                                color: ColorManager.white,
-                                fontSize: 30.sp,
-                                fontWeight: FontWeight.w600,
-                              ),
-                            ),
-                            Expanded(
-                              child: Icon(
-                                Icons.add_box_rounded,
-                                color: ColorManager.white,
-                                size: 40.sp,
-                              ),
-                            ),
-                            SizedBox(height: 10.h),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ),
+                  appBarWidget(S.of(context).addOrder, Icons.add_box_rounded),
                   Padding(
                     padding:
                         EdgeInsets.symmetric(horizontal: 5.w, vertical: 3.h),
@@ -136,6 +103,7 @@ class AddOrderToWorkerScreen extends StatelessWidget {
                         mainFormField(
                           controller: cityController,
                           label: S.of(context).city,
+                          border: true,
                           prefix: const Icon(
                             Icons.location_city,
                           ),
@@ -158,6 +126,7 @@ class AddOrderToWorkerScreen extends StatelessWidget {
                             label: S.of(context).location,
                             enabled: false,
                             maxLines: 2,
+                            border: true,
                             prefix: const Icon(
                               Icons.location_pin,
                             ),
@@ -209,10 +178,15 @@ class AddOrderToWorkerScreen extends StatelessWidget {
                                   SetOrderForWorkersEvent(
                                     orderForWorkers: OrderForWorkers(
                                       work: work!,
+                                      customerId: ConstantsManager.userId!,
+                                      customerName: (ConstantsManager.appUser as Customer).name,
+                                      accepted: false,
+                                      workersIds: const [],
+                                      city: cityController.text,
+                                      location: locationController.text,
                                       orderDetails: orderDetailsController.text,
                                       latitude: bloc.latLng!.latitude,
                                       longitude: bloc.latLng!.longitude,
-                                      id: ConstantsManager.appUser!.id,
                                     ),
                                   ),
                                 );

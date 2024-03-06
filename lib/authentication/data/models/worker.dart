@@ -11,20 +11,23 @@ class Worker extends AppUser {
   final String facility;
   final String brief;
   final List<String> works;
+  final List<String> ordersIds;
   final String commercialLicenseNumber;
 
-  Worker(
-      {required this.name,
-      required this.city,
-      required this.brief,
-      required this.latitude,
-      required this.longitude,
-      required this.location,
-      required this.facility,
-      required this.commercialLicenseNumber,
-      required super.id,
-      required this.works,
-      required super.phone,});
+  Worker({
+    required this.name,
+    required this.city,
+    required this.brief,
+    required this.latitude,
+    required this.longitude,
+    required this.ordersIds,
+    required this.location,
+    required this.facility,
+    required this.commercialLicenseNumber,
+    required super.id,
+    required this.works,
+    required super.phone,
+  });
 
   @override
   Map<String, dynamic> toJson() {
@@ -36,6 +39,7 @@ class Worker extends AppUser {
       'location': location,
       'name': name,
       'works': works,
+      'ordersIds': ordersIds,
       'city': city,
       'latitude': latitude,
       'longitude': longitude,
@@ -47,6 +51,7 @@ class Worker extends AppUser {
     return Worker(
         name: json['name'],
         brief: json['brief'],
+        ordersIds: (json['ordersIds'] as List).cast<String>(),
         city: json['city'],
         works: (json['works'] as List).cast<String>(),
         facility: json['facility'],

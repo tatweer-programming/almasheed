@@ -162,6 +162,7 @@ class MaintenanceLoginScreen extends StatelessWidget {
                                                     works: [],
                                                     id: "",
                                                     brief: "",
+                                                    ordersIds: <String>[],
                                                     phone:
                                                         "+966${phoneController.text}",
                                                     facility: '');

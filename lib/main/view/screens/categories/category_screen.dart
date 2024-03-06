@@ -4,8 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sizer/sizer.dart';
 import '../../../../authentication/data/models/customer.dart';
-
-// import '../../../authentication/presentation/components.dart';
 import '../../../../authentication/presentation/components.dart';
 import '../../../../core/error/remote_error.dart';
 import '../../../../core/services/dep_injection.dart';

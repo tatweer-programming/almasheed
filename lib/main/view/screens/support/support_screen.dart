@@ -53,41 +53,7 @@ class SupportScreen extends StatelessWidget {
         return SingleChildScrollView(
           child: Column(
             children: [
-              ClipPath(
-                clipper: HalfCircleCurve(18.h),
-                child: Container(
-                  height: 35.h,
-                  width: double.infinity,
-                  color: ColorManager.primary,
-                  child: Padding(
-                    padding: EdgeInsetsDirectional.only(
-                        start: 8.w, end: 8.w, top: 1.h),
-                    child: Column(
-                      children: [
-                        SizedBox(
-                          height: 5.h,
-                        ),
-                        Text(
-                          S.of(context).support,
-                          style: TextStyle(
-                            color: ColorManager.white,
-                            fontSize: 30.sp,
-                            fontWeight: FontWeight.w600,
-                          ),
-                        ),
-                        Expanded(
-                          child: Icon(
-                            Icons.support,
-                            color: ColorManager.white,
-                            size: 40.sp,
-                          ),
-                        ),
-                        SizedBox(height: 10.h),
-                      ],
-                    ),
-                  ),
-                ),
-              ),
+              appBarWidget(S.of(context).support, Icons.support),
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: 4.w),
                 child: Column(

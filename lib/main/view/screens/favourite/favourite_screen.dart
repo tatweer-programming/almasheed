@@ -33,67 +33,72 @@ class FavouriteScreen extends StatelessWidget {
         return SingleChildScrollView(
           child: Column(
             children: [
-              ClipPath(
-                clipper: HalfCircleCurve(10.h),
-                child: Container(
-                  height: 28.h,
-                  color: ColorManager.primary,
-                  width: double.infinity,
-                  child: Column(
-                    children: [
-                      SizedBox(
-                        height: 5.h,
-                      ),
-                      Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 2.w),
-                        child: Row(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Expanded(
-                              child: Padding(
-                                padding:
-                                    EdgeInsetsDirectional.only(start: 10.w),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Text(
-                                      S.of(context).favourites,
-                                      style: TextStyle(
-                                        fontSize: 27.sp,
-                                        fontWeight: FontWeight.w600,
-                                        color: ColorManager.white,
-                                      ),
-                                    ),
-                                    SizedBox(
-                                      height: 2.h,
-                                    ),
-                                    Icon(
-                                      Icons.favorite_outlined,
-                                      size: 30.sp,
-                                      color: ColorManager.white,
-                                    )
-                                  ],
-                                ),
-                              ),
-                            ),
-                            if (ConstantsManager.appUser is Customer)
-                              IconButton(
-                                onPressed: () =>
-                                    context.push(const CartScreen()),
-                                icon: const Icon(
-                                  Icons.shopping_cart_outlined,
-                                  color: ColorManager.white,
-                                ),
-                              ),
-                          ],
+              Align(
+                alignment: AlignmentDirectional.topCenter,
+                heightFactor: 0.12.h,
+                child: ClipPath(
+                  clipper: HalfCircleCurve(14.h),
+                  child: Container(
+                    height: 34.h,
+                    color: ColorManager.primary,
+                    width: double.infinity,
+                    child: Column(
+                      children: [
+                        SizedBox(
+                          height: 6.h,
                         ),
-                      ),
-                      SizedBox(
-                        height: 2.h,
-                      ),
-                    ],
+                        Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 2.w),
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Expanded(
+                                child: Padding(
+                                  padding:
+                                      EdgeInsetsDirectional.only(start: 10.w),
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Text(
+                                        S.of(context).favourites,
+                                        style: TextStyle(
+                                          fontSize: 27.sp,
+                                          fontWeight: FontWeight.w600,
+                                          color: ColorManager.white,
+                                        ),
+                                      ),
+                                      SizedBox(
+                                        height: 3.h,
+                                      ),
+                                      Icon(
+                                        Icons.favorite_outlined,
+                                        size: 30.sp,
+                                        color: ColorManager.white,
+                                      )
+                                    ],
+                                  ),
+                                ),
+                              ),
+                              if (ConstantsManager.appUser is Customer)
+                                IconButton(
+                                  onPressed: () =>
+                                      context.push(const CartScreen()),
+                                  icon: const Icon(
+                                    Icons.shopping_cart_outlined,
+                                    color: ColorManager.white,
+                                  ),
+                                ),
+                            ],
+                          ),
+                        ),
+                        SizedBox(
+                          height: 2.h,
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ),
@@ -117,7 +122,8 @@ class FavouriteScreen extends StatelessWidget {
                                   product: product,
                                   context: context,
                                   addCardPressed: () {
-                                    final PaymentBloc paymentBloc = PaymentBloc.bloc;
+                                    final PaymentBloc paymentBloc =
+                                        PaymentBloc.bloc;
                                     paymentBloc.add(
                                       AddToCartEvent(
                                         productId: product.productId,

@@ -1,6 +1,5 @@
 import 'dart:convert';
 import 'dart:io';
-
 import 'package:almasheed/authentication/data/models/customer.dart';
 import 'package:almasheed/authentication/data/models/merchant.dart';
 import 'package:almasheed/chat/data/models/message.dart';

@@ -10,6 +10,10 @@ class ConstantsManager {
   static bool? isNotificationsOn;
   static const String baseUrlNotification =
       "https://fcm.googleapis.com/fcm/send";
+  static const String successUrl =
+      "https://firebasestorage.googleapis.com/v0/b/masheed-d942d.appspot.com/o/payment%2Fsuccess%20(2).HTML?alt=media&token=2d979a52-9247-4abd-a264-fba2d5f0ae2e";
+  static const String errorUrl =
+      "https://firebasestorage.googleapis.com/v0/b/masheed-d942d.appspot.com/o/payment%2Ffailed.HTML?alt=media&token=01fddc6e-e292-4080-bddb-0e3fa4f54993";
   static const String firebaseMessagingAPI =
       "AAAAg2F4b1U:APA91bEp1nenkuZMlwu3PmiNRJTWOiG4zncmBF_23UiLcdtm42HZ1lDaoR-sRP21PFquem76ZHVKj5wGXI76Mx6WvqgUS2xxFAjuvM0hBMMd8cNvDcLEH6XKc65wBk_3C4IRr5znOi1M";
 
@@ -132,16 +136,15 @@ class ConstantsManager {
     }
   }
 
-
-  static ValueItem convertWorkToEnglish(ValueItem<String> work) {
+  static ValueItem<String>  convertWorkToEnglish(ValueItem<String> work) {
     int index = worksArabic.indexOf(work);
     return (index != -1) ? worksEnglish[index] : work;
   }
-  static ValueItem convertWorkToArabic(ValueItem<String> work) {
+
+  static ValueItem<String>  convertWorkToArabic(ValueItem<String> work) {
     int index = worksEnglish.indexOf(work);
     return (index != -1) ? worksArabic[index] : work;
   }
-
 
   static const List<ValueItem<String>> worksEnglish = [
     ValueItem(label: "Electricity technician", value: "Electricity technician"),

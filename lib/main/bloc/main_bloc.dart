@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:math';
 
 import 'package:almasheed/core/utils/constance_manager.dart';
 import 'package:almasheed/core/utils/localization_manager.dart';
@@ -15,6 +16,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:location/location.dart';
+import 'package:multi_dropdown/models/value_item.dart';
 import '../../authentication/data/models/merchant.dart';
 import '../../authentication/data/models/worker.dart';
 import '../../core/services/dep_injection.dart';
@@ -36,6 +38,7 @@ class MainBloc extends Bloc<MainEvent, MainState> {
   Set<Product> lastSeenProducts = {};
   List<Merchant> merchants = [];
   List<Worker> workers = [];
+  List<OrderForWorkers> orderForWorkers = [];
   List<String> banners = [];
   List<Product> offers = [];
   List<Product> bestSales = [];
@@ -55,15 +58,15 @@ class MainBloc extends Bloc<MainEvent, MainState> {
     const CategoriesScreen(),
     const ProfileScreen(),
     const SupportScreen(),
-  ];List<Widget> pagesWorker = [
+  ];
+  List<Widget> pagesWorker = [
     const HomePageScreen(),
     const ProfileScreen(),
     const SupportScreen(),
   ];
 
   /// maps
-  final Completer<GoogleMapController> controller =
-      Completer<GoogleMapController>();
+  Completer<GoogleMapController> controller = Completer<GoogleMapController>();
   GoogleMapController? mapController;
   Set<Marker> markers = {};
   LatLng? latLng;
@@ -98,8 +101,16 @@ class MainBloc extends Bloc<MainEvent, MainState> {
         });
       } else if (event is SetOrderForWorkersEvent) {
         emit(SetOrderForWorkersLoadingState());
-        var result =
-            await MainRepository(sl()).setOrderForWorkers(orderForWorkers: event.orderForWorkers);
+        Map<String, LatLng> sortedWorkersWhomSentOrder = _sortPointsByDistance(
+          LatLng(
+              event.orderForWorkers.latitude, event.orderForWorkers.longitude),
+          event.orderForWorkers.work,
+        );
+        event.orderForWorkers.workersIds =
+            sortedWorkersWhomSentOrder.keys.toList().take(10).toList();
+        print(event.orderForWorkers.workersIds);
+        var result = await MainRepository(sl())
+            .setOrderForWorkers(orderForWorkers: event.orderForWorkers);
         result.fold((l) {
           emit(SetOrderForWorkersErrorState(l));
         }, (r) {
@@ -108,7 +119,7 @@ class MainBloc extends Bloc<MainEvent, MainState> {
       } else if (event is UpdateProductEvent) {
         emit(UpdateProductLoadingState());
         var result =
-            await MainRepository(sl()).modifyProduct(product: event.product);
+            await MainRepository(sl()).updateProduct(product: event.product);
         result.fold((l) {
           emit(UpdateProductErrorState(l));
         }, (r) {
@@ -159,7 +170,16 @@ class MainBloc extends Bloc<MainEvent, MainState> {
           workers = r;
           emit(GetWorkersSuccessfullyState());
         });
-      } else if (event is GetOffersEvent) {
+      } else if (event is GetOrderForWorkersEvent) {
+        emit(GetOrderForWorkersLoadingState());
+        var result = await MainRepository(sl()).getOrderForWorkers();
+        result.fold((l) {
+          emit(GetOrderForWorkersErrorState(l));
+        }, (r) {
+          orderForWorkers = r;
+          emit(GetOrderForWorkersSuccessfullyState());
+        });
+      }else if (event is GetOffersEvent) {
         emit(GetOffersLoadingState());
         var result = await MainRepository(sl()).getOffers();
         result.fold((l) {
@@ -218,7 +238,7 @@ class MainBloc extends Bloc<MainEvent, MainState> {
           emit(ProductRatingUpdateErrorState(l));
         }, (r) {
           emit(ProductRatingUpdateSuccessfullyState(
-              rating: r.$1, numbers: r.$2));
+              rating: r.value1, numbers: r.value2));
         });
       } else if (event is SelectProductEvent) {
         emit(SelectProductState(event.product));
@@ -293,7 +313,6 @@ class MainBloc extends Bloc<MainEvent, MainState> {
         }
       } else if (event is IncreaseQuantityEvent) {
         event.quantity++;
-        print(event.quantity);
         emit(IncreaseQuantityState(
             quantity: event.quantity, index: event.index));
       } else if (event is GetUserDataEvent) {
@@ -369,11 +388,11 @@ class MainBloc extends Bloc<MainEvent, MainState> {
             .remove(event.selectedPropertiesSaved[event.index]);
         emit(RemoveSelectedPropertiesSavedState());
       } else if (event is GetMyCurrentLocationEvent) {
+        emit(GetLocationLoadingState());
         await _myCurrentLocation().then((value) {
           add(GetLocationEvent(tappedPoint: latLng!));
         });
         emit(GetMyCurrentLocationState());
-
       } else if (event is OnMapCreatedEvent) {
         if (!controller.isCompleted) {
           controller.complete(event.controller);
@@ -387,7 +406,7 @@ class MainBloc extends Bloc<MainEvent, MainState> {
             LatLng(event.tappedPoint.latitude, event.tappedPoint.longitude);
         mapController!.animateCamera(CameraUpdate.newLatLng(event.tappedPoint));
         emit(GetLocationState());
-      }else if (event is GetNameOfLocationEvent) {
+      } else if (event is GetNameOfLocationEvent) {
         emit(GetNameOfLocationState(event.locationName));
       }
     });
@@ -434,6 +453,44 @@ class MainBloc extends Bloc<MainEvent, MainState> {
       infoWindow: InfoWindow(title: markerId),
     );
     markers.add(marker);
+  }
+
+  double _calculateDistance(
+    LatLng position1,
+    LatLng position2,
+  ) {
+    double x1 = position1.latitude, y1 = position1.latitude;
+    double x2 = position2.latitude, y2 = position2.latitude;
+    return sqrt(pow(x2 - x1, 2) + pow(y2 - y1, 2));
+  }
+
+  Map<String, LatLng> _sortPointsByDistance(LatLng targetPoint, String work) {
+    ValueItem<String> workConverted;
+    workConverted = LocalizationManager.getCurrentLocale().languageCode == "ar"
+        ? ConstantsManager.convertWorkToArabic(
+            ValueItem(label: work, value: work))
+        : ConstantsManager.convertWorkToEnglish(
+            ValueItem(label: work, value: work));
+
+    Map<String, LatLng> pointMap = _getPointMap(workConverted.label);
+    List<MapEntry<String, LatLng>> entries = pointMap.entries.toList();
+    entries.sort((a, b) {
+      double distanceA = _calculateDistance(targetPoint, a.value);
+      double distanceB = _calculateDistance(targetPoint, b.value);
+      return distanceA.compareTo(distanceB);
+    });
+
+    return Map.fromEntries(entries);
+  }
+
+  Map<String, LatLng> _getPointMap(String work) {
+    Map<String, LatLng> pointMap = {};
+    for (var element in workers) {
+      if (element.works.contains(work)) {
+        pointMap[element.id] = LatLng(element.latitude, element.longitude);
+      }
+    }
+    return pointMap;
   }
 
   List<String> getFavorites({

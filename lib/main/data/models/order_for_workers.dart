@@ -4,16 +4,28 @@ import 'package:equatable/equatable.dart';
 class OrderForWorkers extends Equatable {
   final String work;
   final String orderDetails;
+  final String location;
+  final String city;
+  final String customerName;
+  final String customerId;
   final double latitude;
+  final bool accepted;
+  List<String> workersIds;
   final double longitude;
-  final String id;
+  String? orderId;
 
-  const OrderForWorkers({
+  OrderForWorkers({
     required this.work,
+    required this.city,
+    required this.location,
+    required this.workersIds,
     required this.orderDetails,
+    required this.accepted,
+    required this.customerId,
+    required this.customerName,
     required this.latitude,
     required this.longitude,
-    required this.id,
+    this.orderId,
   });
 
   factory OrderForWorkers.fromJson(Map<String, dynamic> json) =>
@@ -21,17 +33,31 @@ class OrderForWorkers extends Equatable {
         work: json['work'],
         orderDetails: json['orderDetails'],
         latitude: json['latitude'],
+        customerId: json['customerId'],
+        customerName: json['customerName'],
+        location: json['location'],
+        workersIds: List<String>.from(json['workersIds'])
+            .map((workId) => workId)
+            .toList(),
+        city: json['city'],
+        accepted: json['accepted'],
         longitude: json['longitude'],
-        id: json['id'],
+        orderId: json['orderId'],
       );
 
   Map<String, dynamic> toJson() {
     return {
       "work": work,
       "orderDetails": orderDetails,
+      "accepted": accepted,
       "latitude": latitude,
+      "workersIds": workersIds,
       "longitude": longitude,
-      "id": id,
+      "city": city,
+      "customerName": customerName,
+      "customerId": customerId,
+      "orderId": orderId,
+      "location": location,
     };
   }
 
@@ -41,6 +67,8 @@ class OrderForWorkers extends Equatable {
         orderDetails,
         latitude,
         longitude,
-        id,
+        location,
+        city,
+        orderId,
       ];
 }

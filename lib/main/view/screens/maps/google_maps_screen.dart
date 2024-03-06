@@ -1,3 +1,7 @@
+import 'dart:async';
+
+import 'package:almasheed/authentication/presentation/components.dart';
+import 'package:almasheed/core/utils/color_manager.dart';
 import 'package:almasheed/core/utils/navigation_manager.dart';
 import 'package:almasheed/main/view/widgets/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -19,6 +23,9 @@ class GoogleMapsScreen extends StatelessWidget {
       zoom: 14.4746,
     );
     MainBloc bloc = sl();
+    bloc.mapController = null;
+    bloc.latLng = null;
+    bloc.controller = Completer<GoogleMapController>();
     return BlocBuilder<MainBloc, MainState>(
       builder: (context, state) {
         return Scaffold(
@@ -39,21 +46,38 @@ class GoogleMapsScreen extends StatelessWidget {
                 padding: EdgeInsets.symmetric(vertical: 8.h, horizontal: 4.w),
                 child: SizedBox(
                   width: 25.w,
-                  child: defaultButton(
-                    onPressed: () async {
-                      await placemarkFromCoordinates(
-                          bloc.latLng!.latitude, bloc.latLng!.longitude)
-                          .then((value) {
-                        String locationName =
-                        "${value.first.country} - ${value.first
-                            .subAdministrativeArea} - ${value.first.street}";
-                        bloc.add(GetNameOfLocationEvent(locationName));
-                        context.pop();
-                      });
-                    },
-                    text: S
-                        .of(context)
-                        .ok,
+                  child: Container(
+                    clipBehavior: Clip.antiAliasWithSaveLayer,
+                    decoration: BoxDecoration(
+                      color: ColorManager.primary,
+                      borderRadius: BorderRadiusDirectional.circular(10.sp),
+                    ),
+                    child: TextButton(
+                      onPressed: () async {
+                        if (bloc.latLng != null &&
+                            state is! GetLocationLoadingState) {
+                          await placemarkFromCoordinates(
+                                  bloc.latLng!.latitude, bloc.latLng!.longitude)
+                              .then((value) {
+                            String locationName =
+                                "${value.first.country} - ${value.first.subAdministrativeArea} - ${value.first.street}";
+                            bloc.add(GetNameOfLocationEvent(locationName));
+                            context.pop();
+                          });
+                        } else {
+                          bloc.controller = Completer<GoogleMapController>();
+                          errorToast(msg: S.of(context).chooseLocation);
+                        }
+                      },
+                      child: state is GetLocationLoadingState
+                          ? const CircularProgressIndicator(
+                        color: ColorManager.white,
+                      )
+                          : Text(
+                              S.of(context).ok,
+                              style: const TextStyle(color: ColorManager.white),
+                            ),
+                    ),
                   ),
                 ),
               )
@@ -63,9 +87,7 @@ class GoogleMapsScreen extends StatelessWidget {
             onPressed: () {
               bloc.add(GetMyCurrentLocationEvent());
             },
-            label: Text(S
-                .of(context)
-                .myCurrentLocation),
+            label: Text(S.of(context).myCurrentLocation),
             icon: const Icon(Icons.directions_boat),
           ),
         );

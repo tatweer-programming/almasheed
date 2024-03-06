@@ -10,8 +10,10 @@ import 'package:almasheed/core/error/remote_error.dart';
 import 'package:almasheed/core/utils/constance_manager.dart';
 import 'package:almasheed/core/utils/navigation_manager.dart';
 import 'package:almasheed/main/bloc/main_bloc.dart';
+import 'package:almasheed/main/view/screens/orders/orders_for_workers_screen.dart';
 import 'package:almasheed/main/view/widgets/widgets.dart';
 import 'package:almasheed/payment/presentation/screens/cart_screen.dart';
+import 'package:almasheed/payment/presentation/screens/myorders_for_workers_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sizer/sizer.dart';
@@ -20,6 +22,7 @@ import '../../../core/services/dep_injection.dart';
 import '../../../core/utils/color_manager.dart';
 import '../../../generated/l10n.dart';
 import '../../../main/view/screens/products/last_seen_screen.dart';
+import '../../../payment/presentation/screens/complete_order_for_workers_screen.dart';
 import 'edit_profile_screen.dart';
 
 class ProfileScreen extends StatelessWidget {
@@ -32,49 +35,13 @@ class ProfileScreen extends StatelessWidget {
     if (ConstantsManager.appUser != null) {
       authBloc = AuthBloc();
     }
-    print(ConstantsManager.appUser);
     return SingleChildScrollView(
       child: BlocBuilder<AuthBloc, AuthState>(
         bloc: authBloc,
         builder: (context, state) {
           return Column(
             children: [
-              SizedBox(
-                width: 100.w,
-                child: ClipPath(
-                  clipper: HalfCircleCurve(18.h),
-                  child: Container(
-                    height: 35.h,
-                    color: ColorManager.primary,
-                    child: Padding(
-                      padding: EdgeInsetsDirectional.only(
-                          start: 8.w, end: 8.w, top: 1.h),
-                      child: Column(
-                        children: [
-                          SizedBox(
-                            height: 5.h,
-                          ),
-                          Text(
-                            S.of(context).myAccount,
-                            style: TextStyle(
-                              color: ColorManager.white,
-                              fontSize: 30.sp,
-                              fontWeight: FontWeight.w600,
-                            ),
-                          ),
-                          SizedBox(width: 3.h),
-                          Icon(
-                            Icons.person_outline_rounded,
-                            color: ColorManager.white,
-                            size: 40.sp,
-                          ),
-                          SizedBox(width: 3.h),
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
-              ),
+              appBarWidget(S.of(context).myAccount, Icons.person_outline_rounded),
               SizedBox(
                 height: 3.h,
               ),
@@ -151,13 +118,12 @@ class ProfileScreen extends StatelessWidget {
                 padding: EdgeInsets.all(5.0.w),
                 child: Column(
                   children: [
-                    ConstantsManager.appUser is Customer
-                        ? ProfileItemBuilder(
-                            iconData: Icons.person_outline_rounded,
-                            label: S.of(context).myOrders,
-                            nextScreen: const CartScreen(),
-                          )
-                        : const SizedBox(),
+                    if (ConstantsManager.appUser is Customer)
+                      ProfileItemBuilder(
+                        iconData: Icons.shopping_cart,
+                        label: S.of(context).cart,
+                        nextScreen: const CartScreen(),
+                      ),
                     if (ConstantsManager.appUser is Customer)
                       ProfileItemBuilder(
                         iconData: Icons.map_outlined,
@@ -166,15 +132,27 @@ class ProfileScreen extends StatelessWidget {
                       ),
                     if (ConstantsManager.appUser is Worker)
                       ProfileItemBuilder(
-                        iconData: Icons.map_outlined,
+                        iconData: Icons.person,
                         label: S.of(context).editProfile,
                         nextScreen: const EditProfileScreen(),
+                      ),
+                    if (ConstantsManager.appUser is Worker)
+                      ProfileItemBuilder(
+                        iconData: Icons.map_outlined,
+                        label: S.of(context).orders,
+                        nextScreen: const OrdersForWorkersScreen(),
                       ),
                     if (ConstantsManager.appUser is Customer)
                       ProfileItemBuilder(
                         iconData: Icons.remove_red_eye_rounded,
                         label: S.of(context).lastSeen,
                         nextScreen: const LastSeenScreen(),
+                      ),
+                    if (ConstantsManager.appUser is Customer)
+                      ProfileItemBuilder(
+                        iconData: Icons.map_outlined,
+                        label: S.of(context).myOrders,
+                        nextScreen: const MyOrdersForWorkersScreen(),
                       ),
                     ProfileItemBuilder(
                       iconData: Icons.question_mark_outlined,

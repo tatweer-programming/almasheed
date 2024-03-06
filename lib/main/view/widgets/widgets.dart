@@ -22,6 +22,7 @@ mainFormField(
         Color? fillColor,
         String? validatorText,
         TextInputType? type,
+        bool border = true,
         void Function()? suffixFunction,
         FormFieldValidator? validator,
         bool obscureText = false,
@@ -48,17 +49,17 @@ mainFormField(
         decoration: InputDecoration(
             prefixIcon: prefix,
             disabledBorder: OutlineInputBorder(
-              borderSide: BorderSide.none,
+              borderSide: !border ? BorderSide.none : const BorderSide(),
               borderRadius: BorderRadius.circular(10.sp),
             ),
             contentPadding:
                 EdgeInsetsDirectional.symmetric(horizontal: 2.w, vertical: 1.h),
             focusedBorder: OutlineInputBorder(
-              borderSide: BorderSide.none,
+              borderSide: !border ? BorderSide.none : const BorderSide(),
               borderRadius: BorderRadius.circular(10.sp),
             ),
             enabledBorder: OutlineInputBorder(
-              borderSide: BorderSide.none,
+              borderSide: !border ? BorderSide.none : const BorderSide(),
               borderRadius: BorderRadius.circular(10.sp),
             ),
             errorStyle: TextStyle(color: ColorManager.error),
@@ -360,6 +361,44 @@ Widget merchantAndWorkerWidget(
             )),
       ),
     );
+
+Widget appBarWidget(String title, IconData icon) {
+  return Align(
+    alignment: AlignmentDirectional.topCenter,
+    heightFactor: 0.12.h,
+    child: ClipPath(
+      clipper: HalfCircleCurve(14.h),
+      child: Container(
+        height: 32.h,
+        width: double.infinity,
+        color: ColorManager.primary,
+        child: Padding(
+          padding: EdgeInsetsDirectional.only(start: 8.w, end: 8.w, top: 1.h),
+          child: Column(
+            children: [
+              SizedBox(
+                height: 4.h,
+              ),
+              Text(
+                title,
+                style: TextStyle(
+                    color: ColorManager.white,
+                    fontSize: 30.sp,
+                    fontWeight: FontWeight.bold),
+              ),
+              SizedBox(height: 3.h),
+              Icon(
+                icon,
+                color: ColorManager.white,
+                size: 40.sp,
+              ),
+            ],
+          ),
+        ),
+      ),
+    ),
+  );
+}
 
 // Widget workerWidget({required Worker worker, required VoidCallback onTap}) =>
 //     InkWell(

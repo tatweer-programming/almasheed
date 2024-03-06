@@ -30,41 +30,7 @@ class WorkerDetailsScreen extends StatelessWidget {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            ClipPath(
-              clipper: HalfCircleCurve(18.h),
-              child: Container(
-                height: 35.h,
-                width: double.infinity,
-                color: ColorManager.primary,
-                child: Padding(
-                  padding: EdgeInsetsDirectional.only(
-                      start: 8.w, end: 8.w, top: 1.h),
-                  child: Column(
-                    children: [
-                      SizedBox(
-                        height: 5.h,
-                      ),
-                      Text(
-                        S.of(context).worker,
-                        style: TextStyle(
-                          color: ColorManager.white,
-                          fontSize: 30.sp,
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                      Expanded(
-                        child: Icon(
-                          Icons.miscellaneous_services,
-                          color: ColorManager.white,
-                          size: 40.sp,
-                        ),
-                      ),
-                      SizedBox(height: 10.h),
-                    ],
-                  ),
-                ),
-              ),
-            ),
+            appBarWidget(S.of(context).worker, Icons.miscellaneous_services),
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 5.w, vertical: 3.h),
               child: Column(

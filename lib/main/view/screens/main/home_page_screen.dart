@@ -15,6 +15,7 @@ import 'package:almasheed/main/view/screens/categories/category_screen.dart';
 import 'package:almasheed/main/view/screens/products/details_product.dart';
 import 'package:almasheed/main/view/widgets/widgets.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import '../../../../authentication/data/models/worker.dart';
 import '../../../../generated/l10n.dart';
 import '../../../../payment/presentation/screens/cart_screen.dart';
 import '../../../bloc/main_bloc.dart';
@@ -59,7 +60,7 @@ class HomePageScreen extends StatelessWidget {
                               list: bloc.banners,
                               controller: carouselController),
                           SizedBox(height: 1.h),
-                          if (bloc.categories.isNotEmpty)
+                          if (ConstantsManager.appUser is! Worker && bloc.categories.isNotEmpty)
                             _buildCategoriesList(context, bloc),
                           if ((ConstantsManager.appUser is Customer ||
                                   ConstantsManager.appUser == null) &&
@@ -225,7 +226,7 @@ class HomePageScreen extends StatelessWidget {
           text: S.of(context).merchants,
           widget: TextButton(
               onPressed: () {
-                context.push(const ShowAllMerchantsOrWorkers());
+                context.push(ShowAllMerchantsOrWorkers(merchants: bloc.merchants,workers: const [],));
               },
               child: Text(S.of(context).showAll)),
         ),
@@ -263,7 +264,7 @@ class HomePageScreen extends StatelessWidget {
           text: S.of(context).workers,
           widget: TextButton(
             onPressed: () {
-              context.push(const ShowAllMerchantsOrWorkers());
+              context.push(ShowAllMerchantsOrWorkers(merchants: const [], workers: bloc.workers,));
             },
             child: Text(S.of(context).showAll),
           ),

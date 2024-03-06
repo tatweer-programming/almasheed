@@ -24,46 +24,14 @@ class TermsAndConditionsScreen extends StatelessWidget {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            SizedBox(
-              width: 100.w,
-              child: ClipPath(
-                clipper: HalfCircleCurve(18.h),
-                child: Container(
-                  height: 35.h,
-                  color: ColorManager.primary,
-                  child: Padding(
-                    padding: EdgeInsetsDirectional.only(
-                        start: 8.w, end: 8.w, top: 1.h),
-                    child: Column(
-                      children: [
-                        SizedBox(
-                          height: 5.h,
-                        ),
-                        Text(
-                          S.of(context).termsAndConditions,
-                          style: TextStyle(
-                              color: ColorManager.white,
-                              fontSize: 28.sp,
-                              fontWeight: FontWeight.bold),
-                        ),
-                        SizedBox(width: 3.h),
-                        Icon(
-                          Icons.privacy_tip_outlined,
-                          color: ColorManager.white,
-                          size: 40.sp,
-                        ),
-                        SizedBox(width: 3.h),
-                      ],
-                    ),
-                  ),
-                ),
-              ),
-            ),
+            appBarWidget(S.of(context).termsAndConditions, Icons.privacy_tip_outlined),
             Padding(
               padding: EdgeInsets.all(8.0.sp),
               child: Center(
                 child: SelectableText(
-                    textAlign: TextAlign.center, termsAndConditions),
+                  textAlign: TextAlign.center, termsAndConditions,style: TextStyle(
+                    fontWeight: FontWeight.w600,fontSize: 13.sp
+                ),),
               ),
             ),
           ],

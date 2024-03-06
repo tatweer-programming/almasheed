@@ -37,6 +37,11 @@ class MainRepository {
     return await mainRemoteDataSource.getWorkers();
   }
 
+  Future<Either<FirebaseException, List<OrderForWorkers>>>
+      getOrderForWorkers() async {
+    return await mainRemoteDataSource.getOrderForWorkers();
+  }
+
   Future<Either<FirebaseException, List<String>>> getBanners() async {
     return await mainRemoteDataSource.getBanners();
   }
@@ -46,9 +51,9 @@ class MainRepository {
     return await mainRemoteDataSource.setProduct(product: product);
   }
 
-  Future<Either<FirebaseException, Unit>> modifyProduct(
+  Future<Either<FirebaseException, Unit>> updateProduct(
       {required Product product}) async {
-    return await mainRemoteDataSource.modifyProduct(product: product);
+    return await mainRemoteDataSource.updateProduct(product: product);
   }
 
   Future<Either<FirebaseException, Unit>> setCategory(
@@ -74,7 +79,7 @@ class MainRepository {
         favorites: favorites);
   }
 
-  Future<Either<FirebaseException, (double, int)>> productRatingUpdate({
+  Future<Either<FirebaseException, Tuple2<double, int>>> productRatingUpdate({
     required double productRating,
     required String productId,
   }) async {

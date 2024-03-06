@@ -1,8 +1,9 @@
 import 'package:almasheed/authentication/data/models/merchant.dart';
+import 'package:almasheed/authentication/data/models/worker.dart';
 import 'package:almasheed/core/utils/color_manager.dart';
 import 'package:almasheed/core/utils/constance_manager.dart';
 import 'package:almasheed/core/utils/navigation_manager.dart';
-import 'package:almasheed/main/view/screens/maps/add_order_to_worker_screen.dart';
+import 'package:almasheed/main/view/screens/orders/add_order_to_worker_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../authentication/data/models/customer.dart';
@@ -22,7 +23,6 @@ class MainScreen extends StatelessWidget {
             ConstantsManager.registrationSkipped == null
         ? bloc.add(GetUserDataEvent())
         : DoNothingAction();
-
     return BlocConsumer<MainBloc, MainState>(
       bloc: bloc,
       listener: (context, state) {
@@ -32,6 +32,10 @@ class MainScreen extends StatelessWidget {
           bloc.add(GetBestSalesEvent());
         } else if (state is GetUserDataErrorState) {
           errorToast(msg: ExceptionManager(state.error).translatedMessage());
+        }
+        if (state is GetUserDataSuccessfullyState &&
+            ConstantsManager.appUser is! Merchant) {
+          bloc.add(GetOrderForWorkersEvent());
         }
       },
       builder: (context, state) {
@@ -58,12 +62,13 @@ class MainScreen extends StatelessWidget {
                   icon: const Icon(
                     Icons.home_outlined,
                   )),
-              if (ConstantsManager.appUser is Merchant || ConstantsManager.appUser is Customer)
-              BottomNavigationBarItem(
-                  label: S.of(context).categories,
-                  icon: const Icon(
-                    Icons.category_outlined,
-                  )),
+              if (ConstantsManager.appUser is Merchant ||
+                  ConstantsManager.appUser is Customer)
+                BottomNavigationBarItem(
+                    label: S.of(context).categories,
+                    icon: const Icon(
+                      Icons.category_outlined,
+                    )),
               if (ConstantsManager.appUser is Customer)
                 BottomNavigationBarItem(
                     label: S.of(context).favourites,

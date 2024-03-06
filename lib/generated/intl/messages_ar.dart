@@ -25,6 +25,11 @@ class MessageLookup extends MessageLookupByLibrary {
         "WorkCharacteristics":
             MessageLookupByLibrary.simpleMessage("خصائص العمل"),
         "aboutApp": MessageLookupByLibrary.simpleMessage("حول التطبيق"),
+        "accept": MessageLookupByLibrary.simpleMessage("قبول"),
+        "acceptOrder": MessageLookupByLibrary.simpleMessage(
+            "تم قبول الطلب ,سيتم ارسال اشعار للعميل لدفع العربون "),
+        "acceptOrderFrom":
+            MessageLookupByLibrary.simpleMessage("تم قبول الطلب من "),
         "add": MessageLookupByLibrary.simpleMessage("إضافة"),
         "addAddress": MessageLookupByLibrary.simpleMessage("اضافة عنوان"),
         "addCategory": MessageLookupByLibrary.simpleMessage("إضافة فئة"),
@@ -59,6 +64,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "chooseAccountType":
             MessageLookupByLibrary.simpleMessage("يرجى اختيار نوع الحساب"),
         "chooseAddress": MessageLookupByLibrary.simpleMessage("اختر العنوان"),
+        "chooseLocation":
+            MessageLookupByLibrary.simpleMessage("يجب عليك اختيار موقع"),
         "city": MessageLookupByLibrary.simpleMessage("المدينة"),
         "codeSent":
             MessageLookupByLibrary.simpleMessage("تم ارسال الرمز بنجاح"),
@@ -78,7 +85,6 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("تم الحذف بنجاح"),
         "deposit": MessageLookupByLibrary.simpleMessage("العربون"),
         "description": MessageLookupByLibrary.simpleMessage("الوصف"),
-        "detailsProduct": MessageLookupByLibrary.simpleMessage("تفاصيل المنتج"),
         "detailsYourOrder": MessageLookupByLibrary.simpleMessage("تفاصيل طلبك"),
         "determineQuantity":
             MessageLookupByLibrary.simpleMessage("يجب تحديد الكمية"),
@@ -88,7 +94,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "doNotHaveAccount":
             MessageLookupByLibrary.simpleMessage("ليس لديك حساب؟"),
         "edit": MessageLookupByLibrary.simpleMessage("تعديل"),
-        "editProfile": MessageLookupByLibrary.simpleMessage("تعديل بياناتك"),
+        "editProfile": MessageLookupByLibrary.simpleMessage("تعديل بياناتي"),
         "editSuccess":
             MessageLookupByLibrary.simpleMessage("تم تعديل بياناتك بنجاح"),
         "endChat": MessageLookupByLibrary.simpleMessage("إنهاء المحادثة"),
@@ -152,6 +158,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "home": MessageLookupByLibrary.simpleMessage("الرئيسية"),
         "house": MessageLookupByLibrary.simpleMessage("المنزل"),
         "houseNumber": MessageLookupByLibrary.simpleMessage("رقم المنزل"),
+        "ignore": MessageLookupByLibrary.simpleMessage("تجاهل"),
         "language": MessageLookupByLibrary.simpleMessage("اللغة"),
         "lastSeen": MessageLookupByLibrary.simpleMessage("آخر ما تمت مشاهدته"),
         "location": MessageLookupByLibrary.simpleMessage("موقع"),
@@ -196,6 +203,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "orderAdded": MessageLookupByLibrary.simpleMessage("تم إضافة طلبك"),
         "orderBy": MessageLookupByLibrary.simpleMessage("ترتيب حسب..."),
         "orderDetails": MessageLookupByLibrary.simpleMessage("تفاصيل الطلب"),
+        "orders": MessageLookupByLibrary.simpleMessage("طلبات"),
         "other": MessageLookupByLibrary.simpleMessage("أخرى"),
         "overview": MessageLookupByLibrary.simpleMessage("نظرة عامة"),
         "payDeposit": MessageLookupByLibrary.simpleMessage("دفع العربون"),
@@ -210,6 +218,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "productCategory": MessageLookupByLibrary.simpleMessage("فئة المنتج"),
         "productDeleted":
             MessageLookupByLibrary.simpleMessage("تم حذف المنتج بنجاح"),
+        "productDetails": MessageLookupByLibrary.simpleMessage("تفاصيل المنتج"),
         "productModified":
             MessageLookupByLibrary.simpleMessage("تم تعديل المنتج بنجاح"),
         "products": MessageLookupByLibrary.simpleMessage("المنتجات"),
@@ -267,6 +276,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "whoAreWe": MessageLookupByLibrary.simpleMessage("من نحن"),
         "work": MessageLookupByLibrary.simpleMessage("العمل"),
         "worker": MessageLookupByLibrary.simpleMessage("فني"),
+        "workerDetails": MessageLookupByLibrary.simpleMessage("تفاصيل الفني "),
         "workers": MessageLookupByLibrary.simpleMessage("الفنيين"),
         "youMayLikeIt": MessageLookupByLibrary.simpleMessage("قد يعجبك")
       };
