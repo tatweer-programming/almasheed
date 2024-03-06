@@ -161,6 +161,7 @@ class MaintenanceLoginScreen extends StatelessWidget {
                                                     longitude: 46.738586,
                                                     works: [],
                                                     id: "",
+                                                    brief: "",
                                                     phone:
                                                         "+966${phoneController.text}",
                                                     facility: '');

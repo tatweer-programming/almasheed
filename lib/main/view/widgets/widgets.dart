@@ -28,6 +28,7 @@ mainFormField(
         double? width,
         TextStyle? labelStyle,
         int? maxLines,
+        int? minLines,
         TextAlign? textAlign,
         required TextEditingController controller}) =>
     SizedBox(
@@ -42,18 +43,22 @@ mainFormField(
         enabled: enabled,
         obscureText: obscureText,
         maxLines: maxLines,
+        minLines: minLines,
         style: const TextStyle(color: ColorManager.black),
         decoration: InputDecoration(
             prefixIcon: prefix,
             disabledBorder: OutlineInputBorder(
+              borderSide: BorderSide.none,
               borderRadius: BorderRadius.circular(10.sp),
             ),
             contentPadding:
                 EdgeInsetsDirectional.symmetric(horizontal: 2.w, vertical: 1.h),
             focusedBorder: OutlineInputBorder(
+              borderSide: BorderSide.none,
               borderRadius: BorderRadius.circular(10.sp),
             ),
             enabledBorder: OutlineInputBorder(
+              borderSide: BorderSide.none,
               borderRadius: BorderRadius.circular(10.sp),
             ),
             errorStyle: TextStyle(color: ColorManager.error),

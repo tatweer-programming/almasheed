@@ -55,12 +55,16 @@ class MainBloc extends Bloc<MainEvent, MainState> {
     const CategoriesScreen(),
     const ProfileScreen(),
     const SupportScreen(),
+  ];List<Widget> pagesWorker = [
+    const HomePageScreen(),
+    const ProfileScreen(),
+    const SupportScreen(),
   ];
 
   /// maps
   final Completer<GoogleMapController> controller =
       Completer<GoogleMapController>();
-  late GoogleMapController mapController;
+  GoogleMapController? mapController;
   Set<Marker> markers = {};
   LatLng? latLng;
 
@@ -381,7 +385,7 @@ class MainBloc extends Bloc<MainEvent, MainState> {
         addMarker(event.tappedPoint, event.tappedPoint.latitude.toString());
         latLng =
             LatLng(event.tappedPoint.latitude, event.tappedPoint.longitude);
-        mapController.animateCamera(CameraUpdate.newLatLng(event.tappedPoint));
+        mapController!.animateCamera(CameraUpdate.newLatLng(event.tappedPoint));
         emit(GetLocationState());
       }else if (event is GetNameOfLocationEvent) {
         emit(GetNameOfLocationState(event.locationName));

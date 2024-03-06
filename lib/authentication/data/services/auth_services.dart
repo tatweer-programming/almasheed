@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:io';
 import 'package:almasheed/authentication/data/models/user.dart';
+import 'package:almasheed/authentication/data/models/worker.dart';
 import 'package:almasheed/core/local/shared_prefrences.dart';
 import 'package:almasheed/core/utils/constance_manager.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -23,7 +24,8 @@ class AuthService {
   Completer<Either<FirebaseAuthException, String>> verifyPhoneCompleter =
       Completer<Either<FirebaseAuthException, String>>();
 
-  Future<Either<FirebaseAuthException, String>> verifyPhoneNumber(String phoneNumber) async {
+  Future<Either<FirebaseAuthException, String>> verifyPhoneNumber(
+      String phoneNumber) async {
     try {
       _resetVerifyPhoneCompleter();
       _resetVerificationIdCompleter();
@@ -44,7 +46,8 @@ class AuthService {
     return verificationIdCompleter.future;
   }
 
-  Future<Either<FirebaseAuthException, String>> verifyCode(String code, String userType) async {
+  Future<Either<FirebaseAuthException, String>> verifyCode(
+      String code, String userType) async {
     try {
       String? id;
       final String verificationId = await waitForVerificationID();
@@ -56,7 +59,9 @@ class AuthService {
 
       await _firebaseAuth.signInWithCredential(credential).then((value) async {
         id = value.user!.uid;
-        await FirebaseMessaging.instance.subscribeToTopic("$id").then((value) async {
+        await FirebaseMessaging.instance
+            .subscribeToTopic("$id")
+            .then((value) async {
           await CacheHelper.saveData(key: "isNotificationsOn", value: true);
         });
       });
@@ -72,7 +77,11 @@ class AuthService {
     String userType,
   ) async {
     late bool isExists;
-    await _fireStore.collection("${userType}s/").doc(id).get().then((value) async {
+    await _fireStore
+        .collection("${userType}s/")
+        .doc(id)
+        .get()
+        .then((value) async {
       isExists = value.data()?["id"] == id;
       if (isExists) {
         AppUser user = AppUser.fromJson(value.data()!, userType);
@@ -101,7 +110,9 @@ class AuthService {
     try {
       String userType = user.getType();
       bool isUserExists = await _searchForUserById(user.id, userType);
-      isUserExists ? DoNothingAction() : await _addUSerToFireStore(user, userType);
+      isUserExists
+          ? DoNothingAction()
+          : await _addUSerToFireStore(user, userType);
       return Right(isUserExists);
     } on FirebaseException catch (e) {
       return Left(e);
@@ -115,7 +126,10 @@ class AuthService {
     try {
       Customer customer = ConstantsManager.appUser as Customer;
       customer.addresses.add(address);
-      await _fireStore.collection("${customer.getType()}s").doc(customer.id).update({
+      await _fireStore
+          .collection("${customer.getType()}s")
+          .doc(customer.id)
+          .update({
         "addresses": FieldValue.arrayUnion([address.toJson()])
       });
       return const Right(unit);
@@ -128,7 +142,10 @@ class AuthService {
     try {
       Customer customer = ConstantsManager.appUser as Customer;
       customer.addresses.remove(address);
-      await _fireStore.collection("${customer.getType()}s").doc(customer.id).update({
+      await _fireStore
+          .collection("${customer.getType()}s")
+          .doc(customer.id)
+          .update({
         "addresses": FieldValue.arrayRemove([address.toJson()])
       });
       return const Right(unit);
@@ -148,7 +165,8 @@ class AuthService {
     }
   }
 
-  Future<Either<FirebaseException, String>> uploadProfilePic(File newImage) async {
+  Future<Either<FirebaseException, String>> uploadProfilePic(
+      File newImage) async {
     try {
       String newImageUrl = await _uploadNewImage(newImage);
       ConstantsManager.appUser?.image = newImageUrl;
@@ -160,7 +178,8 @@ class AuthService {
 
   Future updateImageInFireStore(String newImageUrl) async {
     _fireStore
-        .doc("${ConstantsManager.appUser?.getType()}s/${ConstantsManager.userId}")
+        .doc(
+            "${ConstantsManager.appUser?.getType()}s/${ConstantsManager.userId}")
         .update({"image": newImageUrl});
   }
 
@@ -197,7 +216,10 @@ class AuthService {
 
   Future _addUSerToFireStore(AppUser user, String userType) async {
     try {
-      await _fireStore.doc("${userType}s/${user.id}").set(user.toJson()).then((value) async {
+      await _fireStore
+          .doc("${userType}s/${user.id}")
+          .set(user.toJson())
+          .then((value) async {
         await _saveUser(user, userType);
       });
     } catch (e) {
@@ -207,8 +229,25 @@ class AuthService {
     }
   }
 
-  Future<bool> _searchForUsersByPhoneNumber(String phone, String userType) async {
-    var res = await _fireStore.collection("${userType}s").where("phone", isEqualTo: phone).get();
+  Future<Either<FirebaseException, Unit>> updateWorker(Worker worker) async {
+    try {
+      await _fireStore.collection("workers")
+          .doc(ConstantsManager.userId!)
+          .update(worker.toJson())
+          .then((value) async {
+      });
+      return const Right(unit);
+    } on FirebaseException catch (e) {
+      return Left(e);
+    }
+  }
+
+  Future<bool> _searchForUsersByPhoneNumber(
+      String phone, String userType) async {
+    var res = await _fireStore
+        .collection("${userType}s")
+        .where("phone", isEqualTo: phone)
+        .get();
     return res.docs.isNotEmpty;
   }
 

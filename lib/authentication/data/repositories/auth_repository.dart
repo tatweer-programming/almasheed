@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:almasheed/authentication/data/models/address.dart';
+import 'package:almasheed/authentication/data/models/worker.dart';
 import 'package:almasheed/authentication/data/services/auth_services.dart';
 import 'package:dartz/dartz.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -15,12 +16,15 @@ class AuthRepository {
     return _service.verifyPhoneNumber(phoneNumber);
   }
 
-  Future<Either<FirebaseAuthException, String>> verifyCode(String code, String userType) {
-    return _service.verifyCode(code, userType);
+  Future<Either<FirebaseAuthException, String>> verifyCode(String code, String userType) async {
+    return await _service.verifyCode(code, userType);
   }
 
-  Future<Either<FirebaseException, bool>> createUser(AppUser user) {
-    return _service.createUser(user);
+  Future<Either<FirebaseException, bool>> createUser(AppUser user) async {
+    return await _service.createUser(user);
+  }
+  Future<Either<FirebaseException, Unit>> updateWorker(Worker worker) async {
+    return await _service.updateWorker(worker);
   }
 
   Future<Either<FirebaseException, String>> loginByPhone(
@@ -29,26 +33,26 @@ class AuthRepository {
   }
 
   Future<Either<FirebaseException, Unit>> addAddress(Address address) async {
-    return _service.addAddress(address);
+    return await _service.addAddress(address);
   }
 
   Future<Either<FirebaseException, Unit>> removeAddress(Address address) async {
-    return _service.removeAddress(address);
+    return await _service.removeAddress(address);
   }
 
-  Future<Either<FirebaseException, Unit>> logout() {
-    return _service.logout();
+  Future<Either<FirebaseException, Unit>> logout() async {
+    return await _service.logout();
   }
 
-  Future<Either<FirebaseException, String>> updateProfilePic(File newImage) {
-    return _service.uploadProfilePic(newImage);
+  Future<Either<FirebaseException, String>> updateProfilePic(File newImage) async {
+    return await _service.uploadProfilePic(newImage);
   }
 
   Future updateImageInFireStore(String newImageUrl) async {
-    return _service.updateImageInFireStore(newImageUrl);
+    return await _service.updateImageInFireStore(newImageUrl);
   }
 
   Future deleteOldPic(String url) async {
-    return _service.deleteOldPic(url);
+    return await _service.deleteOldPic(url);
   }
 }

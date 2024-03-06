@@ -58,12 +58,13 @@ class MainScreen extends StatelessWidget {
                   icon: const Icon(
                     Icons.home_outlined,
                   )),
+              if (ConstantsManager.appUser is Merchant || ConstantsManager.appUser is Customer)
               BottomNavigationBarItem(
                   label: S.of(context).categories,
                   icon: const Icon(
                     Icons.category_outlined,
                   )),
-              if (ConstantsManager.appUser is! Merchant)
+              if (ConstantsManager.appUser is Customer)
                 BottomNavigationBarItem(
                     label: S.of(context).favourites,
                     icon: const Icon(
@@ -83,13 +84,17 @@ class MainScreen extends StatelessWidget {
           ),
           body: RefreshIndicator(
               onRefresh: () async {
-                bloc.add(GetProductsEvent());
-                bloc.add(GetWorkersEvent());
-                bloc.add(GetMerchantsEvent());
+                if (ConstantsManager.appUser is Customer) {
+                  bloc.add(GetProductsEvent());
+                  bloc.add(GetWorkersEvent());
+                  bloc.add(GetMerchantsEvent());
+                }
               },
               child: (ConstantsManager.appUser is Merchant)
                   ? bloc.pagesMerchant[bloc.pageIndex]
-                  : bloc.pagesCustomer[bloc.pageIndex]),
+                  : (ConstantsManager.appUser is Customer)
+                      ? bloc.pagesCustomer[bloc.pageIndex]
+                      : bloc.pagesWorker[bloc.pageIndex]),
         );
       },
     );

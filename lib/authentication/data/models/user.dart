@@ -1,3 +1,4 @@
+import 'package:almasheed/authentication/data/models/worker.dart';
 import 'package:almasheed/core/utils/images_manager.dart';
 
 import 'customer.dart';
@@ -17,6 +18,8 @@ abstract class AppUser {
       return Customer.fromJson(json);
     } else if (type == 'merchant') {
       return Merchant.fromJson(json);
+    }else if (type == 'worker') {
+      return Worker.fromJson(json);
     }
     throw ArgumentError('Invalid user type');
   }

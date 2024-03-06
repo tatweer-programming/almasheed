@@ -132,12 +132,25 @@ class ConstantsManager {
     }
   }
 
+
+  static ValueItem convertWorkToEnglish(ValueItem<String> work) {
+    int index = worksArabic.indexOf(work);
+    return (index != -1) ? worksEnglish[index] : work;
+  }
+  static ValueItem convertWorkToArabic(ValueItem<String> work) {
+    int index = worksEnglish.indexOf(work);
+    return (index != -1) ? worksArabic[index] : work;
+  }
+
+
   static const List<ValueItem<String>> worksEnglish = [
     ValueItem(label: "Electricity technician", value: "Electricity technician"),
     ValueItem(label: "Plumbing", value: "Plumbing"),
     ValueItem(label: "Paint", value: "Paint"),
     ValueItem(label: "Tile", value: "Tile"),
-    ValueItem(label: "Air conditioning technician", value: "Air conditioning technician"),
+    ValueItem(
+        label: "Air conditioning technician",
+        value: "Air conditioning technician"),
     ValueItem(label: "Carpenter", value: "Carpenter"),
     ValueItem(label: "Smith", value: "Smith"),
     ValueItem(label: "Another", value: "Another"),

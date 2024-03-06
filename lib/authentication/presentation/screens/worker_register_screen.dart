@@ -29,6 +29,7 @@ class WorkerRegisterScreen extends StatelessWidget {
     TextEditingController phoneController = TextEditingController();
     TextEditingController nameController = TextEditingController();
     TextEditingController cityController = TextEditingController();
+    TextEditingController briefController = TextEditingController();
     TextEditingController locationController = TextEditingController();
     TextEditingController facilityController = TextEditingController();
     TextEditingController commercialLicenseNumberController =
@@ -105,6 +106,21 @@ class WorkerRegisterScreen extends StatelessWidget {
                                       validator: (value) {
                                         if (value!.isEmpty) {
                                           return S.of(context).enterCompanyName;
+                                        }
+                                        return null;
+                                      },
+                                    ),SizedBox(
+                                      height: 7.5.sp,
+                                    ),
+                                    mainFormField(
+                                      label: S.of(context).brief,
+                                      maxLines: 5,
+                                      minLines: 3,
+                                      fillColor: ColorManager.secondary,
+                                      controller: briefController,
+                                      validator: (value) {
+                                        if (value!.isEmpty) {
+                                          return S.of(context).enterBrief;
                                         }
                                         return null;
                                       },
@@ -271,6 +287,7 @@ class WorkerRegisterScreen extends StatelessWidget {
                                                               locationController
                                                                   .text,
                                                           id: "",
+                                                          brief: briefController.text,
                                                           phone:
                                                               "+966${phoneController.text}",
                                                           name: nameController
@@ -309,7 +326,7 @@ class WorkerRegisterScreen extends StatelessWidget {
                                       height: 7.5.sp,
                                     ),
                                     TermsAgreementWidget(
-                                        bloc: bloc, userType: "merchant"),
+                                        bloc: bloc, userType: "worker"),
                                   ],
                                 ),
                               ),

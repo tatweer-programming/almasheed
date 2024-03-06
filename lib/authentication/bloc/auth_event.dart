@@ -14,6 +14,14 @@ class SendCodeEvent extends AuthEvent {
   @override
   List<Object?> get props => [user];
 }
+class UpdateWorkerEvent extends AuthEvent {
+  final Worker worker;
+
+  const UpdateWorkerEvent(this.worker);
+
+  @override
+  List<Object?> get props => [worker];
+}
 
 class LoginByPhoneEvent extends AuthEvent {
   final AppUser user;

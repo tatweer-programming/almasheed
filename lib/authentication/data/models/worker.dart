@@ -9,12 +9,14 @@ class Worker extends AppUser {
   final double longitude;
   final double latitude;
   final String facility;
+  final String brief;
   final List<String> works;
   final String commercialLicenseNumber;
 
   Worker(
       {required this.name,
       required this.city,
+      required this.brief,
       required this.latitude,
       required this.longitude,
       required this.location,
@@ -30,6 +32,7 @@ class Worker extends AppUser {
       'id': id,
       'phone': phone,
       'facility': facility,
+      'brief': brief,
       'location': location,
       'name': name,
       'works': works,
@@ -43,6 +46,7 @@ class Worker extends AppUser {
   factory Worker.fromJson(Map<String, dynamic> json) {
     return Worker(
         name: json['name'],
+        brief: json['brief'],
         city: json['city'],
         works: (json['works'] as List).cast<String>(),
         facility: json['facility'],

@@ -50,6 +50,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "area": MessageLookupByLibrary.simpleMessage("Area"),
         "avenue": MessageLookupByLibrary.simpleMessage("avenue"),
         "bestSales": MessageLookupByLibrary.simpleMessage("Best Sales"),
+        "brief": MessageLookupByLibrary.simpleMessage("Brief"),
         "cancel": MessageLookupByLibrary.simpleMessage("Cancel"),
         "cart": MessageLookupByLibrary.simpleMessage("Cart"),
         "categories": MessageLookupByLibrary.simpleMessage("Categories"),
@@ -90,6 +91,10 @@ class MessageLookup extends MessageLookupByLibrary {
         "doNotHaveAccount": MessageLookupByLibrary.simpleMessage(
             "You don\'t have an account ?"),
         "edit": MessageLookupByLibrary.simpleMessage("Edit"),
+        "editProfile":
+            MessageLookupByLibrary.simpleMessage("Edit your profile"),
+        "editSuccess": MessageLookupByLibrary.simpleMessage(
+            "Your data has been successfully modified"),
         "endChat": MessageLookupByLibrary.simpleMessage("End Chat"),
         "enterAddressType":
             MessageLookupByLibrary.simpleMessage("please enter area"),
@@ -101,6 +106,8 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("please enter area name"),
         "enterAvenue":
             MessageLookupByLibrary.simpleMessage("please enter avenue"),
+        "enterBrief": MessageLookupByLibrary.simpleMessage(
+            "Please enter brief about you"),
         "enterCity":
             MessageLookupByLibrary.simpleMessage("please enter city name"),
         "enterCommercialLicense": MessageLookupByLibrary.simpleMessage(

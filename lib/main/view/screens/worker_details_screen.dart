@@ -14,9 +14,18 @@ class WorkerDetailsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     TextEditingController phoneNumberController = TextEditingController();
+    TextEditingController locationController = TextEditingController();
+    TextEditingController facilityController = TextEditingController();
+    TextEditingController commercialLicenseNumberController =
+        TextEditingController();
+    TextEditingController briefController = TextEditingController();
     TextEditingController cityController = TextEditingController();
     phoneNumberController.text = worker.phone;
     cityController.text = worker.city;
+    locationController.text = worker.location;
+    facilityController.text = worker.facility;
+    briefController.text = worker.brief;
+    commercialLicenseNumberController.text = worker.commercialLicenseNumber;
     return Scaffold(
       body: SingleChildScrollView(
         child: Column(
@@ -90,18 +99,58 @@ class WorkerDetailsScreen extends StatelessWidget {
                   Column(
                     children: [
                       mainFormField(
+                        controller: briefController,
+                        label: S.of(context).brief,
+                        minLines: 2,
+                        maxLines: 5,
+                        prefix: const Icon(
+                          Icons.phone,
+                        ),
+                        enabled: false,
+                      ),
+                      SizedBox(
+                        height: 1.5.h,
+                      ),
+                      mainFormField(
                         controller: phoneNumberController,
                         label: S.of(context).phoneNumber,
                         prefix: const Icon(
                           Icons.phone,
                         ),
                         enabled: false,
-                        validator: (value) {
-                          if (value!.isEmpty) {
-                            return S.of(context).enterName;
-                          }
-                          return null;
-                        },
+                      ),
+                      SizedBox(
+                        height: 1.5.h,
+                      ),
+                      mainFormField(
+                        controller: locationController,
+                        label: S.of(context).location,
+                        prefix: const Icon(
+                          Icons.location_pin,
+                        ),
+                        enabled: false,
+                      ),
+                      SizedBox(
+                        height: 1.5.h,
+                      ),
+                      mainFormField(
+                        controller: commercialLicenseNumberController,
+                        label: S.of(context).commercialLicenseNumber,
+                        prefix: const Icon(
+                          Icons.numbers,
+                        ),
+                        enabled: false,
+                      ),
+                      SizedBox(
+                        height: 1.5.h,
+                      ),
+                      mainFormField(
+                        controller: facilityController,
+                        label: S.of(context).facility,
+                        prefix: const Icon(
+                          Icons.construction_outlined,
+                        ),
+                        enabled: false,
                       ),
                       SizedBox(
                         height: 1.5.h,
@@ -113,16 +162,9 @@ class WorkerDetailsScreen extends StatelessWidget {
                           Icons.location_city,
                         ),
                         enabled: false,
-                        // width: ,
-                        validator: (value) {
-                          if (value!.isEmpty) {
-                            return S.of(context).enterCity;
-                          }
-                          return null;
-                        },
                       ),
                       SizedBox(
-                        height: 1.5.h,
+                        height: 3.h,
                       ),
                       defaultButton(
                           onPressed: () {}, text: S.of(context).contactUs)

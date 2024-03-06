@@ -49,6 +49,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "area": MessageLookupByLibrary.simpleMessage("المنطقة"),
         "avenue": MessageLookupByLibrary.simpleMessage("الجادة"),
         "bestSales": MessageLookupByLibrary.simpleMessage("أفضل المبيعات"),
+        "brief": MessageLookupByLibrary.simpleMessage("نبذة"),
         "cancel": MessageLookupByLibrary.simpleMessage("إلغاء"),
         "cart": MessageLookupByLibrary.simpleMessage("السلة"),
         "categories": MessageLookupByLibrary.simpleMessage("الأقسام"),
@@ -87,6 +88,9 @@ class MessageLookup extends MessageLookupByLibrary {
         "doNotHaveAccount":
             MessageLookupByLibrary.simpleMessage("ليس لديك حساب؟"),
         "edit": MessageLookupByLibrary.simpleMessage("تعديل"),
+        "editProfile": MessageLookupByLibrary.simpleMessage("تعديل بياناتك"),
+        "editSuccess":
+            MessageLookupByLibrary.simpleMessage("تم تعديل بياناتك بنجاح"),
         "endChat": MessageLookupByLibrary.simpleMessage("إنهاء المحادثة"),
         "enterAddressType":
             MessageLookupByLibrary.simpleMessage("الرجاء إدخال نوع العنوان"),
@@ -98,6 +102,8 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("الرجاء إدخال اسم المنطقة"),
         "enterAvenue":
             MessageLookupByLibrary.simpleMessage("الرجاء إدخال اسم الجادة"),
+        "enterBrief":
+            MessageLookupByLibrary.simpleMessage("من فضلك ادخل نبذة عنك"),
         "enterCity":
             MessageLookupByLibrary.simpleMessage("الرجاء إدخال اسم المدينة"),
         "enterCommercialLicense": MessageLookupByLibrary.simpleMessage(

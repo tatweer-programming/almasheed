@@ -20,6 +20,7 @@ import 'package:image_picker/image_picker.dart';
 import '../../core/utils/images_manager.dart';
 import '../../generated/l10n.dart';
 import '../data/models/address.dart';
+import '../data/models/worker.dart';
 import '../data/repositories/auth_repository.dart';
 import '../presentation/screens/maintenance_login_screen.dart';
 import '../presentation/screens/worker_register_screen.dart';
@@ -151,6 +152,14 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         emit(RemoveAddressErrorState(l));
       }, (r) {
         emit(RemoveAddressSuccessfulState());
+      });
+    }  else if (event is UpdateWorkerEvent) {
+      emit(UpdateWorkerLoadingState());
+      var result = await repository.updateWorker(event.worker);
+      result.fold((l) {
+        emit(UpdateWorkerErrorState(l));
+      }, (r) {
+        emit(UpdateWorkerSuccessfulState());
       });
     } else if (event is LogoutEvent) {
       emit(LoginLoadingState());

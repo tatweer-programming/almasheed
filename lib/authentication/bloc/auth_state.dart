@@ -165,6 +165,24 @@ class RemoveAddressSuccessfulState extends AuthState {
   @override
   List<Object?> get props => [];
 }
+class UpdateWorkerLoadingState extends AuthState {
+  @override
+  List<Object?> get props => [];
+}
+
+class UpdateWorkerErrorState extends AuthState {
+  final FirebaseException exception;
+
+  const UpdateWorkerErrorState(this.exception);
+
+  @override
+  List<Object?> get props => [];
+}
+
+class UpdateWorkerSuccessfulState extends AuthState {
+  @override
+  List<Object?> get props => [];
+}
 
 class ChooseAddressTypeState extends AuthState {
   final String addressType;

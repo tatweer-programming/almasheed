@@ -1,5 +1,6 @@
 import 'package:almasheed/authentication/bloc/auth_bloc.dart';
 import 'package:almasheed/authentication/data/models/customer.dart';
+import 'package:almasheed/authentication/data/models/worker.dart';
 import 'package:almasheed/authentication/presentation/components.dart';
 import 'package:almasheed/authentication/presentation/screens/account_type_screen.dart';
 import 'package:almasheed/authentication/presentation/screens/addresses_screen.dart';
@@ -19,6 +20,7 @@ import '../../../core/services/dep_injection.dart';
 import '../../../core/utils/color_manager.dart';
 import '../../../generated/l10n.dart';
 import '../../../main/view/screens/products/last_seen_screen.dart';
+import 'edit_profile_screen.dart';
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
@@ -162,6 +164,12 @@ class ProfileScreen extends StatelessWidget {
                         label: S.of(context).addressesList,
                         nextScreen: const AddressesScreen(),
                       ),
+                    if (ConstantsManager.appUser is Worker)
+                      ProfileItemBuilder(
+                        iconData: Icons.map_outlined,
+                        label: S.of(context).editProfile,
+                        nextScreen: const EditProfileScreen(),
+                      ),
                     if (ConstantsManager.appUser is Customer)
                       ProfileItemBuilder(
                         iconData: Icons.remove_red_eye_rounded,
@@ -178,7 +186,8 @@ class ProfileScreen extends StatelessWidget {
                           label: S.of(context).loginNow,
                           iconData: Icons.login,
                           onTap: () async {
-                            context.pushAndRemove(const MaintenanceLoginScreen());
+                            context
+                                .pushAndRemove(const MaintenanceLoginScreen());
                           }),
                     ConstantsManager.appUser != null
                         ? BlocConsumer<AuthBloc, AuthState>(
@@ -211,9 +220,7 @@ class ProfileScreen extends StatelessWidget {
 
   void _handleAuthStates(BuildContext context, state) {
     if (state is LogoutSuccessfulState) {
-      Future.delayed(Duration.zero, () {
-        context.pushAndRemove(const AccountTypeScreen());
-      });
+      context.pushAndRemove(const AccountTypeScreen());
     } else if (state is LogoutErrorState) {
       errorToast(msg: ExceptionManager(state.exception).translatedMessage());
     }

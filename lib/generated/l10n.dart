@@ -1572,6 +1572,26 @@ class S {
     );
   }
 
+  /// `Brief`
+  String get brief {
+    return Intl.message(
+      'Brief',
+      name: 'brief',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Please enter brief about you`
+  String get enterBrief {
+    return Intl.message(
+      'Please enter brief about you',
+      name: 'enterBrief',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Commercial License Number`
   String get commercialLicenseNumber {
     return Intl.message(
@@ -1582,11 +1602,31 @@ class S {
     );
   }
 
+  /// `Edit your profile`
+  String get editProfile {
+    return Intl.message(
+      'Edit your profile',
+      name: 'editProfile',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Technical`
   String get worker {
     return Intl.message(
       'Technical',
       name: 'worker',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Your data has been successfully modified`
+  String get editSuccess {
+    return Intl.message(
+      'Your data has been successfully modified',
+      name: 'editSuccess',
       desc: '',
       args: [],
     );
