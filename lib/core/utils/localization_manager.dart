@@ -1,6 +1,6 @@
 import 'package:almasheed/core/local/shared_prefrences.dart';
 import 'package:almasheed/generated/l10n.dart';
-import 'package:flutter/material.dart.';
+import 'package:flutter/material.dart';
 
 class LocalizationManager {
   static List <Locale> supportedLocales = const [
