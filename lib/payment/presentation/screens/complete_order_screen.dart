@@ -46,7 +46,8 @@ class CompleteOrderScreen extends StatelessWidget {
                 onPressed: () {
                   bloc.selectedAddressIndex != null
                       ? bloc.add(CompletePaymentCart(
-                          context: context,totalPrice: orderModel.totalPrice
+                          context: context,
+                          totalPrice: orderModel.totalPrice / 10,
                         ))
                       : errorToast(msg: S.of(context).mustAddAddress);
                 },
@@ -60,7 +61,8 @@ class CompleteOrderScreen extends StatelessWidget {
               child: SingleChildScrollView(
                 child: Column(
                   children: [
-                    appBarWidget(S.of(context).completeOrder, Icons.payments_outlined),
+                    appBarWidget(
+                        S.of(context).completeOrder, Icons.payments_outlined),
                     SizedBox(height: 1.h),
                     Text(
                       S.of(context).chooseAddress,
@@ -79,48 +81,65 @@ class CompleteOrderScreen extends StatelessWidget {
                                   children: [
                                     ListView.separated(
                                         shrinkWrap: true,
-                                        physics: const NeverScrollableScrollPhysics(),
-                                        itemBuilder: (context, index) => InkWell(
+                                        physics:
+                                            const NeverScrollableScrollPhysics(),
+                                        itemBuilder: (context, index) =>
+                                            InkWell(
                                               onTap: () {
                                                 bloc.add(ChooseAddress(index));
                                               },
                                               child: Stack(
                                                 children: [
                                                   AddressBuilder(
-                                                      address: customer.addresses[index]),
+                                                      address: customer
+                                                          .addresses[index]),
                                                   Align(
-                                                    alignment: AlignmentDirectional.topStart,
-                                                    child: bloc.selectedAddressIndex == index
-                                                        ? const Padding(
-                                                            padding: EdgeInsets.all(8.0),
-                                                            child: Icon(
-                                                              Icons.check_circle_rounded,
-                                                              color: ColorManager.primary,
-                                                            ),
-                                                          )
-                                                        : const SizedBox(),
+                                                    alignment:
+                                                        AlignmentDirectional
+                                                            .topStart,
+                                                    child:
+                                                        bloc.selectedAddressIndex ==
+                                                                index
+                                                            ? const Padding(
+                                                                padding:
+                                                                    EdgeInsets
+                                                                        .all(
+                                                                            8.0),
+                                                                child: Icon(
+                                                                  Icons
+                                                                      .check_circle_rounded,
+                                                                  color: ColorManager
+                                                                      .primary,
+                                                                ),
+                                                              )
+                                                            : const SizedBox(),
                                                   )
                                                 ],
                                               ),
                                             ),
-                                        separatorBuilder: (context, index) => SizedBox(
+                                        separatorBuilder: (context, index) =>
+                                            SizedBox(
                                               height: 10.sp,
                                             ),
                                         itemCount: customer.addresses.length),
                                     ListView(
                                       shrinkWrap: true,
-                                      physics: const NeverScrollableScrollPhysics(),
+                                      physics:
+                                          const NeverScrollableScrollPhysics(),
                                       children: [
                                         OrderDetailsItem(
                                             title: S.of(context).totalElements,
-                                            value: orderModel.orderItems.length.toString()),
+                                            value: orderModel.orderItems.length
+                                                .toString()),
                                         OrderDetailsItem(
                                             title: S.of(context).totalValue,
-                                            value: orderModel.totalPrice.toString() +
+                                            value: orderModel.totalPrice
+                                                    .toString() +
                                                 S.of(context).sar),
                                         OrderDetailsItem(
                                             title: S.of(context).deposit,
-                                            value: (orderModel.totalPrice / 10).toString() +
+                                            value: (orderModel.totalPrice / 10)
+                                                    .toString() +
                                                 S.of(context).sar),
                                       ],
                                     ),

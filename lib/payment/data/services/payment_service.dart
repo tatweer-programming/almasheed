@@ -55,7 +55,7 @@ class PaymentService {
 
   Future<PaymentResponse> completePayment(
       {required BuildContext context,required double totalPrice}) async {
-    return MyFatoorah.startPayment(
+    return await MyFatoorah.startPayment(
       context: context,
       request: MyfatoorahRequest.test(
         currencyIso: Country.SaudiArabia,
@@ -94,15 +94,6 @@ class PaymentService {
       }
       await _pushNotification(
           id: orderForWorkers.customerId, name: orderForWorkers.customerName);
-      // await completePayment(context: context);
-      // await _createChat(
-      //   chat: Chat(
-      //     receiverId: orderForWorkers.customerId,
-      //     receiverName: orderForWorkers.customerName,
-      //     isEnd: false,
-      //   ),
-      //   batch: batch,
-      // );
       await batch.commit();
       return const Right(unit);
     } on FirebaseException catch (error) {
@@ -146,6 +137,25 @@ class PaymentService {
       _saveOrderIdToMerchantsOrders(order, batch);
       _createOrderChats(batch: batch, order: order);
       _clearCart(batch);
+      await batch.commit();
+      return const Right(unit);
+    } on FirebaseException catch (e) {
+      return Left(e);
+    }
+  } Future<Either<FirebaseException, Unit>> createChatAndDeleteOrder(
+      OrderForWorkers orderForWorkers) async {
+    try {
+      var batch = fireStore.batch();
+      var order = fireStore.collection("orders_for_workers").doc(orderForWorkers.orderId);
+      batch.delete(order);
+      await _createChat(
+        chat: Chat(
+          receiverId: orderForWorkers.customerId,
+          receiverName: orderForWorkers.customerName,
+          isEnd: false,
+        ),
+        batch: batch,
+      );
       await batch.commit();
       return const Right(unit);
     } on FirebaseException catch (e) {

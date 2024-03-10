@@ -44,6 +44,7 @@ class CompleteOrderForWorkers extends StatelessWidget {
                     paymentBloc.add(CompletePaymentCart(
                       context: context,
                       totalPrice: 20,
+                      orderForWorkers: orderForWorkers,
                     ));
                   },
                   text: S.of(context).payDeposit,

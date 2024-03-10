@@ -64,12 +64,16 @@ class PaymentBloc extends Bloc<PaymentEvent, PaymentState> {
         print(response.toString());
         print(order);
         if (response.isSuccess) {
-          await _repository!.saveOrderData(order);
+          if (event.orderForWorkers != null) {
+            await _repository!.createChatAndDeleteOrder(event.orderForWorkers!);
+          } else {
+            await _repository!.saveOrderData(order);
+          }
           emit(CompleteOrderSuccessState());
         } else {
           emit(const CompletePaymentErrorState());
         }
-      }  else if (event is PrepareCart) {
+      } else if (event is PrepareCart) {
         _generateOrder();
         emit(CartPreparedState());
       } else if (event is ChooseAddress) {

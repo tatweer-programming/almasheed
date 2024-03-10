@@ -48,10 +48,12 @@ class EditQuantityInCart extends PaymentEvent {
 class CompletePaymentCart extends PaymentEvent {
   final BuildContext context;
   final double totalPrice;
+  OrderForWorkers? orderForWorkers;
 
-  const CompletePaymentCart({
+  CompletePaymentCart({
     required this.context,
     required this.totalPrice,
+    this.orderForWorkers,
   });
 
   @override
