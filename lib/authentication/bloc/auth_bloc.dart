@@ -7,7 +7,6 @@ import 'package:almasheed/authentication/data/services/auth_services.dart';
 import 'package:almasheed/authentication/presentation/components.dart';
 import 'package:almasheed/authentication/presentation/screens/merchant_register_screen.dart';
 import 'package:almasheed/authentication/presentation/screens/customer_register_screen.dart';
-import 'package:almasheed/authentication/presentation/screens/tools_login_screen.dart';
 import 'package:almasheed/core/error/remote_error.dart';
 import 'package:almasheed/core/utils/constance_manager.dart';
 import 'package:almasheed/core/utils/navigation_manager.dart';
@@ -22,7 +21,7 @@ import '../../generated/l10n.dart';
 import '../data/models/address.dart';
 import '../data/models/worker.dart';
 import '../data/repositories/auth_repository.dart';
-import '../presentation/screens/maintenance_login_screen.dart';
+import '../presentation/screens/login_screen.dart';
 import '../presentation/screens/worker_register_screen.dart';
 
 part 'auth_event.dart';
@@ -57,21 +56,22 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
   late AuthRepository repository;
   List<Widget> registerScreens = const [
-    WorkerRegisterScreen(),
     CustomerRegisterScreen(),
     MerchantRegisterScreen(),
+    WorkerRegisterScreen(),
   ];
-  List<Widget> accountTypesScreens = const [
-    MaintenanceLoginScreen(),
-    ToolsLoginScreen(),
-  ];
+
+  // List<Widget> accountTypesScreens = const [
+  //   LoginScreen(),
+  //   WorkerRegisterScreen(),
+  // ];
 
   AuthBloc() : super(AuthInitial()) {
     repository = AuthRepository();
     on<AuthEvent>(_handleEvents);
   }
 
-  _handleEvents(event,emit) async {
+  _handleEvents(event, emit) async {
     if (event is SendCodeEvent) {
       emit(SendCodeLoadingState());
       ConstantsManager.appUser = event.user;
@@ -135,7 +135,16 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       event.context.push(registerScreens[selectedAccountTypeIndex!]);
       add(MakeSelectedAccountTypeNullEvent());
     } else if (event is NavigateToAccountTypesScreenEvent) {
-      event.context.push(accountTypesScreens[selectedAccountTypeIndex!]);
+      if (selectedAccountTypeIndex == 0) {
+        event.context
+            .push(const LoginScreen(isWorker: false, isMerchant: false));
+      } else if (selectedAccountTypeIndex == 1) {
+        event.context
+            .push(const LoginScreen(isWorker: false, isMerchant: true));
+      } else if (selectedAccountTypeIndex == 2) {
+        event.context
+            .push(const LoginScreen(isWorker: true, isMerchant: false));
+      }
       add(MakeSelectedAccountTypeNullEvent());
     } else if (event is AddAddressEvent) {
       emit(AddAddressLoadingState());
@@ -153,7 +162,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       }, (r) {
         emit(RemoveAddressSuccessfulState());
       });
-    }  else if (event is UpdateWorkerEvent) {
+    } else if (event is UpdateWorkerEvent) {
       emit(UpdateWorkerLoadingState());
       var result = await repository.updateWorker(event.worker);
       result.fold((l) {

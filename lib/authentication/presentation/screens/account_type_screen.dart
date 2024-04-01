@@ -49,24 +49,36 @@ class AccountTypeScreen extends StatelessWidget {
                     child: BlocBuilder(
                         bloc: bloc,
                         builder: (context, state) {
-                          return Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment:
-                                CrossAxisAlignment.center,
+                          return Column(
                             children: [
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                crossAxisAlignment:
+                                    CrossAxisAlignment.center,
+                                children: [
+                                  AccountTypeItem(
+                                    type: S.of(context).customer,
+                                    bloc: bloc,
+                                    iconData:
+                                        Icons.store_mall_directory_outlined,
+                                    index: 0,
+                                  ),
+                                  const Spacer(),
+                                  AccountTypeItem(
+                                    type: S.of(context).merchant,
+                                    bloc: bloc,
+                                    iconData: Icons.person_outlined,
+                                    index: 1,
+                                  ),
+                                ],
+                              ),
+                              SizedBox(height: 2.h,),
                               AccountTypeItem(
                                 type: S.of(context).maintenance,
                                 bloc: bloc,
                                 iconData:
-                                    Icons.store_mall_directory_outlined,
-                                index: 0,
-                              ),
-                              const Spacer(),
-                              AccountTypeItem(
-                                type: S.of(context).tools,
-                                bloc: bloc,
-                                iconData: Icons.person_outlined,
-                                index: 1,
+                                Icons.store_mall_directory_outlined,
+                                index: 2,
                               ),
                             ],
                           );

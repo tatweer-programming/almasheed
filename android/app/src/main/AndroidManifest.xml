@@ -9,6 +9,7 @@
         android:name="${applicationName}"
         android:icon="@mipmap/launcher_icon"
         android:label="Almasheed"
+        android:enableOnBackInvokedCallback="true"
         android:usesCleartextTraffic="true">
         <activity
             android:name=".MainActivity"

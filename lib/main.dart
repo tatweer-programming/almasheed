@@ -13,7 +13,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:sizer/sizer.dart';
 import 'authentication/bloc/auth_bloc.dart';
 import 'authentication/presentation/screens/account_type_screen.dart';
-import 'authentication/presentation/screens/maintenance_login_screen.dart';
+import 'authentication/presentation/screens/login_screen.dart';
 import 'chat/presentation/screens/chat_screen.dart';
 import 'core/local/shared_prefrences.dart';
 import 'core/services/dep_injection.dart';

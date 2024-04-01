@@ -5,7 +5,7 @@ import 'package:almasheed/authentication/presentation/components.dart';
 import 'package:almasheed/authentication/presentation/screens/account_type_screen.dart';
 import 'package:almasheed/authentication/presentation/screens/addresses_screen.dart';
 import 'package:almasheed/authentication/presentation/screens/faq_screen.dart';
-import 'package:almasheed/authentication/presentation/screens/maintenance_login_screen.dart';
+import 'package:almasheed/authentication/presentation/screens/login_screen.dart';
 import 'package:almasheed/core/error/remote_error.dart';
 import 'package:almasheed/core/utils/constance_manager.dart';
 import 'package:almasheed/core/utils/navigation_manager.dart';
@@ -165,7 +165,7 @@ class ProfileScreen extends StatelessWidget {
                           iconData: Icons.login,
                           onTap: () async {
                             context
-                                .pushAndRemove(const MaintenanceLoginScreen());
+                                .pushAndRemove(const AccountTypeScreen());
                           }),
                     ConstantsManager.appUser != null
                         ? BlocConsumer<AuthBloc, AuthState>(

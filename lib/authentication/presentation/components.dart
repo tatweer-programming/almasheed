@@ -1,8 +1,7 @@
 import 'package:almasheed/authentication/bloc/auth_bloc.dart';
 import 'package:almasheed/authentication/presentation/screens/account_type_screen.dart';
-import 'package:almasheed/authentication/presentation/screens/maintenance_login_screen.dart';
+import 'package:almasheed/authentication/presentation/screens/login_screen.dart';
 import 'package:almasheed/authentication/presentation/screens/terms_and_conditions_screen.dart';
-import 'package:almasheed/authentication/presentation/screens/account_type_2_screen.dart';
 import 'package:almasheed/core/utils/navigation_manager.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -294,8 +293,7 @@ class RegisterNowWidget extends StatelessWidget {
           ),
           TextButton(
               onPressed: () {
-                context.push(AccountType2Screen(
-                  type: type,
+                context.push(AccountTypeScreen(
                 ));
               },
               child: Text(
@@ -312,35 +310,35 @@ class RegisterNowWidget extends StatelessWidget {
   }
 }
 
-class LoginNowWidget extends StatelessWidget {
-  const LoginNowWidget({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return FittedBox(
-      child: Row(
-        children: [
-          Text(
-            S.of(context).alreadyHaveAccount,
-            style: TextStyle(fontSize: 12.sp, color: ColorManager.white),
-          ),
-          TextButton(
-              onPressed: () {
-                context.pushAndRemove(const MaintenanceLoginScreen());
-              },
-              child: Text(
-                S.of(context).loginNow,
-                style: TextStyle(
-                  fontSize: 13.sp,
-                  color: ColorManager.white,
-                  decoration: TextDecoration.underline,
-                ),
-              ))
-        ],
-      ),
-    );
-  }
-}
+// class LoginNowWidget extends StatelessWidget {
+//   const LoginNowWidget({super.key});
+//
+//   @override
+//   Widget build(BuildContext context) {
+//     return FittedBox(
+//       child: Row(
+//         children: [
+//           Text(
+//             S.of(context).alreadyHaveAccount,
+//             style: TextStyle(fontSize: 12.sp, color: ColorManager.white),
+//           ),
+//           TextButton(
+//               onPressed: () {
+//                 context.pushAndRemove(const LoginScreen());
+//               },
+//               child: Text(
+//                 S.of(context).loginNow,
+//                 style: TextStyle(
+//                   fontSize: 13.sp,
+//                   color: ColorManager.white,
+//                   decoration: TextDecoration.underline,
+//                 ),
+//               ))
+//         ],
+//       ),
+//     );
+//   }
+// }
 
 class AuthBackground extends StatelessWidget {
   final String imagePath;
@@ -572,7 +570,7 @@ class ShouldLoginWidget extends StatelessWidget {
         MaterialButton(
           color: ColorManager.primary,
           onPressed: () {
-            context.pushAndRemove(const MaintenanceLoginScreen());
+            context.pushAndRemove(const AccountTypeScreen());
           },
           child: Text(
             S.of(context).loginNow,

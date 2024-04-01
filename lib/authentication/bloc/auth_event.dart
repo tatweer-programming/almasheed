@@ -90,7 +90,6 @@ class NavigateToRegisterScreenEvent extends AuthEvent {
 
 class NavigateToAccountTypesScreenEvent extends AuthEvent {
   final BuildContext context;
-
   const NavigateToAccountTypesScreenEvent(this.context);
 
   @override

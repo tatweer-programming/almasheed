@@ -185,7 +185,7 @@ class MainRemoteDataSource {
             .doc(productId)
             .get()
             .then((value) {
-          ratingNumbers = value.data()!["ratingNumbers"];
+          ratingNumbers = value.data()!["ratingNumbers"].toInt();
         });
       });
 

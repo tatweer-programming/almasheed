@@ -1,3 +1,4 @@
+import 'package:almasheed/main/view/screens/products/view_image_screen.dart';
 import 'package:almasheed/payment/bloc/payment_bloc.dart';
 import 'package:carousel_slider/carousel_controller.dart';
 import 'package:flutter/foundation.dart';
@@ -113,8 +114,9 @@ class DetailsProductScreen extends StatelessWidget {
                         Padding(
                           padding: EdgeInsets.symmetric(
                               horizontal: 3.w, vertical: 1.h),
-                          child:
-                              textContainerWidget(text:S.of(context).youMayLikeIt,),
+                          child: textContainerWidget(
+                            text: S.of(context).youMayLikeIt,
+                          ),
                         ),
                         Padding(
                             padding: EdgeInsets.symmetric(
@@ -186,13 +188,21 @@ class DetailsProductScreen extends StatelessWidget {
             children: [
               Column(
                 children: [
-                  Container(
-                    color: ColorManager.white,
-                    child: defaultCarousel(
-                      height: 45.h,
-                      bloc: bloc,
-                      list: product.productsImagesUrl ?? [],
-                      controller: carouselController,
+                  InkWell(
+                    onTap: () {
+                      context.push(ViewImageScreen(
+                        productsImagesUrl: product.productsImagesUrl ?? [],
+                        carouselController: carouselController,
+                      ));
+                    },
+                    child: Container(
+                      color: ColorManager.white,
+                      child: defaultCarousel(
+                        height: 45.h,
+                        bloc: bloc,
+                        list: product.productsImagesUrl ?? [],
+                        controller: carouselController,
+                      ),
                     ),
                   ),
                   SizedBox(

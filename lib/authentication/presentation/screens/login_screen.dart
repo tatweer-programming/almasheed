@@ -17,8 +17,12 @@ import '../../../generated/l10n.dart';
 import '../../data/models/customer.dart';
 import '../../data/models/merchant.dart';
 
-class MaintenanceLoginScreen extends StatelessWidget {
-  const MaintenanceLoginScreen({super.key});
+class LoginScreen extends StatelessWidget {
+  final bool isWorker;
+  final bool isMerchant;
+
+  const LoginScreen(
+      {super.key, required this.isWorker, required this.isMerchant});
 
   @override
   Widget build(BuildContext context) {
@@ -83,24 +87,24 @@ class MaintenanceLoginScreen extends StatelessWidget {
                                 height: 4.h,
                               ),
                               PhoneNumberInput(controller: phoneController),
-                              Row(
-                                children: [
-                                  Checkbox(
-                                      activeColor: ColorManager.white,
-                                      checkColor: ColorManager.black,
-                                      focusColor: ColorManager.white,
-                                      value: bloc.isWorker,
-                                      onChanged: (value) {
-                                        bloc.add(ChangeIsWorkerTypeEvent(
-                                            state: value!));
-                                      }),
-                                  Text(
-                                    S.of(context).loginAsWorker,
-                                    style: const TextStyle(
-                                        color: ColorManager.white),
-                                  )
-                                ],
-                              ),
+                              // Row(
+                              //   children: [
+                              //     Checkbox(
+                              //         activeColor: ColorManager.white,
+                              //         checkColor: ColorManager.black,
+                              //         focusColor: ColorManager.white,
+                              //         value: bloc.isWorker,
+                              //         onChanged: (value) {
+                              //           bloc.add(ChangeIsWorkerTypeEvent(
+                              //               state: value!));
+                              //         }),
+                              //     Text(
+                              //       S.of(context).loginAsWorker,
+                              //       style: const TextStyle(
+                              //           color: ColorManager.white),
+                              //     )
+                              //   ],
+                              // ),
                               SizedBox(
                                 height: 10.sp,
                               ),
@@ -137,9 +141,6 @@ class MaintenanceLoginScreen extends StatelessWidget {
                                       ],
                                     )
                                   : Container(
-                                      // margin: EdgeInsets.symmetric(
-                                      //   horizontal: 16.0.sp,
-                                      // ),
                                       decoration: BoxDecoration(
                                         color: ColorManager.white,
                                         borderRadius:
@@ -151,7 +152,7 @@ class MaintenanceLoginScreen extends StatelessWidget {
                                           onPressed: () {
                                             if (formKey.currentState!
                                                 .validate()) {
-                                              if (bloc.isWorker) {
+                                              if (isWorker) {
                                                 Worker worker = Worker(
                                                     commercialLicenseNumber: "",
                                                     name: "",
@@ -168,6 +169,20 @@ class MaintenanceLoginScreen extends StatelessWidget {
                                                     facility: '');
                                                 bloc.add(
                                                     LoginByPhoneEvent(worker));
+                                              } else if (isMerchant) {
+                                                Merchant merchant = Merchant(
+                                                  companyName: "",
+                                                  city: "",
+                                                  area: "",
+                                                  registrationNumber: "",
+                                                  orders: [],
+                                                  id: "",
+                                                  phone:
+                                                      "+966${phoneController.text}",
+                                                  productsIds: [],
+                                                );
+                                                bloc.add(LoginByPhoneEvent(
+                                                    merchant));
                                               } else {
                                                 Customer customer = Customer(
                                                     name: "",
