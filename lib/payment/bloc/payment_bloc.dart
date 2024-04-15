@@ -18,8 +18,9 @@ part 'payment_state.dart';
 
 class PaymentBloc extends Bloc<PaymentEvent, PaymentState> {
   static PaymentBloc bloc = PaymentBloc();
-
-  static PaymentBloc get() => bloc;
+  static PaymentBloc get(BuildContext context) =>
+      BlocProvider.of<PaymentBloc>(context);
+  // static PaymentBloc get() => bloc;
   late OrderModel order = OrderModel.create([], null);
 
   // variables

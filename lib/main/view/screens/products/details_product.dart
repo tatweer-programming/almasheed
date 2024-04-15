@@ -30,7 +30,7 @@ class DetailsProductScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final PaymentBloc paymentBloc = PaymentBloc.get();
+    PaymentBloc paymentBloc = PaymentBloc.get(context);
     final CarouselController carouselController = CarouselController();
     TextEditingController quantityController = TextEditingController();
     final MainBloc mainBloc = sl();

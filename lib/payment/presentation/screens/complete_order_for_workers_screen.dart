@@ -25,7 +25,7 @@ class CompleteOrderForWorkers extends StatelessWidget {
     Worker worker = mainBloc.workers.firstWhere(
       (worker) => worker.id == orderForWorkers.workersIds.first,
     );
-    PaymentBloc paymentBloc = PaymentBloc.get();
+    PaymentBloc paymentBloc = PaymentBloc.get(context);
     return BlocBuilder<PaymentBloc, PaymentState>(
       builder: (context, state) {
         return Scaffold(
@@ -75,68 +75,4 @@ class CompleteOrderForWorkers extends StatelessWidget {
       },
     );
   }
-}
-
-Widget _buildOrdersWidget(
-    {required VoidCallback onTap, required OrderForWorkers orderForWorkers}) {
-  return InkWell(
-    onTap: onTap,
-    child: Padding(
-      padding: EdgeInsets.symmetric(vertical: 0.5.h, horizontal: 3.w),
-      child: Card(
-        shape: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(10.sp),
-            borderSide: BorderSide.none),
-        elevation: 4.sp,
-        child: Container(
-            width: double.infinity,
-            height: 7.h,
-            decoration: BoxDecoration(
-                color: ColorManager.secondary,
-                borderRadius: BorderRadiusDirectional.circular(10.sp)),
-            child: Padding(
-              padding: EdgeInsets.symmetric(horizontal: 4.w, vertical: 1.h),
-              child: Row(
-                children: [
-                  Expanded(
-                    child: Row(
-                      children: [
-                        const Icon(Icons.work),
-                        SizedBox(
-                          width: 2.w,
-                        ),
-                        Expanded(
-                          child: Text(
-                            orderForWorkers.work,
-                            style: TextStyle(
-                                fontSize: 14.sp, fontWeight: FontWeight.w500),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  Expanded(
-                    child: Row(
-                      children: [
-                        const Icon(Icons.location_city),
-                        SizedBox(
-                          width: 2.w,
-                        ),
-                        Expanded(
-                          child: Text(
-                            orderForWorkers.city,
-                            style: TextStyle(
-                                fontSize: 14.sp, fontWeight: FontWeight.w500),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  const Icon(Icons.arrow_forward_ios_sharp),
-                ],
-              ),
-            )),
-      ),
-    ),
-  );
 }

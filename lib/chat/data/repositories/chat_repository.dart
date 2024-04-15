@@ -10,17 +10,20 @@ class ChatRepository {
 
   Either<FirebaseException, Stream<List<Message>>> getMessage({
     required String receiverId,
+    required bool isMerchant,
   }) {
-    return service.getMessage(receiverId: receiverId);
+    return service.getMessage(receiverId: receiverId, isMerchant: isMerchant);
   }
 
   Future<Either<FirebaseException, Unit>> endChat(String receiverId) {
     return service.endChat(receiverId);
   }
 
-  Future<Either<FirebaseException, Unit>> sendMessage(
-      {required Message message}) async {
-    return await service.sendMessage(message: message);
+  Future<Either<FirebaseException, Unit>> sendMessage({
+    required Message message,
+    required bool isMerchant,
+  }) async {
+    return await service.sendMessage(message: message, isMerchant: isMerchant);
   }
 
   Future<Either<FirebaseException, List<Chat>>> getChats() async {

@@ -54,13 +54,12 @@ class Masheed extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) async {
-      context.push(ChatScreen(
-          isEnd: false,
-          receiverId: message.from!.substring(8),
-          receiverName: message.notification!.title!));
-    });
-
+    // FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) async {
+    //   context.push(ChatScreen(
+    //       isEnd: false,
+    //       receiverId: message.from!.substring(8),
+    //       receiverName: message.notification!.title!));
+    // });
     return Sizer(builder: (context, orientation, deviceType) {
       return MultiBlocProvider(
           providers: [

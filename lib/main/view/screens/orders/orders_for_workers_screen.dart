@@ -35,16 +35,16 @@ class OrdersForWorkersScreen extends StatelessWidget {
               builder: (context, state) {
                 return ListView.builder(
                   padding: EdgeInsets.zero,
-                  itemCount: bloc.orderForWorkers.length,
+                  itemCount: bloc.ordersForWorkers.length,
                   itemBuilder: (context, index) =>
                       _buildOrdersWidget(
                           onTap: () {
                             context.push(
                               OrderForWorkersDetailsScreen(
-                                  orderForWorkers: bloc.orderForWorkers[index]),
+                                  orderForWorkers: bloc.ordersForWorkers[index]),
                             );
                           },
-                          orderForWorkers: bloc.orderForWorkers[index]),
+                          orderForWorkers: bloc.ordersForWorkers[index]),
                 );
               },
             ),

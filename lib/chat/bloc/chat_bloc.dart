@@ -6,7 +6,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
-import 'package:record_mp3/record_mp3.dart';
+
+// import 'package:record_mp3/record_mp3.dart';
+import 'package:record/record.dart';
 import '../data/models/chat.dart';
 import '../data/models/message.dart';
 import '../data/repositories/chat_repository.dart';
@@ -22,21 +24,26 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
   AudioPlayer audioPlayer = AudioPlayer();
   String statusText = "Message";
   String? voiceNoteFilePath;
-  double voiceDuration = 0;
+
+  // double voiceDuration = 0;
   bool isComplete = false;
   bool isPlaying = false;
+  int voiceNoteDuration = 0;
   String? imageFilePath;
   List<Chat> chats = [];
+  Record record = Record();
 
   ChatBloc(ChatInitial chatInitial) : super(ChatInitial()) {
     on<ChatEvent>((event, emit) async {
       if (event is GetMessagesEvent) {
-        final result = chatRepository.getMessage(receiverId: event.receiverId);
+        final result = chatRepository.getMessage(
+            receiverId: event.receiverId, isMerchant: event.isMerchant);
         result.fold((l) {}, (r) {
           emit(GetMessagesSuccessState(r));
         });
       } else if (event is SendMessageEvent) {
-        await chatRepository.sendMessage(message: event.message);
+        await chatRepository.sendMessage(
+            message: event.message, isMerchant: event.isMerchant);
         emit(SendMessagesSuccessState());
       } else if (event is GetChatsEvent) {
         var result = await chatRepository.getChats();
@@ -44,7 +51,6 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
           emit(GetChatErrorState());
         }, (r) {
           chats = r;
-          print(chats);
           emit(GetChatSuccessfullyState());
         });
       } else if (event is StartRecordingEvent) {
@@ -62,10 +68,9 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
         });
       } else if (event is ScrollingDownEvent) {
         // if (event.listScrollController.hasClients) {
-        Future.delayed(Duration(seconds: 1)).then((value) async {
-          final position = await event.listScrollController.position.maxScrollExtent;
+        Future.delayed(const Duration(seconds: 1)).then((value) async {
+          final position = event.listScrollController.position.maxScrollExtent;
           event.listScrollController.jumpTo(position);
-          print("object");
         });
         emit(ScrollingDownState());
         // }
@@ -152,9 +157,9 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
         voiceNoteFilePath = await getFilePath();
         statusText = "Message";
         isComplete = false;
-        RecordMp3.instance.start(voiceNoteFilePath!, (type) {
-          statusText = "Record error--->$type";
-        });
+        if (await record.hasPermission()) {
+          record.start();
+        }
       });
     } else {
       statusText = "No microphone permission";
@@ -163,10 +168,20 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
 
   Future<void> stopRecord() async {
     AudioPlayer audioPlayer = AudioPlayer();
-    bool s = RecordMp3.instance.stop();
-    await audioPlayer.play(AssetSource("audios/notiication_end_recording.wav"));
-    audioPlayer.onPlayerComplete.listen((_) {
-      if (s) {
+    voiceNoteFilePath = await record.stop();
+    double seconds = 0;
+    await audioPlayer.setSource(DeviceFileSource(voiceNoteFilePath!));
+    await audioPlayer.getDuration().then((value) {
+      if (value != null) {
+        seconds = value.inSeconds.toDouble();
+      }
+    });
+    voiceNoteDuration = seconds.round();
+    AudioPlayer audioPlayerAsset = AudioPlayer();
+    await audioPlayerAsset
+        .play(AssetSource("audios/notiication_end_recording.wav"));
+    audioPlayerAsset.onPlayerComplete.listen((_) {
+      if (voiceNoteFilePath != null) {
         statusText = "Message";
         isComplete = true;
       }

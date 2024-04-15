@@ -22,36 +22,40 @@ class ChatsScreen extends StatelessWidget {
       child: Scaffold(
         body: Column(
           children: [
-            ClipPath(
-              clipper: HalfCircleCurve(18.h),
-              child: Container(
-                height: 35.h,
-                width: double.infinity,
-                color: ColorManager.primary,
-                child: Padding(
-                  padding:
-                      EdgeInsetsDirectional.only(start: 8.w, end: 8.w, top: 1.h),
-                  child: Column(
-                    children: [
-                      SizedBox(
-                        height: 5.h,
-                      ),
-                      Text(
-                        S.of(context).chat,
-                        style: TextStyle(
-                            color: ColorManager.white,
-                            fontSize: 30.sp,
-                            fontWeight: FontWeight.bold),
-                      ),
-                      Expanded(
-                        child: Icon(
-                          Icons.chat_bubble,
-                          color: ColorManager.white,
-                          size: 40.sp,
+            Align(
+              alignment: AlignmentDirectional.topCenter,
+              heightFactor: 0.9,
+              child: ClipPath(
+                clipper: HalfCircleCurve(18.h),
+                child: Container(
+                  height: 35.h,
+                  width: double.infinity,
+                  color: ColorManager.primary,
+                  child: Padding(
+                    padding:
+                        EdgeInsetsDirectional.only(start: 8.w, end: 8.w, top: 1.h),
+                    child: Column(
+                      children: [
+                        SizedBox(
+                          height: 5.h,
                         ),
-                      ),
-                      SizedBox(height: 10.h),
-                    ],
+                        Text(
+                          S.of(context).chat,
+                          style: TextStyle(
+                              color: ColorManager.white,
+                              fontSize: 30.sp,
+                              fontWeight: FontWeight.bold),
+                        ),
+                        Expanded(
+                          child: Icon(
+                            Icons.chat_bubble,
+                            color: ColorManager.white,
+                            size: 40.sp,
+                          ),
+                        ),
+                        SizedBox(height: 10.h),
+                      ],
+                    ),
                   ),
                 ),
               ),
@@ -66,9 +70,7 @@ class ChatsScreen extends StatelessWidget {
                           text: chatBloc.chats[index].receiverName,
                           onTap: () {
                             context.push(ChatScreen(
-                              receiverName: chatBloc.chats[index].receiverName,
-                              receiverId: chatBloc.chats[index].receiverId,
-                              isEnd: chatBloc.chats[index].isEnd,
+                              chat: chatBloc.chats[index],
                             ));
                           }),
                       separatorBuilder: (context, index) => SizedBox(

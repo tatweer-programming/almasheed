@@ -22,7 +22,7 @@ class CompleteOrderScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Customer customer = ConstantsManager.appUser as Customer;
-    PaymentBloc bloc = PaymentBloc.get();
+    PaymentBloc bloc = PaymentBloc.get(context);
     return BlocListener<PaymentBloc, PaymentState>(
       bloc: bloc,
       listener: _handlePaymentBlocState,

@@ -25,7 +25,7 @@ class FavouriteScreen extends StatelessWidget {
     Customer? customer = ConstantsManager.appUser as Customer?;
     PaymentBloc? paymentBloc;
     if (customer != null) {
-      paymentBloc = PaymentBloc.get();
+      paymentBloc = PaymentBloc.get(context);
     }
 
     return BlocBuilder<MainBloc, MainState>(

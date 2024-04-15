@@ -23,6 +23,8 @@
 	<string>Almasheed</string>
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
+	<key>NSMicrophoneUsageDescription</key>
+    <string>Some message to describe why you need this permission</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>Need location when in use!</string>
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>

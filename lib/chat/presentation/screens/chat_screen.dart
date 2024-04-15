@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:almasheed/authentication/data/models/merchant.dart';
 import 'package:almasheed/chat/bloc/chat_bloc.dart';
+import 'package:almasheed/chat/data/models/chat.dart';
 import 'package:almasheed/chat/data/models/message.dart';
 import 'package:almasheed/core/utils/color_manager.dart';
 import 'package:almasheed/core/utils/constance_manager.dart';
@@ -11,30 +12,26 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sizer/sizer.dart';
+import 'package:voice_message_package/voice_message_package.dart';
 import '../../../generated/l10n.dart';
 
 //ignore: must_be_immutable
 class ChatScreen extends StatelessWidget {
-  final String receiverId;
-  final String receiverName;
-  bool isEnd;
+  final Chat chat;
 
   ChatScreen(
       {super.key,
-      required this.isEnd,
-      required this.receiverId,
-      required this.receiverName});
+      required this.chat});
 
   final ScrollController listScrollController = ScrollController();
   bool isDown = true;
 
   @override
   Widget build(BuildContext context) {
-    Map<String, bool> isPlayingMap = {};
     TextEditingController messageController = TextEditingController();
     Stream<List<Message>> messagesStream = const Stream.empty();
     ChatBloc bloc = ChatBloc.get(context)
-      ..add(GetMessagesEvent(receiverId: receiverId));
+      ..add(GetMessagesEvent(receiverId: chat.receiverId, isMerchant: chat.isMerchant));
     return BlocConsumer<ChatBloc, ChatState>(
       listener: (context, state) {
         print(state);
@@ -43,14 +40,6 @@ class ChatScreen extends StatelessWidget {
           print("messages $messagesStream");
           bloc.add(
               ScrollingDownEvent(listScrollController: listScrollController));
-        }
-        if (state is PlayRecordUrlState) {
-          print(state.isPlaying);
-          isPlayingMap[state.voiceNoteUrl] = state.isPlaying;
-        }
-        if (state is CompleteRecordUrlState) {
-          print(state.isPlaying);
-          isPlayingMap[state.voiceNoteUrl] = state.isPlaying;
         }
         if (state is SendMessagesSuccessState) {
           bloc.add(
@@ -61,13 +50,13 @@ class ChatScreen extends StatelessWidget {
         return Scaffold(
           appBar: AppBar(
               backgroundColor: ColorManager.primary,
-              title: Text(receiverName),
+              title: Text(chat.receiverName),
               actions: [
-                if (ConstantsManager.appUser is Merchant && (!isEnd))
+                if (ConstantsManager.appUser is Merchant && (!chat.isEnd))
                   TextButton(
                       onPressed: () {
-                        isEnd = true;
-                        bloc.add(EndChatEvent(receiverId: receiverId));
+                        chat.isEnd = true;
+                        bloc.add(EndChatEvent(receiverId: chat.receiverId));
                       },
                       child: Text(
                         S.of(context).endChat,
@@ -94,20 +83,8 @@ class ChatScreen extends StatelessWidget {
                               itemBuilder: (context, index) {
                                 if (messages[index].voiceNoteUrl != null) {
                                   return messageWidget(
-                                      message: messages[index],
-                                      isPlaying: isPlayingMap[
-                                              messages[index].voiceNoteUrl] ??
-                                          false,
-                                      position: bloc.voiceDuration,
-                                      playAudio: () {
-                                        bloc.add(TurnOnRecordUrlEvent(
-                                            isPlaying: isPlayingMap[
-                                                    messages[index]
-                                                        .voiceNoteUrl] ??
-                                                false,
-                                            voiceNoteUrl:
-                                                messages[index].voiceNoteUrl!));
-                                      });
+                                    message: messages[index],
+                                  );
                                 }
                                 return messageWidget(message: messages[index]);
                               },
@@ -149,14 +126,16 @@ class ChatScreen extends StatelessWidget {
                               ),
                             if (bloc.voiceNoteFilePath != null)
                               _voiceWidget(
+                                duration: bloc.voiceNoteDuration,
                                 isSender: false,
-                                isPlaying: bloc.isPlaying,
-                                playAudio: () {
-                                  bloc.add(TurnOnRecordFileEvent(
-                                    isPlaying: bloc.isPlaying,
-                                    voiceNoteUrl: bloc.voiceNoteFilePath!,
-                                  ));
-                                },
+                                voice: bloc.voiceNoteFilePath!, isFile: true,
+                                // isPlaying: bloc.isPlaying,
+                                // playAudio: () {
+                                //   bloc.add(TurnOnRecordFileEvent(
+                                //     isPlaying: bloc.isPlaying,
+                                //     voiceNoteUrl: bloc.voiceNoteFilePath!,
+                                //   ));
+                                // },
                               ),
                             const Spacer(),
                             IconButton(
@@ -178,14 +157,14 @@ class ChatScreen extends StatelessWidget {
                     color: Color(0xffCDAE8A),
                   ),
                   child: IconButton(
-                      icon: Icon(Icons.arrow_circle_down_outlined,
+                      icon: const Icon(Icons.arrow_circle_down_outlined,
                           color: Colors.white),
                       onPressed: () {
                         bloc.add(ScrollingDownEvent(
                             listScrollController: listScrollController));
                       }),
                 ),
-              if (!isEnd)
+              if (!chat.isEnd)
                 Container(
                   padding: EdgeInsets.symmetric(vertical: 2.h, horizontal: 2.w),
                   decoration: BoxDecoration(
@@ -261,14 +240,16 @@ class ChatScreen extends StatelessWidget {
                             bloc.add(RemoveRecordEvent());
                             bloc.add(SendMessageEvent(
                               message: Message(
-                                receiverName: receiverName,
+                                receiverName: chat.receiverName,
+                                voiceNoteDuration: bloc.voiceNoteDuration,
                                 createdTime: Timestamp.now(),
                                 message: messageController.text,
                                 imageFilePath: bloc.imageFilePath,
                                 voiceNoteFilePath: bloc.voiceNoteFilePath,
                                 senderId: ConstantsManager.appUser!.id,
-                                receiverId: receiverId,
+                                receiverId: chat.receiverId,
                               ),
+                              isMerchant: chat.isMerchant,
                             ));
                             messageController.clear();
                           }
@@ -285,24 +266,26 @@ class ChatScreen extends StatelessWidget {
   }
 }
 
-Widget messageWidget(
-    {required Message message,
-    void Function()? playAudio,
-    bool? isPlaying,
-    double? position}) {
+Widget messageWidget({required Message message}) {
   if (ConstantsManager.appUser!.id == message.senderId) {
-    if (message.voiceNoteUrl != null && playAudio != null) {
+    if (message.voiceNoteUrl != null && message.voiceNoteDuration != null) {
       return _voiceWidget(
-          isSender: true, playAudio: playAudio, isPlaying: isPlaying!);
+          duration: message.voiceNoteDuration ?? 0,
+          isSender: true,
+          voice: message.voiceNoteUrl!,
+          isFile: false);
     } else if (message.imageUrl != null) {
       return _imageWidget(image: message.imageUrl!, isSender: true);
     } else {
       return _textWidget(message: message.message ?? "", isSender: false);
     }
   } else {
-    if (message.voiceNoteUrl != null && playAudio != null) {
+    if (message.voiceNoteUrl != null && message.voiceNoteDuration != null) {
       return _voiceWidget(
-          isSender: true, playAudio: playAudio, isPlaying: isPlaying!);
+          duration: message.voiceNoteDuration ?? 0,
+          isSender: false,
+          voice: message.voiceNoteUrl!,
+          isFile: false);
     } else if (message.imageUrl != null) {
       return _imageWidget(image: message.imageUrl!, isSender: true);
     } else {
@@ -311,33 +294,81 @@ Widget messageWidget(
   }
 }
 
+// Widget _voiceWidget({
+//   required VoidCallback playAudio,
+//   required bool isPlaying,
+//   required bool isSender,
+// }) {
+//   return Padding(
+//     padding: EdgeInsets.symmetric(horizontal: 2.w),
+//     child: Align(
+//       alignment: !isSender
+//           ? AlignmentDirectional.topStart
+//           : AlignmentDirectional.topEnd,
+//       child: Container(
+//         decoration: BoxDecoration(
+//             color: isSender ? ColorManager.primary : const Color(0xffac793d),
+//             shape: BoxShape.circle),
+//         padding: EdgeInsetsDirectional.all(5.sp),
+//         child: IconButton(
+//             onPressed: playAudio,
+//             icon: Icon(
+//               !isPlaying
+//                   ? Icons.play_circle_rounded
+//                   : Icons.pause_circle_filled_rounded,
+//               color: ColorManager.white,
+//               size: 25.sp,
+//             )),
+//       ),
+//     ),
+//   );
+// }
+
 Widget _voiceWidget({
-  required VoidCallback playAudio,
-  required bool isPlaying,
   required bool isSender,
+  required String voice,
+  required int duration,
+  required bool isFile,
 }) {
-  return Padding(
-    padding: EdgeInsets.symmetric(horizontal: 2.w),
-    child: Align(
-      alignment: !isSender
-          ? AlignmentDirectional.topStart
-          : AlignmentDirectional.topEnd,
-      child: Container(
-        decoration: BoxDecoration(
-            color: isSender ? ColorManager.primary : const Color(0xffac793d),
-            shape: BoxShape.circle),
-        padding: EdgeInsetsDirectional.all(5.sp),
-        child: IconButton(
-            onPressed: playAudio,
-            icon: Icon(
-              !isPlaying
-                  ? Icons.play_circle_rounded
-                  : Icons.pause_circle_filled_rounded,
-              color: ColorManager.white,
-              size: 25.sp,
-            )),
+  return Column(
+    crossAxisAlignment: CrossAxisAlignment.start,
+    mainAxisSize: MainAxisSize.min,
+    children: [
+      Align(
+        alignment: isSender
+            ? AlignmentDirectional.topEnd
+            : AlignmentDirectional.topStart,
+        child: Directionality(
+          textDirection: isSender ? TextDirection.rtl : TextDirection.ltr,
+          child: VoiceMessageView(
+            controller: VoiceController(
+              audioSrc: voice,
+              maxDuration: Duration(
+                seconds: duration == 0 ? 1 : duration,
+              ),
+              isFile: isFile,
+              onComplete: () {
+                /// do something on complete
+              },
+              onPause: () {
+                /// do something on pause
+              },
+              onPlaying: () {
+                /// do something on playing
+              },
+              onError: (err) {
+                /// do somethin on error
+              },
+            ),
+            innerPadding: 10.sp,
+            cornerRadius: 15.sp,
+            circlesColor: ColorManager.primary,
+            backgroundColor: ColorManager.grey1.withOpacity(0.4),
+            activeSliderColor: ColorManager.primary,
+          ),
+        ),
       ),
-    ),
+    ],
   );
 }
 

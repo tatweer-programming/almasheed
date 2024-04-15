@@ -38,7 +38,7 @@ class MainBloc extends Bloc<MainEvent, MainState> {
   Set<Product> lastSeenProducts = {};
   List<Merchant> merchants = [];
   List<Worker> workers = [];
-  List<OrderForWorkers> orderForWorkers = [];
+  List<OrderForWorkers> ordersForWorkers = [];
   List<String> banners = [];
   List<Product> offers = [];
   List<Product> bestSales = [];
@@ -176,7 +176,7 @@ class MainBloc extends Bloc<MainEvent, MainState> {
         result.fold((l) {
           emit(GetOrderForWorkersErrorState(l));
         }, (r) {
-          orderForWorkers = r;
+          ordersForWorkers = r;
           emit(GetOrderForWorkersSuccessfullyState());
         });
       }else if (event is GetOffersEvent) {

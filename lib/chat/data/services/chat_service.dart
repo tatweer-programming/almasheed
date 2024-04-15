@@ -15,6 +15,7 @@ class ChatService {
 
   Future<Either<FirebaseException, Unit>> sendMessage({
     required Message message,
+    required bool isMerchant,
   }) async {
     try {
       final user = ConstantsManager.appUser;
@@ -26,14 +27,14 @@ class ChatService {
           message: message,
         );
         await _sendMessageForUser(
-          userType: 'merchants',
+          userType: isMerchant ? 'merchants' : "workers",
           userId: message.receiverId,
           receiverId: user.id,
           message: message,
         );
       } else {
         await _sendMessageForUser(
-          userType: 'merchants',
+          userType: isMerchant ? 'merchants' : "workers",
           userId: user!.id,
           receiverId: message.receiverId,
           message: message,
@@ -54,6 +55,7 @@ class ChatService {
 
   Either<FirebaseException, Stream<List<Message>>> getMessage({
     required String receiverId,
+    required bool isMerchant,
   }) {
     try {
       Stream<List<Message>> messages = const Stream.empty();
@@ -66,7 +68,7 @@ class ChatService {
         );
       } else {
         messages = getMessagesForUser(
-          userType: 'merchants',
+          userType: isMerchant ? 'merchants' : "workers",
           userId: user!.id,
           receiverId: receiverId,
         );
@@ -111,8 +113,8 @@ class ChatService {
           .doc(receiverId)
           .collection("chats")
           .doc(ConstantsManager.appUser!.id);
-      batch.update(merchant,{"isEnd": true});
-      batch.update(customer,{"isEnd": true});
+      batch.update(merchant, {"isEnd": true});
+      batch.update(customer, {"isEnd": true});
       batch.commit();
       return const Right(unit);
     } on FirebaseException catch (e) {

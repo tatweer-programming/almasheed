@@ -21,7 +21,7 @@ class CartScreen extends StatelessWidget {
     Customer? customer = ConstantsManager.appUser as Customer?;
     PaymentBloc? bloc;
     if (customer != null) {
-      bloc = PaymentBloc.get()..add(PrepareCart());
+      bloc = PaymentBloc.get(context)..add(PrepareCart());
     }
     TextEditingController quantityController = TextEditingController();
 
@@ -132,7 +132,7 @@ class CartScreen extends StatelessWidget {
   }
 
   void _handlePaymentBlocState(BuildContext context, PaymentState state) {
-    PaymentBloc bloc = PaymentBloc.get();
+    PaymentBloc bloc = PaymentBloc.get(context);
     if (state is AddToCartSuccessState) {
       bloc.add(PrepareCart());
       defaultToast(msg: S.of(context).productAdded);

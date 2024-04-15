@@ -18,7 +18,7 @@ class MyOrdersForWorkersScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     MainBloc mainBloc = sl();
     List<OrderForWorkers> orderForWorkers =
-        mainBloc.orderForWorkers.where((order) => order.accepted).toList();
+        mainBloc.ordersForWorkers.where((order) => order.accepted).toList();
     return Scaffold(
       body: Column(
         children: [

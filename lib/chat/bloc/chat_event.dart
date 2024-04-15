@@ -6,8 +6,9 @@ abstract class ChatEvent {
 
 class GetMessagesEvent extends ChatEvent {
   final String receiverId;
+  final bool isMerchant;
 
-  const GetMessagesEvent({required this.receiverId});
+  const GetMessagesEvent({required this.receiverId,required this.isMerchant});
 }
 
 class EndChatEvent extends ChatEvent {
@@ -17,9 +18,9 @@ class EndChatEvent extends ChatEvent {
 }
 
 class SendMessageEvent extends ChatEvent {
-  final Message message;
+  final Message message;final bool isMerchant;
 
-  const SendMessageEvent({required this.message});
+  const SendMessageEvent({required this.message,required this.isMerchant});
 }
 
 class PickImageEvent extends ChatEvent {}

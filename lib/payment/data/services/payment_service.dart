@@ -153,8 +153,9 @@ class PaymentService {
           receiverId: orderForWorkers.customerId,
           receiverName: orderForWorkers.customerName,
           isEnd: false,
+          isMerchant: false
         ),
-        batch: batch,
+        batch: batch, sentTo: 'workers',
       );
       await batch.commit();
       return const Right(unit);
@@ -195,13 +196,13 @@ class PaymentService {
           receiverName: order.orderItems
               .firstWhere((item) => item.product.merchantId == element)
               .product
-              .merchantName);
-      _createChat(chat: chat, batch: batch);
+              .merchantName, isMerchant: true);
+      _createChat(chat: chat, batch: batch, sentTo: 'merchants');
     }
   }
 
   Future<Either<FirebaseException, Unit>> _createChat(
-      {required Chat chat, required WriteBatch batch}) async {
+      {required Chat chat, required WriteBatch batch, required String sentTo}) async {
     try {
       var setInSender = fireStore
           .collection("customers")
@@ -209,7 +210,7 @@ class PaymentService {
           .collection("chats")
           .doc(chat.receiverId);
       var setInReceiver = fireStore
-          .collection("${ConstantsManager.appUser!.getType()}s")
+          .collection(sentTo)
           .doc(chat.receiverId)
           .collection("chats")
           .doc(ConstantsManager.userId);

@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:equatable/equatable.dart';
+
 //ignore: must_be_immutable
 class Message extends Equatable {
   final Timestamp createdTime;
@@ -10,10 +11,13 @@ class Message extends Equatable {
   final String receiverName;
   String? voiceNoteUrl;
   String? voiceNoteFilePath;
+  int? voiceNoteDuration;
   final String receiverId;
+
   Message({
     this.voiceNoteFilePath,
     this.voiceNoteUrl,
+    this.voiceNoteDuration,
     this.imageUrl,
     this.message,
     this.imageFilePath,
@@ -28,24 +32,27 @@ class Message extends Equatable {
       imageUrl: json["imageUrl"],
       createdTime: json["createdTime"],
       message: json["message"],
+      voiceNoteDuration: json["voiceNoteDuration"],
       receiverName: json["receiverName"],
       senderId: json["senderId"],
       receiverId: json["receiverId"],
       voiceNoteUrl: json["voiceNoteUrl"],
     );
   }
+
   Map<String, dynamic> toJson() {
     return {
-      "senderId":senderId,
-      "voiceNoteUrl":voiceNoteUrl,
-      "receiverName":receiverName,
-      "imageUrl":imageUrl,
-      "createdTime":createdTime,
-      "message":message,
-      "receiverId":receiverId,
+      "senderId": senderId,
+      "voiceNoteUrl": voiceNoteUrl,
+      "voiceNoteDuration": voiceNoteDuration,
+      "receiverName": receiverName,
+      "imageUrl": imageUrl,
+      "createdTime": createdTime,
+      "message": message,
+      "receiverId": receiverId,
     };
   }
 
   @override
-  List<Object?> get props => [createdTime,senderId,message,receiverId];
+  List<Object?> get props => [createdTime, senderId, message, receiverId];
 }
