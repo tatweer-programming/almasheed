@@ -44,7 +44,7 @@ class EditQuantityInCart extends PaymentEvent {
   @override
   List<Object?> get props => [productId];
 }
-
+//ignore: must_be_immutable
 class CompletePaymentCart extends PaymentEvent {
   final BuildContext context;
   final double totalPrice;

@@ -61,9 +61,7 @@ class PaymentBloc extends Bloc<PaymentEvent, PaymentState> {
       } else if (event is CompletePaymentCart) {
         var response = await _repository!.completePayment(
             context: event.context, totalPrice: event.totalPrice);
-        print(response.status.toString() + response.url.toString());
-        print(response.toString());
-        print(order);
+
         if (response.isSuccess) {
           if (event.orderForWorkers != null) {
             await _repository!.createChatAndDeleteOrder(event.orderForWorkers!);
@@ -110,7 +108,7 @@ class PaymentBloc extends Bloc<PaymentEvent, PaymentState> {
     MainBloc mainBloc = sl();
     List<OrderItem> orderItems = [];
     Customer customer = ConstantsManager.appUser as Customer;
-    print(customer.cartItems.toString());
+
     customer.cartItems.forEach((key, value) {
       orderItems.add(OrderItem(
           product: mainBloc.products

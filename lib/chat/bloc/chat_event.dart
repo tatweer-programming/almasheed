@@ -8,19 +8,21 @@ class GetMessagesEvent extends ChatEvent {
   final String receiverId;
   final bool isMerchant;
 
-  const GetMessagesEvent({required this.receiverId,required this.isMerchant});
+  const GetMessagesEvent({required this.receiverId, required this.isMerchant});
 }
 
 class EndChatEvent extends ChatEvent {
   final String receiverId;
+  final bool isMerchant;
 
-  const EndChatEvent({required this.receiverId});
+  const EndChatEvent({required this.receiverId, required this.isMerchant});
 }
 
 class SendMessageEvent extends ChatEvent {
-  final Message message;final bool isMerchant;
+  final Message message;
+  final bool isMerchant;
 
-  const SendMessageEvent({required this.message,required this.isMerchant});
+  const SendMessageEvent({required this.message, required this.isMerchant});
 }
 
 class PickImageEvent extends ChatEvent {}

@@ -41,7 +41,8 @@ class Customer extends AppUser {
     return Customer(
       image: json["image"] ?? ImagesManager.defaultProfile,
       name: json["name"],
-      addresses: (json['addresses'] as List).map((e) => Address.fromJson(e)).toList(),
+      addresses:
+          (json['addresses'] as List).map((e) => Address.fromJson(e)).toList(),
       cartItems: cartItems,
       favorites: (json['favorites'] as List).cast<String>(),
       orders: (json['orders'] as List).cast<String>(),

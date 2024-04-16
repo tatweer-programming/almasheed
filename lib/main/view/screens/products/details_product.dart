@@ -1,7 +1,6 @@
 import 'package:almasheed/main/view/screens/products/view_image_screen.dart';
 import 'package:almasheed/payment/bloc/payment_bloc.dart';
 import 'package:carousel_slider/carousel_controller.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
@@ -293,7 +292,7 @@ class DetailsProductScreen extends StatelessWidget {
                             color: const Color(0xff496591),
                           ),
                         ),
-                        Spacer(),
+                        const Spacer(),
                         if (product.productNewPrice != product.productOldPrice)
                           Text(
                             "${product.productOldPrice.toStringAsFixed(2)} ${S.of(context).sar}",

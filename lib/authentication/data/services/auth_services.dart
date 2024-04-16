@@ -7,7 +7,6 @@ import 'package:almasheed/core/utils/constance_manager.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dartz/dartz.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
@@ -187,9 +186,7 @@ class AuthService {
     try {
       Reference firebaseStorageRef = FirebaseStorage.instance.refFromURL(url);
       await firebaseStorageRef.delete();
-    } catch (e) {
-      print('Error deleting image from Firebase Storage: $e');
-    }
+    } catch (e) {}
   }
 
   Future<String> _uploadNewImage(File newImage) async {
@@ -223,19 +220,17 @@ class AuthService {
         await _saveUser(user, userType);
       });
     } catch (e) {
-      if (kDebugMode) {
-        print(e);
-      }
+      if (kDebugMode) {}
     }
   }
 
   Future<Either<FirebaseException, Unit>> updateWorker(Worker worker) async {
     try {
-      await _fireStore.collection("workers")
+      await _fireStore
+          .collection("workers")
           .doc(ConstantsManager.userId!)
           .update(worker.toJson())
-          .then((value) async {
-      });
+          .then((value) async {});
       return const Right(unit);
     } on FirebaseException catch (e) {
       return Left(e);
@@ -261,9 +256,7 @@ class AuthService {
 
   // verify phone required functions
   void _codeAutoRetrievalTimeout(String verificationId) {
-    if (kDebugMode) {
-      print('انتهت مهلة رمز التحقق');
-    }
+    if (kDebugMode) {}
   }
 
   void handleCodeSentCase(String verificationId, int? resendToken) {
@@ -273,15 +266,11 @@ class AuthService {
   }
 
   void _handleVerificationCompleted(PhoneAuthCredential credential) {
-    if (kDebugMode) {
-      print("Verification Completed");
-    }
+    if (kDebugMode) {}
   }
 
   _handleVerificationFailed(FirebaseAuthException e) {
-    if (kDebugMode) {
-      print('فشل التحقق ${e.message}');
-    }
+    if (kDebugMode) {}
     verifyPhoneCompleter.complete(Left(e));
   }
 

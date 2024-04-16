@@ -214,7 +214,8 @@ class AddAddressScreen extends StatelessWidget {
                                         },
                                         type: TextInputType.number,
                                         label: S.of(context).apartmentNumber,
-                                        prefix: const Icon(Icons.apartment_sharp),
+                                        prefix:
+                                            const Icon(Icons.apartment_sharp),
                                       ),
                                     ],
                                   )),

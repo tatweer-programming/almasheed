@@ -5,8 +5,6 @@ import 'package:almasheed/core/utils/constance_manager.dart';
 import 'package:almasheed/core/utils/navigation_manager.dart';
 import 'package:almasheed/main/bloc/main_bloc.dart';
 import 'package:almasheed/main/view/screens/main/main_screen.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sizer/sizer.dart';
@@ -35,21 +33,20 @@ class OTPScreen extends StatelessWidget {
         } else if (state is UserNotFoundState) {
           errorToast(msg: S.of(context).userNotFound);
         } else if (state is VerifyCodeErrorState) {
-          errorToast(msg: ExceptionManager(state.exception).translatedMessage());
+          errorToast(
+              msg: ExceptionManager(state.exception).translatedMessage());
         } else if (state is CreateUserSuccessfulState) {
           context.pushAndRemove(const MainScreen());
           defaultToast(msg: S.of(context).userCreated);
           mainBloc.add(GetProductsEvent());
         } else if (state is CreateUserErrorState) {
-          errorToast(msg: ExceptionManager(state.exception).translatedMessage());
-        } else if (state is Authenticated) {
-          context.pushAndRemove(const MainScreen());
+          errorToast(
+              msg: ExceptionManager(state.exception).translatedMessage());
         }
       },
       child: BlocBuilder<AuthBloc, AuthState>(
         bloc: authBloc,
         builder: (context, state) {
-          print(state);
           return Scaffold(
             body: SingleChildScrollView(
               child: AuthBackground(
@@ -71,7 +68,8 @@ class OTPScreen extends StatelessWidget {
                         ),
                       ),
                       Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 7.w, vertical: 8),
+                        padding:
+                            EdgeInsets.symmetric(horizontal: 7.w, vertical: 8),
                         child: RichText(
                           text: TextSpan(
                               text: S.of(context).enterSentCode,
@@ -83,7 +81,8 @@ class OTPScreen extends StatelessWidget {
                                         fontWeight: FontWeight.bold,
                                         fontSize: 15)),
                               ],
-                              style: const TextStyle(color: ColorManager.white, fontSize: 15)),
+                              style: const TextStyle(
+                                  color: ColorManager.white, fontSize: 15)),
                           textAlign: TextAlign.center,
                         ),
                       ),
@@ -114,24 +113,25 @@ class OTPScreen extends StatelessWidget {
                                   activeFillColor: ColorManager.white,
                                   inactiveFillColor: ColorManager.white),
                               cursorColor: ColorManager.black,
-                              animationDuration: const Duration(milliseconds: 300),
+                              animationDuration:
+                                  const Duration(milliseconds: 300),
                               controller: otpController,
                               keyboardType: TextInputType.number,
                               onCompleted: (v) {
                                 authBloc.add(VerifyCodeEvent(
                                   code: otpController.text,
                                 ));
-                                print("Completed");
                               },
                               onChanged: (value) {},
                             ),
                           ),
                         ),
                       ),
-                       SizedBox(
-                        height: 5.h,
+                      SizedBox(
+                        height: 1.h,
                       ),
-                      authBloc.timeToResendCode != null && authBloc.timeToResendCode! > 0
+                      authBloc.timeToResendCode != null &&
+                              authBloc.timeToResendCode! > 0
                           ? Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
@@ -166,12 +166,13 @@ class OTPScreen extends StatelessWidget {
                               children: [
                                 Text(
                                   S.of(context).didNotReceiveCode,
-                                  style:
-                                      const TextStyle(color: ColorManager.white, fontSize: 15),
+                                  style: const TextStyle(
+                                      color: ColorManager.white, fontSize: 15),
                                 ),
                                 TextButton(
                                     onPressed: () {
-                                      authBloc.add(SendCodeEvent(ConstantsManager.appUser!));
+                                      authBloc.add(SendCodeEvent(
+                                          ConstantsManager.appUser!));
                                     },
                                     child: Text(
                                       S.of(context).reSend,
@@ -192,8 +193,8 @@ class OTPScreen extends StatelessWidget {
                               ),
                             )
                           : Container(
-                              margin:
-                                  const EdgeInsets.symmetric(vertical: 16.0, horizontal: 30),
+                              margin: const EdgeInsets.symmetric(
+                                  vertical: 16.0, horizontal: 30),
                               decoration: BoxDecoration(
                                 color: ColorManager.primary,
                                 borderRadius: BorderRadius.circular(5),

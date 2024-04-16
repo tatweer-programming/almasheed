@@ -54,7 +54,7 @@ class PaymentService {
   }
 
   Future<PaymentResponse> completePayment(
-      {required BuildContext context,required double totalPrice}) async {
+      {required BuildContext context, required double totalPrice}) async {
     return await MyFatoorah.startPayment(
       context: context,
       request: MyfatoorahRequest.test(
@@ -142,20 +142,23 @@ class PaymentService {
     } on FirebaseException catch (e) {
       return Left(e);
     }
-  } Future<Either<FirebaseException, Unit>> createChatAndDeleteOrder(
+  }
+
+  Future<Either<FirebaseException, Unit>> createChatAndDeleteOrder(
       OrderForWorkers orderForWorkers) async {
     try {
       var batch = fireStore.batch();
-      var order = fireStore.collection("orders_for_workers").doc(orderForWorkers.orderId);
+      var order = fireStore
+          .collection("orders_for_workers")
+          .doc(orderForWorkers.orderId);
       batch.delete(order);
       await _createChat(
         chat: Chat(
-          receiverId: orderForWorkers.customerId,
-          receiverName: orderForWorkers.customerName,
-          isEnd: false,
-          isMerchant: false
-        ),
-        batch: batch, sentTo: 'workers',
+            receiverId: orderForWorkers.customerId,
+            receiverName: orderForWorkers.customerName,
+            isEnd: false,
+            isMerchant: false),
+        batch: batch,
       );
       await batch.commit();
       return const Right(unit);
@@ -191,32 +194,47 @@ class PaymentService {
       {required WriteBatch batch, required OrderModel order}) async {
     for (var element in order.merchantIds) {
       var chat = Chat(
-          receiverId: element,
-          isEnd: false,
-          receiverName: order.orderItems
-              .firstWhere((item) => item.product.merchantId == element)
-              .product
-              .merchantName, isMerchant: true);
-      _createChat(chat: chat, batch: batch, sentTo: 'merchants');
+        receiverId: element,
+        isEnd: false,
+        receiverName: order.orderItems
+            .firstWhere((item) => item.product.merchantId == element)
+            .product
+            .merchantName,
+        isMerchant: true,
+      );
+      _createChat(
+        chat: chat,
+        batch: batch,
+      );
     }
   }
 
-  Future<Either<FirebaseException, Unit>> _createChat(
-      {required Chat chat, required WriteBatch batch, required String sentTo}) async {
+  Future<Either<FirebaseException, Unit>> _createChat({
+    required Chat chat,
+    required WriteBatch batch,
+  }) async {
     try {
       var setInSender = fireStore
           .collection("customers")
           .doc(ConstantsManager.appUser!.id)
           .collection("chats")
           .doc(chat.receiverId);
+      batch.set(setInSender, chat.toJson());
+
+      Chat chatReceiver = Chat(
+        receiverId: ConstantsManager.userId!,
+        isMerchant: chat.isMerchant,
+        isEnd: chat.isEnd,
+        receiverName: (ConstantsManager.appUser! as Customer).name,
+      );
+
       var setInReceiver = fireStore
-          .collection(sentTo)
+          .collection(chat.isMerchant ? "merchants" : "workers")
           .doc(chat.receiverId)
           .collection("chats")
           .doc(ConstantsManager.userId);
 
-      batch.set(setInSender, chat.toJson());
-      batch.set(setInReceiver, chat.toJson());
+      batch.set(setInReceiver, chatReceiver.toJson());
       return const Right(unit);
     } on FirebaseException catch (e) {
       return Left(e);

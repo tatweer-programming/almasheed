@@ -22,7 +22,8 @@ class ModifyProductScreen extends StatelessWidget {
     TextEditingController priceController = TextEditingController();
     TextEditingController overviewController = TextEditingController();
     TextEditingController mainUsesController = TextEditingController();
-    TextEditingController workCharacteristicsController = TextEditingController();
+    TextEditingController workCharacteristicsController =
+        TextEditingController();
     TextEditingController discountController = TextEditingController();
     MainBloc bloc = sl();
     nameController.text = product.productName;
@@ -128,12 +129,14 @@ class ModifyProductScreen extends StatelessWidget {
                               label: S.of(context).description),
                           SizedBox(
                             height: 1.h,
-                          ),mainFormField(
+                          ),
+                          mainFormField(
                               controller: mainUsesController,
                               label: S.of(context).description),
                           SizedBox(
                             height: 1.h,
-                          ),mainFormField(
+                          ),
+                          mainFormField(
                               controller: workCharacteristicsController,
                               label: S.of(context).description),
                           SizedBox(
@@ -229,7 +232,8 @@ class ModifyProductScreen extends StatelessWidget {
                                 ratingNumbers: product.ratingNumbers,
                                 productId: product.productId,
                                 productMainUses: mainUsesController.text,
-                                productWorkCharacteristics: workCharacteristicsController.text,
+                                productWorkCharacteristics:
+                                    workCharacteristicsController.text,
                                 productsImagesFile: bloc.imagesFiles,
                                 productsImagesUrl: product.productsImagesUrl,
                                 merchantId: merchant.id,

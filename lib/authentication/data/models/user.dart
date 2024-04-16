@@ -11,14 +11,17 @@ abstract class AppUser {
 
   Map<String, dynamic> toJson();
 
-  AppUser({required this.id, required this.phone, this.image = ImagesManager.defaultProfile});
+  AppUser(
+      {required this.id,
+      required this.phone,
+      this.image = ImagesManager.defaultProfile});
 
   static AppUser fromJson(Map<String, dynamic> json, String type) {
     if (type == 'customer') {
       return Customer.fromJson(json);
     } else if (type == 'merchant') {
       return Merchant.fromJson(json);
-    }else if (type == 'worker') {
+    } else if (type == 'worker') {
       return Worker.fromJson(json);
     }
     throw ArgumentError('Invalid user type');

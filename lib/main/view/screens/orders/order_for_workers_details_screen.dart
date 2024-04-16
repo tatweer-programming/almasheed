@@ -1,20 +1,11 @@
-import 'package:almasheed/authentication/data/models/address.dart';
-import 'package:almasheed/authentication/presentation/components.dart';
-import 'package:almasheed/core/utils/constance_manager.dart';
-import 'package:almasheed/core/utils/font_manager.dart';
 import 'package:almasheed/core/utils/navigation_manager.dart';
 import 'package:almasheed/main/data/models/order_for_workers.dart';
-import 'package:almasheed/main/data/models/product.dart';
 import 'package:almasheed/payment/bloc/payment_bloc.dart';
-import 'package:almasheed/payment/data/models/order.dart';
-import 'package:almasheed/payment/data/models/orderItem.dart';
-import 'package:almasheed/payment/presentation/components.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sizer/sizer.dart';
 import '../../../../core/error/remote_error.dart';
 import '../../../../core/services/dep_injection.dart';
-import '../../../../core/utils/color_manager.dart';
 import '../../../../generated/l10n.dart';
 import '../../../bloc/main_bloc.dart';
 import '../../widgets/widgets.dart';
@@ -38,7 +29,6 @@ class OrderForWorkersDetailsScreen extends StatelessWidget {
     PaymentBloc bloc = PaymentBloc.get(context);
     return BlocConsumer<PaymentBloc, PaymentState>(
       listener: (context, state) {
-        print(state);
         if (state is IgnoredOrderForWorkersLoadingState) {
           showDialog(
             context: context,
@@ -162,7 +152,8 @@ class OrderForWorkersDetailsScreen extends StatelessWidget {
                       ),
                       SizedBox(
                         height: 3.h,
-                      ),Row(
+                      ),
+                      Row(
                         children: [
                           Expanded(
                             child: defaultButton(

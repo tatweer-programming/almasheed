@@ -3,7 +3,6 @@ import 'package:almasheed/main/view/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
 
-import '../../../core/utils/color_manager.dart';
 import '../../../generated/l10n.dart';
 
 class FAQScreen extends StatelessWidget {
@@ -21,7 +20,8 @@ class FAQScreen extends StatelessWidget {
               child: SingleChildScrollView(
                 child: Center(
                   child: SelectableText(
-                      style: const TextStyle(fontWeight: FontWeightManager.bold),
+                      style:
+                          const TextStyle(fontWeight: FontWeightManager.bold),
                       textAlign: TextAlign.start,
                       S.of(context).faqText),
                 ),

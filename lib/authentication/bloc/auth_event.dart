@@ -14,6 +14,7 @@ class SendCodeEvent extends AuthEvent {
   @override
   List<Object?> get props => [user];
 }
+
 class UpdateWorkerEvent extends AuthEvent {
   final Worker worker;
 
@@ -61,7 +62,9 @@ class ChangeIsMerchantTypeEvent extends AuthEvent {
 
   @override
   List<Object?> get props => [state];
-}class ChangeIsWorkerTypeEvent extends AuthEvent {
+}
+
+class ChangeIsWorkerTypeEvent extends AuthEvent {
   final bool state;
 
   const ChangeIsWorkerTypeEvent({required this.state});
@@ -122,10 +125,6 @@ class ChooseAddressTypeEvent extends AuthEvent {
   @override
   List<Object?> get props => [];
 }
-class MakeSelectedAccountTypeNullEvent extends AuthEvent {
-  @override
-  List<Object?> get props => [];
-}
 
 class ChooseCityEvent extends AuthEvent {
   final String city;
@@ -134,7 +133,9 @@ class ChooseCityEvent extends AuthEvent {
 
   @override
   List<Object?> get props => [city];
-}class ChooseWorkEvent extends AuthEvent {
+}
+
+class ChooseWorkEvent extends AuthEvent {
   final List<String> works;
 
   const ChooseWorkEvent(this.works);

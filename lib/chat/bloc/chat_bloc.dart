@@ -60,7 +60,8 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
         await stopRecord();
         emit(EndRecordState());
       } else if (event is EndChatEvent) {
-        var result = await chatRepository.endChat(event.receiverId);
+        var result =
+            await chatRepository.endChat(event.receiverId, event.isMerchant);
         result.fold((l) {
           emit(EndChatErrorState(l));
         }, (r) {

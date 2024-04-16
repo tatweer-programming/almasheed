@@ -83,8 +83,11 @@ class ChatService {
     try {
       List<Chat> chats = [];
       await firebaseInstance
-          .collection(
-              ConstantsManager.appUser is Merchant ? "merchants" : "customers")
+          .collection(ConstantsManager.appUser is Customer
+              ? "customers"
+              : ConstantsManager.appUser is Merchant
+                  ? "merchants"
+                  : "workers")
           .doc(ConstantsManager.appUser!.id)
           .collection("chats")
           .get()
@@ -99,12 +102,13 @@ class ChatService {
     }
   }
 
-  Future<Either<FirebaseException, Unit>> endChat(String receiverId) async {
+  Future<Either<FirebaseException, Unit>> endChat(
+      String receiverId, bool isMerchant) async {
     try {
       var batch = FirebaseFirestore.instance.batch();
 
       var merchant = firebaseInstance
-          .collection("merchants")
+          .collection(isMerchant ? "merchants" : "workers")
           .doc(ConstantsManager.appUser!.id)
           .collection("chats")
           .doc(receiverId);
@@ -115,6 +119,7 @@ class ChatService {
           .doc(ConstantsManager.appUser!.id);
       batch.update(merchant, {"isEnd": true});
       batch.update(customer, {"isEnd": true});
+      await getChats();
       batch.commit();
       return const Right(unit);
     } on FirebaseException catch (e) {

@@ -1,14 +1,6 @@
-import 'package:almasheed/authentication/data/models/address.dart';
-import 'package:almasheed/authentication/presentation/components.dart';
-import 'package:almasheed/core/utils/constance_manager.dart';
-import 'package:almasheed/core/utils/font_manager.dart';
 import 'package:almasheed/core/utils/navigation_manager.dart';
 import 'package:almasheed/main/data/models/order_for_workers.dart';
-import 'package:almasheed/main/data/models/product.dart';
 import 'package:almasheed/main/view/screens/orders/order_for_workers_details_screen.dart';
-import 'package:almasheed/payment/data/models/order.dart';
-import 'package:almasheed/payment/data/models/orderItem.dart';
-import 'package:almasheed/payment/presentation/components.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sizer/sizer.dart';
@@ -36,15 +28,14 @@ class OrdersForWorkersScreen extends StatelessWidget {
                 return ListView.builder(
                   padding: EdgeInsets.zero,
                   itemCount: bloc.ordersForWorkers.length,
-                  itemBuilder: (context, index) =>
-                      _buildOrdersWidget(
-                          onTap: () {
-                            context.push(
-                              OrderForWorkersDetailsScreen(
-                                  orderForWorkers: bloc.ordersForWorkers[index]),
-                            );
-                          },
-                          orderForWorkers: bloc.ordersForWorkers[index]),
+                  itemBuilder: (context, index) => _buildOrdersWidget(
+                      onTap: () {
+                        context.push(
+                          OrderForWorkersDetailsScreen(
+                              orderForWorkers: bloc.ordersForWorkers[index]),
+                        );
+                      },
+                      orderForWorkers: bloc.ordersForWorkers[index]),
                 );
               },
             ),

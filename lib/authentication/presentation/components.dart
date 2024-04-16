@@ -1,11 +1,9 @@
 import 'package:almasheed/authentication/bloc/auth_bloc.dart';
 import 'package:almasheed/authentication/presentation/screens/account_type_screen.dart';
-import 'package:almasheed/authentication/presentation/screens/login_screen.dart';
 import 'package:almasheed/authentication/presentation/screens/terms_and_conditions_screen.dart';
 import 'package:almasheed/core/utils/navigation_manager.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:sizer/sizer.dart';
 import '../../core/utils/color_manager.dart';
@@ -128,7 +126,7 @@ Widget dropdownBuilder(
     IconData? icon,
     required Function(String? value) onChanged,
     required List<String> items}) {
-    return DropdownMenu<String>(
+  return DropdownMenu<String>(
     label: Text(text),
     enableFilter: false,
     requestFocusOnTap: false,
@@ -148,10 +146,7 @@ Widget dropdownBuilder(
     menuHeight: 40.h,
     dropdownMenuEntries: items.map<DropdownMenuEntry<String>>(
       (String value) {
-        return DropdownMenuEntry<String>(
-          value: value,
-          label: value
-        );
+        return DropdownMenuEntry<String>(value: value, label: value);
       },
     ).toList(),
   );
@@ -233,7 +228,6 @@ void errorToast({
   );
 }
 
-
 class TermsAgreementWidget extends StatelessWidget {
   final AuthBloc bloc;
 
@@ -279,8 +273,9 @@ class TermsAgreementWidget extends StatelessWidget {
 
 class RegisterNowWidget extends StatelessWidget {
   final String type;
+  final AuthBloc bloc;
 
-  const RegisterNowWidget({super.key, required this.type});
+  const RegisterNowWidget({super.key, required this.type, required this.bloc});
 
   @override
   Widget build(BuildContext context) {
@@ -291,19 +286,22 @@ class RegisterNowWidget extends StatelessWidget {
             S.of(context).doNotHaveAccount,
             style: TextStyle(fontSize: 12.sp, color: ColorManager.white),
           ),
-          TextButton(
-              onPressed: () {
-                context.push(AccountTypeScreen(
-                ));
-              },
-              child: Text(
-                S.of(context).registerNow,
-                style: TextStyle(
-                  fontSize: 13.sp,
-                  color: ColorManager.white,
-                  decoration: TextDecoration.underline,
-                ),
-              ))
+          BlocBuilder<AuthBloc, AuthState>(
+            builder: (context, state) {
+              return TextButton(
+                  onPressed: () {
+                    bloc.add(NavigateToRegisterScreenEvent(context));
+                  },
+                  child: Text(
+                    S.of(context).registerNow,
+                    style: TextStyle(
+                      fontSize: 13.sp,
+                      color: ColorManager.white,
+                      decoration: TextDecoration.underline,
+                    ),
+                  ));
+            },
+          )
         ],
       ),
     );
@@ -365,8 +363,8 @@ class AuthBackground extends StatelessWidget {
           alignment: AlignmentDirectional.bottomCenter,
           decoration: BoxDecoration(
               color: ColorManager.primary,
-              borderRadius:
-                  BorderRadiusDirectional.vertical(top: Radius.circular(120.sp))),
+              borderRadius: BorderRadiusDirectional.vertical(
+                  top: Radius.circular(120.sp))),
           child: Stack(
             children: [
               Positioned.fill(

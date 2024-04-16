@@ -1,5 +1,4 @@
 import 'package:almasheed/authentication/data/models/worker.dart';
-import 'package:almasheed/core/utils/color_manager.dart';
 import 'package:almasheed/main/view/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
@@ -43,25 +42,11 @@ class WorkerDetailsScreen extends StatelessWidget {
                     ),
                   ),
                   SizedBox(height: 1.h),
-                  SizedBox(
-                    height: 20.h,
-                    child: ListView.separated(
-                        physics: const ClampingScrollPhysics(),
-                        itemBuilder: (context, index) => Center(
-                              child: Text(
-                                worker.works[index],
-                                style: TextStyle(
-                                    fontSize: 20.sp,
-                                    color: ColorManager.grey2,
-                                    fontWeight: FontWeight.w600),
-                              ),
-                            ),
-                        padding: EdgeInsets.zero,
-                        separatorBuilder: (context, index) => SizedBox(
-                              height: 1.h,
-                            ),
-                        itemCount: worker.works.length),
+                  Wrap(
+                    children:
+                        worker.works.map((e) => Chip(label: Text(e))).toList(),
                   ),
+                  SizedBox(height: 1.h),
                   Column(
                     children: [
                       mainFormField(
@@ -70,7 +55,7 @@ class WorkerDetailsScreen extends StatelessWidget {
                         minLines: 2,
                         maxLines: 5,
                         prefix: const Icon(
-                          Icons.phone,
+                          Icons.account_box_outlined,
                         ),
                         enabled: false,
                       ),

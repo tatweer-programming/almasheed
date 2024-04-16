@@ -1,10 +1,7 @@
-import 'package:almasheed/authentication/data/models/address.dart';
 import 'package:almasheed/authentication/presentation/components.dart';
-import 'package:almasheed/core/utils/constance_manager.dart';
 import 'package:almasheed/core/utils/font_manager.dart';
-import 'package:almasheed/main/data/models/product.dart';
+import 'package:almasheed/payment/bloc/payment_bloc.dart';
 import 'package:almasheed/payment/data/models/order.dart';
-import 'package:almasheed/payment/data/models/orderItem.dart';
 import 'package:almasheed/payment/presentation/components.dart';
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
@@ -19,6 +16,7 @@ class OrderDetailsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    PaymentBloc bloc = PaymentBloc.get(context);
     return Scaffold(
       body: SingleChildScrollView(
         child: Column(
@@ -31,7 +29,8 @@ class OrderDetailsScreen extends StatelessWidget {
                   height: 35.h,
                   color: ColorManager.primary,
                   child: Padding(
-                    padding: EdgeInsetsDirectional.only(start: 8.w, end: 8.w, top: 1.h),
+                    padding: EdgeInsetsDirectional.only(
+                        start: 8.w, end: 8.w, top: 1.h),
                     child: Column(
                       children: [
                         SizedBox(
@@ -108,7 +107,7 @@ class OrderDetailsScreen extends StatelessWidget {
                       shrinkWrap: true,
                       physics: const NeverScrollableScrollPhysics(),
                       itemBuilder: (context, index) => OrderItemBuilder(
-                            item: orderModel.orderItems[0],
+                            item: bloc.order.orderItems[0],
                           ),
                       separatorBuilder: (context, index) => SizedBox(
                             height: 10.sp,
@@ -138,64 +137,64 @@ class OrderDetailsScreen extends StatelessWidget {
   }
 }
 
-OrderModel orderModel = OrderModel(
-    id: "2024-01-10 10:39:52.532789",
-    totalPrice: 100,
-    orderItems: [
-      OrderItem(
-          product: Product(
-              productName: "شكارة اسمنت خمسين كيلو",
-              productId: "",
-              productOldPrice: 100,
-              ratingNumbers: 1,
-              productNewPrice: 90,
-              productCity: ConstantsManager.getSaudiCities[0],
-              merchantId: "oVtWmHhUWJcVfi7MT1GyVvANHIA2",
-              productOverview: "شكارة اسمنت الممتاز خمسين كيلوجرام لاغراض البناء",
-              productMainUses: "شكارة اسمنت الممتاز خمسين كيلوجرام لاغراض البناء",
-              productWorkCharacteristics: "شكارة اسمنت الممتاز خمسين كيلوجرام لاغراض البناء",
-              productRating: 5,
-              merchantName: "عبده اسمنت"),
-          quantity: 5),
-      OrderItem(
-          product: Product(
-              productName: "شكارة اسمنت خمسين كيلو",
-              productId: "",
-              productRating: 5,
-              productOldPrice: 100,
-              productNewPrice: 90,
-              productCity: ConstantsManager.getSaudiCities[0],
-              merchantId: "oVtWmHhUWJcVfi7MT1GyVvANHIA1",
-              productOverview: "شكارة اسمنت الممتاز خمسين كيلوجرام لاغراض البناء",
-              productMainUses: "شكارة اسمنت الممتاز خمسين كيلوجرام لاغراض البناء",
-              ratingNumbers: 1,
-              productWorkCharacteristics: "شكارة اسمنت الممتاز خمسين كيلوجرام لاغراض البناء",
-              merchantName: "عبده اسمنت"),
-          quantity: 2),
-      OrderItem(
-          product: Product(
-              productName: "شكارة جبس",
-              productId: "",
-              productOldPrice: 100,
-              productNewPrice: 90,
-              ratingNumbers: 1,
-              productRating: 5,
-              productCity: ConstantsManager.getSaudiCities[0],
-              merchantId: "oVtWmHhUWJcVfi7MT1GyVvANHIA2",
-              productOverview: "شكارة اسمنت الممتاز خمسين كيلوجرام لاغراض البناء",
-              productMainUses: "شكارة اسمنت الممتاز خمسين كيلوجرام لاغراض البناء",
-              productWorkCharacteristics: "شكارة اسمنت الممتاز خمسين كيلوجرام لاغراض البناء",
-              merchantName: "عبده اسمنت"),
-          quantity: 2),
-    ],
-    merchantIds: ["oVtWmHhUWJcVfi7MT1GyVvANHIA2", "oVtWmHhUWJcVfi7MT1GyVvANHIA1"],
-    address: Address(
-        street: "شارع س المتفرع من شارع ص",
-        city: "المدينة المنورة",
-        houseNumber: 9,
-        floor: 4,
-        apartmentNumber: 2,
-        area: "منطقة أ",
-        plot: "القطعة ب",
-        avenue: "الجادة الاولى",
-        type: "منزل"));
+// OrderModel orderModel = OrderModel(
+//     id: "2024-01-10 10:39:52.532789",
+//     totalPrice: 100,
+//     orderItems: [
+//       OrderItem(
+//           product: Product(
+//               productName: "شكارة اسمنت خمسين كيلو",
+//               productId: "",
+//               productOldPrice: 100,
+//               ratingNumbers: 1,
+//               productNewPrice: 90,
+//               productCity: ConstantsManager.getSaudiCities[0],
+//               merchantId: "oVtWmHhUWJcVfi7MT1GyVvANHIA2",
+//               productOverview: "شكارة اسمنت الممتاز خمسين كيلوجرام لاغراض البناء",
+//               productMainUses: "شكارة اسمنت الممتاز خمسين كيلوجرام لاغراض البناء",
+//               productWorkCharacteristics: "شكارة اسمنت الممتاز خمسين كيلوجرام لاغراض البناء",
+//               productRating: 5,
+//               merchantName: "عبده اسمنت"),
+//           quantity: 5),
+//       OrderItem(
+//           product: Product(
+//               productName: "شكارة اسمنت خمسين كيلو",
+//               productId: "",
+//               productRating: 5,
+//               productOldPrice: 100,
+//               productNewPrice: 90,
+//               productCity: ConstantsManager.getSaudiCities[0],
+//               merchantId: "oVtWmHhUWJcVfi7MT1GyVvANHIA1",
+//               productOverview: "شكارة اسمنت الممتاز خمسين كيلوجرام لاغراض البناء",
+//               productMainUses: "شكارة اسمنت الممتاز خمسين كيلوجرام لاغراض البناء",
+//               ratingNumbers: 1,
+//               productWorkCharacteristics: "شكارة اسمنت الممتاز خمسين كيلوجرام لاغراض البناء",
+//               merchantName: "عبده اسمنت"),
+//           quantity: 2),
+//       OrderItem(
+//           product: Product(
+//               productName: "شكارة جبس",
+//               productId: "",
+//               productOldPrice: 100,
+//               productNewPrice: 90,
+//               ratingNumbers: 1,
+//               productRating: 5,
+//               productCity: ConstantsManager.getSaudiCities[0],
+//               merchantId: "oVtWmHhUWJcVfi7MT1GyVvANHIA2",
+//               productOverview: "شكارة اسمنت الممتاز خمسين كيلوجرام لاغراض البناء",
+//               productMainUses: "شكارة اسمنت الممتاز خمسين كيلوجرام لاغراض البناء",
+//               productWorkCharacteristics: "شكارة اسمنت الممتاز خمسين كيلوجرام لاغراض البناء",
+//               merchantName: "عبده اسمنت"),
+//           quantity: 2),
+//     ],
+//     merchantIds: ["oVtWmHhUWJcVfi7MT1GyVvANHIA2", "oVtWmHhUWJcVfi7MT1GyVvANHIA1"],
+//     address: Address(
+//         street: "شارع س المتفرع من شارع ص",
+//         city: "المدينة المنورة",
+//         houseNumber: 9,
+//         floor: 4,
+//         apartmentNumber: 2,
+//         area: "منطقة أ",
+//         plot: "القطعة ب",
+//         avenue: "الجادة الاولى",
+//         type: "منزل"));

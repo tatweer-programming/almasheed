@@ -54,7 +54,8 @@ class DefaultFirebaseOptions {
     appId: '1:564275998549:android:a5c7192294b00dbc8389dc',
     messagingSenderId: '564275998549',
     projectId: 'masheed-d942d',
-    databaseURL: 'https://masheed-d942d-default-rtdb.asia-southeast1.firebasedatabase.app',
+    databaseURL:
+        'https://masheed-d942d-default-rtdb.asia-southeast1.firebasedatabase.app',
     storageBucket: 'masheed-d942d.appspot.com',
   );
 
@@ -63,7 +64,8 @@ class DefaultFirebaseOptions {
     appId: '1:564275998549:ios:1e1c6cf2b1ad98768389dc',
     messagingSenderId: '564275998549',
     projectId: 'masheed-d942d',
-    databaseURL: 'https://masheed-d942d-default-rtdb.asia-southeast1.firebasedatabase.app',
+    databaseURL:
+        'https://masheed-d942d-default-rtdb.asia-southeast1.firebasedatabase.app',
     storageBucket: 'masheed-d942d.appspot.com',
     iosBundleId: 'com.almasheed.store.almasheed',
   );

@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:almasheed/authentication/presentation/components.dart';
 import 'package:almasheed/core/utils/color_manager.dart';
 import 'package:almasheed/core/utils/navigation_manager.dart';
-import 'package:almasheed/main/view/widgets/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:geocoding/geocoding.dart';
@@ -71,8 +70,8 @@ class GoogleMapsScreen extends StatelessWidget {
                       },
                       child: state is GetLocationLoadingState
                           ? const CircularProgressIndicator(
-                        color: ColorManager.white,
-                      )
+                              color: ColorManager.white,
+                            )
                           : Text(
                               S.of(context).ok,
                               style: const TextStyle(color: ColorManager.white),

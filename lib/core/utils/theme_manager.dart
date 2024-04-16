@@ -3,7 +3,7 @@ import 'color_manager.dart';
 
 ThemeData getAppTheme() {
   return ThemeData(
-    useMaterial3: false,
+      useMaterial3: false,
       primarySwatch: const MaterialColor(4289493309, {
         50: Color(0xfff8f3ec),
         100: Color(0xfff2e6d9),

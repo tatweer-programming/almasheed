@@ -50,10 +50,7 @@ class CategoryScreen extends StatelessWidget {
         builder: (context, state) {
           return RefreshIndicator(
             onRefresh: () async {
-              mainBloc
-                ..add(GetProductsEvent())
-                ..add(GetWorkersEvent())
-                ..add(GetMerchantsEvent());
+              mainBloc.add(GetProductsEvent());
             },
             child: Scaffold(
               body: SingleChildScrollView(

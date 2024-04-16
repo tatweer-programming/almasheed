@@ -287,6 +287,10 @@ class ChooseCategoryEvent extends MainEvent {
   });
 }
 
+class MerchantProductsEvent extends MainEvent {
+  MerchantProductsEvent();
+}
+
 class SelectPropertiesEvent extends MainEvent {
   final String prop;
   List<String> selectedProperties;

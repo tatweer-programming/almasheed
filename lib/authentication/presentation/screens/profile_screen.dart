@@ -5,7 +5,6 @@ import 'package:almasheed/authentication/presentation/components.dart';
 import 'package:almasheed/authentication/presentation/screens/account_type_screen.dart';
 import 'package:almasheed/authentication/presentation/screens/addresses_screen.dart';
 import 'package:almasheed/authentication/presentation/screens/faq_screen.dart';
-import 'package:almasheed/authentication/presentation/screens/login_screen.dart';
 import 'package:almasheed/core/error/remote_error.dart';
 import 'package:almasheed/core/utils/constance_manager.dart';
 import 'package:almasheed/core/utils/navigation_manager.dart';
@@ -22,7 +21,6 @@ import '../../../core/services/dep_injection.dart';
 import '../../../core/utils/color_manager.dart';
 import '../../../generated/l10n.dart';
 import '../../../main/view/screens/products/last_seen_screen.dart';
-import '../../../payment/presentation/screens/complete_order_for_workers_screen.dart';
 import 'edit_profile_screen.dart';
 
 class ProfileScreen extends StatelessWidget {
@@ -41,7 +39,8 @@ class ProfileScreen extends StatelessWidget {
         builder: (context, state) {
           return Column(
             children: [
-              appBarWidget(S.of(context).myAccount, Icons.person_outline_rounded),
+              appBarWidget(
+                  S.of(context).myAccount, Icons.person_outline_rounded),
               SizedBox(
                 height: 3.h,
               ),
@@ -51,8 +50,9 @@ class ProfileScreen extends StatelessWidget {
                   builder: (context, state) {
                     return CircleAvatar(
                       radius: 20.w,
-                      backgroundImage:
-                          NetworkImage(ConstantsManager.appUser!.image!),
+                      backgroundImage: ConstantsManager.appUser!.image != null
+                          ? NetworkImage(ConstantsManager.appUser!.image!)
+                          : null,
                       child: Align(
                         alignment: AlignmentDirectional.bottomEnd,
                         child: IconButton(
@@ -164,8 +164,7 @@ class ProfileScreen extends StatelessWidget {
                           label: S.of(context).loginNow,
                           iconData: Icons.login,
                           onTap: () async {
-                            context
-                                .pushAndRemove(const AccountTypeScreen());
+                            context.pushAndRemove(const AccountTypeScreen());
                           }),
                     ConstantsManager.appUser != null
                         ? BlocConsumer<AuthBloc, AuthState>(
@@ -181,9 +180,20 @@ class ProfileScreen extends StatelessWidget {
                                       onTap: () async {
                                         authBloc!.add(LogoutEvent());
                                         mainBloc.pageIndex = 0;
+                                        context.pushAndRemove(
+                                            const AccountTypeScreen());
                                       });
                             },
-                            listener: _handleAuthStates,
+                            listener: (context, state) {
+                              if (state is LogoutSuccessfulState) {
+                                context
+                                    .pushAndRemove(const AccountTypeScreen());
+                              } else if (state is LogoutErrorState) {
+                                errorToast(
+                                    msg: ExceptionManager(state.exception)
+                                        .translatedMessage());
+                              }
+                            },
                           )
                         : const SizedBox()
                   ],
@@ -194,13 +204,5 @@ class ProfileScreen extends StatelessWidget {
         },
       ),
     );
-  }
-
-  void _handleAuthStates(BuildContext context, state) {
-    if (state is LogoutSuccessfulState) {
-      context.pushAndRemove(const AccountTypeScreen());
-    } else if (state is LogoutErrorState) {
-      errorToast(msg: ExceptionManager(state.exception).translatedMessage());
-    }
   }
 }

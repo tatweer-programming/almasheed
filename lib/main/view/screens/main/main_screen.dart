@@ -1,5 +1,4 @@
 import 'package:almasheed/authentication/data/models/merchant.dart';
-import 'package:almasheed/authentication/data/models/worker.dart';
 import 'package:almasheed/core/utils/color_manager.dart';
 import 'package:almasheed/core/utils/constance_manager.dart';
 import 'package:almasheed/core/utils/navigation_manager.dart';

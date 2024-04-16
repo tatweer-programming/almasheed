@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+
 //ignore: must_be_immutable
 class Chat extends Equatable {
   final String receiverName;

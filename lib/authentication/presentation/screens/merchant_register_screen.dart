@@ -24,13 +24,15 @@ class MerchantRegisterScreen extends StatelessWidget {
     TextEditingController companyNameController = TextEditingController();
     TextEditingController cityController = TextEditingController();
     TextEditingController areaController = TextEditingController();
-    TextEditingController registrationNumberController = TextEditingController();
+    TextEditingController registrationNumberController =
+        TextEditingController();
     AuthBloc bloc = AuthBloc.get(context);
 
     return BlocListener<AuthBloc, AuthState>(
       listener: (context, state) {
         if (state is SendCodeErrorState) {
-          errorToast(msg: ExceptionManager(state.exception).translatedMessage());
+          errorToast(
+              msg: ExceptionManager(state.exception).translatedMessage());
         } else if (state is CodeSent) {
           defaultToast(msg: S.of(context).codeSent);
           context.push(const OTPScreen());
@@ -130,7 +132,8 @@ class MerchantRegisterScreen extends StatelessWidget {
                           SizedBox(
                             height: 7.5.sp,
                           ),
-                          bloc.timeToResendCode != null && bloc.timeToResendCode! > 0
+                          bloc.timeToResendCode != null &&
+                                  bloc.timeToResendCode! > 0
                               ? Row(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
@@ -161,31 +164,40 @@ class MerchantRegisterScreen extends StatelessWidget {
                                   ],
                                 )
                               : state is SendCodeLoadingState
-                                  ? const Center(child: CircularProgressIndicator())
+                                  ? const Center(
+                                      child: CircularProgressIndicator())
                                   : Container(
                                       decoration: BoxDecoration(
                                         color: ColorManager.white,
-                                        borderRadius: BorderRadius.circular(10.sp),
+                                        borderRadius:
+                                            BorderRadius.circular(10.sp),
                                       ),
                                       width: 90.w,
                                       height: 40.sp,
                                       child: InkWell(
                                         onTap: () {
-                                          if (formKey.currentState!.validate() &&
+                                          if (formKey.currentState!
+                                                  .validate() &&
                                               bloc.agreeToTerms == true) {
                                             Merchant merchant = Merchant(
                                                 productsIds: [],
-                                                companyName: companyNameController.text,
+                                                companyName:
+                                                    companyNameController.text,
                                                 city: cityController.text,
                                                 area: areaController.text,
                                                 registrationNumber:
-                                                    registrationNumberController.text,
+                                                    registrationNumberController
+                                                        .text,
                                                 orders: [],
                                                 id: "",
-                                                phone: "+966${phoneController.text}");
+                                                phone:
+                                                    "+966${phoneController.text}");
                                             bloc.add(SendCodeEvent(merchant));
                                           } else if (!bloc.agreeToTerms) {
-                                            errorToast(msg: S.of(context).mustAgreeToTerms);
+                                            errorToast(
+                                                msg: S
+                                                    .of(context)
+                                                    .mustAgreeToTerms);
                                           }
                                         },
                                         child: Center(

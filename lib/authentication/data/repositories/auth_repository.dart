@@ -12,17 +12,20 @@ class AuthRepository {
   static AuthRepository get = AuthRepository();
   final AuthService _service = AuthService();
 
-  Future<Either<FirebaseAuthException, String>> verifyPhoneNumber(String phoneNumber) async {
+  Future<Either<FirebaseAuthException, String>> verifyPhoneNumber(
+      String phoneNumber) async {
     return _service.verifyPhoneNumber(phoneNumber);
   }
 
-  Future<Either<FirebaseAuthException, String>> verifyCode(String code, String userType) async {
+  Future<Either<FirebaseAuthException, String>> verifyCode(
+      String code, String userType) async {
     return await _service.verifyCode(code, userType);
   }
 
   Future<Either<FirebaseException, bool>> createUser(AppUser user) async {
     return await _service.createUser(user);
   }
+
   Future<Either<FirebaseException, Unit>> updateWorker(Worker worker) async {
     return await _service.updateWorker(worker);
   }
@@ -44,7 +47,8 @@ class AuthRepository {
     return await _service.logout();
   }
 
-  Future<Either<FirebaseException, String>> updateProfilePic(File newImage) async {
+  Future<Either<FirebaseException, String>> updateProfilePic(
+      File newImage) async {
     return await _service.uploadProfilePic(newImage);
   }
 

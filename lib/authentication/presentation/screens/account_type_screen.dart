@@ -53,8 +53,7 @@ class AccountTypeScreen extends StatelessWidget {
                             children: [
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
-                                crossAxisAlignment:
-                                    CrossAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.center,
                                 children: [
                                   AccountTypeItem(
                                     type: S.of(context).customer,
@@ -72,12 +71,13 @@ class AccountTypeScreen extends StatelessWidget {
                                   ),
                                 ],
                               ),
-                              SizedBox(height: 2.h,),
+                              SizedBox(
+                                height: 2.h,
+                              ),
                               AccountTypeItem(
                                 type: S.of(context).maintenance,
                                 bloc: bloc,
-                                iconData:
-                                Icons.store_mall_directory_outlined,
+                                iconData: Icons.store_mall_directory_outlined,
                                 index: 2,
                               ),
                             ],

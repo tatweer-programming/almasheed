@@ -315,6 +315,10 @@ class ChooseCategoryState extends MainState {
       {required this.categoryName, required this.categoryProducts});
 }
 
+class MerchantProductsState extends MainState {
+  const MerchantProductsState();
+}
+
 class CheckIfAvailablePropertiesState extends MainState {
   final List<String> availableProperties;
 

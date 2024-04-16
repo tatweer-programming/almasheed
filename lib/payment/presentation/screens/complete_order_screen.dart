@@ -5,8 +5,8 @@ import 'package:almasheed/chat/presentation/screens/chats_screen.dart';
 import 'package:almasheed/core/utils/constance_manager.dart';
 import 'package:almasheed/core/utils/navigation_manager.dart';
 import 'package:almasheed/payment/bloc/payment_bloc.dart';
+import 'package:almasheed/payment/data/models/order.dart';
 import 'package:almasheed/payment/presentation/components.dart';
-import 'package:almasheed/payment/presentation/screens/order_details_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sizer/sizer.dart';
@@ -23,6 +23,7 @@ class CompleteOrderScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     Customer customer = ConstantsManager.appUser as Customer;
     PaymentBloc bloc = PaymentBloc.get(context);
+    OrderModel orderModel = bloc.order;
     return BlocListener<PaymentBloc, PaymentState>(
       bloc: bloc,
       listener: _handlePaymentBlocState,

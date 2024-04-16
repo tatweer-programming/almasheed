@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sizer/sizer.dart';
 import 'package:almasheed/authentication/data/models/customer.dart';
-import 'package:almasheed/authentication/data/models/merchant.dart';
 import 'package:almasheed/core/error/remote_error.dart';
 import 'package:almasheed/core/services/dep_injection.dart';
 import 'package:almasheed/core/utils/color_manager.dart';
@@ -20,7 +19,6 @@ import '../../../../generated/l10n.dart';
 import '../../../../payment/presentation/screens/cart_screen.dart';
 import '../../../bloc/main_bloc.dart';
 
-
 class HomePageScreen extends StatelessWidget {
   const HomePageScreen({super.key});
 
@@ -32,6 +30,9 @@ class HomePageScreen extends StatelessWidget {
       listener: (context, state) {
         if (state is GetProductsSuccessfullyState) {
           _handleProductSuccessState(context, bloc);
+        }
+        if (state is GetCategoriesSuccessfullyState) {
+          bloc.add(MerchantProductsEvent());
         } else if (state is GetProductsErrorState ||
             state is GetMerchantsErrorState ||
             state is GetOffersErrorState ||
@@ -60,7 +61,8 @@ class HomePageScreen extends StatelessWidget {
                               list: bloc.banners,
                               controller: carouselController),
                           SizedBox(height: 1.h),
-                          if (ConstantsManager.appUser is! Worker && bloc.categories.isNotEmpty)
+                          if (ConstantsManager.appUser is! Worker &&
+                              bloc.categories.isNotEmpty)
                             _buildCategoriesList(context, bloc),
                           if ((ConstantsManager.appUser is Customer ||
                                   ConstantsManager.appUser == null) &&
@@ -192,22 +194,14 @@ class HomePageScreen extends StatelessWidget {
           child: ListView.separated(
             scrollDirection: Axis.horizontal,
             itemBuilder: (context, index) => categoryWidget(
-              onTap: () => context.push(CategoryScreen(
-                category: ConstantsManager.appUser is Customer ||
-                        ConstantsManager.appUser == null
-                    ? bloc.categories[index]
-                    : Category(
-                        categoryName: "",
-                        products: bloc.categories[index].products!
-                            .where((product) =>
-                                (ConstantsManager.appUser as Merchant)
-                                    .productsIds
-                                    .contains(product.productId))
-                            .toList(),
-                        productsIds:
-                            (ConstantsManager.appUser as Merchant).productsIds,
-                      ),
-              )),
+              onTap: () {
+                context.push(CategoryScreen(
+                  category: ConstantsManager.appUser is Customer ||
+                          ConstantsManager.appUser == null
+                      ? bloc.categories[index]
+                      : bloc.merchantCategories[index],
+                ));
+              },
               category: bloc.categories[index],
             ),
             separatorBuilder: (context, index) => SizedBox(width: 5.w),
@@ -226,7 +220,10 @@ class HomePageScreen extends StatelessWidget {
           text: S.of(context).merchants,
           widget: TextButton(
               onPressed: () {
-                context.push(ShowAllMerchantsOrWorkers(merchants: bloc.merchants,workers: const [],));
+                context.push(ShowAllMerchantsOrWorkers(
+                  merchants: bloc.merchants,
+                  workers: const [],
+                ));
               },
               child: Text(S.of(context).showAll)),
         ),
@@ -264,7 +261,10 @@ class HomePageScreen extends StatelessWidget {
           text: S.of(context).workers,
           widget: TextButton(
             onPressed: () {
-              context.push(ShowAllMerchantsOrWorkers(merchants: const [], workers: bloc.workers,));
+              context.push(ShowAllMerchantsOrWorkers(
+                merchants: const [],
+                workers: bloc.workers,
+              ));
             },
             child: Text(S.of(context).showAll),
           ),
@@ -278,7 +278,9 @@ class HomePageScreen extends StatelessWidget {
             name: bloc.workers[index].name,
             details: bloc.workers[index].works.first,
             onTap: () {
-              context.push(WorkerDetailsScreen(worker: bloc.workers[index],));
+              context.push(WorkerDetailsScreen(
+                worker: bloc.workers[index],
+              ));
             },
           ),
           separatorBuilder: (context, index) => SizedBox(height: 1.h),

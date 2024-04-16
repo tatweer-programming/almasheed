@@ -147,10 +147,10 @@ class CategoriesScreen extends StatelessWidget {
                               ),
                             ],
                           ),
-                          Spacer(),
+                          const Spacer(),
                           TextButton(
                               onPressed: () {
-                                context.push(AllCategoriesScreen());
+                                context.push(const AllCategoriesScreen());
                               },
                               child: Text(S.of(context).showMore))
                         ],

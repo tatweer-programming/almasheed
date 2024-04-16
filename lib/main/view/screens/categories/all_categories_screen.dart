@@ -54,7 +54,7 @@ class AllCategoriesScreen extends StatelessWidget {
                 ),
                 Wrap(
                   direction: Axis.horizontal,
-                  children: bloc.categories.map((category) {
+                  children: bloc.merchantCategories.map((category) {
                     return categoryVerticalWidget(
                         category: category,
                         categoryPressed: () {
@@ -69,34 +69,4 @@ class AllCategoriesScreen extends StatelessWidget {
       },
     ));
   }
-}
-
-Widget _categoryName(
-    {required String text,
-    required VoidCallback onTap,
-    required String isContain}) {
-  return InkWell(
-    onTap: onTap,
-    child: Padding(
-      padding: EdgeInsetsDirectional.symmetric(horizontal: 2.w),
-      child: Container(
-        width: 18.w,
-        height: 5.h,
-        decoration:
-            BoxDecoration(border: Border.all(), color: ColorManager.white),
-        child: Center(
-          child: Text(
-            text,
-            maxLines: 1,
-            overflow: TextOverflow.ellipsis,
-            style: TextStyle(
-                color:
-                    isContain == text ? ColorManager.black : ColorManager.grey2,
-                fontSize: 12.sp,
-                fontWeight: FontWeight.w700),
-          ),
-        ),
-      ),
-    ),
-  );
 }

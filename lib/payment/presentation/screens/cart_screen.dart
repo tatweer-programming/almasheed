@@ -35,7 +35,10 @@ class CartScreen extends StatelessWidget {
                 child: SingleChildScrollView(
                   child: Column(
                     children: [
-                      appBarWidget( S.of(context).cart,Icons.shopping_cart_outlined,),
+                      appBarWidget(
+                        S.of(context).cart,
+                        Icons.shopping_cart_outlined,
+                      ),
                       customer != null
                           ? BlocListener<PaymentBloc, PaymentState>(
                               bloc: bloc,

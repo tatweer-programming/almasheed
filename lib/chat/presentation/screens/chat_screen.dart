@@ -1,6 +1,5 @@
 import 'dart:io';
 
-import 'package:almasheed/authentication/data/models/merchant.dart';
 import 'package:almasheed/chat/bloc/chat_bloc.dart';
 import 'package:almasheed/chat/data/models/chat.dart';
 import 'package:almasheed/chat/data/models/message.dart';
@@ -13,15 +12,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sizer/sizer.dart';
 import 'package:voice_message_package/voice_message_package.dart';
+import '../../../authentication/data/models/customer.dart';
 import '../../../generated/l10n.dart';
 
 //ignore: must_be_immutable
 class ChatScreen extends StatelessWidget {
   final Chat chat;
 
-  ChatScreen(
-      {super.key,
-      required this.chat});
+  ChatScreen({super.key, required this.chat});
 
   final ScrollController listScrollController = ScrollController();
   bool isDown = true;
@@ -31,13 +29,12 @@ class ChatScreen extends StatelessWidget {
     TextEditingController messageController = TextEditingController();
     Stream<List<Message>> messagesStream = const Stream.empty();
     ChatBloc bloc = ChatBloc.get(context)
-      ..add(GetMessagesEvent(receiverId: chat.receiverId, isMerchant: chat.isMerchant));
+      ..add(GetMessagesEvent(
+          receiverId: chat.receiverId, isMerchant: chat.isMerchant));
     return BlocConsumer<ChatBloc, ChatState>(
       listener: (context, state) {
-        print(state);
         if (state is GetMessagesSuccessState) {
           messagesStream = state.messages;
-          print("messages $messagesStream");
           bloc.add(
               ScrollingDownEvent(listScrollController: listScrollController));
         }
@@ -52,11 +49,16 @@ class ChatScreen extends StatelessWidget {
               backgroundColor: ColorManager.primary,
               title: Text(chat.receiverName),
               actions: [
-                if (ConstantsManager.appUser is Merchant && (!chat.isEnd))
+                if (ConstantsManager.appUser is! Customer && (!chat.isEnd))
                   TextButton(
                       onPressed: () {
                         chat.isEnd = true;
-                        bloc.add(EndChatEvent(receiverId: chat.receiverId));
+                        bloc.add(
+                          EndChatEvent(
+                            receiverId: chat.receiverId,
+                            isMerchant: chat.isMerchant,
+                          ),
+                        );
                       },
                       child: Text(
                         S.of(context).endChat,
@@ -356,14 +358,13 @@ Widget _voiceWidget({
               onPlaying: () {
                 /// do something on playing
               },
-              onError: (err) {
-                /// do somethin on error
-              },
+              onError: (err) {},
             ),
             innerPadding: 10.sp,
             cornerRadius: 15.sp,
-            circlesColor: ColorManager.primary,
-            backgroundColor: ColorManager.grey1.withOpacity(0.4),
+            circlesColor:
+                isSender ? ColorManager.primary : const Color(0xffac793d),
+            backgroundColor: ColorManager.grey1.withOpacity(0.9),
             activeSliderColor: ColorManager.primary,
           ),
         ),

@@ -1,7 +1,5 @@
 import 'package:almasheed/authentication/data/models/user.dart';
 
-import '../../../core/utils/images_manager.dart';
-
 class Worker extends AppUser {
   final String name;
   final String city;

@@ -1,7 +1,6 @@
 import 'package:almasheed/chat/bloc/chat_bloc.dart';
 import 'package:almasheed/core/utils/constance_manager.dart';
 import 'package:almasheed/core/utils/localization_manager.dart';
-import 'package:almasheed/core/utils/navigation_manager.dart';
 import 'package:almasheed/payment/bloc/payment_bloc.dart';
 import 'package:firebase_app_check/firebase_app_check.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -13,8 +12,6 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:sizer/sizer.dart';
 import 'authentication/bloc/auth_bloc.dart';
 import 'authentication/presentation/screens/account_type_screen.dart';
-import 'authentication/presentation/screens/login_screen.dart';
-import 'chat/presentation/screens/chat_screen.dart';
 import 'core/local/shared_prefrences.dart';
 import 'core/services/dep_injection.dart';
 import 'core/services/firebase_options.dart';
@@ -45,7 +42,7 @@ Future<void> main() async {
   ConstantsManager.isNotificationsOn =
       await CacheHelper.getData(key: "isNotificationsOn");
   ConstantsManager.userType = await CacheHelper.getData(key: "userType");
-  print("${ConstantsManager.userId}  ${ConstantsManager.userType}");
+
   runApp(const Masheed());
 }
 
@@ -111,6 +108,4 @@ class Masheed extends StatelessWidget {
 
 Future<void> _firebaseMessagingBackgroundHandler(
   RemoteMessage message,
-) async {
-  print("Handling a background message: ${message.data}");
-}
+) async {}

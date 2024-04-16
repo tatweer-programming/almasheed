@@ -70,7 +70,7 @@ class MainRemoteDataSource {
       await batch.commit();
       return const Right(unit);
     } on FirebaseException catch (error) {
-      print("error $error");
+      
       return Left(error);
     }
   }
@@ -406,12 +406,12 @@ class MainRemoteDataSource {
       batch.update(element, {
         "ordersIds": FieldValue.arrayUnion([orderForWorkers.orderId])
       });
-      print("Worker  id $sortedWorker");
+      
       await _pushNotification(
         id: sortedWorker,
         work: orderForWorkers.work,
         city: orderForWorkers.city,
-      ).then((value) => print("pushed"));
+      ).then((value) => 
     }
   }
 

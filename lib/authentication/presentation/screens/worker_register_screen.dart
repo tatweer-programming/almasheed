@@ -1,4 +1,3 @@
-import 'package:almasheed/authentication/data/models/merchant.dart';
 import 'package:almasheed/authentication/presentation/screens/otp_screen.dart';
 import 'package:almasheed/core/error/remote_error.dart';
 import 'package:almasheed/core/utils/constance_manager.dart';
@@ -109,7 +108,8 @@ class WorkerRegisterScreen extends StatelessWidget {
                                         }
                                         return null;
                                       },
-                                    ),SizedBox(
+                                    ),
+                                    SizedBox(
                                       height: 7.5.sp,
                                     ),
                                     mainFormField(
@@ -281,14 +281,16 @@ class WorkerRegisterScreen extends StatelessWidget {
                                                               .text,
                                                           ordersIds: <String>[],
                                                           longitude: mainBloc
-                                                              .latLng!.longitude,
+                                                              .latLng!
+                                                              .longitude,
                                                           latitude: mainBloc
                                                               .latLng!.latitude,
                                                           location:
                                                               locationController
                                                                   .text,
                                                           id: "",
-                                                          brief: briefController.text,
+                                                          brief: briefController
+                                                              .text,
                                                           phone:
                                                               "+966${phoneController.text}",
                                                           name: nameController

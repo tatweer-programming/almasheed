@@ -46,7 +46,7 @@ class Product extends Equatable {
         productMainUses: json['productMainUses'],
         productWorkCharacteristics: json['productWorkCharacteristics'],
         productId: json['productId'],
-    ratingNumbers: json['ratingNumbers'].toInt(),
+        ratingNumbers: json['ratingNumbers'].toInt(),
         productRating: json['productRating'].toDouble(),
         productCity: json['productCity'],
         productNewPrice: json['productNewPrice'].toDouble(),

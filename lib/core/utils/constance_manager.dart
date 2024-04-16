@@ -136,12 +136,12 @@ class ConstantsManager {
     }
   }
 
-  static ValueItem<String>  convertWorkToEnglish(ValueItem<String> work) {
+  static ValueItem<String> convertWorkToEnglish(ValueItem<String> work) {
     int index = worksArabic.indexOf(work);
     return (index != -1) ? worksEnglish[index] : work;
   }
 
-  static ValueItem<String>  convertWorkToArabic(ValueItem<String> work) {
+  static ValueItem<String> convertWorkToArabic(ValueItem<String> work) {
     int index = worksEnglish.indexOf(work);
     return (index != -1) ? worksArabic[index] : work;
   }

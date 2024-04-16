@@ -104,9 +104,6 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     } else if (event is ChangeAgreeToTermsStateEvent) {
       agreeToTerms = !agreeToTerms;
       emit(ChangeAgreeToTermsState(state: agreeToTerms));
-    } else if (event is MakeSelectedAccountTypeNullEvent) {
-      selectedAccountTypeIndex = null;
-      emit(MakeSelectedAccountTypeNullState());
     } else if (event is ChangeIsMerchantTypeEvent) {
       isMerchant = !isMerchant;
       emit(ChangeIsMerchantTypeState(state: isMerchant));
@@ -115,9 +112,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       emit(ChangeIsWorkerTypeState(state: isWorker));
     } else if (event is VerifyCodeEvent) {
       emit(VerifyCodeLoadingState());
-      if (kDebugMode) {
-        print(ConstantsManager.appUser);
-      }
+      if (kDebugMode) {}
       String userType = ConstantsManager.appUser!.getType();
       var result = await repository.verifyCode(event.code, userType);
       result.fold((l) {
@@ -133,7 +128,6 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       emit(SelectAccountTypeState(index: event.index));
     } else if (event is NavigateToRegisterScreenEvent) {
       event.context.push(registerScreens[selectedAccountTypeIndex!]);
-      add(MakeSelectedAccountTypeNullEvent());
     } else if (event is NavigateToAccountTypesScreenEvent) {
       if (selectedAccountTypeIndex == 0) {
         event.context
@@ -145,7 +139,6 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         event.context
             .push(const LoginScreen(isWorker: true, isMerchant: false));
       }
-      add(MakeSelectedAccountTypeNullEvent());
     } else if (event is AddAddressEvent) {
       emit(AddAddressLoadingState());
       var result = await repository.addAddress(event.address);
@@ -227,14 +220,10 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
         authCompleted = true;
 
-        if (kDebugMode) {
-          print(ConstantsManager.appUser);
-        }
+        if (kDebugMode) {}
       } else {
         authCompleted = true;
-        if (kDebugMode) {
-          print(ConstantsManager.appUser);
-        }
+        if (kDebugMode) {}
         emit(const CreateUserSuccessfulState());
       }
     });

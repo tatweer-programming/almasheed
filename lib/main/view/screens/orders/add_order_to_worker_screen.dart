@@ -10,7 +10,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sizer/sizer.dart';
 import '../../../../core/error/remote_error.dart';
 import '../../../../core/services/dep_injection.dart';
-import '../../../../core/utils/color_manager.dart';
 import '../../../../generated/l10n.dart';
 
 class AddOrderToWorkerScreen extends StatelessWidget {
@@ -179,7 +178,9 @@ class AddOrderToWorkerScreen extends StatelessWidget {
                                     orderForWorkers: OrderForWorkers(
                                       work: work!,
                                       customerId: ConstantsManager.userId!,
-                                      customerName: (ConstantsManager.appUser as Customer).name,
+                                      customerName:
+                                          (ConstantsManager.appUser as Customer)
+                                              .name,
                                       accepted: false,
                                       workersIds: const [],
                                       city: cityController.text,

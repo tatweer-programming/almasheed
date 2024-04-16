@@ -6,8 +6,6 @@ import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:sizer/sizer.dart';
 import '../../../authentication/data/models/customer.dart';
-import '../../../authentication/data/models/merchant.dart';
-import '../../../authentication/data/models/worker.dart';
 import '../../../core/utils/color_manager.dart';
 import '../../../core/utils/constance_manager.dart';
 import '../../../generated/l10n.dart';
@@ -510,7 +508,7 @@ Widget productVerticalWidget({
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Container(
-                  height: 18.h,
+                  height: 17.h,
                   decoration: BoxDecoration(
                     color: ColorManager.grey1,
                     image: product.productsImagesUrl != null &&
@@ -849,13 +847,13 @@ Widget favouriteProduct(
             ),
           ),
           SizedBox(
-            width: 5.w,
+            width: 4.w,
           ),
           Expanded(
             child: Column(
               children: [
                 Container(
-                  height: 15.h,
+                  height: 14.h,
                   decoration: BoxDecoration(
                     color: ColorManager.grey1,
                     image: product.productsImagesUrl != null &&
@@ -882,7 +880,7 @@ Widget favouriteProduct(
                             fontWeight: FontWeight.w600, fontSize: 12.sp),
                       ),
                       SizedBox(
-                        height: 0.2.h,
+                        height: 0.1.h,
                       ),
                       Text(
                         "${product.productOldPrice} ${S.of(context).sar}",
@@ -1031,8 +1029,7 @@ List<String> transformList(List<List<String>> inputList) {
     String transformedString = innerList.join("-");
     result.add(transformedString);
   }
-  print("result");
-  print(result);
+
   return result;
 }
 

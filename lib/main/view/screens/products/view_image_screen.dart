@@ -8,28 +8,30 @@ import 'package:sizer/sizer.dart';
 import '../../../../core/services/dep_injection.dart';
 
 class ViewImageScreen extends StatelessWidget {
-  final List<String>productsImagesUrl;
+  final List<String> productsImagesUrl;
   final CarouselController carouselController;
-  const ViewImageScreen({super.key, required this.productsImagesUrl, required this.carouselController});
+  const ViewImageScreen(
+      {super.key,
+      required this.productsImagesUrl,
+      required this.carouselController});
 
   @override
   Widget build(BuildContext context) {
     MainBloc bloc = sl<MainBloc>();
     return Scaffold(
-      body: Column(
-        children:  [
-          SizedBox(height: 2.h,),
-          Container(
-            color: ColorManager.white,
-            child: defaultCarousel(
-              height: 90.h,
-              bloc: bloc,
-              list: productsImagesUrl,
-              controller: carouselController,
-            ),
-          ),
-        ]
-      )
-    );
+        body: Column(children: [
+      SizedBox(
+        height: 2.h,
+      ),
+      Container(
+        color: ColorManager.white,
+        child: defaultCarousel(
+          height: 90.h,
+          bloc: bloc,
+          list: productsImagesUrl,
+          controller: carouselController,
+        ),
+      ),
+    ]));
   }
 }

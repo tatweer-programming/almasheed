@@ -12,10 +12,8 @@ class AuthInitial extends AuthState {
 class SendCodeLoadingState extends AuthState {
   @override
   List<Object?> get props => [];
-}class MakeSelectedAccountTypeNullState extends AuthState {
-  @override
-  List<Object?> get props => [];
 }
+
 class ResetCodeTimerState extends AuthState {
   @override
   List<Object?> get props => [];
@@ -110,7 +108,9 @@ class ChangeIsMerchantTypeState extends AuthState {
 
   @override
   List<Object?> get props => [state];
-}class ChangeIsWorkerTypeState extends AuthState {
+}
+
+class ChangeIsWorkerTypeState extends AuthState {
   final bool state;
 
   const ChangeIsWorkerTypeState({required this.state});
@@ -165,6 +165,7 @@ class RemoveAddressSuccessfulState extends AuthState {
   @override
   List<Object?> get props => [];
 }
+
 class UpdateWorkerLoadingState extends AuthState {
   @override
   List<Object?> get props => [];
@@ -200,7 +201,9 @@ class ChooseCityState extends AuthState {
 
   @override
   List<Object?> get props => [city];
-}class ChooseWorkState extends AuthState {
+}
+
+class ChooseWorkState extends AuthState {
   final List<String> works;
 
   const ChooseWorkState({required this.works});

@@ -140,6 +140,7 @@ class AcceptedOrderForWorkersErrorState extends PaymentState {
   @override
   List<Object?> get props => [];
 }
+
 // Ignored OrderForWorkers
 class IgnoredOrderForWorkersSuccessfullyState extends PaymentState {
   @override

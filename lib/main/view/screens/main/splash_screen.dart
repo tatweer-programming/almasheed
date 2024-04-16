@@ -7,7 +7,7 @@ import 'package:page_transition/page_transition.dart';
 
 class SplashScreen extends StatefulWidget {
   final Widget nextScreen;
-  const SplashScreen({Key? key, required this.nextScreen}) : super(key: key);
+  const SplashScreen({super.key, required this.nextScreen});
   @override
   State<SplashScreen> createState() => _SplashScreenState();
 }
@@ -35,10 +35,8 @@ class _SplashScreenState extends State<SplashScreen> {
       },
       splash: Container(
         decoration: const BoxDecoration(
-            image: DecorationImage(
-                image: AssetImage('assets/images/logo.png')
-            )
-        ),
+            image:
+                DecorationImage(image: AssetImage('assets/images/logo.png'))),
       ),
       nextScreen: widget.nextScreen,
       pageTransitionType: PageTransitionType.bottomToTop,

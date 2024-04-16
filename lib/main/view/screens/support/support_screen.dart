@@ -32,7 +32,7 @@ class SupportScreen extends StatelessWidget {
       listener: (context, state) async {
         if (state is ChangeSwitchNotificationsState) {
           isOn = state.isOn;
-          print(ConstantsManager.isNotificationsOn);
+
           ConstantsManager.isNotificationsOn = isOn;
           await CacheHelper.saveData(key: "isNotificationsOn", value: isOn)
               .then((value) async {

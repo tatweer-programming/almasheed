@@ -42,6 +42,7 @@ class MainBloc extends Bloc<MainEvent, MainState> {
   List<String> banners = [];
   List<Product> offers = [];
   List<Product> bestSales = [];
+  List<Category> merchantCategories = [];
   List<Category> categories = [];
   List<XFile> imagesFiles = [];
   List<Product> sortedProducts = [];
@@ -86,14 +87,15 @@ class MainBloc extends Bloc<MainEvent, MainState> {
           emit(GetProductsErrorState(l));
         }, (r) {
           products = r;
-          products.sort((a, b) => DateTime.parse(a.productId)
-              .compareTo(DateTime.parse(b.productId)));
+          products.sort((a, b) =>
+              DateTime.parse(a.productId)
+                  .compareTo(DateTime.parse(b.productId)));
           emit(GetProductsSuccessfullyState());
         });
       } else if (event is SetProductEvent) {
         emit(SetProductLoadingState());
         var result =
-            await MainRepository(sl()).setProduct(product: event.product);
+        await MainRepository(sl()).setProduct(product: event.product);
         result.fold((l) {
           emit(SetProductErrorState(l));
         }, (r) {
@@ -119,7 +121,7 @@ class MainBloc extends Bloc<MainEvent, MainState> {
       } else if (event is UpdateProductEvent) {
         emit(UpdateProductLoadingState());
         var result =
-            await MainRepository(sl()).updateProduct(product: event.product);
+        await MainRepository(sl()).updateProduct(product: event.product);
         result.fold((l) {
           emit(UpdateProductErrorState(l));
         }, (r) {
@@ -128,7 +130,7 @@ class MainBloc extends Bloc<MainEvent, MainState> {
       } else if (event is SetCategoryEvent) {
         emit(SetCategoryLoadingState());
         var result =
-            await MainRepository(sl()).setCategory(category: event.category);
+        await MainRepository(sl()).setCategory(category: event.category);
         result.fold((l) {
           emit(SetCategoryErrorState(l));
         }, (r) {
@@ -137,7 +139,7 @@ class MainBloc extends Bloc<MainEvent, MainState> {
       } else if (event is DeleteProductEvent) {
         emit(DeleteProductLoadingState());
         var result =
-            await MainRepository(sl()).deleteProduct(product: event.product);
+        await MainRepository(sl()).deleteProduct(product: event.product);
         result.fold((l) {
           emit(DeleteProductErrorState(l));
         }, (r) {
@@ -179,7 +181,7 @@ class MainBloc extends Bloc<MainEvent, MainState> {
           ordersForWorkers = r;
           emit(GetOrderForWorkersSuccessfullyState());
         });
-      }else if (event is GetOffersEvent) {
+      } else if (event is GetOffersEvent) {
         emit(GetOffersLoadingState());
         var result = await MainRepository(sl()).getOffers();
         result.fold((l) {
@@ -215,7 +217,7 @@ class MainBloc extends Bloc<MainEvent, MainState> {
           for (Category category in categories) {
             category.products = products
                 .where((product) =>
-                    category.productsIds.contains(product.productId))
+                category.productsIds.contains(product.productId))
                 .toList();
           }
           emit(GetCategoriesSuccessfullyState());
@@ -270,12 +272,12 @@ class MainBloc extends Bloc<MainEvent, MainState> {
         } else if (event.type == "Best Sales") {
           sortedProducts = event.products
               .where((product) =>
-                  bestSales.map((e) => e.productId).contains(product.productId))
+              bestSales.map((e) => e.productId).contains(product.productId))
               .toList();
         } else if (event.type == "Offers") {
           sortedProducts = event.products
               .where((product) =>
-                  offers.map((e) => e.productId).contains(product.productId))
+              offers.map((e) => e.productId).contains(product.productId))
               .toList();
         }
         emit(SortProductsState(products: sortedProducts));
@@ -334,7 +336,8 @@ class MainBloc extends Bloc<MainEvent, MainState> {
       } else if (event is ChooseCategoryEvent) {
         if (ConstantsManager.appUser is Merchant) {
           event.categoryProducts = event.categoryProducts
-              .where((product) => (ConstantsManager.appUser as Merchant)
+              .where((product) =>
+              (ConstantsManager.appUser as Merchant)
                   .productsIds
                   .contains(product.productId))
               .toList();
@@ -342,6 +345,28 @@ class MainBloc extends Bloc<MainEvent, MainState> {
         emit(ChooseCategoryState(
             categoryName: event.categoryName,
             categoryProducts: event.categoryProducts));
+      } else if (event is MerchantProductsEvent) {
+        if (ConstantsManager.appUser is Merchant) {
+          List<Product> merchantProducts = [];
+          merchantCategories = [];
+          for (Category category in categories) {
+            merchantProducts = [];
+            if (category.products != null && category.products!.isNotEmpty) {
+              merchantProducts = category.products!
+                  .where((product) =>
+                  (ConstantsManager.appUser as Merchant)
+                      .productsIds
+                      .contains(product.productId))
+                  .toList();
+            }
+            merchantCategories.add(Category(
+                categoryName: category.categoryName,
+                productsIds: [],
+                categoryImage: category.categoryImage,
+                products: merchantProducts));
+          }
+        }
+        emit(const MerchantProductsState());
       } else if (event is CheckIfAvailablePropertiesEvent) {
         List<String> availableProperties = event.product.customProperties!
             .searchInAvailablePropsFromChosenProps(event.selectedProperties);
@@ -435,7 +460,7 @@ class MainBloc extends Bloc<MainEvent, MainState> {
       }
     }
     locationData = await location.getLocation();
-    final GoogleMapController _controller = await controller.future;
+    final GoogleMapController googleMapController = await controller.future;
     CameraPosition myLocation = CameraPosition(
       target: LatLng(locationData.latitude ?? 24.774265,
           locationData.longitude ?? 46.738586),
@@ -443,7 +468,7 @@ class MainBloc extends Bloc<MainEvent, MainState> {
     );
     latLng = LatLng(locationData.latitude ?? 24.774265,
         locationData.longitude ?? 46.738586);
-    await _controller.animateCamera(CameraUpdate.newCameraPosition(myLocation));
+    await googleMapController.animateCamera(CameraUpdate.newCameraPosition(myLocation));
   }
 
   void addMarker(LatLng position, String markerId) {
@@ -455,22 +480,24 @@ class MainBloc extends Bloc<MainEvent, MainState> {
     markers.add(marker);
   }
 
-  double _calculateDistance(
-    LatLng position1,
-    LatLng position2,
-  ) {
-    double x1 = position1.latitude, y1 = position1.latitude;
-    double x2 = position2.latitude, y2 = position2.latitude;
+  double _calculateDistance(LatLng position1,
+      LatLng position2,) {
+    double x1 = position1.latitude,
+        y1 = position1.latitude;
+    double x2 = position2.latitude,
+        y2 = position2.latitude;
     return sqrt(pow(x2 - x1, 2) + pow(y2 - y1, 2));
   }
 
   Map<String, LatLng> _sortPointsByDistance(LatLng targetPoint, String work) {
     ValueItem<String> workConverted;
-    workConverted = LocalizationManager.getCurrentLocale().languageCode == "ar"
+    workConverted = LocalizationManager
+        .getCurrentLocale()
+        .languageCode == "ar"
         ? ConstantsManager.convertWorkToArabic(
-            ValueItem(label: work, value: work))
+        ValueItem(label: work, value: work))
         : ConstantsManager.convertWorkToEnglish(
-            ValueItem(label: work, value: work));
+        ValueItem(label: work, value: work));
 
     Map<String, LatLng> pointMap = _getPointMap(workConverted.label);
     List<MapEntry<String, LatLng>> entries = pointMap.entries.toList();

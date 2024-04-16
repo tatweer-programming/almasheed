@@ -96,18 +96,17 @@ class AddProductScreen extends StatelessWidget {
             },
           );
           bloc.add(GetProductsEvent());
-
         }
       },
       builder: (context, state) {
         return Scaffold(
           appBar: AppBar(
-           title: Text(
-             S.of(context).addProduct,
-             style: const TextStyle(
-                 color: ColorManager.white,
-                 ),
-           ),
+            title: Text(
+              S.of(context).addProduct,
+              style: const TextStyle(
+                color: ColorManager.white,
+              ),
+            ),
             leading: IconButton(
                 onPressed: () {
                   context.pop();

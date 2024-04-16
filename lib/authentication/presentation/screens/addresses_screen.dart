@@ -44,7 +44,8 @@ class AddressesScreen extends StatelessWidget {
                       height: 35.h,
                       color: ColorManager.primary,
                       child: Padding(
-                        padding: EdgeInsetsDirectional.only(start: 8.w, end: 8.w, top: 1.h),
+                        padding: EdgeInsetsDirectional.only(
+                            start: 8.w, end: 8.w, top: 1.h),
                         child: Column(
                           children: [
                             SizedBox(
@@ -84,19 +85,26 @@ class AddressesScreen extends StatelessWidget {
                                         fontWeight: FontWeight.bold),
                                   )
                                 : Padding(
-                                    padding: EdgeInsetsDirectional.only(bottom: 10.h),
+                                    padding: EdgeInsetsDirectional.only(
+                                        bottom: 10.h),
                                     child: ListView.separated(
                                         shrinkWrap: true,
-                                        physics: const NeverScrollableScrollPhysics(),
-                                        itemBuilder: (context, index) => InkWell(
+                                        physics:
+                                            const NeverScrollableScrollPhysics(),
+                                        itemBuilder: (context, index) =>
+                                            InkWell(
                                               onTap: () {
-                                                context.push(AddressDetailsScreen(
-                                                    address: customer.addresses[index]));
+                                                context.push(
+                                                    AddressDetailsScreen(
+                                                        address: customer
+                                                            .addresses[index]));
                                               },
                                               child: AddressBuilder(
-                                                  address: customer.addresses[index]),
+                                                  address: customer
+                                                      .addresses[index]),
                                             ),
-                                        separatorBuilder: (context, index) => SizedBox(
+                                        separatorBuilder: (context, index) =>
+                                            SizedBox(
                                               height: 1.h,
                                             ),
                                         itemCount: customer.addresses.length),

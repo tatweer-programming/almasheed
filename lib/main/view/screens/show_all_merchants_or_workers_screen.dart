@@ -50,8 +50,9 @@ class ShowAllMerchantsOrWorkers extends StatelessWidget {
                               category: Category(
                                 categoryName: merchants[index].companyName,
                                 products: mainBloc.products
-                                    .where((product) => merchants[index].productsIds
-                                    .contains(product.productId))
+                                    .where((product) => merchants[index]
+                                        .productsIds
+                                        .contains(product.productId))
                                     .toList(),
                                 productsIds: merchants[index].productsIds,
                               ),

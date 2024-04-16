@@ -25,7 +25,8 @@ class CustomerRegisterScreen extends StatelessWidget {
       bloc: bloc,
       listener: (context, state) {
         if (state is SendCodeErrorState) {
-          errorToast(msg: ExceptionManager(state.exception).translatedMessage());
+          errorToast(
+              msg: ExceptionManager(state.exception).translatedMessage());
         } else if (state is CodeSent) {
           // defaultToast(msg: S.of(context).codeSent);
           // context.push(const OTPScreen());
@@ -84,7 +85,8 @@ class CustomerRegisterScreen extends StatelessWidget {
                         SizedBox(
                           height: 10.sp,
                         ),
-                        bloc.timeToResendCode != null && bloc.timeToResendCode! > 0
+                        bloc.timeToResendCode != null &&
+                                bloc.timeToResendCode! > 0
                             ? Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
@@ -115,11 +117,13 @@ class CustomerRegisterScreen extends StatelessWidget {
                                 ],
                               )
                             : state is SendCodeLoadingState
-                                ? const Center(child: CircularProgressIndicator())
+                                ? const Center(
+                                    child: CircularProgressIndicator())
                                 : Container(
                                     decoration: BoxDecoration(
                                       color: ColorManager.white,
-                                      borderRadius: BorderRadius.circular(10.sp),
+                                      borderRadius:
+                                          BorderRadius.circular(10.sp),
                                     ),
                                     width: 90.w,
                                     height: 40.sp,
@@ -134,10 +138,14 @@ class CustomerRegisterScreen extends StatelessWidget {
                                               favorites: [],
                                               orders: [],
                                               id: "",
-                                              phone: "+966${phoneController.text}");
+                                              phone:
+                                                  "+966${phoneController.text}");
                                           bloc.add(SendCodeEvent(customer));
                                         } else if (!bloc.agreeToTerms) {
-                                          errorToast(msg: S.of(context).mustAgreeToTerms);
+                                          errorToast(
+                                              msg: S
+                                                  .of(context)
+                                                  .mustAgreeToTerms);
                                         }
                                       },
                                       child: Center(
