@@ -123,31 +123,35 @@ class DetailsProductScreen extends StatelessWidget {
                             child: SizedBox(
                               height: 31.h,
                               child: ListView.separated(
-                                scrollDirection: Axis.horizontal,
-                                itemCount: products.length,
-                                separatorBuilder: (context, index) => SizedBox(
-                                  width: 1.w,
-                                ),
-                                itemBuilder: (context, index) =>
-                                    productVerticalWidget(
-                                  openProductPressed: () {
-                                    context.push(DetailsProductScreen(
-                                      product: products[index],
-                                      products: products,
-                                    ));
-                                  },
-                                  product: products[index],
-                                  addCardPressed: () {
-                                    PaymentBloc paymentBloc = PaymentBloc.bloc;
-                                    paymentBloc.add(
-                                      AddToCartEvent(
-                                        productId: products[index].productId,
+                                  scrollDirection: Axis.horizontal,
+                                  itemCount: products.length,
+                                  separatorBuilder: (context, index) =>
+                                      SizedBox(
+                                        width: 1.w,
                                       ),
-                                    );
-                                  },
-                                  context: context,
-                                ),
-                              ),
+                                  itemBuilder: (context, index) {
+                                    if (products[index] != product) {
+                                      return productVerticalWidget(
+                                        openProductPressed: () {
+                                          context.push(DetailsProductScreen(
+                                            product: products[index],
+                                            products: products,
+                                          ));
+                                        },
+                                        product: products[index],
+                                        addCardPressed: () {
+                                          PaymentBloc paymentBloc = PaymentBloc.get(context);
+                                          paymentBloc.add(
+                                            AddToCartEvent(
+                                              productId: products[index].productId,
+                                            ),
+                                          );
+                                        },
+                                        context: context,
+                                      );
+                                    }
+                                    return Container();
+                                  }),
                             )),
                       ],
                     ),

@@ -170,7 +170,7 @@ class CategoriesScreen extends StatelessWidget {
                         product: product,
                         context: context,
                         addCardPressed: () {
-                          final PaymentBloc paymentBloc = PaymentBloc.bloc;
+                          final PaymentBloc paymentBloc = PaymentBloc.get(context);
                           paymentBloc.add(
                             AddToCartEvent(
                               productId: product.productId,

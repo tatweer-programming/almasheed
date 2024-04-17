@@ -1,5 +1,7 @@
 import 'package:almasheed/authentication/data/models/merchant.dart';
+import 'package:almasheed/chat/presentation/screens/chat_screen.dart';
 import 'package:almasheed/core/utils/constance_manager.dart';
+import 'package:almasheed/core/utils/navigation_manager.dart';
 import 'package:almasheed/main/bloc/main_bloc.dart';
 import 'package:almasheed/main/data/models/order_for_workers.dart';
 import 'package:almasheed/payment/data/models/order.dart';
@@ -8,6 +10,7 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../authentication/data/models/customer.dart';
+import '../../chat/presentation/screens/chats_screen.dart';
 import '../../core/services/dep_injection.dart';
 import '../data/models/orderItem.dart';
 import '../data/repositories/payment_repository.dart';
@@ -17,9 +20,9 @@ part 'payment_event.dart';
 part 'payment_state.dart';
 
 class PaymentBloc extends Bloc<PaymentEvent, PaymentState> {
-  static PaymentBloc bloc = PaymentBloc();
   static PaymentBloc get(BuildContext context) =>
       BlocProvider.of<PaymentBloc>(context);
+
   // static PaymentBloc get() => bloc;
   late OrderModel order = OrderModel.create([], null);
 
@@ -64,7 +67,11 @@ class PaymentBloc extends Bloc<PaymentEvent, PaymentState> {
 
         if (response.isSuccess) {
           if (event.orderForWorkers != null) {
-            await _repository!.createChatAndDeleteOrder(event.orderForWorkers!);
+            await _repository!
+                .createChatAndDeleteOrder(event.orderForWorkers!)
+                .then((value) {
+              add(CreateChatAndDeleteOrderForWorkersEvent(event.context));
+            });
           } else {
             await _repository!.saveOrderData(order);
           }
@@ -75,6 +82,11 @@ class PaymentBloc extends Bloc<PaymentEvent, PaymentState> {
       } else if (event is PrepareCart) {
         _generateOrder();
         emit(CartPreparedState());
+      } else if (event is CreateChatAndDeleteOrderForWorkersEvent) {
+        event.context.push(const ChatsScreen());
+        MainBloc mainBloc = sl();
+        mainBloc.add(GetOrderForWorkersEvent());
+        emit(CreateChatAndDeleteOrderForWorkersState());
       } else if (event is ChooseAddress) {
         selectedAddressIndex = event.index;
         Customer customer = ConstantsManager.appUser as Customer;
@@ -89,17 +101,25 @@ class PaymentBloc extends Bloc<PaymentEvent, PaymentState> {
           emit(AcceptedOrderForWorkersErrorState(l));
         }, (r) {
           emit(AcceptedOrderForWorkersSuccessfullyState());
+          add(RemoveOrderForWorkersEvent(
+            orderForWorkers: event.orderForWorkers,
+          ));
         });
       } else if (event is IgnoredOrderForWorkersEvent) {
         emit(IgnoredOrderForWorkersLoadingState());
         var result = await _repository!.ignoredOrderForWorkers(
-          orderId: event.orderId,
+          orderId: event.orderForWorkers.orderId!,
         );
         result.fold((l) {
           emit(IgnoredOrderForWorkersErrorState(l));
         }, (r) {
           emit(IgnoredOrderForWorkersSuccessfullyState());
+          add(RemoveOrderForWorkersEvent(
+            orderForWorkers: event.orderForWorkers,
+          ));
         });
+      } else if (event is RemoveOrderForWorkersEvent) {
+        emit(RemoveOrderForWorkersState(order: event.orderForWorkers));
       }
     });
   }

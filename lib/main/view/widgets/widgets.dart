@@ -531,6 +531,8 @@ Widget productVerticalWidget({
                       ),
                       Text(
                         product.productName,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
                         style: TextStyle(
                             fontWeight: FontWeight.w600, fontSize: 12.sp),
                       ),
@@ -541,6 +543,8 @@ Widget productVerticalWidget({
                         children: [
                           Text(
                             "${product.productNewPrice} ${S.of(context).sar}",
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
                             style: TextStyle(
                                 fontWeight: FontWeight.w500, fontSize: 12.sp),
                           ),
@@ -549,6 +553,8 @@ Widget productVerticalWidget({
                               product.productOldPrice)
                             Text(
                               "${product.productOldPrice.toStringAsFixed(2)}  ${S.of(context).sar}",
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
                               style: TextStyle(
                                   decoration: TextDecoration.lineThrough,
                                   fontWeight: FontWeight.w500,
@@ -617,6 +623,7 @@ Widget categoryProductsVerticalWidget({
         children: [
           Container(
             width: 44.w,
+            height: 31.h,
             clipBehavior: Clip.antiAliasWithSaveLayer,
             decoration: BoxDecoration(
                 color: ColorManager.white,
@@ -648,8 +655,10 @@ Widget categoryProductsVerticalWidget({
                       ),
                       Text(
                         product.productName,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
                         style: TextStyle(
-                            fontWeight: FontWeight.w600, fontSize: 12.sp),
+                            fontWeight: FontWeight.w600, fontSize: 13.sp),
                       ),
                       SizedBox(
                         height: 0.5.h,
@@ -658,6 +667,8 @@ Widget categoryProductsVerticalWidget({
                         children: [
                           Text(
                             "${product.productNewPrice} ${S.of(context).sar}",
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
                             style: TextStyle(
                                 fontWeight: FontWeight.w500, fontSize: 12.sp),
                           ),
@@ -666,6 +677,8 @@ Widget categoryProductsVerticalWidget({
                               product.productOldPrice)
                             Text(
                               "${product.productOldPrice.toStringAsFixed(2)} ${S.of(context).sar}",
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
                               style: TextStyle(
                                   decoration: TextDecoration.lineThrough,
                                   fontWeight: FontWeight.w500,
@@ -876,6 +889,8 @@ Widget favouriteProduct(
                       ),
                       Text(
                         product.productName,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
                         style: TextStyle(
                             fontWeight: FontWeight.w600, fontSize: 12.sp),
                       ),
@@ -884,6 +899,8 @@ Widget favouriteProduct(
                       ),
                       Text(
                         "${product.productOldPrice} ${S.of(context).sar}",
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
                         style: TextStyle(
                             fontWeight: FontWeight.w500, fontSize: 12.sp),
                       ),
@@ -948,6 +965,8 @@ Widget productHorizontalWidget({
                         ),
                         Text(
                           "${product.productNewPrice.toStringAsFixed(2)} SAR",
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
                           style: TextStyle(
                               fontWeight: FontWeight.w500, fontSize: 12.sp),
                         ),
@@ -957,6 +976,8 @@ Widget productHorizontalWidget({
                         if (product.productNewPrice != product.productOldPrice)
                           Text(
                             "${product.productOldPrice.toStringAsFixed(2)} SAR",
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
                             style: TextStyle(
                                 decoration: TextDecoration.lineThrough,
                                 fontWeight: FontWeight.w500,

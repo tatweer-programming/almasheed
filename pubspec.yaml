@@ -45,7 +45,7 @@ dependencies:
   fluttertoast: ^8.2.4
   image_picker:
   my_fatoorah:
-  share_plus:
+  share_plus: any
   animated_splash_screen:
   flutter_rating_bar: ^4.0.1
   shape_of_view_null_safe:

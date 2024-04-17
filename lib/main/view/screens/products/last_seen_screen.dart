@@ -51,7 +51,7 @@ Widget _buildProductList({
           },
           product: product,
           addCardPressed: () {
-            PaymentBloc paymentBloc = PaymentBloc.bloc;
+            PaymentBloc paymentBloc = PaymentBloc.get(context);
             paymentBloc.add(
               AddToCartEvent(
                 productId: product.productId,

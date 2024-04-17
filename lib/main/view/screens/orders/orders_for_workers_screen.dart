@@ -7,6 +7,7 @@ import 'package:sizer/sizer.dart';
 import '../../../../core/services/dep_injection.dart';
 import '../../../../core/utils/color_manager.dart';
 import '../../../../generated/l10n.dart';
+import '../../../../payment/bloc/payment_bloc.dart';
 import '../../widgets/widgets.dart';
 import '../../../bloc/main_bloc.dart';
 
@@ -18,30 +19,38 @@ class OrdersForWorkersScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     MainBloc bloc = sl();
-    return Scaffold(
-      body: Column(
-        children: [
-          appBarWidget(S.of(context).orders, Icons.list_outlined),
-          Expanded(
-            child: BlocBuilder<MainBloc, MainState>(
-              builder: (context, state) {
-                return ListView.builder(
-                  padding: EdgeInsets.zero,
-                  itemCount: bloc.ordersForWorkers.length,
-                  itemBuilder: (context, index) => _buildOrdersWidget(
-                      onTap: () {
-                        context.push(
-                          OrderForWorkersDetailsScreen(
-                              orderForWorkers: bloc.ordersForWorkers[index]),
-                        );
-                      },
-                      orderForWorkers: bloc.ordersForWorkers[index]),
-                );
-              },
-            ),
-          )
-        ],
-      ),
+    return BlocBuilder<PaymentBloc, PaymentState>(
+      builder: (context, state) {
+        if (state is RemoveOrderForWorkersState) {
+          bloc.ordersForWorkers.remove(state.order);
+        }
+        return Scaffold(
+          body: Column(
+            children: [
+              appBarWidget(S.of(context).orders, Icons.list_outlined),
+              Expanded(
+                child: BlocBuilder<MainBloc, MainState>(
+                  builder: (context, state) {
+                    return ListView.builder(
+                      padding: EdgeInsets.zero,
+                      itemCount: bloc.ordersForWorkers.length,
+                      itemBuilder: (context, index) => _buildOrdersWidget(
+                          onTap: () {
+                            context.push(
+                              OrderForWorkersDetailsScreen(
+                                  orderForWorkers:
+                                      bloc.ordersForWorkers[index]),
+                            );
+                          },
+                          orderForWorkers: bloc.ordersForWorkers[index]),
+                    );
+                  },
+                ),
+              )
+            ],
+          ),
+        );
+      },
     );
   }
 }

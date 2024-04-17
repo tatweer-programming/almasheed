@@ -390,7 +390,7 @@ class CategoryScreen extends StatelessWidget {
     required bool isHorizontal,
     required List<TextEditingController> quantityController,
   }) {
-    PaymentBloc paymentBloc = PaymentBloc.bloc;
+    PaymentBloc paymentBloc = PaymentBloc.get(context);
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 2.w, vertical: 2.h),
       child: Wrap(

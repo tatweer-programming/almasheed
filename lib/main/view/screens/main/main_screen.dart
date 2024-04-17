@@ -32,10 +32,6 @@ class MainScreen extends StatelessWidget {
         } else if (state is GetUserDataErrorState) {
           errorToast(msg: ExceptionManager(state.error).translatedMessage());
         }
-        if (state is GetUserDataSuccessfullyState &&
-            ConstantsManager.appUser is! Merchant) {
-          bloc.add(GetOrderForWorkersEvent());
-        }
       },
       builder: (context, state) {
         return Scaffold(

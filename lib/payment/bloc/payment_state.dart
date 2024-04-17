@@ -90,6 +90,10 @@ class CompleteOrderSuccessState extends PaymentState {
   @override
   List<Object?> get props => [];
 }
+class CreateChatAndDeleteOrderForWorkersState extends PaymentState {
+  @override
+  List<Object?> get props => [];
+}
 
 class CartPreparedState extends PaymentState {
   @override
@@ -122,6 +126,13 @@ class ChooseAddressState extends PaymentState {
 }
 
 // accepted OrderForWorkers
+class RemoveOrderForWorkersState extends PaymentState {
+  final OrderForWorkers order;
+
+  const RemoveOrderForWorkersState({required this.order});
+  @override
+  List<Object?> get props => [];
+}
 class AcceptedOrderForWorkersSuccessfullyState extends PaymentState {
   @override
   List<Object?> get props => [];

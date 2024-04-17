@@ -123,7 +123,7 @@ class FavouriteScreen extends StatelessWidget {
                                   context: context,
                                   addCardPressed: () {
                                     final PaymentBloc paymentBloc =
-                                        PaymentBloc.bloc;
+                                        PaymentBloc.get(context);
                                     paymentBloc.add(
                                       AddToCartEvent(
                                         productId: product.productId,

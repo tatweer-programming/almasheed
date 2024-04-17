@@ -177,6 +177,7 @@ class AddOrderToWorkerScreen extends StatelessWidget {
                                   SetOrderForWorkersEvent(
                                     orderForWorkers: OrderForWorkers(
                                       work: work!,
+                                      workerName: "",
                                       customerId: ConstantsManager.userId!,
                                       customerName:
                                           (ConstantsManager.appUser as Customer)

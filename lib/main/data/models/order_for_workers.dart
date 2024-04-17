@@ -6,6 +6,7 @@ class OrderForWorkers extends Equatable {
   final String orderDetails;
   final String location;
   final String city;
+  final String workerName;
   final String customerName;
   final String customerId;
   final double latitude;
@@ -17,6 +18,7 @@ class OrderForWorkers extends Equatable {
   OrderForWorkers({
     required this.work,
     required this.city,
+    required this.workerName,
     required this.location,
     required this.workersIds,
     required this.orderDetails,
@@ -43,6 +45,7 @@ class OrderForWorkers extends Equatable {
         accepted: json['accepted'],
         longitude: json['longitude'],
         orderId: json['orderId'],
+        workerName: json['workerName'],
       );
 
   Map<String, dynamic> toJson() {
@@ -58,6 +61,7 @@ class OrderForWorkers extends Equatable {
       "customerId": customerId,
       "orderId": orderId,
       "location": location,
+      "workerName": workerName
     };
   }
 

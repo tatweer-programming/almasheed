@@ -1,4 +1,5 @@
 import 'package:almasheed/core/utils/navigation_manager.dart';
+import 'package:almasheed/main.dart';
 import 'package:almasheed/main/data/models/order_for_workers.dart';
 import 'package:almasheed/payment/bloc/payment_bloc.dart';
 import 'package:flutter/material.dart';
@@ -27,6 +28,7 @@ class OrderForWorkersDetailsScreen extends StatelessWidget {
     orderDetailsController.text = orderForWorkers.orderDetails;
     workController.text = orderForWorkers.work;
     PaymentBloc bloc = PaymentBloc.get(context);
+    MainBloc mainBloc = sl();
     return BlocConsumer<PaymentBloc, PaymentState>(
       listener: (context, state) {
         if (state is IgnoredOrderForWorkersLoadingState) {
@@ -54,7 +56,7 @@ class OrderForWorkersDetailsScreen extends StatelessWidget {
         if (state is IgnoredOrderForWorkersSuccessfullyState) {
           context.pop();
           context.pop();
-          (sl() as MainBloc).add(GetOrderForWorkersEvent());
+          mainBloc.add(GetOrderForWorkersEvent());
         }
         if (state is AcceptedOrderForWorkersLoadingState) {
           showDialog(
@@ -79,7 +81,7 @@ class OrderForWorkersDetailsScreen extends StatelessWidget {
               msg: ExceptionManager(state.error).translatedMessage());
         }
         if (state is AcceptedOrderForWorkersSuccessfullyState) {
-          (sl() as MainBloc).ordersForWorkers.remove(orderForWorkers);
+          mainBloc.add(GetOrderForWorkersEvent());
           context.pop();
           context.pop();
           showDialog(
@@ -97,6 +99,9 @@ class OrderForWorkersDetailsScreen extends StatelessWidget {
               );
             },
           );
+        }
+        if (state is RemoveOrderForWorkersState) {
+          mainBloc.ordersForWorkers.remove(state.order);
         }
       },
       builder: (context, state) {
@@ -160,6 +165,7 @@ class OrderForWorkersDetailsScreen extends StatelessWidget {
                               onPressed: () {
                                 bloc.add(
                                   AcceptedOrderForWorkersEvent(
+                                    ordersForWorkers: mainBloc.ordersForWorkers,
                                     orderForWorkers: orderForWorkers,
                                   ),
                                 );
@@ -175,7 +181,8 @@ class OrderForWorkersDetailsScreen extends StatelessWidget {
                               onPressed: () {
                                 bloc.add(
                                   IgnoredOrderForWorkersEvent(
-                                    orderId: orderForWorkers.orderId!,
+                                    orderForWorkers: orderForWorkers,
+                                    ordersForWorkers: mainBloc.ordersForWorkers,
                                   ),
                                 );
                               },

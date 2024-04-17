@@ -1,3 +1,4 @@
+import 'package:almasheed/authentication/data/models/merchant.dart';
 import 'package:almasheed/main/view/screens/show_all_merchants_or_workers_screen.dart';
 import 'package:almasheed/main/view/screens/worker_details_screen.dart';
 import 'package:flutter/material.dart';
@@ -39,6 +40,9 @@ class HomePageScreen extends StatelessWidget {
             state is GetBestSalesErrorState ||
             state is GetCategoriesErrorState) {
           _handleErrorState(context, state);
+        }
+        if(state is GetUserDataSuccessfullyState && ConstantsManager.appUser is! Merchant){
+          bloc.add(GetOrderForWorkersEvent());
         }
       },
       builder: (context, state) {

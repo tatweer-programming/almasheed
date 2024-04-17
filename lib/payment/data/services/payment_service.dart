@@ -79,13 +79,13 @@ class PaymentService {
           .doc(orderForWorkers.orderId);
       batch.update(orders, {
         "accepted": true,
+        "workerName": ConstantsManager.appUser!.getName(),
       });
       for (var workerId in orderForWorkers.workersIds) {
         var workers = fireStore.collection("workers").doc(workerId);
         batch.update(workers, {
           "ordersIds": FieldValue.arrayRemove([orderForWorkers.orderId])
         });
-
         if (ConstantsManager.userId! != workerId) {
           batch.update(orders, {
             "workersIds": FieldValue.arrayRemove([workerId])
@@ -154,8 +154,8 @@ class PaymentService {
       batch.delete(order);
       await _createChat(
         chat: Chat(
-            receiverId: orderForWorkers.customerId,
-            receiverName: orderForWorkers.customerName,
+            receiverId: orderForWorkers.workersIds.first,
+            receiverName: orderForWorkers.workerName,
             isEnd: false,
             isMerchant: false),
         batch: batch,
@@ -202,7 +202,7 @@ class PaymentService {
             .merchantName,
         isMerchant: true,
       );
-      _createChat(
+      await _createChat(
         chat: chat,
         batch: batch,
       );
@@ -221,20 +221,19 @@ class PaymentService {
           .doc(chat.receiverId);
       batch.set(setInSender, chat.toJson());
 
-      Chat chatReceiver = Chat(
+      Chat chatSender = Chat(
         receiverId: ConstantsManager.userId!,
         isMerchant: chat.isMerchant,
         isEnd: chat.isEnd,
         receiverName: (ConstantsManager.appUser! as Customer).name,
       );
-
       var setInReceiver = fireStore
           .collection(chat.isMerchant ? "merchants" : "workers")
           .doc(chat.receiverId)
           .collection("chats")
           .doc(ConstantsManager.userId);
 
-      batch.set(setInReceiver, chatReceiver.toJson());
+      batch.set(setInReceiver, chatSender.toJson());
       return const Right(unit);
     } on FirebaseException catch (e) {
       return Left(e);
