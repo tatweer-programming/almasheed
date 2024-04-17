@@ -100,9 +100,6 @@ class OrderForWorkersDetailsScreen extends StatelessWidget {
             },
           );
         }
-        if (state is RemoveOrderForWorkersState) {
-          mainBloc.ordersForWorkers.remove(state.order);
-        }
       },
       builder: (context, state) {
         return Scaffold(

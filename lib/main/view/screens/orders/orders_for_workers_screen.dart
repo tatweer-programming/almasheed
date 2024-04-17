@@ -1,6 +1,7 @@
 import 'package:almasheed/core/utils/navigation_manager.dart';
 import 'package:almasheed/main/data/models/order_for_workers.dart';
 import 'package:almasheed/main/view/screens/orders/order_for_workers_details_screen.dart';
+import 'package:dartz/dartz.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sizer/sizer.dart';
@@ -19,10 +20,11 @@ class OrdersForWorkersScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     MainBloc bloc = sl();
+    List<OrderForWorkers> ordersForWorkers = bloc.ordersForWorkers;
     return BlocBuilder<PaymentBloc, PaymentState>(
       builder: (context, state) {
         if (state is RemoveOrderForWorkersState) {
-          bloc.ordersForWorkers.remove(state.order);
+          ordersForWorkers.remove(state.order);
         }
         return Scaffold(
           body: Column(
@@ -33,16 +35,16 @@ class OrdersForWorkersScreen extends StatelessWidget {
                   builder: (context, state) {
                     return ListView.builder(
                       padding: EdgeInsets.zero,
-                      itemCount: bloc.ordersForWorkers.length,
+                      itemCount: ordersForWorkers.length,
                       itemBuilder: (context, index) => _buildOrdersWidget(
                           onTap: () {
                             context.push(
                               OrderForWorkersDetailsScreen(
                                   orderForWorkers:
-                                      bloc.ordersForWorkers[index]),
+                                      ordersForWorkers[index]),
                             );
                           },
-                          orderForWorkers: bloc.ordersForWorkers[index]),
+                          orderForWorkers: ordersForWorkers[index]),
                     );
                   },
                 ),
