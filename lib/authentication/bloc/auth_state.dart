@@ -66,9 +66,14 @@ class CreateUserSuccessfulState extends AuthState {
 
   @override
   List<Object?> get props => [];
+}class CreateUserLoadingState extends AuthState {
+  const CreateUserLoadingState();
+
+  @override
+  List<Object?> get props => [];
 }
 
-class CodeVerified extends AuthState {
+class CodeVerifiedState extends AuthState {
   @override
   List<Object?> get props => [];
 }

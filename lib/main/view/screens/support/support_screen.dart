@@ -32,7 +32,6 @@ class SupportScreen extends StatelessWidget {
       listener: (context, state) async {
         if (state is ChangeSwitchNotificationsState) {
           isOn = state.isOn;
-
           ConstantsManager.isNotificationsOn = isOn;
           await CacheHelper.saveData(key: "isNotificationsOn", value: isOn)
               .then((value) async {
@@ -95,6 +94,7 @@ class SupportScreen extends StatelessWidget {
                           label: S.of(context).contactUs,
                           nextScreen: const FAQScreen(),
                         ),
+                        if(ConstantsManager.appUser != null)
                         ProfileItemBuilder(
                           iconData: Icons.chat_bubble,
                           label: S.of(context).chat,
@@ -159,7 +159,11 @@ class SupportScreen extends StatelessWidget {
                             activeTrackColor: ColorManager.grey2,
                             value: isOn,
                             onChanged: (isOn) {
-                              bloc.add(ChangeSwitchNotificationsEvent(isOn));
+                              if(ConstantsManager.appUser == null){
+                                errorToast(msg: S.of(context).loginFirst);
+                              }else {
+                                bloc.add(ChangeSwitchNotificationsEvent(isOn));
+                              }
                             },
                           ),
                         ),

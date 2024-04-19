@@ -118,7 +118,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       result.fold((l) {
         emit(VerifyCodeErrorState(l));
       }, (r) async {
-        // emit(CodeVerified());
+        emit(CodeVerifiedState());
         ConstantsManager.appUser?.id = r;
         await _createUser();
         add(ResetCodeTimerEvent());
@@ -209,6 +209,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   }
 
   Future _createUser() async {
+    emit(const CreateUserLoadingState());
     var result = await repository.createUser(ConstantsManager.appUser!);
     result.fold((l) {
       errorToast(msg: ExceptionManager(l).translatedMessage());

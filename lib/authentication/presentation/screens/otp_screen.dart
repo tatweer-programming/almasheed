@@ -28,7 +28,7 @@ class OTPScreen extends StatelessWidget {
     return BlocListener<AuthBloc, AuthState>(
       bloc: authBloc,
       listener: (context, state) {
-        if (state is CodeVerified) {
+        if (state is CodeVerifiedState) {
           defaultToast(msg: S.of(context).codeVerified);
         } else if (state is UserNotFoundState) {
           errorToast(msg: S.of(context).userNotFound);
@@ -203,9 +203,14 @@ class OTPScreen extends StatelessWidget {
                                 height: 50,
                                 child: TextButton(
                                   onPressed: () {
-                                    authBloc.add(VerifyCodeEvent(
-                                      code: otpController.text,
-                                    ));
+                                    if(state is! CodeVerifiedState && state is! CreateUserLoadingState) {
+                                      authBloc.add(VerifyCodeEvent(
+                                        code: otpController.text,
+                                      ));
+                                    }
+                                    else if (state is CreateUserLoadingState) {
+                                      defaultToast(msg: S.of(context).codeVerified);
+                                    }
                                   },
                                   child: Center(
                                       child: Text(

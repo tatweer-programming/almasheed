@@ -1,4 +1,6 @@
+import 'package:almasheed/authentication/data/models/merchant.dart';
 import 'package:almasheed/core/utils/color_manager.dart';
+import 'package:almasheed/core/utils/constance_manager.dart';
 import 'package:almasheed/core/utils/navigation_manager.dart';
 import 'package:almasheed/main/view/widgets/widgets.dart';
 import 'package:flutter/material.dart';
@@ -54,7 +56,10 @@ class AllCategoriesScreen extends StatelessWidget {
                 ),
                 Wrap(
                   direction: Axis.horizontal,
-                  children: bloc.merchantCategories.map((category) {
+                  children: (ConstantsManager.appUser is Merchant
+                          ? bloc.merchantCategories
+                          : bloc.categories)
+                      .map((category) {
                     return categoryVerticalWidget(
                         category: category,
                         categoryPressed: () {

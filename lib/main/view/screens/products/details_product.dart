@@ -80,23 +80,25 @@ class DetailsProductScreen extends StatelessWidget {
                             bloc: mainBloc,
                             carouselController: carouselController),
                         SizedBox(height: 2.h),
-                        _buildAddToCart(
-                          quantityController: quantityController,
-                          onPressed: () {
-                            if (quantityController.text != "") {
-                              paymentBloc.add(
-                                AddToCartEvent(
-                                  productId: product.productId,
-                                  quantity: int.parse(quantityController.text),
-                                ),
-                              );
-                            } else {
-                              mainErrorToast(
-                                  msg: S.of(context).determineQuantity);
-                            }
-                          },
-                          context: context,
-                        ),
+                        if (ConstantsManager.appUser is Customer)
+                          _buildAddToCart(
+                            quantityController: quantityController,
+                            onPressed: () {
+                              if (quantityController.text != "") {
+                                paymentBloc.add(
+                                  AddToCartEvent(
+                                    productId: product.productId,
+                                    quantity:
+                                        int.parse(quantityController.text),
+                                  ),
+                                );
+                              } else {
+                                mainErrorToast(
+                                    msg: S.of(context).determineQuantity);
+                              }
+                            },
+                            context: context,
+                          ),
                         SizedBox(height: 3.h),
                         textDescription(
                             title: S.of(context).overview,
@@ -117,42 +119,46 @@ class DetailsProductScreen extends StatelessWidget {
                             text: S.of(context).youMayLikeIt,
                           ),
                         ),
-                        Padding(
-                            padding: EdgeInsets.symmetric(
-                                horizontal: 2.w, vertical: 2.h),
-                            child: SizedBox(
-                              height: 31.h,
-                              child: ListView.separated(
-                                  scrollDirection: Axis.horizontal,
-                                  itemCount: products.length,
-                                  separatorBuilder: (context, index) =>
-                                      SizedBox(
-                                        width: 1.w,
-                                      ),
-                                  itemBuilder: (context, index) {
-                                    if (products[index] != product) {
-                                      return productVerticalWidget(
-                                        openProductPressed: () {
-                                          context.push(DetailsProductScreen(
+                        products.length <= 1
+                            ? Container()
+                            : Padding(
+                                padding: EdgeInsets.symmetric(
+                                    horizontal: 2.w, vertical: 2.h),
+                                child: SizedBox(
+                                  height: 31.h,
+                                  child: ListView.separated(
+                                      scrollDirection: Axis.horizontal,
+                                      itemCount: products.length,
+                                      separatorBuilder: (context, index) =>
+                                          SizedBox(
+                                            width: 1.w,
+                                          ),
+                                      itemBuilder: (context, index) {
+                                        if (products[index] != product) {
+                                          return productVerticalWidget(
+                                            openProductPressed: () {
+                                              context.push(DetailsProductScreen(
+                                                product: products[index],
+                                                products: products,
+                                              ));
+                                            },
                                             product: products[index],
-                                            products: products,
-                                          ));
-                                        },
-                                        product: products[index],
-                                        addCardPressed: () {
-                                          PaymentBloc paymentBloc = PaymentBloc.get(context);
-                                          paymentBloc.add(
-                                            AddToCartEvent(
-                                              productId: products[index].productId,
-                                            ),
+                                            addCardPressed: () {
+                                              PaymentBloc paymentBloc =
+                                                  PaymentBloc.get(context);
+                                              paymentBloc.add(
+                                                AddToCartEvent(
+                                                  productId:
+                                                      products[index].productId,
+                                                ),
+                                              );
+                                            },
+                                            context: context,
                                           );
-                                        },
-                                        context: context,
-                                      );
-                                    }
-                                    return Container();
-                                  }),
-                            )),
+                                        }
+                                        return Container();
+                                      }),
+                                )),
                       ],
                     ),
                   ),
@@ -223,7 +229,7 @@ class DetailsProductScreen extends StatelessWidget {
                   icon: Icons.arrow_back_ios_new,
                 ),
               ),
-              if (!isCustomer)
+              if (!isCustomer && ConstantsManager.appUser != null)
                 Align(
                   alignment: AlignmentDirectional.topEnd,
                   child: Padding(

@@ -204,7 +204,10 @@ Widget defaultCarousel(
     {required List<String> list,
     required CarouselController controller,
     required MainBloc bloc,
-    double? height}) {
+    double? height,
+    BoxFit? fit,
+    bool autoPlay = true,
+    }) {
   return Column(
     children: [
       CarouselSlider(
@@ -216,7 +219,7 @@ Widget defaultCarousel(
                       color: ColorManager.grey1,
                       borderRadius: BorderRadius.circular(40.sp),
                       image: DecorationImage(
-                        fit: BoxFit.cover,
+                        fit: fit??BoxFit.cover,
                         image: NetworkImage(
                           image,
                         ),
@@ -228,7 +231,7 @@ Widget defaultCarousel(
             bloc.add(ChangeCarouselIndicatorEvent(index: index));
           },
           height: height ?? 22.h,
-          autoPlay: true,
+          autoPlay: autoPlay,
           viewportFraction: 1,
           autoPlayInterval: const Duration(seconds: 2),
           autoPlayAnimationDuration: const Duration(seconds: 1),

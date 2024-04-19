@@ -10,6 +10,7 @@ import '../../../../core/services/dep_injection.dart';
 class ViewImageScreen extends StatelessWidget {
   final List<String> productsImagesUrl;
   final CarouselController carouselController;
+
   const ViewImageScreen(
       {super.key,
       required this.productsImagesUrl,
@@ -27,7 +28,9 @@ class ViewImageScreen extends StatelessWidget {
         color: ColorManager.white,
         child: defaultCarousel(
           height: 90.h,
+          fit: BoxFit.fill,
           bloc: bloc,
+          autoPlay: false,
           list: productsImagesUrl,
           controller: carouselController,
         ),

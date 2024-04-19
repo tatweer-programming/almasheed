@@ -1,4 +1,5 @@
 import 'package:almasheed/authentication/data/models/merchant.dart';
+import 'package:almasheed/authentication/data/models/worker.dart';
 import 'package:almasheed/core/utils/color_manager.dart';
 import 'package:almasheed/core/utils/constance_manager.dart';
 import 'package:almasheed/core/utils/navigation_manager.dart';
@@ -94,7 +95,9 @@ class MainScreen extends StatelessWidget {
                   ? bloc.pagesMerchant[bloc.pageIndex]
                   : (ConstantsManager.appUser is Customer)
                       ? bloc.pagesCustomer[bloc.pageIndex]
-                      : bloc.pagesWorker[bloc.pageIndex]),
+                      : (ConstantsManager.appUser is Worker)
+                          ? bloc.pagesWorker[bloc.pageIndex]
+                          : Container()),
         );
       },
     );
