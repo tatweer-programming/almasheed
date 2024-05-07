@@ -66,5 +66,18 @@
 	<true/>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
+    <key>CFBundleURLTypes</key>
+    <array>
+      <dict>
+        <key>CFBundleTypeRole</key>
+        <string>Editor</string>
+        <key>CFBundleURLName</key>
+        <string></string>
+        <key>CFBundleURLSchemes</key>
+        <array>
+          <string>app-1-564275998549-ios-1e1c6cf2b1ad98768389dc</string>
+        </array>
+      </dict>
+    </array>
 </dict>
 </plist>
