@@ -85,19 +85,17 @@ class MainScreen extends StatelessWidget {
           ),
           body: RefreshIndicator(
               onRefresh: () async {
-                if (ConstantsManager.appUser is Customer) {
+                if(ConstantsManager.appUser is! Worker) {
                   bloc.add(GetProductsEvent());
+                }
                   bloc.add(GetWorkersEvent());
                   bloc.add(GetMerchantsEvent());
-                }
               },
               child: (ConstantsManager.appUser is Merchant)
                   ? bloc.pagesMerchant[bloc.pageIndex]
                   : (ConstantsManager.appUser is Customer)
                       ? bloc.pagesCustomer[bloc.pageIndex]
-                      : (ConstantsManager.appUser is Worker)
-                          ? bloc.pagesWorker[bloc.pageIndex]
-                          : Container()),
+                      : bloc.pagesWorker[bloc.pageIndex]),
         );
       },
     );

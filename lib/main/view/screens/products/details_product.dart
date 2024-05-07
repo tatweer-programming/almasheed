@@ -434,6 +434,8 @@ class DetailsProductScreen extends StatelessWidget {
                           (product.productRating / product.ratingNumbers),
                       minRating: 1,
                       itemSize: 25.sp,
+                      ignoreGestures: true,
+
                       direction: Axis.horizontal,
                       allowHalfRating: true,
                       itemPadding: EdgeInsets.symmetric(horizontal: 0.5.w),
@@ -442,9 +444,11 @@ class DetailsProductScreen extends StatelessWidget {
                         color: Colors.amber,
                       ),
                       onRatingUpdate: (rating) {
-                        bloc.add(ProductRatingUpdateEvent(
+                        if(isCustomer) {
+                          bloc.add(ProductRatingUpdateEvent(
                             productRating: (product.productRating + rating),
                             productId: product.productId));
+                        }
                       },
                     )
                   ],

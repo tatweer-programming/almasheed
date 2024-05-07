@@ -219,8 +219,7 @@ class MainBloc extends Bloc<MainEvent, MainState> {
                 .where((product) =>
                 category.productsIds.contains(product.productId))
                 .toList();
-          }
-          emit(GetCategoriesSuccessfullyState());
+          }emit(GetCategoriesSuccessfullyState());
         });
       } else if (event is AddAndRemoveFromFavoritesEvent) {
         emit(AddAndRemoveFromFavoritesLoadingState());

@@ -7,12 +7,14 @@ import 'package:almasheed/core/utils/color_manager.dart';
 import 'package:almasheed/core/utils/constance_manager.dart';
 import 'package:almasheed/core/utils/font_manager.dart';
 import 'package:almasheed/core/utils/navigation_manager.dart';
+import 'package:almasheed/main/bloc/main_bloc.dart';
 import 'package:almasheed/main/view/screens/main/main_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sizer/sizer.dart';
 
 import '../../../core/error/remote_error.dart';
+import '../../../core/services/dep_injection.dart';
 import '../../../generated/l10n.dart';
 import '../../data/models/customer.dart';
 import '../../data/models/merchant.dart';
@@ -28,6 +30,7 @@ class LoginScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final TextEditingController phoneController = TextEditingController();
     AuthBloc bloc = AuthBloc.get(context);
+    MainBloc mainBloc = sl();
     GlobalKey<FormState> formKey = GlobalKey<FormState>();
     return Scaffold(
       body: BlocListener<AuthBloc, AuthState>(
@@ -222,6 +225,7 @@ class LoginScreen extends StatelessWidget {
                             InkWell(
                               onTap: () {
                                 ConstantsManager.registrationSkipped = true;
+                                mainBloc.add(GetProductsEvent());
                                 context.pushAndRemove(const MainScreen());
                               },
                               child: Container(
