@@ -11,6 +11,12 @@
 </dict>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
+	<key>NSCameraUsageDescription</key>
+    <string>Allow access to camera for barcode scanning</string>
+    <key>NSMicrophoneUsageDescription</key>
+    <string>Allow access to microphone for audio verification</string>
+    <key>NSPhotoLibraryUsageDescription</key>
+    <string>Allow access to photo library for image verification</string>
 	<key>CFBundleDisplayName</key>
 	<string>Almasheed</string>
 	<key>CFBundleExecutable</key>

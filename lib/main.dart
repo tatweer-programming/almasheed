@@ -33,6 +33,7 @@ Future<void> main() async {
       Permission.notification.request();
     }
   });
+  ConstantsManager.appUser = null;
   await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
   await CacheHelper.init();
   ServiceLocator().init();

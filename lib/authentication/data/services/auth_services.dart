@@ -206,6 +206,7 @@ class AuthService {
   Future _clearUserData() async {
     ConstantsManager.appUser = null;
     ConstantsManager.userType = null;
+    ConstantsManager.registrationSkipped = null;
     ConstantsManager.userId = null;
     await CacheHelper.removeData(key: "userId");
     await CacheHelper.removeData(key: "userType");
@@ -243,8 +244,6 @@ class AuthService {
         .collection("${userType}s")
         .where("phone", isEqualTo: phone)
         .get();
-    print("res.docs");
-    print(res.docs);
     return res.docs.isNotEmpty;
   }
 

@@ -91,9 +91,11 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       final result = await repository.loginByPhone(event.user.phone, userType);
       result.fold((l) {
         emit(SendCodeErrorState(l));
+        ConstantsManager.appUser = null;
       }, (r) {
         if (r == "NOT_FOUND") {
           emit(UserNotFoundState());
+          ConstantsManager.appUser = null;
         } else {
           codeSent = true;
           verificationId = r;
