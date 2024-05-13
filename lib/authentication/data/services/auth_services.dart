@@ -213,14 +213,12 @@ class AuthService {
     mainBloc.pageIndex = 0;
     mainBloc.carouselIndicatorIndex = 0;
     mainBloc.products = [];
-    mainBloc.merchantProducts = [];
     mainBloc.lastSeenProducts = {};
     mainBloc.merchants = [];
     mainBloc.workers = [];
     mainBloc.ordersForWorkers = [];
     mainBloc.offers = [];
     mainBloc.bestSales = [];
-    mainBloc.merchantCategories = [];
     mainBloc.categories = [];
     mainBloc.imagesFiles = [];
     mainBloc.sortedProducts = [];
