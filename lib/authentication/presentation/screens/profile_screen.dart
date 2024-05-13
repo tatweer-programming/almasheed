@@ -178,7 +178,7 @@ class ProfileScreen extends StatelessWidget {
                                       label: S.of(context).logout,
                                       iconData: Icons.logout,
                                       onTap: () async {
-                                        authBloc!.add(LogoutEvent());
+                                        authBloc!.add(LogoutEvent(context));
                                         mainBloc.pageIndex = 0;
                                         context.pushAndRemove(
                                             const AccountTypeScreen());

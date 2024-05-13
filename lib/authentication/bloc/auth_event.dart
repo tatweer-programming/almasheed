@@ -155,6 +155,9 @@ class ResetCodeTimerEvent extends AuthEvent {
 }
 
 class LogoutEvent extends AuthEvent {
+  final BuildContext context;
+
+  const LogoutEvent(this.context);
   @override
   List<Object?> get props => [];
 }

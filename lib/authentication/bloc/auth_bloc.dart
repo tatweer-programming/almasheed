@@ -7,15 +7,18 @@ import 'package:almasheed/authentication/data/services/auth_services.dart';
 import 'package:almasheed/authentication/presentation/components.dart';
 import 'package:almasheed/authentication/presentation/screens/merchant_register_screen.dart';
 import 'package:almasheed/authentication/presentation/screens/customer_register_screen.dart';
+import 'package:almasheed/chat/bloc/chat_bloc.dart';
 import 'package:almasheed/core/error/remote_error.dart';
 import 'package:almasheed/core/utils/constance_manager.dart';
 import 'package:almasheed/core/utils/navigation_manager.dart';
+import 'package:almasheed/main/bloc/main_bloc.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
+import '../../core/services/dep_injection.dart';
 import '../../core/utils/images_manager.dart';
 import '../../generated/l10n.dart';
 import '../data/models/address.dart';
@@ -171,6 +174,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       response.fold((l) {
         emit(LogoutErrorState(l));
       }, (r) {
+        _clearData(event.context);
         emit(LogoutSuccessfulState());
       });
     } else if (event is ChooseAddressTypeEvent) {
@@ -253,6 +257,27 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         emit(const ChangeTimeToResendCodeState(time: 0));
       }
     });
+  }
+
+  void _clearData(BuildContext context) {
+    ChatBloc chatBloc = ChatBloc.get(context);
+    chatBloc.chats = [];
+    MainBloc mainBloc = sl();
+    mainBloc.pageIndex = 0;
+    mainBloc.carouselIndicatorIndex = 0;
+    mainBloc.products = [];
+    mainBloc.merchantProducts = [];
+    mainBloc.lastSeenProducts = {};
+    mainBloc.merchants = [];
+    mainBloc.workers = [];
+    mainBloc.ordersForWorkers = [];
+    mainBloc.offers = [];
+    mainBloc.bestSales = [];
+    mainBloc.merchantCategories = [];
+    mainBloc.categories = [];
+    mainBloc.imagesFiles = [];
+    mainBloc.sortedProducts = [];
+    mainBloc.selectedProperties = [];
   }
 
   Future<File?> _captureAndSaveGalleryImage() async {
