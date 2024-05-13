@@ -143,10 +143,10 @@ class CategoryScreen extends StatelessWidget {
         bloc.add(SelectProductEvent(product: product!));
         context.push(DetailsProductScreen(
           product: product,
-          products: category.products ?? [],
+          products: ConstantsManager.appUser is Customer ? category.products??[] : bloc.merchantProducts,
         ));
       },
-      items: bloc.products,
+      items: ConstantsManager.appUser is Customer ? category.products??[] : bloc.merchantProducts,
       context: context,
     );
   }

@@ -95,7 +95,6 @@ class AddProductScreen extends StatelessWidget {
               );
             },
           );
-          bloc.add(GetProductsEvent());
         }
       },
       builder: (context, state) {

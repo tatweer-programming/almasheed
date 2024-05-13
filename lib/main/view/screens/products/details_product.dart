@@ -112,7 +112,9 @@ class DetailsProductScreen extends StatelessWidget {
                             title: S.of(context).WorkCharacteristics,
                             context: context,
                             body: product.productWorkCharacteristics),
-                        Padding(
+                        products.length <= 1
+                            ? Container()
+                            : Padding(
                           padding: EdgeInsets.symmetric(
                               horizontal: 3.w, vertical: 1.h),
                           child: textContainerWidget(

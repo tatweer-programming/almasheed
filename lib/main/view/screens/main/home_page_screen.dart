@@ -133,7 +133,7 @@ class HomePageScreen extends StatelessWidget {
                               bloc.add(SelectProductEvent(product: product!));
                               context.push(DetailsProductScreen(
                                 product: product,
-                                products: bloc.products,
+                                products: ConstantsManager.appUser is Customer ? bloc.products : bloc.merchantProducts,
                               ));
                             },
                             items: ConstantsManager.appUser is Customer ? bloc.products : bloc.merchantProducts,

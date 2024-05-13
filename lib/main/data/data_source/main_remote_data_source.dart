@@ -66,8 +66,8 @@ class MainRemoteDataSource {
           "productsIds": FieldValue.arrayUnion([product.productId])
         });
       }
-
       await batch.commit();
+      await getProducts();
       return const Right(unit);
     } on FirebaseException catch (error) {
       
