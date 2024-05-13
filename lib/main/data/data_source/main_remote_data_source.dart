@@ -346,8 +346,10 @@ class MainRemoteDataSource {
           .then((value) {
         ConstantsManager.appUser =
             AppUser.fromJson(value.data()!, "${ConstantsManager.userType}");
-        ConstantsManager.appUser!.image =
+        if(FirebaseAuth.instance.currentUser!.photoURL != null) {
+          ConstantsManager.appUser!.image =
             FirebaseAuth.instance.currentUser!.photoURL;
+        }
       });
       return const Right(unit);
     } on FirebaseException catch (e) {

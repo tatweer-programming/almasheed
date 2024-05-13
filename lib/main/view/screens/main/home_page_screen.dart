@@ -136,7 +136,7 @@ class HomePageScreen extends StatelessWidget {
                                 products: bloc.products,
                               ));
                             },
-                            items: bloc.products,
+                            items: ConstantsManager.appUser is Customer ? bloc.products : bloc.merchantProducts,
                             context: context,
                           ),
                         ),
