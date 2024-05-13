@@ -5,6 +5,7 @@ import 'package:almasheed/authentication/data/models/worker.dart';
 import 'package:almasheed/authentication/data/services/auth_services.dart';
 import 'package:dartz/dartz.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
 
 import '../models/user.dart';
 
@@ -43,8 +44,8 @@ class AuthRepository {
     return await _service.removeAddress(address);
   }
 
-  Future<Either<FirebaseException, Unit>> logout() async {
-    return await _service.logout();
+  Future<Either<FirebaseException, Unit>> logout(BuildContext context) async {
+    return await _service.logout(context);
   }
 
   Future<Either<FirebaseException, String>> updateProfilePic(

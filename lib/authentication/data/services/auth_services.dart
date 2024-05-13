@@ -2,8 +2,11 @@ import 'dart:async';
 import 'dart:io';
 import 'package:almasheed/authentication/data/models/user.dart';
 import 'package:almasheed/authentication/data/models/worker.dart';
+import 'package:almasheed/chat/bloc/chat_bloc.dart';
 import 'package:almasheed/core/local/shared_prefrences.dart';
+import 'package:almasheed/core/services/dep_injection.dart';
 import 'package:almasheed/core/utils/constance_manager.dart';
+import 'package:almasheed/main/bloc/main_bloc.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dartz/dartz.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -153,10 +156,10 @@ class AuthService {
     }
   }
 
-  Future<Either<FirebaseException, Unit>> logout() async {
+  Future<Either<FirebaseException, Unit>> logout(BuildContext context) async {
     try {
       await _firebaseAuth.signOut().then((value) async {
-        await _clearUserData();
+        await _clearUserData(context);
       });
       return const Right(unit);
     } on FirebaseAuthException catch (e) {
@@ -203,7 +206,25 @@ class AuthService {
     }
   }
 
-  Future _clearUserData() async {
+  Future _clearUserData(BuildContext context) async {
+    ChatBloc chatBloc = ChatBloc.get(context);
+    chatBloc.chats = [];
+    MainBloc mainBloc = sl();
+    mainBloc.pageIndex = 0;
+    mainBloc.carouselIndicatorIndex = 0;
+    mainBloc.products = [];
+    mainBloc.merchantProducts = [];
+    mainBloc.lastSeenProducts = {};
+    mainBloc.merchants = [];
+    mainBloc.workers = [];
+    mainBloc.ordersForWorkers = [];
+    mainBloc.offers = [];
+    mainBloc.bestSales = [];
+    mainBloc.merchantCategories = [];
+    mainBloc.categories = [];
+    mainBloc.imagesFiles = [];
+    mainBloc.sortedProducts = [];
+    mainBloc.selectedProperties = [];
     ConstantsManager.appUser = null;
     ConstantsManager.userType = null;
     ConstantsManager.registrationSkipped = null;

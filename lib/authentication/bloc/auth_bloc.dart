@@ -170,11 +170,11 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       });
     } else if (event is LogoutEvent) {
       emit(LoginLoadingState());
-      var response = await repository.logout();
+      var response = await repository.logout(event.context);
       response.fold((l) {
         emit(LogoutErrorState(l));
       }, (r) {
-        _clearData(event.context);
+        // _clearData(event.context);
         emit(LogoutSuccessfulState());
       });
     } else if (event is ChooseAddressTypeEvent) {
@@ -259,26 +259,9 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     });
   }
 
-  void _clearData(BuildContext context) {
-    ChatBloc chatBloc = ChatBloc.get(context);
-    chatBloc.chats = [];
-    MainBloc mainBloc = sl();
-    mainBloc.pageIndex = 0;
-    mainBloc.carouselIndicatorIndex = 0;
-    mainBloc.products = [];
-    mainBloc.merchantProducts = [];
-    mainBloc.lastSeenProducts = {};
-    mainBloc.merchants = [];
-    mainBloc.workers = [];
-    mainBloc.ordersForWorkers = [];
-    mainBloc.offers = [];
-    mainBloc.bestSales = [];
-    mainBloc.merchantCategories = [];
-    mainBloc.categories = [];
-    mainBloc.imagesFiles = [];
-    mainBloc.sortedProducts = [];
-    mainBloc.selectedProperties = [];
-  }
+  // void _clearData(BuildContext context) {
+  //
+  // }
 
   Future<File?> _captureAndSaveGalleryImage() async {
     final picker = ImagePicker();
