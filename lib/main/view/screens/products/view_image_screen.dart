@@ -28,7 +28,7 @@ class ViewImageScreen extends StatelessWidget {
         color: ColorManager.white,
         child: defaultCarousel(
           height: 90.h,
-          fit: BoxFit.fill,
+          fit: BoxFit.contain,
           bloc: bloc,
           autoPlay: false,
           list: productsImagesUrl,

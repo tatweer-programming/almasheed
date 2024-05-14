@@ -84,30 +84,26 @@ class CategoriesScreen extends StatelessWidget {
                                 horizontal: 5.w, vertical: 8.h),
                             child: Align(
                               alignment: AlignmentDirectional.topEnd,
-                              child: Container(
-                                color: Colors.white,
-                                width: 15.w,
-                                height: 5.h,
-                                child: PopupMenuButton<String>(
-                                  icon: const Icon(
-                                    Icons.add,
-                                  ),
-                                  onSelected: (String value) {
-                                    bloc.add(SelectAddProductOrAddCategoryEvent(
-                                        selected: value));
-                                  },
-                                  itemBuilder: (BuildContext context) =>
-                                      <PopupMenuEntry<String>>[
-                                    PopupMenuItem<String>(
-                                      value: 'AddProduct',
-                                      child: Text(S.of(context).addProduct),
-                                    ),
-                                    PopupMenuItem<String>(
-                                      value: 'AddCategory',
-                                      child: Text(S.of(context).addCategory),
-                                    ),
-                                  ],
+                              child: PopupMenuButton<String>(
+                                icon:  const Icon(
+                                  Icons.add,
+                                  color: ColorManager.white,
                                 ),
+                                onSelected: (String value) {
+                                  bloc.add(SelectAddProductOrAddCategoryEvent(
+                                      selected: value));
+                                },
+                                itemBuilder: (BuildContext context) =>
+                                    <PopupMenuEntry<String>>[
+                                  PopupMenuItem<String>(
+                                    value: 'AddProduct',
+                                    child: Text(S.of(context).addProduct),
+                                  ),
+                                  PopupMenuItem<String>(
+                                    value: 'AddCategory',
+                                    child: Text(S.of(context).addCategory),
+                                  ),
+                                ],
                               ),
                             ),
                           )
@@ -128,22 +124,25 @@ class CategoriesScreen extends StatelessWidget {
                             children: [
                               Wrap(
                                 direction: Axis.horizontal,
-                                children: bloc.categories
-                                    .map((category) {
-                                      return _categoryName(
-                                        onTap: () {
-                                          bloc.add(ChooseCategoryEvent(
-                                              categoryName:
-                                                  category.categoryName,
-                                              categoryProducts:
-                                                  category.products ?? []));
-                                        },
-                                        text: category.categoryName,
-                                        isContain: isContain,
-                                      );
-                                    })
-                                    .take(3)
-                                    .toList(),
+                                children:
+                                    ((ConstantsManager.appUser is! Customer)
+                                            ? bloc.merchantCategories
+                                            : bloc.categories)
+                                        .map((category) {
+                                          return _categoryName(
+                                            onTap: () {
+                                              bloc.add(ChooseCategoryEvent(
+                                                  categoryName:
+                                                      category.categoryName,
+                                                  categoryProducts:
+                                                      category.products ?? []));
+                                            },
+                                            text: category.categoryName,
+                                            isContain: isContain,
+                                          );
+                                        })
+                                        .take(3)
+                                        .toList(),
                               ),
                             ],
                           ),
@@ -170,7 +169,8 @@ class CategoriesScreen extends StatelessWidget {
                         product: product,
                         context: context,
                         addCardPressed: () {
-                          final PaymentBloc paymentBloc = PaymentBloc.get(context);
+                          final PaymentBloc paymentBloc =
+                              PaymentBloc.get(context);
                           paymentBloc.add(
                             AddToCartEvent(
                               productId: product.productId,

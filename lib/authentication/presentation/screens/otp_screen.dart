@@ -35,10 +35,12 @@ class OTPScreen extends StatelessWidget {
         } else if (state is VerifyCodeErrorState) {
           errorToast(
               msg: ExceptionManager(state.exception).translatedMessage());
-        } else if (state is VerifyCodeLoadingState) {
+        } else if (state is CreateUserSuccessfulState) {
           context.pushAndRemove(const MainScreen());
           defaultToast(msg: S.of(context).userCreated);
           mainBloc.add(GetProductsEvent());
+          mainBloc.add(GetWorkersEvent());
+          mainBloc.add(GetMerchantsEvent());
         } else if (state is CreateUserErrorState) {
           errorToast(
               msg: ExceptionManager(state.exception).translatedMessage());

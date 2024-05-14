@@ -43,7 +43,11 @@ Future<void> main() async {
   ConstantsManager.isNotificationsOn =
       await CacheHelper.getData(key: "isNotificationsOn");
   ConstantsManager.userType = await CacheHelper.getData(key: "userType");
-
+  MainBloc bloc = sl();
+  ConstantsManager.appUser == null &&
+      ConstantsManager.registrationSkipped == null
+      ? bloc.add(GetUserDataEvent())
+      : DoNothingAction();
   runApp(const Masheed());
 }
 
@@ -64,9 +68,7 @@ class Masheed extends StatelessWidget {
             BlocProvider<MainBloc>(
                 create: (BuildContext context) => sl()
                   ..add(GetProductsEvent())
-                  ..add(GetWorkersEvent())
-                  ..add(GetBannersEvent())
-                  ..add(GetMerchantsEvent())),
+                  ..add(GetBannersEvent())),
             BlocProvider<AuthBloc>(
                 create: (BuildContext context) => AuthBloc()),
             BlocProvider<PaymentBloc>(

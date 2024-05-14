@@ -100,6 +100,10 @@ class MainBloc extends Bloc<MainEvent, MainState> {
           emit(SetProductErrorState(l));
         }, (r) {
           emit(SetProductSuccessfullyState());
+          (ConstantsManager.appUser as Merchant)
+              .productsIds.add(event.product.productId);
+          categories.firstWhere((element) => element.categoryName == event.product.productCategory).products!.add(event.product);
+          add(MerchantProductsEvent());
         });
       } else if (event is SetOrderForWorkersEvent) {
         emit(SetOrderForWorkersLoadingState());
@@ -110,7 +114,6 @@ class MainBloc extends Bloc<MainEvent, MainState> {
         );
         event.orderForWorkers.workersIds =
             sortedWorkersWhomSentOrder.keys.toList().take(5).toList();
-        print(event.orderForWorkers.workersIds);
         var result = await MainRepository(sl())
             .setOrderForWorkers(orderForWorkers: event.orderForWorkers);
         result.fold((l) {
@@ -143,6 +146,9 @@ class MainBloc extends Bloc<MainEvent, MainState> {
         result.fold((l) {
           emit(DeleteProductErrorState(l));
         }, (r) {
+          (ConstantsManager.appUser as Merchant)
+              .productsIds.remove(event.product.productId);
+          add(MerchantProductsEvent());
           emit(DeleteProductSuccessfullyState());
         });
       } else if (event is GetMerchantsEvent) {
@@ -365,6 +371,7 @@ class MainBloc extends Bloc<MainEvent, MainState> {
                 categoryImage: category.categoryImage,
                 products: products));
           }
+          print("merchantProducts ${merchantProducts.length}");
         }
         emit(const MerchantProductsState());
       } else if (event is CheckIfAvailablePropertiesEvent) {

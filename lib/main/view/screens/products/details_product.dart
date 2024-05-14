@@ -115,12 +115,12 @@ class DetailsProductScreen extends StatelessWidget {
                         products.length <= 1
                             ? Container()
                             : Padding(
-                          padding: EdgeInsets.symmetric(
-                              horizontal: 3.w, vertical: 1.h),
-                          child: textContainerWidget(
-                            text: S.of(context).youMayLikeIt,
-                          ),
-                        ),
+                                padding: EdgeInsets.symmetric(
+                                    horizontal: 3.w, vertical: 1.h),
+                                child: textContainerWidget(
+                                  text: S.of(context).youMayLikeIt,
+                                ),
+                              ),
                         products.length <= 1
                             ? Container()
                             : Padding(
@@ -201,10 +201,13 @@ class DetailsProductScreen extends StatelessWidget {
                 children: [
                   InkWell(
                     onTap: () {
-                      context.push(ViewImageScreen(
-                        productsImagesUrl: product.productsImagesUrl ?? [],
-                        carouselController: carouselController,
-                      ));
+                      if (product.productsImagesUrl != null &&
+                          product.productsImagesUrl!.isNotEmpty) {
+                        context.push(ViewImageScreen(
+                          productsImagesUrl: product.productsImagesUrl ?? [],
+                          carouselController: carouselController,
+                        ));
+                      }
                     },
                     child: Container(
                       color: ColorManager.white,
@@ -437,7 +440,6 @@ class DetailsProductScreen extends StatelessWidget {
                       minRating: 1,
                       itemSize: 25.sp,
                       ignoreGestures: true,
-
                       direction: Axis.horizontal,
                       allowHalfRating: true,
                       itemPadding: EdgeInsets.symmetric(horizontal: 0.5.w),
@@ -446,10 +448,10 @@ class DetailsProductScreen extends StatelessWidget {
                         color: Colors.amber,
                       ),
                       onRatingUpdate: (rating) {
-                        if(isCustomer) {
+                        if (isCustomer) {
                           bloc.add(ProductRatingUpdateEvent(
-                            productRating: (product.productRating + rating),
-                            productId: product.productId));
+                              productRating: (product.productRating + rating),
+                              productId: product.productId));
                         }
                       },
                     )

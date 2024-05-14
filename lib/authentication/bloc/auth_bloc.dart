@@ -221,6 +221,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       errorToast(msg: ExceptionManager(l).translatedMessage());
       emit(CreateUserErrorState(l));
     }, (r) async {
+      timeToResendCodeTimer?.cancel();
       bool isExists = r;
       if (isExists) {
         emit(const CreateUserSuccessfulState());

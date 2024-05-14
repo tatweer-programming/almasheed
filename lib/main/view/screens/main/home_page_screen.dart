@@ -41,7 +41,8 @@ class HomePageScreen extends StatelessWidget {
             state is GetCategoriesErrorState) {
           _handleErrorState(context, state);
         }
-        if(state is GetUserDataSuccessfullyState && ConstantsManager.appUser is! Merchant){
+        if (state is GetUserDataSuccessfullyState &&
+            ConstantsManager.appUser is! Merchant) {
           bloc.add(GetOrderForWorkersEvent());
         }
       },
@@ -50,42 +51,47 @@ class HomePageScreen extends StatelessWidget {
           children: [
             _buildAppBar(context, bloc),
             Expanded(
-              child: SingleChildScrollView(
-                physics: const BouncingScrollPhysics(),
-                child: Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 6.w),
-                  child: BlocBuilder<MainBloc, MainState>(
-                    bloc: bloc,
-                    builder: (context, state) {
-                      return Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          defaultCarousel(
-                              bloc: bloc,
-                              list: bloc.banners,
-                              controller: carouselController),
-                          SizedBox(height: 1.h),
-                          if (ConstantsManager.appUser is! Worker &&
-                              bloc.categories.isNotEmpty)
-                            _buildCategoriesList(context, bloc),
-                          if ((ConstantsManager.appUser is Customer ||
-                                  ConstantsManager.appUser == null) &&
-                              (bloc.merchants.isNotEmpty))
-                            _buildMerchantsList(context, bloc),
-                          if ((ConstantsManager.appUser is Customer ||
-                                  ConstantsManager.appUser == null) &&
-                              (bloc.workers.isNotEmpty))
-                            _buildWorkersList(context, bloc),
-                        ],
-                      );
-                    },
-                  ),
-                ),
-              ),
-            ),
+                child: ListView.builder(
+                  itemBuilder: (context, index) {
+                    return builder(bloc, carouselController);
+                  },
+                  itemCount: 1,
+                )),
           ],
         );
       },
+    );
+  }
+
+  Widget builder(MainBloc bloc, CarouselController carouselController) {
+    return Padding(
+      padding: EdgeInsets.symmetric(horizontal: 6.w),
+      child: BlocBuilder<MainBloc, MainState>(
+        bloc: bloc,
+        builder: (context, state) {
+          return Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              defaultCarousel(
+                  bloc: bloc,
+                  list: bloc.banners,
+                  controller: carouselController),
+              SizedBox(height: 1.h),
+              if (ConstantsManager.appUser is! Worker &&
+                  bloc.categories.isNotEmpty)
+                _buildCategoriesList(context, bloc),
+              if ((ConstantsManager.appUser is Customer ||
+                  ConstantsManager.appUser == null) &&
+                  (bloc.merchants.isNotEmpty))
+                _buildMerchantsList(context, bloc),
+              if ((ConstantsManager.appUser is Customer ||
+                  ConstantsManager.appUser == null) &&
+                  (bloc.workers.isNotEmpty))
+                _buildWorkersList(context, bloc),
+            ],
+          );
+        },
+      ),
     );
   }
 
@@ -133,10 +139,14 @@ class HomePageScreen extends StatelessWidget {
                               bloc.add(SelectProductEvent(product: product!));
                               context.push(DetailsProductScreen(
                                 product: product,
-                                products: ConstantsManager.appUser is Customer ? bloc.products : bloc.merchantProducts,
+                                products: ConstantsManager.appUser is Customer
+                                    ? bloc.products
+                                    : bloc.merchantProducts,
                               ));
                             },
-                            items: ConstantsManager.appUser is Customer ? bloc.products : bloc.merchantProducts,
+                            items: ConstantsManager.appUser is Customer
+                                ? bloc.products
+                                : bloc.merchantProducts,
                             context: context,
                           ),
                         ),
@@ -185,9 +195,9 @@ class HomePageScreen extends StatelessWidget {
   }
 
   Widget _buildCategoriesList(
-    BuildContext context,
-    MainBloc bloc,
-  ) {
+      BuildContext context,
+      MainBloc bloc,
+      ) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -201,7 +211,7 @@ class HomePageScreen extends StatelessWidget {
               onTap: () {
                 context.push(CategoryScreen(
                   category: ConstantsManager.appUser is Customer ||
-                          ConstantsManager.appUser == null
+                      ConstantsManager.appUser == null
                       ? bloc.categories[index]
                       : bloc.merchantCategories[index],
                 ));
@@ -244,7 +254,7 @@ class HomePageScreen extends StatelessWidget {
                 categoryName: bloc.merchants[index].companyName,
                 products: bloc.products
                     .where((product) => bloc.merchants[index].productsIds
-                        .contains(product.productId))
+                    .contains(product.productId))
                     .toList(),
                 productsIds: bloc.merchants[index].productsIds,
               ),
