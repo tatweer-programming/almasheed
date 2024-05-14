@@ -1,5 +1,4 @@
 import 'package:almasheed/authentication/data/models/merchant.dart';
-import 'package:almasheed/chat/presentation/screens/chat_screen.dart';
 import 'package:almasheed/core/utils/constance_manager.dart';
 import 'package:almasheed/core/utils/navigation_manager.dart';
 import 'package:almasheed/main/bloc/main_bloc.dart';
@@ -12,7 +11,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../authentication/data/models/customer.dart';
 import '../../chat/presentation/screens/chats_screen.dart';
 import '../../core/services/dep_injection.dart';
-import '../data/models/orderItem.dart';
+import '../data/models/order_item.dart';
 import '../data/repositories/payment_repository.dart';
 
 part 'payment_event.dart';

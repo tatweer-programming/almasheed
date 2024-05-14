@@ -2,7 +2,7 @@ import 'package:almasheed/core/utils/color_manager.dart';
 import 'package:almasheed/core/utils/font_manager.dart';
 import 'package:almasheed/payment/bloc/payment_bloc.dart';
 import 'package:almasheed/payment/data/models/order.dart';
-import 'package:almasheed/payment/data/models/orderItem.dart';
+import 'package:almasheed/payment/data/models/order_item.dart';
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
 

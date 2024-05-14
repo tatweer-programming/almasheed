@@ -15,10 +15,10 @@ class ChatsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     ChatBloc chatBloc = ChatBloc.get(context)..add(GetChatsEvent());
-    return WillPopScope(
-      onWillPop: () async {
+    return PopScope(
+      canPop: true,
+      onPopInvoked: (didPop) {
         context.pushAndRemove(const MainScreen());
-        return true;
       },
       child: RefreshIndicator(
         onRefresh: () async {

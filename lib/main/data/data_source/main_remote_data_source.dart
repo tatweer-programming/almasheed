@@ -413,7 +413,7 @@ class MainRemoteDataSource {
         id: sortedWorker,
         work: orderForWorkers.work,
         city: orderForWorkers.city,
-      ).then((value) => print("Pushed"));
+      );
     }
   }
 

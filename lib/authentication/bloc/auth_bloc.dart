@@ -7,18 +7,15 @@ import 'package:almasheed/authentication/data/services/auth_services.dart';
 import 'package:almasheed/authentication/presentation/components.dart';
 import 'package:almasheed/authentication/presentation/screens/merchant_register_screen.dart';
 import 'package:almasheed/authentication/presentation/screens/customer_register_screen.dart';
-import 'package:almasheed/chat/bloc/chat_bloc.dart';
 import 'package:almasheed/core/error/remote_error.dart';
 import 'package:almasheed/core/utils/constance_manager.dart';
 import 'package:almasheed/core/utils/navigation_manager.dart';
-import 'package:almasheed/main/bloc/main_bloc.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
-import '../../core/services/dep_injection.dart';
 import '../../core/utils/images_manager.dart';
 import '../../generated/l10n.dart';
 import '../data/models/address.dart';
@@ -221,19 +218,17 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       errorToast(msg: ExceptionManager(l).translatedMessage());
       emit(CreateUserErrorState(l));
     }, (r) async {
+      // bool isExists = r;
+      // if (isExists) {
+      //   emit(const CreateUserSuccessfulState());
+      //   authCompleted = true;
+      //   if (kDebugMode) {}
+      // } else {
       timeToResendCodeTimer?.cancel();
-      bool isExists = r;
-      if (isExists) {
-        emit(const CreateUserSuccessfulState());
-
-        authCompleted = true;
-
-        if (kDebugMode) {}
-      } else {
-        authCompleted = true;
-        if (kDebugMode) {}
-        emit(const CreateUserSuccessfulState());
-      }
+      authCompleted = true;
+      if (kDebugMode) {}
+      emit(const CreateUserSuccessfulState());
+      // }
     });
   }
 

@@ -40,7 +40,7 @@ class LoginScreen extends StatelessWidget {
         },
         listener: (context, state) {
           if (state is SendCodeErrorState) {
-            print(state.exception);
+            // print(state.exception);
             errorToast(
                 msg: ExceptionManager(state.exception).translatedMessage());
           } else if (state is CodeSent) {

@@ -189,7 +189,9 @@ class AuthService {
     try {
       Reference firebaseStorageRef = FirebaseStorage.instance.refFromURL(url);
       await firebaseStorageRef.delete();
-    } catch (e) {}
+    } catch (e) {
+      return Left(e);
+    }
   }
 
   Future<String> _uploadNewImage(File newImage) async {

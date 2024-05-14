@@ -1,11 +1,10 @@
-// ignore_for_file: must_be_immutable
-
 import 'package:almasheed/authentication/data/models/customer.dart';
+import 'package:almasheed/payment/data/models/order_item.dart';
 import 'package:equatable/equatable.dart';
 import '../../../authentication/data/models/address.dart';
 import '../../../core/utils/constance_manager.dart';
-import 'orderItem.dart';
 
+// ignore_for_file: must_be_immutable
 class OrderModel extends Equatable {
   final double totalPrice;
   final List<OrderItem> orderItems;

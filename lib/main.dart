@@ -45,7 +45,7 @@ Future<void> main() async {
   ConstantsManager.userType = await CacheHelper.getData(key: "userType");
   MainBloc bloc = sl();
   ConstantsManager.appUser == null &&
-      ConstantsManager.registrationSkipped == null
+      ConstantsManager.userId != null
       ? bloc.add(GetUserDataEvent())
       : DoNothingAction();
   runApp(const Masheed());

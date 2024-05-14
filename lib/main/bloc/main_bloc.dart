@@ -371,7 +371,6 @@ class MainBloc extends Bloc<MainEvent, MainState> {
                 categoryImage: category.categoryImage,
                 products: products));
           }
-          print("merchantProducts ${merchantProducts.length}");
         }
         emit(const MerchantProductsState());
       } else if (event is CheckIfAvailablePropertiesEvent) {

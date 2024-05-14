@@ -1,5 +1,4 @@
 import 'package:almasheed/core/utils/navigation_manager.dart';
-import 'package:almasheed/main.dart';
 import 'package:almasheed/main/data/models/order_for_workers.dart';
 import 'package:almasheed/payment/bloc/payment_bloc.dart';
 import 'package:flutter/material.dart';
