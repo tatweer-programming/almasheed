@@ -303,14 +303,18 @@ class AuthService {
         .where('productsIds', arrayContainsAny: productIds)
         .get();
     for (var categoryDoc in categoriesQuery.docs) {
-      final categoryData = categoryDoc.data();
-      final List<dynamic> categoryProductsIds = categoryData['productsIds'] ?? [];
-      final updatedProductIds = List.from(categoryProductsIds)
-        ..removeWhere((id) => productIds.contains(id));
-      await _fireStore
-          .collection('categories')
-          .doc(categoryDoc.id)
-          .update({'productsIds': updatedProductIds});
+      ///  الحل الاول
+      categoryDoc.reference.update({"productsIds": FieldValue.arrayRemove(productIds)});
+
+      /// الحل التاني
+      // final categoryData = categoryDoc.data();
+      // final List<dynamic> categoryProductsIds = categoryData['productsIds'] ?? [];
+      // final updatedProductIds = List.from(categoryProductsIds)
+      //   ..removeWhere((id) => productIds.contains(id));
+      // await _fireStore
+      //     .collection('categories')
+      //     .doc(categoryDoc.id)
+      //     .update({'productsIds': updatedProductIds});
     }
   }
 
