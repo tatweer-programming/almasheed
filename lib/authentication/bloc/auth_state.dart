@@ -261,3 +261,17 @@ class UpdateProfileErrorState extends AuthState {
   @override
   List<Object?> get props => [];
 }
+class DeleteAccountLoadingState extends AuthState {
+  @override
+  List<Object?> get props => [];
+}
+class DeleteAccountErrorState extends AuthState {
+  final Exception exception;
+  const DeleteAccountErrorState(this.exception);
+  @override
+  List<Object?> get props => [];
+}
+class DeleteAccountSuccessfulState extends AuthState {
+  @override
+  List<Object?> get props => [];
+}

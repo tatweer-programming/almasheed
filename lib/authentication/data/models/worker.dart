@@ -25,6 +25,7 @@ class Worker extends AppUser {
     required super.id,
     required this.works,
     required super.phone,
+    super.image,
   });
 
   @override

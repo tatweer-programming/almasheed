@@ -166,3 +166,10 @@ class UpdateProfilePictureEvent extends AuthEvent {
   @override
   List<Object?> get props => [];
 }
+
+class DeleteAccountEvent extends AuthEvent {
+  final BuildContext context;
+  const DeleteAccountEvent(this.context);
+  @override
+  List<Object?> get props => [];
+}
