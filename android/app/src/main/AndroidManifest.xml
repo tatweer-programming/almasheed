@@ -40,7 +40,7 @@
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyDOfuvCVN-kxmqvp-dy30OnX0kwlizaAa0" />
+            android:value="AIzaSyCzTYGEh8sywa3ffth45C1B32O1tt0sJoc" />
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_channel_id"
             android:value="@string/default_notification_channel_id" />

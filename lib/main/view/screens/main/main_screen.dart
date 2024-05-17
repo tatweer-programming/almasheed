@@ -19,6 +19,10 @@ class MainScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     MainBloc bloc = sl();
+    ConstantsManager.appUser == null &&
+            ConstantsManager.registrationSkipped == null
+        ? bloc.add(GetUserDataEvent())
+        : DoNothingAction();
     return BlocConsumer<MainBloc, MainState>(
       bloc: bloc,
       listener: (context, state) {
@@ -81,11 +85,11 @@ class MainScreen extends StatelessWidget {
           ),
           body: RefreshIndicator(
               onRefresh: () async {
-                if(ConstantsManager.appUser is! Worker) {
+                if (ConstantsManager.appUser is! Worker) {
                   bloc.add(GetProductsEvent());
                 }
-                  bloc.add(GetWorkersEvent());
-                  bloc.add(GetMerchantsEvent());
+                bloc.add(GetWorkersEvent());
+                bloc.add(GetMerchantsEvent());
               },
               child: (ConstantsManager.appUser is Merchant)
                   ? bloc.pagesMerchant[bloc.pageIndex]

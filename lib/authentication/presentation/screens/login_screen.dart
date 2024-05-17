@@ -1,4 +1,6 @@
 import 'package:almasheed/authentication/bloc/auth_bloc.dart';
+import 'package:almasheed/authentication/data/models/customer.dart';
+import 'package:almasheed/authentication/data/models/merchant.dart';
 import 'package:almasheed/authentication/data/models/worker.dart';
 import 'package:almasheed/authentication/presentation/components.dart';
 import 'package:almasheed/authentication/presentation/screens/otp_screen.dart';
@@ -12,12 +14,9 @@ import 'package:almasheed/main/view/screens/main/main_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sizer/sizer.dart';
-
 import '../../../core/error/remote_error.dart';
 import '../../../core/services/dep_injection.dart';
 import '../../../generated/l10n.dart';
-import '../../data/models/customer.dart';
-import '../../data/models/merchant.dart';
 
 class LoginScreen extends StatelessWidget {
   final bool isWorker;

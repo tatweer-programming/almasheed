@@ -198,10 +198,8 @@ Widget defaultFormField(
             focusedBorder: OutlineInputBorder(
                 borderSide: BorderSide.none,
                 borderRadius: BorderRadius.circular(10.sp)),
-            labelText: label,
-            labelStyle: const TextStyle(
-              color: ColorManager.black,
-            )),
+            hintText: label,
+            ),
         validator: validator,
       ),
     );

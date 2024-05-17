@@ -43,11 +43,6 @@ Future<void> main() async {
   ConstantsManager.isNotificationsOn =
       await CacheHelper.getData(key: "isNotificationsOn");
   ConstantsManager.userType = await CacheHelper.getData(key: "userType");
-  MainBloc bloc = sl();
-  ConstantsManager.appUser == null &&
-      ConstantsManager.userId != null
-      ? bloc.add(GetUserDataEvent())
-      : DoNothingAction();
   runApp(const Masheed());
 }
 
