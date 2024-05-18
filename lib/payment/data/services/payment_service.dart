@@ -220,7 +220,6 @@ class PaymentService {
           .collection("chats")
           .doc(chat.receiverId);
       batch.set(setInSender, chat.toJson());
-      print(chat.toJson());
       Chat chatSender = Chat(
         receiverId: ConstantsManager.userId!,
         isMerchant: chat.isMerchant,

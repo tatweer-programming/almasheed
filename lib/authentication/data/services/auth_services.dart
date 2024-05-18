@@ -26,7 +26,7 @@ class AuthService {
   static String? verificationID;
   static Completer<String> verificationIdCompleter = Completer<String>();
   Completer<Either<FirebaseAuthException, String>> verifyPhoneCompleter =
-      Completer<Either<FirebaseAuthException, String>>();
+  Completer<Either<FirebaseAuthException, String>>();
 
   Future<Either<FirebaseAuthException, String>> verifyPhoneNumber(
       String phoneNumber) async {
@@ -50,8 +50,8 @@ class AuthService {
     return verificationIdCompleter.future;
   }
 
-  Future<Either<FirebaseAuthException, String>> verifyCode(
-      String code, String userType) async {
+  Future<Either<FirebaseAuthException, String>> verifyCode(String code,
+      String userType) async {
     try {
       String? id;
       final String verificationId = await waitForVerificationID();
@@ -76,10 +76,8 @@ class AuthService {
     }
   }
 
-  Future<bool> _searchForUserById(
-    String id,
-    String userType,
-  ) async {
+  Future<bool> _searchForUserById(String id,
+      String userType,) async {
     late bool isExists;
     await _fireStore
         .collection("${userType}s/")
@@ -96,8 +94,8 @@ class AuthService {
     return isExists;
   }
 
-  Future<Either<FirebaseAuthException, String>> loginByPhone(
-      String phoneNumber, String userType) async {
+  Future<Either<FirebaseAuthException, String>> loginByPhone(String phoneNumber,
+      String userType) async {
     try {
       bool exists = await _searchForUsersByPhoneNumber(phoneNumber, userType);
       if (exists) {
@@ -124,9 +122,7 @@ class AuthService {
   }
 
   // add adress to user
-  Future<Either<FirebaseException, Unit>> addAddress(
-    Address address,
-  ) async {
+  Future<Either<FirebaseException, Unit>> addAddress(Address address,) async {
     try {
       Customer customer = ConstantsManager.appUser as Customer;
       customer.addresses.add(address);
@@ -183,7 +179,7 @@ class AuthService {
   Future updateImageInFireStore(String newImageUrl) async {
     _fireStore
         .doc(
-            "${ConstantsManager.appUser?.getType()}s/${ConstantsManager.userId}")
+        "${ConstantsManager.appUser?.getType()}s/${ConstantsManager.userId}")
         .update({"image": newImageUrl});
   }
 
@@ -198,9 +194,12 @@ class AuthService {
 
   Future<String> _uploadNewImage(File newImage) async {
     try {
-      String fileExtension = newImage.path.split(".").last;
+      String fileExtension = newImage.path
+          .split(".")
+          .last;
       Reference firebaseStorageRef = FirebaseStorage.instance.ref().child(
-          'profiles/${ConstantsManager.appUser!.getType()}s/${ConstantsManager.userId}.$fileExtension');
+          'profiles/${ConstantsManager.appUser!.getType()}s/${ConstantsManager
+              .userId}.$fileExtension');
       UploadTask uploadTask = firebaseStorageRef.putFile(newImage);
       TaskSnapshot taskSnapshot = await uploadTask;
       String downloadURL = await taskSnapshot.ref.getDownloadURL();
@@ -261,8 +260,8 @@ class AuthService {
     }
   }
 
-  Future<Either<Exception, Unit>> deleteAccount(
-      BuildContext context, List<Product> products) async {
+  Future<Either<Exception, Unit>> deleteAccount(BuildContext context,
+      List<Product> products) async {
     try {
       final user = ConstantsManager.appUser!;
       var batch = _fireStore.batch();
@@ -277,11 +276,11 @@ class AuthService {
       } else if (user is Customer) {
         await _deleteCustomerData();
       }
-      await batch.commit();
-      await _clearUserData(context);
+      await batch.commit().then((value) async {
+        await _clearUserData(context);
+      });
       return const Right(unit);
     } on Exception catch (e) {
-      print('Error deleting account: $e');
       return Left(e);
     }
   }
@@ -322,7 +321,7 @@ class AuthService {
       }
       // Delete products from categories
       var category =
-          _fireStore.collection("categories").doc(product.productCategory);
+      _fireStore.collection("categories").doc(product.productCategory);
       batch.update(category, {
         "productsIds": FieldValue.arrayRemove([product.productId])
       });
@@ -350,8 +349,8 @@ class AuthService {
     }
   }
 
-  Future<bool> _searchForUsersByPhoneNumber(
-      String phone, String userType) async {
+  Future<bool> _searchForUsersByPhoneNumber(String phone,
+      String userType) async {
     var res = await _fireStore
         .collection("${userType}s")
         .where("phone", isEqualTo: phone)
