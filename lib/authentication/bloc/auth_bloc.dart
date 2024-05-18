@@ -10,6 +10,7 @@ import 'package:almasheed/authentication/presentation/screens/customer_register_
 import 'package:almasheed/core/error/remote_error.dart';
 import 'package:almasheed/core/utils/constance_manager.dart';
 import 'package:almasheed/core/utils/navigation_manager.dart';
+import 'package:almasheed/main/data/models/product.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/foundation.dart';
@@ -75,7 +76,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     if (event is SendCodeEvent) {
       emit(SendCodeLoadingState());
       ConstantsManager.appUser = event.user;
-      final result = await repository.verifyPhoneNumber(ConstantsManager.appUser!.phone);
+      final result =
+          await repository.verifyPhoneNumber(ConstantsManager.appUser!.phone);
       result.fold((l) {
         emit(SendCodeErrorState(l));
       }, (r) {
@@ -131,11 +133,14 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       event.context.push(registerScreens[selectedAccountTypeIndex!]);
     } else if (event is NavigateToAccountTypesScreenEvent) {
       if (selectedAccountTypeIndex == 0) {
-        event.context.push(const LoginScreen(isWorker: false, isMerchant: false));
+        event.context
+            .push(const LoginScreen(isWorker: false, isMerchant: false));
       } else if (selectedAccountTypeIndex == 1) {
-        event.context.push(const LoginScreen(isWorker: false, isMerchant: true));
+        event.context
+            .push(const LoginScreen(isWorker: false, isMerchant: true));
       } else if (selectedAccountTypeIndex == 2) {
-        event.context.push(const LoginScreen(isWorker: true, isMerchant: false));
+        event.context
+            .push(const LoginScreen(isWorker: true, isMerchant: false));
       }
     } else if (event is AddAddressEvent) {
       emit(AddAddressLoadingState());
@@ -187,7 +192,9 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         }, (r) async {
           emit(UpdateProfileSuccessState());
           await repository.updateImageInFireStore(r).then((value) async {
-            oldPicUrl != null ? await repository.deleteOldPic(oldPicUrl!) : DoNothingAction();
+            oldPicUrl != null
+                ? await repository.deleteOldPic(oldPicUrl!)
+                : DoNothingAction();
           });
         });
       }
@@ -204,12 +211,15 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       emit(ResetCodeTimerState());
     } else if (event is DeleteAccountEvent) {
       emit(DeleteAccountLoadingState());
-      var result = await repository.deleteAccount(event.context);
+      var result =
+          await repository.deleteAccount(event.context, event.products);
       result.fold((l) {
         emit(DeleteAccountErrorState(l));
       }, (r) {
         emit(DeleteAccountSuccessfulState());
       });
+    } else if (event is ShowDialogEvent) {
+      emit(ShowDialogState());
     }
   }
 

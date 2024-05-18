@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'dart:math';
-
 import 'package:almasheed/core/utils/constance_manager.dart';
 import 'package:almasheed/core/utils/localization_manager.dart';
 import 'package:almasheed/main/data/models/category.dart';
@@ -101,8 +100,13 @@ class MainBloc extends Bloc<MainEvent, MainState> {
         }, (r) {
           emit(SetProductSuccessfullyState());
           (ConstantsManager.appUser as Merchant)
-              .productsIds.add(event.product.productId);
-          categories.firstWhere((element) => element.categoryName == event.product.productCategory).products!.add(event.product);
+              .productsIds
+              .add(event.product.productId);
+          categories
+              .firstWhere((element) =>
+                  element.categoryName == event.product.productCategory)
+              .products!
+              .add(event.product);
           add(MerchantProductsEvent());
         });
       } else if (event is SetOrderForWorkersEvent) {
@@ -147,7 +151,8 @@ class MainBloc extends Bloc<MainEvent, MainState> {
           emit(DeleteProductErrorState(l));
         }, (r) {
           (ConstantsManager.appUser as Merchant)
-              .productsIds.remove(event.product.productId);
+              .productsIds
+              .remove(event.product.productId);
           add(MerchantProductsEvent());
           emit(DeleteProductSuccessfullyState());
         });
@@ -411,8 +416,12 @@ class MainBloc extends Bloc<MainEvent, MainState> {
         emit(FinishedAddPropertiesState(
             convertToMap(event.propertyList, event.propertyNameList)));
       } else if (event is SelectedPropertiesSavedEvent) {
-        event.selectedPropertiesSaved.add(event.selectedProperties);
-        event.selectedProperties = [];
+        if (selectedProperties.isNotEmpty &&
+            doesNotContainSelectedProperties(
+                event.selectedProperties, event.selectedPropertiesSaved)) {
+          event.selectedPropertiesSaved.add(event.selectedProperties);
+          event.selectedProperties = [];
+        }
         emit(SelectedPropertiesSavedState(event.selectedProperties));
       } else if (event is RemoveSelectedPropertiesSavedEvent) {
         event.selectedPropertiesSaved
@@ -535,5 +544,15 @@ class MainBloc extends Bloc<MainEvent, MainState> {
       favorites.add(productId);
     }
     return favorites;
+  }
+
+  bool doesNotContainSelectedProperties(List<String> selectedProperties,
+      List<List<String>> selectedPropertiesSaved) {
+    for (var subList in selectedPropertiesSaved) {
+      if (subList.every((element) => selectedProperties.contains(element))) {
+        return false;
+      }
+    }
+    return true;
   }
 }

@@ -220,7 +220,7 @@ class PaymentService {
           .collection("chats")
           .doc(chat.receiverId);
       batch.set(setInSender, chat.toJson());
-
+      print(chat.toJson());
       Chat chatSender = Chat(
         receiverId: ConstantsManager.userId!,
         isMerchant: chat.isMerchant,
@@ -232,8 +232,8 @@ class PaymentService {
           .doc(chat.receiverId)
           .collection("chats")
           .doc(ConstantsManager.userId);
-
       batch.set(setInReceiver, chatSender.toJson());
+      chatSender.toJson();
       return const Right(unit);
     } on FirebaseException catch (e) {
       return Left(e);

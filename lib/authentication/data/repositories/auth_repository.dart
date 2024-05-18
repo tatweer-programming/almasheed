@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:almasheed/authentication/data/models/address.dart';
 import 'package:almasheed/authentication/data/models/worker.dart';
 import 'package:almasheed/authentication/data/services/auth_services.dart';
+import 'package:almasheed/main/data/models/product.dart';
 import 'package:dartz/dartz.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
@@ -58,7 +59,7 @@ class AuthRepository {
     return await _service.deleteOldPic(url);
   }
 
-  Future<Either<Exception, Unit>> deleteAccount(BuildContext context) async {
-    return await _service.deleteAccount(context);
+  Future<Either<Exception, Unit>> deleteAccount(BuildContext context,List<Product> products) async {
+    return await _service.deleteAccount(context,products);
   }
 }

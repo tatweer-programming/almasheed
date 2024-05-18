@@ -44,45 +44,48 @@ class MainScreen extends StatelessWidget {
                   child: const Icon(Icons.add),
                 )
               : null,
-          bottomNavigationBar: BottomNavigationBar(
-            currentIndex: bloc.pageIndex,
-            selectedItemColor: ColorManager.white,
-            unselectedItemColor: ColorManager.grey2,
-            backgroundColor: ColorManager.primary,
-            onTap: (index) {
-              bloc.add(ChangeBottomNavEvent(index: index));
-            },
-            items: [
-              BottomNavigationBarItem(
-                  label: S.of(context).home,
-                  icon: const Icon(
-                    Icons.home_outlined,
-                  )),
-              if (ConstantsManager.appUser is Merchant ||
-                  ConstantsManager.appUser is Customer)
-                BottomNavigationBarItem(
-                    label: S.of(context).categories,
-                    icon: const Icon(
-                      Icons.category_outlined,
-                    )),
-              if (ConstantsManager.appUser is Customer)
-                BottomNavigationBarItem(
-                    label: S.of(context).favourites,
-                    icon: const Icon(
-                      Icons.favorite_outline_rounded,
-                    )),
-              BottomNavigationBarItem(
-                  label: S.of(context).profile,
-                  icon: const Icon(
-                    Icons.person,
-                  )),
-              BottomNavigationBarItem(
-                  label: S.of(context).support,
-                  icon: const Icon(
-                    Icons.support,
-                  )),
-            ],
-          ),
+          bottomNavigationBar: ConstantsManager.appUser == null &&
+                  ConstantsManager.registrationSkipped == null
+              ? null
+              : BottomNavigationBar(
+                  currentIndex: bloc.pageIndex,
+                  selectedItemColor: ColorManager.white,
+                  unselectedItemColor: ColorManager.grey2,
+                  backgroundColor: ColorManager.primary,
+                  onTap: (index) {
+                    bloc.add(ChangeBottomNavEvent(index: index));
+                  },
+                  items: [
+                    BottomNavigationBarItem(
+                        label: S.of(context).home,
+                        icon: const Icon(
+                          Icons.home_outlined,
+                        )),
+                    if (ConstantsManager.appUser is Merchant ||
+                        ConstantsManager.appUser is Customer)
+                      BottomNavigationBarItem(
+                          label: S.of(context).categories,
+                          icon: const Icon(
+                            Icons.category_outlined,
+                          )),
+                    if (ConstantsManager.appUser is Customer)
+                      BottomNavigationBarItem(
+                          label: S.of(context).favourites,
+                          icon: const Icon(
+                            Icons.favorite_outline_rounded,
+                          )),
+                    BottomNavigationBarItem(
+                        label: S.of(context).profile,
+                        icon: const Icon(
+                          Icons.person,
+                        )),
+                    BottomNavigationBarItem(
+                        label: S.of(context).support,
+                        icon: const Icon(
+                          Icons.support,
+                        )),
+                  ],
+                ),
           body: RefreshIndicator(
               onRefresh: () async {
                 if (ConstantsManager.appUser is! Worker) {

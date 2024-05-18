@@ -62,6 +62,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "categoryAdded": MessageLookupByLibrary.simpleMessage(
             "The Category has been added successfully"),
         "chat": MessageLookupByLibrary.simpleMessage("Chats"),
+        "checkInternet": MessageLookupByLibrary.simpleMessage(
+            "Please check your internet connection"),
         "chooseAccountType":
             MessageLookupByLibrary.simpleMessage("please choose account type"),
         "chooseAddress": MessageLookupByLibrary.simpleMessage("choose address"),
@@ -82,6 +84,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "customer": MessageLookupByLibrary.simpleMessage("Customer"),
         "date": MessageLookupByLibrary.simpleMessage("date"),
         "delete": MessageLookupByLibrary.simpleMessage("Delete"),
+        "deleteAccount": MessageLookupByLibrary.simpleMessage("Delete Account"),
         "deletedSuccessfully":
             MessageLookupByLibrary.simpleMessage("Deleted Successfully"),
         "deposit": MessageLookupByLibrary.simpleMessage("Deposit"),
@@ -95,6 +98,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "discount": MessageLookupByLibrary.simpleMessage("Discount"),
         "doNotHaveAccount": MessageLookupByLibrary.simpleMessage(
             "You don\'t have an account ?"),
+        "doWannaDeleteAccount": MessageLookupByLibrary.simpleMessage(
+            "Do you want to delete the account ?"),
         "edit": MessageLookupByLibrary.simpleMessage("Edit"),
         "editProfile":
             MessageLookupByLibrary.simpleMessage("Edit your profile"),
@@ -192,6 +197,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "myOrders": MessageLookupByLibrary.simpleMessage("My Orders"),
         "name": MessageLookupByLibrary.simpleMessage("Name"),
         "next": MessageLookupByLibrary.simpleMessage("Next"),
+        "no": MessageLookupByLibrary.simpleMessage("No"),
         "noAddresses":
             MessageLookupByLibrary.simpleMessage("There is no addresses here"),
         "noItems":
@@ -284,6 +290,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "worker": MessageLookupByLibrary.simpleMessage("Technical"),
         "workerDetails": MessageLookupByLibrary.simpleMessage("Worker details"),
         "workers": MessageLookupByLibrary.simpleMessage("Technicals"),
+        "yes": MessageLookupByLibrary.simpleMessage("Yes"),
         "youMayLikeIt": MessageLookupByLibrary.simpleMessage("You may like it")
       };
 }

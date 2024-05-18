@@ -16,7 +16,7 @@ class ChatsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     ChatBloc chatBloc = ChatBloc.get(context)..add(GetChatsEvent());
     return PopScope(
-      canPop: true,
+      canPop: false,
       onPopInvoked: (didPop) {
         context.pushAndRemove(const MainScreen());
       },

@@ -93,6 +93,7 @@ class NavigateToRegisterScreenEvent extends AuthEvent {
 
 class NavigateToAccountTypesScreenEvent extends AuthEvent {
   final BuildContext context;
+
   const NavigateToAccountTypesScreenEvent(this.context);
 
   @override
@@ -158,6 +159,7 @@ class LogoutEvent extends AuthEvent {
   final BuildContext context;
 
   const LogoutEvent(this.context);
+
   @override
   List<Object?> get props => [];
 }
@@ -167,9 +169,17 @@ class UpdateProfilePictureEvent extends AuthEvent {
   List<Object?> get props => [];
 }
 
+class ShowDialogEvent extends AuthEvent {
+  @override
+  List<Object?> get props => [];
+}
+
 class DeleteAccountEvent extends AuthEvent {
   final BuildContext context;
-  const DeleteAccountEvent(this.context);
+  final List<Product> products;
+
+  const DeleteAccountEvent(this.context, this.products);
+
   @override
   List<Object?> get props => [];
 }

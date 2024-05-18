@@ -184,6 +184,11 @@
   "chooseLocation": "You must choose a location",
   "workerDetails": "Worker details",
   "acceptOrderFrom": "The order has been accepted from ",
-  "youMayLikeIt": "You may like it"
+  "youMayLikeIt": "You may like it",
+  "deleteAccount": "Delete Account",
+  "doWannaDeleteAccount": "Do you want to delete the account ?",
+  "yes": "Yes",
+  "no": "No",
+  "checkInternet": "Please check your internet connection"
 }
 

@@ -271,6 +271,10 @@ class DeleteAccountErrorState extends AuthState {
   @override
   List<Object?> get props => [];
 }
+class ShowDialogState extends AuthState {
+  @override
+  List<Object?> get props => [];
+}
 class DeleteAccountSuccessfulState extends AuthState {
   @override
   List<Object?> get props => [];

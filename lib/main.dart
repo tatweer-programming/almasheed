@@ -36,13 +36,14 @@ Future<void> main() async {
   ConstantsManager.appUser = null;
   await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
   await CacheHelper.init();
-  ServiceLocator().init();
-  FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
-  await LocalizationManager.init();
+
   ConstantsManager.userId = await CacheHelper.getData(key: "userId");
   ConstantsManager.isNotificationsOn =
       await CacheHelper.getData(key: "isNotificationsOn");
   ConstantsManager.userType = await CacheHelper.getData(key: "userType");
+  ServiceLocator().init();
+  FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
+  await LocalizationManager.init();
   runApp(const Masheed());
 }
 

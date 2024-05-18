@@ -8,6 +8,7 @@ import 'package:almasheed/core/local/shared_prefrences.dart';
 import 'package:almasheed/core/services/dep_injection.dart';
 import 'package:almasheed/core/utils/constance_manager.dart';
 import 'package:almasheed/main/bloc/main_bloc.dart';
+import 'package:almasheed/main/data/models/product.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dartz/dartz.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -27,7 +28,8 @@ class AuthService {
   Completer<Either<FirebaseAuthException, String>> verifyPhoneCompleter =
       Completer<Either<FirebaseAuthException, String>>();
 
-  Future<Either<FirebaseAuthException, String>> verifyPhoneNumber(String phoneNumber) async {
+  Future<Either<FirebaseAuthException, String>> verifyPhoneNumber(
+      String phoneNumber) async {
     try {
       _resetVerifyPhoneCompleter();
       _resetVerificationIdCompleter();
@@ -48,7 +50,8 @@ class AuthService {
     return verificationIdCompleter.future;
   }
 
-  Future<Either<FirebaseAuthException, String>> verifyCode(String code, String userType) async {
+  Future<Either<FirebaseAuthException, String>> verifyCode(
+      String code, String userType) async {
     try {
       String? id;
       final String verificationId = await waitForVerificationID();
@@ -60,7 +63,9 @@ class AuthService {
 
       await _firebaseAuth.signInWithCredential(credential).then((value) async {
         id = value.user!.uid;
-        await FirebaseMessaging.instance.subscribeToTopic("$id").then((value) async {
+        await FirebaseMessaging.instance
+            .subscribeToTopic("$id")
+            .then((value) async {
           await CacheHelper.saveData(key: "isNotificationsOn", value: true);
         });
       });
@@ -76,7 +81,11 @@ class AuthService {
     String userType,
   ) async {
     late bool isExists;
-    await _fireStore.collection("${userType}s/").doc(id).get().then((value) async {
+    await _fireStore
+        .collection("${userType}s/")
+        .doc(id)
+        .get()
+        .then((value) async {
       isExists = value.data()?["id"] == id;
       if (isExists) {
         AppUser user = AppUser.fromJson(value.data()!, userType);
@@ -105,7 +114,9 @@ class AuthService {
     try {
       String userType = user.getType();
       bool isUserExists = await _searchForUserById(user.id, userType);
-      isUserExists ? DoNothingAction() : await _addUSerToFireStore(user, userType);
+      isUserExists
+          ? DoNothingAction()
+          : await _addUSerToFireStore(user, userType);
       return Right(isUserExists);
     } on FirebaseException catch (e) {
       return Left(e);
@@ -119,7 +130,10 @@ class AuthService {
     try {
       Customer customer = ConstantsManager.appUser as Customer;
       customer.addresses.add(address);
-      await _fireStore.collection("${customer.getType()}s").doc(customer.id).update({
+      await _fireStore
+          .collection("${customer.getType()}s")
+          .doc(customer.id)
+          .update({
         "addresses": FieldValue.arrayUnion([address.toJson()])
       });
       return const Right(unit);
@@ -132,7 +146,10 @@ class AuthService {
     try {
       Customer customer = ConstantsManager.appUser as Customer;
       customer.addresses.remove(address);
-      await _fireStore.collection("${customer.getType()}s").doc(customer.id).update({
+      await _fireStore
+          .collection("${customer.getType()}s")
+          .doc(customer.id)
+          .update({
         "addresses": FieldValue.arrayRemove([address.toJson()])
       });
       return const Right(unit);
@@ -152,7 +169,8 @@ class AuthService {
     }
   }
 
-  Future<Either<FirebaseException, String>> uploadProfilePic(File newImage) async {
+  Future<Either<FirebaseException, String>> uploadProfilePic(
+      File newImage) async {
     try {
       String newImageUrl = await _uploadNewImage(newImage);
       ConstantsManager.appUser?.image = newImageUrl;
@@ -164,7 +182,8 @@ class AuthService {
 
   Future updateImageInFireStore(String newImageUrl) async {
     _fireStore
-        .doc("${ConstantsManager.appUser?.getType()}s/${ConstantsManager.userId}")
+        .doc(
+            "${ConstantsManager.appUser?.getType()}s/${ConstantsManager.userId}")
         .update({"image": newImageUrl});
   }
 
@@ -218,7 +237,10 @@ class AuthService {
 
   Future _addUSerToFireStore(AppUser user, String userType) async {
     try {
-      await _fireStore.doc("${userType}s/${user.id}").set(user.toJson()).then((value) async {
+      await _fireStore
+          .doc("${userType}s/${user.id}")
+          .set(user.toJson())
+          .then((value) async {
         await _saveUser(user, userType);
       });
     } catch (e) {
@@ -239,23 +261,23 @@ class AuthService {
     }
   }
 
-  Future<Either<Exception, Unit>> deleteAccount(BuildContext context) async {
+  Future<Either<Exception, Unit>> deleteAccount(
+      BuildContext context, List<Product> products) async {
     try {
       final user = ConstantsManager.appUser!;
-
+      var batch = _fireStore.batch();
       // 1. Delete user from Firebase Authentication
       await _firebaseAuth.currentUser!.delete();
       // 2. Delete user from FireStore
-      await _deleteUserFromFireStore();
+      _deleteUserFromFireStore(batch);
 
       // 3. Delete related data based on user type
       if (user is Merchant) {
-        await _deleteMerchantData();
+        _deleteMerchantData(products, batch);
       } else if (user is Customer) {
         await _deleteCustomerData();
-      } else if (user is Worker) {
-        // احذف بيانات العامل اللي تحبها براحتك
       }
+      await batch.commit();
       await _clearUserData(context);
       return const Right(unit);
     } on Exception catch (e) {
@@ -264,65 +286,56 @@ class AuthService {
     }
   }
 
-  Future<void> _deleteUserFromFireStore() async {
-    await _fireStore
+  void _deleteUserFromFireStore(WriteBatch batch) {
+    var user = _fireStore
         .collection("${ConstantsManager.appUser!.getType()}s")
-        .doc(ConstantsManager.userId)
-        .delete();
+        .doc(ConstantsManager.userId);
+    batch.delete(user);
   }
 
-  Future<void> _deleteMerchantData() async {
+  void _deleteMerchantData(List<Product> products, WriteBatch batch) {
     Merchant merchant = ConstantsManager.appUser! as Merchant;
     List<String> productIds = merchant.productsIds;
+    List<Product> merchantProducts = products.where((product) {
+      return productIds.contains(product.productId);
+    }).toList();
     // Delete products
     for (String productId in productIds) {
-      await _fireStore.collection('products').doc(productId).delete();
+      var product = _fireStore.collection("products").doc(productId);
+      batch.delete(product);
     }
 
     // Delete best sales
-    final bestSalesDoc = await _fireStore.collection('best_sales').doc('best_sales').get();
-    final Map<String, dynamic> bestSalesData = bestSalesDoc.data()!;
+    var bestSales = _fireStore.collection("best_sales").doc("best_sales");
     for (String productId in productIds) {
-      if (bestSalesData.containsKey(productId)) {
-        await _fireStore
-            .collection('best_sales')
-            .doc('best_sales')
-            .update({productId: FieldValue.delete()});
-      }
+      batch.update(
+          bestSales, {productId.replaceAll(".", "-"): FieldValue.delete()});
     }
 
-    // Delete offers
-    final offersDoc = await _fireStore.collection('offers').doc('offers').get();
-    final List<dynamic> offersData = offersDoc.data()!['productsIds'];
-    offersData.removeWhere((id) => productIds.contains(id));
-    await _fireStore.collection('offers').doc('offers').update({'productsIds': offersData});
-
-    // Delete products from categories
-    final categoriesQuery = await _fireStore
-        .collection('categories')
-        .where('productsIds', arrayContainsAny: productIds)
-        .get();
-    for (var categoryDoc in categoriesQuery.docs) {
-      ///  الحل الاول
-      categoryDoc.reference.update({"productsIds": FieldValue.arrayRemove(productIds)});
-
-      /// الحل التاني
-      // final categoryData = categoryDoc.data();
-      // final List<dynamic> categoryProductsIds = categoryData['productsIds'] ?? [];
-      // final updatedProductIds = List.from(categoryProductsIds)
-      //   ..removeWhere((id) => productIds.contains(id));
-      // await _fireStore
-      //     .collection('categories')
-      //     .doc(categoryDoc.id)
-      //     .update({'productsIds': updatedProductIds});
+    var offers = _fireStore.collection("offers").doc("offers");
+    for (Product product in merchantProducts) {
+      // Delete offers
+      if (product.productNewPrice != product.productOldPrice) {
+        batch.update(offers, {
+          "productsIds": FieldValue.arrayRemove([product.productId])
+        });
+      }
+      // Delete products from categories
+      var category =
+          _fireStore.collection("categories").doc(product.productCategory);
+      batch.update(category, {
+        "productsIds": FieldValue.arrayRemove([product.productId])
+      });
     }
   }
 
   Future<void> _deleteCustomerData() async {
     String userId = ConstantsManager.userId!;
     // Delete orders
-    final ordersQuery =
-        await _fireStore.collection('orders').where('customerId', isEqualTo: userId).get();
+    final ordersQuery = await _fireStore
+        .collection('orders')
+        .where('customerId', isEqualTo: userId)
+        .get();
     for (var doc in ordersQuery.docs) {
       await doc.reference.delete();
     }
@@ -337,8 +350,12 @@ class AuthService {
     }
   }
 
-  Future<bool> _searchForUsersByPhoneNumber(String phone, String userType) async {
-    var res = await _fireStore.collection("${userType}s").where("phone", isEqualTo: phone).get();
+  Future<bool> _searchForUsersByPhoneNumber(
+      String phone, String userType) async {
+    var res = await _fireStore
+        .collection("${userType}s")
+        .where("phone", isEqualTo: phone)
+        .get();
     return res.docs.isNotEmpty;
   }
 

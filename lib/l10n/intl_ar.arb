@@ -183,5 +183,10 @@
   "chooseLocation": "يجب عليك اختيار موقع",
   "workerDetails": "تفاصيل الفني ",
   "acceptOrderFrom": "تم قبول الطلب من ",
-  "deposit": "العربون"
+  "deposit": "العربون",
+  "deleteAccount": "حذف الحساب",
+  "doWannaDeleteAccount": "هل تريد حذف الحساب",
+  "yes": "نعم",
+  "no": "لا",
+  "checkInternet": "تحقق من اتصالك بالانترنت واعد المحاولة"
 }

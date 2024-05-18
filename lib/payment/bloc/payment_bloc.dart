@@ -63,7 +63,6 @@ class PaymentBloc extends Bloc<PaymentEvent, PaymentState> {
       } else if (event is CompletePaymentCart) {
         var response = await _repository!.completePayment(
             context: event.context, totalPrice: event.totalPrice);
-
         if (response.isSuccess) {
           if (event.orderForWorkers != null) {
             await _repository!

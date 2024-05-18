@@ -34,7 +34,42 @@ class ProfileScreen extends StatelessWidget {
       authBloc = AuthBloc();
     }
     return SingleChildScrollView(
-      child: BlocBuilder<AuthBloc, AuthState>(
+      child: BlocConsumer<AuthBloc, AuthState>(
+        listener: (context, state) {
+          if (state is ShowDialogState) {
+            showDialog(
+              context: context,
+              builder: (context) {
+                return AlertDialog(
+                  content: state is DeleteAccountSuccessfulState
+                      ? const Center(child: CircularProgressIndicator())
+                      : Text(S.of(context).doWannaDeleteAccount),
+                  actions: [
+                    TextButton(
+                        onPressed: () {
+                          authBloc!.add(
+                              DeleteAccountEvent(context, mainBloc.products));
+                        },
+                        child: Text(S.of(context).yes)),
+                    TextButton(
+                        onPressed: () {
+                          Navigator.pop(context);
+                        },
+                        child: Text(S.of(context).no)),
+                  ],
+                );
+              },
+            );
+          }
+          if (state is DeleteAccountSuccessfulState) {
+            context.pop();
+            context.pushAndRemove(const AccountTypeScreen());
+          } else if (state is DeleteAccountErrorState) {
+            context.pop();
+            errorToast(
+                msg: ExceptionManager(state.exception).translatedMessage());
+          }
+        },
         bloc: authBloc,
         builder: (context, state) {
           return Column(
@@ -45,35 +80,30 @@ class ProfileScreen extends StatelessWidget {
                 height: 3.h,
               ),
               if (ConstantsManager.appUser != null)
-                BlocBuilder<AuthBloc, AuthState>(
-                  bloc: authBloc,
-                  builder: (context, state) {
-                    return CircleAvatar(
-                      radius: 20.w,
-                      backgroundImage: ConstantsManager.appUser!.image != null
-                          ? NetworkImage(ConstantsManager.appUser!.image!)
-                          : null,
-                      child: Align(
-                        alignment: AlignmentDirectional.bottomEnd,
-                        child: IconButton(
-                            onPressed: () async {
-                              authBloc!.add(UpdateProfilePictureEvent());
-                            },
-                            icon: CircleAvatar(
-                              backgroundColor: ColorManager.white,
-                              child: state is UpdateProfileLoadingState
-                                  ? Padding(
-                                      padding: EdgeInsets.all(3.0.sp),
-                                      child: const CircularProgressIndicator(),
-                                    )
-                                  : const Icon(
-                                      Icons.edit,
-                                      color: ColorManager.black,
-                                    ),
-                            )),
-                      ),
-                    );
-                  },
+                CircleAvatar(
+                  radius: 20.w,
+                  backgroundImage: ConstantsManager.appUser!.image != null
+                      ? NetworkImage(ConstantsManager.appUser!.image!)
+                      : null,
+                  child: Align(
+                    alignment: AlignmentDirectional.bottomEnd,
+                    child: IconButton(
+                        onPressed: () async {
+                          authBloc!.add(UpdateProfilePictureEvent());
+                        },
+                        icon: CircleAvatar(
+                          backgroundColor: ColorManager.white,
+                          child: state is UpdateProfileLoadingState
+                              ? Padding(
+                                  padding: EdgeInsets.all(3.0.sp),
+                                  child: const CircularProgressIndicator(),
+                                )
+                              : const Icon(
+                                  Icons.edit,
+                                  color: ColorManager.black,
+                                ),
+                        )),
+                  ),
                 ),
               SizedBox(
                 height: 3.h,
@@ -195,7 +225,15 @@ class ProfileScreen extends StatelessWidget {
                               }
                             },
                           )
-                        : const SizedBox()
+                        : const SizedBox(),
+                    if (ConstantsManager.appUser != null)
+                      settingItemBuilder(
+                        iconData: Icons.delete,
+                        label: S.of(context).deleteAccount,
+                        onTap: () {
+                          authBloc!.add(ShowDialogEvent());
+                        },
+                      )
                   ],
                 ),
               )

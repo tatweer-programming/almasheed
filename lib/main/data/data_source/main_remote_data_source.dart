@@ -70,7 +70,6 @@ class MainRemoteDataSource {
       await getProducts();
       return const Right(unit);
     } on FirebaseException catch (error) {
-      
       return Left(error);
     }
   }
@@ -346,9 +345,9 @@ class MainRemoteDataSource {
           .then((value) {
         ConstantsManager.appUser =
             AppUser.fromJson(value.data()!, "${ConstantsManager.userType}");
-        if(FirebaseAuth.instance.currentUser!.photoURL != null) {
+        if (FirebaseAuth.instance.currentUser!.photoURL != null) {
           ConstantsManager.appUser!.image =
-            FirebaseAuth.instance.currentUser!.photoURL;
+              FirebaseAuth.instance.currentUser!.photoURL;
         }
       });
       return const Right(unit);
@@ -408,7 +407,6 @@ class MainRemoteDataSource {
       batch.update(element, {
         "ordersIds": FieldValue.arrayUnion([orderForWorkers.orderId])
       });
-      
       await _pushNotification(
         id: sortedWorker,
         work: orderForWorkers.work,

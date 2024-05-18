@@ -61,6 +61,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "categoryAdded":
             MessageLookupByLibrary.simpleMessage("تمت إضافة الفئة بنجاح"),
         "chat": MessageLookupByLibrary.simpleMessage("الدردشة"),
+        "checkInternet": MessageLookupByLibrary.simpleMessage(
+            "تحقق من اتصالك بالانترنت واعد المحاولة"),
         "chooseAccountType":
             MessageLookupByLibrary.simpleMessage("يرجى اختيار نوع الحساب"),
         "chooseAddress": MessageLookupByLibrary.simpleMessage("اختر العنوان"),
@@ -81,6 +83,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "customer": MessageLookupByLibrary.simpleMessage("عميل"),
         "date": MessageLookupByLibrary.simpleMessage("التاريخ"),
         "delete": MessageLookupByLibrary.simpleMessage("حذف"),
+        "deleteAccount": MessageLookupByLibrary.simpleMessage("حذف الحساب"),
         "deletedSuccessfully":
             MessageLookupByLibrary.simpleMessage("تم الحذف بنجاح"),
         "deposit": MessageLookupByLibrary.simpleMessage("العربون"),
@@ -93,6 +96,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "discount": MessageLookupByLibrary.simpleMessage("الخصم"),
         "doNotHaveAccount":
             MessageLookupByLibrary.simpleMessage("ليس لديك حساب؟"),
+        "doWannaDeleteAccount":
+            MessageLookupByLibrary.simpleMessage("هل تريد حذف الحساب"),
         "edit": MessageLookupByLibrary.simpleMessage("تعديل"),
         "editProfile": MessageLookupByLibrary.simpleMessage("تعديل بياناتي"),
         "editSuccess":
@@ -190,6 +195,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "myOrders": MessageLookupByLibrary.simpleMessage("طلباتي"),
         "name": MessageLookupByLibrary.simpleMessage("الاسم"),
         "next": MessageLookupByLibrary.simpleMessage("التالي"),
+        "no": MessageLookupByLibrary.simpleMessage("لا"),
         "noAddresses": MessageLookupByLibrary.simpleMessage("لا توجد عناوين"),
         "noItems": MessageLookupByLibrary.simpleMessage("لا توجد عناصر هنا"),
         "notFound": MessageLookupByLibrary.simpleMessage("غير موجود"),
@@ -278,6 +284,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "worker": MessageLookupByLibrary.simpleMessage("فني"),
         "workerDetails": MessageLookupByLibrary.simpleMessage("تفاصيل الفني "),
         "workers": MessageLookupByLibrary.simpleMessage("الفنيين"),
+        "yes": MessageLookupByLibrary.simpleMessage("نعم"),
         "youMayLikeIt": MessageLookupByLibrary.simpleMessage("قد يعجبك")
       };
 }
