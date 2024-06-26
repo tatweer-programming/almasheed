@@ -133,22 +133,22 @@ class HomePageScreen extends StatelessWidget {
                         ),
                         Padding(
                           padding: EdgeInsets.symmetric(horizontal: 2.w),
-                          child: searchProductDropdownBuilder(
+                          child: (ConstantsManager.appUser is! Worker) ?searchProductDropdownBuilder(
                             text: S.of(context).search,
                             onChanged: (product) {
                               bloc.add(SelectProductEvent(product: product!));
                               context.push(DetailsProductScreen(
                                 product: product,
-                                products: ConstantsManager.appUser is Customer
+                                products: ConstantsManager.appUser is! Merchant
                                     ? bloc.products
                                     : bloc.merchantProducts,
                               ));
                             },
-                            items: ConstantsManager.appUser is Customer
+                            items: ConstantsManager.appUser is! Merchant
                                 ? bloc.products
                                 : bloc.merchantProducts,
                             context: context,
-                          ),
+                          ) :Container(),
                         ),
                       ],
                     ),

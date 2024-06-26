@@ -1,46 +1,37 @@
 {
   "project_info": {
-    "project_number": "564275998549",
-    "firebase_url": "https://masheed-d942d-default-rtdb.asia-southeast1.firebasedatabase.app",
-    "project_id": "masheed-d942d",
-    "storage_bucket": "masheed-d942d.appspot.com"
+    "project_number": "51344466835",
+    "project_id": "al-masheed-63f1a",
+    "storage_bucket": "al-masheed-63f1a.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:564275998549:android:a5c7192294b00dbc8389dc",
+        "mobilesdk_app_id": "1:51344466835:android:b5762bad598d25d160be66",
         "android_client_info": {
-          "package_name": "com.almasheed.store.almasheed"
+          "package_name": "com.almasheed.store.almashed"
         }
       },
       "oauth_client": [
         {
-          "client_id": "564275998549-qf96fi45kelqivhiknnucvfcd93ubhgr.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.almasheed.store.almasheed",
-            "certificate_hash": "7240c217d2a2e7b0e055a34d853c4210b6f53ba5"
-          }
-        },
-        {
-          "client_id": "564275998549-mm7hj4tq3noh92ehir7t6s892e7vi64l.apps.googleusercontent.com",
+          "client_id": "51344466835-1msck0cabr6nek5mjemmrmltao220vl8.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyCpZ9W1zt9znShCBWJYg1O97nIvLuIctJw"
+          "current_key": "AIzaSyBCLr0ZtPofjIUa7IKeaQjeQMlFUVm5D1U"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "564275998549-mm7hj4tq3noh92ehir7t6s892e7vi64l.apps.googleusercontent.com",
+              "client_id": "51344466835-1msck0cabr6nek5mjemmrmltao220vl8.apps.googleusercontent.com",
               "client_type": 3
             },
             {
-              "client_id": "564275998549-bkkt0mf10dooe385106oa5tmdrb2up6j.apps.googleusercontent.com",
+              "client_id": "51344466835-lnktf3st5e9f7q8avjjpm43fa6d0bd4a.apps.googleusercontent.com",
               "client_type": 2,
               "ios_info": {
                 "bundle_id": "com.almasheed.store.almasheed"

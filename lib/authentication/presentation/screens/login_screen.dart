@@ -85,24 +85,6 @@ class LoginScreen extends StatelessWidget {
                               height: 4.h,
                             ),
                             PhoneNumberInput(controller: phoneController),
-                            // Row(
-                            //   children: [
-                            //     Checkbox(
-                            //         activeColor: ColorManager.white,
-                            //         checkColor: ColorManager.black,
-                            //         focusColor: ColorManager.white,
-                            //         value: bloc.isWorker,
-                            //         onChanged: (value) {
-                            //           bloc.add(ChangeIsWorkerTypeEvent(
-                            //               state: value!));
-                            //         }),
-                            //     Text(
-                            //       S.of(context).loginAsWorker,
-                            //       style: const TextStyle(
-                            //           color: ColorManager.white),
-                            //     )
-                            //   ],
-                            // ),
                             SizedBox(
                               height: 10.sp,
                             ),
@@ -222,26 +204,6 @@ class LoginScreen extends StatelessWidget {
                                 bloc: bloc,
                               ),
                             ),
-                            InkWell(
-                              onTap: () {
-                                ConstantsManager.registrationSkipped = true;
-                                mainBloc.add(GetProductsEvent());
-                                context.pushAndRemove(const MainScreen());
-                              },
-                              child: Container(
-                                padding: EdgeInsetsDirectional.all(5.sp),
-                                decoration: BoxDecoration(
-                                  color: ColorManager.black,
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(10.sp)),
-                                ),
-                                child: Text(
-                                  S.of(context).skipRegistration,
-                                  style: const TextStyle(
-                                      color: ColorManager.white),
-                                ),
-                              ),
-                            )
                           ],
                         ),
                       )),

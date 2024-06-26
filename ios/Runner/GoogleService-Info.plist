@@ -3,23 +3,21 @@
 <plist version="1.0">
 <dict>
 	<key>CLIENT_ID</key>
-	<string>564275998549-bkkt0mf10dooe385106oa5tmdrb2up6j.apps.googleusercontent.com</string>
+	<string>51344466835-lnktf3st5e9f7q8avjjpm43fa6d0bd4a.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.564275998549-bkkt0mf10dooe385106oa5tmdrb2up6j</string>
-	<key>ANDROID_CLIENT_ID</key>
-	<string>564275998549-qf96fi45kelqivhiknnucvfcd93ubhgr.apps.googleusercontent.com</string>
+	<string>com.googleusercontent.apps.51344466835-lnktf3st5e9f7q8avjjpm43fa6d0bd4a</string>
 	<key>API_KEY</key>
-	<string>AIzaSyDMnTy_GVIdOk71OiCSFXKasD5oOO3ADb4</string>
+	<string>AIzaSyCNxMM5dyFJfUXsuHnJG5ZKBAq31-mjQEY</string>
 	<key>GCM_SENDER_ID</key>
-	<string>564275998549</string>
+	<string>51344466835</string>
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
 	<string>com.almasheed.store.almasheed</string>
 	<key>PROJECT_ID</key>
-	<string>masheed-d942d</string>
+	<string>al-masheed-63f1a</string>
 	<key>STORAGE_BUCKET</key>
-	<string>masheed-d942d.appspot.com</string>
+	<string>al-masheed-63f1a.appspot.com</string>
 	<key>IS_ADS_ENABLED</key>
 	<false></false>
 	<key>IS_ANALYTICS_ENABLED</key>
@@ -31,8 +29,6 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:564275998549:ios:1e1c6cf2b1ad98768389dc</string>
-	<key>DATABASE_URL</key>
-	<string>https://masheed-d942d-default-rtdb.asia-southeast1.firebasedatabase.app</string>
+	<string>1:51344466835:ios:0f08de78e045062a60be66</string>
 </dict>
 </plist>

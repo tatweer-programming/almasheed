@@ -51,7 +51,8 @@ dependencies:
   shape_of_view_null_safe:
   multi_dropdown:
   http:
-  intl:
+
+
 
   # maps
   google_maps_flutter:

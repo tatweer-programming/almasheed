@@ -1,4 +1,4 @@
-package com.almasheed.store.almasheed
+package com.almasheed.store.almashed
 
 import io.flutter.embedding.android.FlutterActivity
 

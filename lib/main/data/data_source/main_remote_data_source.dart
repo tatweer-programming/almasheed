@@ -248,7 +248,7 @@ class MainRemoteDataSource {
           .doc("best_sales")
           .get();
       data = value.data() as Map<String, dynamic>;
-
+      if(data.isEmpty) return const Right({});
       Map<String, int> bestSales = data.map(
         (key, value) =>
             MapEntry(key.replaceAll("-", "."), value is int ? value : 0),

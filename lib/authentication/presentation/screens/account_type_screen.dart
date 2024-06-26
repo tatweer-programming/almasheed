@@ -1,7 +1,12 @@
 import 'package:almasheed/authentication/bloc/auth_bloc.dart';
 import 'package:almasheed/authentication/presentation/components.dart';
+import 'package:almasheed/core/services/dep_injection.dart';
+import 'package:almasheed/core/utils/constance_manager.dart';
 import 'package:almasheed/core/utils/images_manager.dart';
+import 'package:almasheed/core/utils/navigation_manager.dart';
 import 'package:almasheed/generated/l10n.dart';
+import 'package:almasheed/main/bloc/main_bloc.dart';
+import 'package:almasheed/main/view/screens/main/main_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sizer/sizer.dart';
@@ -14,6 +19,7 @@ class AccountTypeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     AuthBloc bloc = AuthBloc.get(context);
+    MainBloc mainBloc = sl();
 
     return Scaffold(
       body: Align(
@@ -114,8 +120,30 @@ class AccountTypeScreen extends StatelessWidget {
                     ),
                   ),
                   SizedBox(
+                    height: 2.h,
+                  ),
+                  InkWell(
+                    onTap: () {
+                      ConstantsManager.registrationSkipped = true;
+                      mainBloc.add(GetProductsEvent());
+                      context.pushAndRemove(const MainScreen());
+                    },
+                    child: Container(
+                      padding: EdgeInsetsDirectional.all(5.sp),
+                      decoration: BoxDecoration(
+                        color: ColorManager.black,
+                        borderRadius: BorderRadius.all(Radius.circular(10.sp)),
+                      ),
+                      child: Text(
+                        S.of(context).skipRegistration,
+                        style: const TextStyle(color: ColorManager.white),
+                      ),
+                    ),
+                  ),
+                  SizedBox(
                     height: 5.h,
                   ),
+
                   // Padding(
                   //   padding: EdgeInsets.only(
                   //     bottom: 20.sp,
