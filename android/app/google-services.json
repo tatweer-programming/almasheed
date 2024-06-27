@@ -22,9 +22,6 @@
       "api_key": [
         {
           "current_key": "AIzaSyCA6g1JdhpRzvT84qLw7fg3P0IHla9UjFw"
-        },
-        {
-          "current_key": "AIzaSyCpZ9W1zt9znShCBWJYg1O97nIvLuIctJw"
         }
       ],
       "services": {
@@ -35,57 +32,10 @@
               "client_type": 3
             },
             {
-              "client_id": "564275998549-7r7uopulvg624oisrnfmoeag4k8r5e7k.apps.googleusercontent.com",
+              "client_id": "564275998549-1nttedr4inqa91n78sudpdabmk73vih5.apps.googleusercontent.com",
               "client_type": 2,
               "ios_info": {
-                "bundle_id": "com.almasheed.store.almasheed"
-              }
-            }
-          ]
-        }
-      }
-    },
-    {
-      "client_info": {
-        "mobilesdk_app_id": "1:564275998549:android:a5c7192294b00dbc8389dc",
-        "android_client_info": {
-          "package_name": "com.almasheed.store.almasheed"
-        }
-      },
-      "oauth_client": [
-        {
-          "client_id": "564275998549-qf96fi45kelqivhiknnucvfcd93ubhgr.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.almasheed.store.almasheed",
-            "certificate_hash": "7240c217d2a2e7b0e055a34d853c4210b6f53ba5"
-          }
-        },
-        {
-          "client_id": "564275998549-mm7hj4tq3noh92ehir7t6s892e7vi64l.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
-      "api_key": [
-        {
-          "current_key": "AIzaSyCA6g1JdhpRzvT84qLw7fg3P0IHla9UjFw"
-        },
-        {
-          "current_key": "AIzaSyCpZ9W1zt9znShCBWJYg1O97nIvLuIctJw"
-        }
-      ],
-      "services": {
-        "appinvite_service": {
-          "other_platform_oauth_client": [
-            {
-              "client_id": "564275998549-mm7hj4tq3noh92ehir7t6s892e7vi64l.apps.googleusercontent.com",
-              "client_type": 3
-            },
-            {
-              "client_id": "564275998549-7r7uopulvg624oisrnfmoeag4k8r5e7k.apps.googleusercontent.com",
-              "client_type": 2,
-              "ios_info": {
-                "bundle_id": "com.almasheed.store.almasheed"
+                "bundle_id": "com.almasheed.store"
               }
             }
           ]
