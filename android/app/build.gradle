@@ -64,7 +64,7 @@ android {
         multiDexEnabled true
     }
     signingConfigs {
-        release {
+        debug {
             keyAlias keystoreProperties['keyAlias']
             keyPassword keystoreProperties['keyPassword']
             storeFile keystoreProperties['storeFile'] ? file(keystoreProperties['storeFile']) : null
@@ -72,11 +72,11 @@ android {
         }
     }
     buildTypes {
-        release {
+        debug {
             // TODO: Add your own signing config for the release build.
             // Signing with the debug keys for now, so `flutter run --release` works.
-//            signingConfig signingConfigs.debug
-            signingConfig signingConfigs.release
+            signingConfig signingConfigs.debug
+//            signingConfig signingConfigs.release
         }
     }
     configurations.all {
@@ -100,6 +100,8 @@ dependencies {
     implementation 'androidx.multidex:multidex:2.0.1'
     implementation 'com.google.android.gms:play-services-location:21.3.0'
     implementation "androidx.activity:activity:1.9.0"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib:1.7.10"
+
     // Add the dependency for the Firebase Authentication library
     // When using the BoM, you don't specify versions in Firebase library dependencies
     implementation("com.google.firebase:firebase-auth")

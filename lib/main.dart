@@ -23,11 +23,10 @@ import 'package:permission_handler/permission_handler.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  try {
-    await Firebase.initializeApp();
-  } catch (e) {
-    print('Firebase initialization error: $e');
-  }
+  await Firebase.initializeApp(
+    name: 'masheed',
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
   await FirebaseAppCheck.instance.activate(
     androidProvider: AndroidProvider.debug,
     appleProvider: AppleProvider.appAttest,
