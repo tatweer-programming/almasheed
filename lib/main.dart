@@ -15,16 +15,18 @@ import 'authentication/presentation/screens/account_type_screen.dart';
 import 'core/local/shared_prefrences.dart';
 import 'core/services/dep_injection.dart';
 import 'core/utils/theme_manager.dart';
+import 'firebase_options.dart';
 import 'generated/l10n.dart';
 import 'main/bloc/main_bloc.dart';
 import 'main/view/screens/main/main_screen.dart';
 import 'package:permission_handler/permission_handler.dart';
 
+
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
-    name: 'Al-Masheed',
-    // options: DefaultFirebaseOptions.currentPlatform,
+    // name: 'Masheed',
+    options: DefaultFirebaseOptions.currentPlatform,
   );
   await FirebaseAppCheck.instance.activate(
     androidProvider: AndroidProvider.debug,
