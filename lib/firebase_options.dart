@@ -51,7 +51,7 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions android = FirebaseOptions(
     apiKey: 'AIzaSyCA6g1JdhpRzvT84qLw7fg3P0IHla9UjFw',
-    appId: '1:564275998549:android:28c5120f31fa502e8389dc',
+    appId: '1:564275998549:android:88cebd344ad0abf48389dc',
     messagingSenderId: '564275998549',
     projectId: 'masheed-d942d',
     databaseURL: 'https://masheed-d942d-default-rtdb.asia-southeast1.firebasedatabase.app',
@@ -59,14 +59,14 @@ class DefaultFirebaseOptions {
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyCtGvYP7Jdl4tY9yL6NOUNyfCDfMnCuZwY',
-    appId: '1:564275998549:ios:37a757e653b2bd9b8389dc',
+    apiKey: 'AIzaSyBE1dHeRBvzEHURUoPSVRb00lwYilpAI4A',
+    appId: '1:564275998549:ios:ad7520296577a8f68389dc',
     messagingSenderId: '564275998549',
     projectId: 'masheed-d942d',
     databaseURL: 'https://masheed-d942d-default-rtdb.asia-southeast1.firebasedatabase.app',
     storageBucket: 'masheed-d942d.appspot.com',
     androidClientId: '564275998549-ciusva96h4fibgf4bbfgf2trmcd3u1ot.apps.googleusercontent.com',
-    iosClientId: '564275998549-1g8fmc14594uf0hq9rctp6ofsoi49jcg.apps.googleusercontent.com',
-    iosBundleId: 'com.store.almasheed',
+    iosClientId: '564275998549-u16u39ookv518tje2uv6hi7abu1b3vvf.apps.googleusercontent.com',
+    iosBundleId: 'com.tatweer.almasheed',
   );
 }
