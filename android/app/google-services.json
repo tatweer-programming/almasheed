@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "564275998549",
+    "firebase_url": "https://masheed-d942d-default-rtdb.asia-southeast1.firebasedatabase.app",
+    "project_id": "masheed-d942d",
+    "storage_bucket": "masheed-d942d.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:564275998549:android:28c5120f31fa502e8389dc",
+        "android_client_info": {
+          "package_name": "com.store.almasheed"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "564275998549-mm7hj4tq3noh92ehir7t6s892e7vi64l.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCA6g1JdhpRzvT84qLw7fg3P0IHla9UjFw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "564275998549-mm7hj4tq3noh92ehir7t6s892e7vi64l.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "564275998549-1g8fmc14594uf0hq9rctp6ofsoi49jcg.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.store.almasheed"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
