@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:sizer/sizer.dart';
+
 import '../../../authentication/data/models/customer.dart';
 import '../../../core/utils/color_manager.dart';
 import '../../../core/utils/constance_manager.dart';
@@ -200,14 +201,14 @@ Widget searchWidget({required Product product, required bool isSelected}) =>
       ),
     );
 
-Widget defaultCarousel(
-    {required List<String> list,
-    required CarouselController controller,
-    required MainBloc bloc,
-    double? height,
-    BoxFit? fit,
-    bool autoPlay = true,
-    }) {
+Widget defaultCarousel({
+  required List<String> list,
+  required CarouselController controller,
+  required MainBloc bloc,
+  double? height,
+  BoxFit? fit,
+  bool autoPlay = true,
+}) {
   return Column(
     children: [
       CarouselSlider(
@@ -219,7 +220,7 @@ Widget defaultCarousel(
                       color: ColorManager.grey1,
                       borderRadius: BorderRadius.circular(40.sp),
                       image: DecorationImage(
-                        fit: fit??BoxFit.cover,
+                        fit: fit ?? BoxFit.cover,
                         image: NetworkImage(
                           image,
                         ),
@@ -626,7 +627,7 @@ Widget categoryProductsVerticalWidget({
         children: [
           Container(
             width: 44.w,
-            height: 31.h,
+            height: 32.h,
             clipBehavior: Clip.antiAliasWithSaveLayer,
             decoration: BoxDecoration(
                 color: ColorManager.white,
@@ -648,82 +649,86 @@ Widget categoryProductsVerticalWidget({
                         : null,
                   ),
                 ),
-                Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 2.w),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      SizedBox(
-                        height: 0.5.h,
-                      ),
-                      Text(
-                        product.productName,
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                        style: TextStyle(
-                            fontWeight: FontWeight.w600, fontSize: 13.sp),
-                      ),
-                      SizedBox(
-                        height: 0.5.h,
-                      ),
-                      Row(
-                        children: [
-                          Text(
-                            "${product.productNewPrice} ${S.of(context).sar}",
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                            style: TextStyle(
-                                fontWeight: FontWeight.w500, fontSize: 12.sp),
-                          ),
-                          const Spacer(),
-                          if (product.productNewPrice !=
-                              product.productOldPrice)
+                Expanded(
+                  child: Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 2.w),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        SizedBox(
+                          height: 0.5.h,
+                        ),
+                        Text(
+                          product.productName,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: TextStyle(
+                              fontWeight: FontWeight.w600, fontSize: 13.sp),
+                        ),
+                        SizedBox(
+                          height: 0.5.h,
+                        ),
+                        Row(
+                          children: [
                             Text(
-                              "${product.productOldPrice.toStringAsFixed(2)} ${S.of(context).sar}",
+                              "${product.productNewPrice} ${S.of(context).sar}",
                               maxLines: 1,
                               overflow: TextOverflow.ellipsis,
                               style: TextStyle(
-                                  decoration: TextDecoration.lineThrough,
-                                  fontWeight: FontWeight.w500,
-                                  color: ColorManager.red,
-                                  fontSize: 10.sp),
+                                  fontWeight: FontWeight.w500, fontSize: 12.sp),
                             ),
-                        ],
-                      ),
-                      SizedBox(
-                        height: 0.5.h,
-                      ),
-                      ConstantsManager.appUser is Customer
-                          ? Column(
-                              children: [
-                                Row(
+                            const Spacer(),
+                            if (product.productNewPrice !=
+                                product.productOldPrice)
+                              Text(
+                                "${product.productOldPrice.toStringAsFixed(2)} ${S.of(context).sar}",
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                                style: TextStyle(
+                                    decoration: TextDecoration.lineThrough,
+                                    fontWeight: FontWeight.w500,
+                                    color: ColorManager.red,
+                                    fontSize: 10.sp),
+                              ),
+                          ],
+                        ),
+                        SizedBox(
+                          height: 0.5.h,
+                        ),
+                        ConstantsManager.appUser is Customer
+                            ? Expanded(
+                                child: Column(
                                   children: [
-                                    Expanded(
-                                      child: defaultButton(
-                                          onPressed: addCardPressed,
+                                    Row(
+                                      children: [
+                                        Expanded(
+                                          child: defaultButton(
+                                              onPressed: addCardPressed,
+                                              height: 4.h,
+                                              text: S.of(context).addToCart,
+                                              fontSize: 11.sp),
+                                        ),
+                                        SizedBox(
+                                          width: 2.w,
+                                        ),
+                                        SizedBox(
+                                          width: 10.w,
                                           height: 4.h,
-                                          text: S.of(context).addToCart,
-                                          fontSize: 11.sp),
+                                          child: mainFormField(
+                                              controller: controller,
+                                              type: TextInputType.number),
+                                        ),
+                                      ],
                                     ),
                                     SizedBox(
-                                      width: 2.w,
-                                    ),
-                                    SizedBox(
-                                      width: 10.w,
-                                      height: 4.h,
-                                      child: mainFormField(
-                                          controller: controller,
-                                          type: TextInputType.number),
+                                      height: 1.h,
                                     ),
                                   ],
                                 ),
-                                SizedBox(
-                                  height: 1.h,
-                                ),
-                              ],
-                            )
-                          : const SizedBox()
-                    ],
+                              )
+                            : const SizedBox()
+                      ],
+                    ),
                   ),
                 ),
               ],

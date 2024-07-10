@@ -8,6 +8,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
 import '../../authentication/data/models/customer.dart';
 import '../../chat/presentation/screens/chats_screen.dart';
 import '../../core/services/dep_injection.dart';
@@ -15,7 +16,6 @@ import '../data/models/order_item.dart';
 import '../data/repositories/payment_repository.dart';
 
 part 'payment_event.dart';
-
 part 'payment_state.dart';
 
 class PaymentBloc extends Bloc<PaymentEvent, PaymentState> {
@@ -36,7 +36,7 @@ class PaymentBloc extends Bloc<PaymentEvent, PaymentState> {
         emit(AddToCartLoadingState());
         var response = await _repository?.addItem(
             productId: event.productId, quantity: event.quantity ?? 1);
-        response!.fold((l) {
+        response?.fold((l) {
           emit(AddToCartErrorState(l));
         }, (r) {
           emit(AddToCartSuccessState());
