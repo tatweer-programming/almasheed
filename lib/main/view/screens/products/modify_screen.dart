@@ -229,8 +229,8 @@ class ModifyProductScreen extends StatelessWidget {
                             product: Product(
                               customProperties: product.customProperties,
                                 productName: nameController.text,
-                                productRating: product.productRating,
-                                ratingNumbers: product.ratingNumbers,
+                                productRate: product.productRate,
+                                ratings: product.ratings,
                                 productId: product.productId,
                                 productMainUses: mainUsesController.text,
                                 productWorkCharacteristics:

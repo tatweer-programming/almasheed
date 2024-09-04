@@ -35,7 +35,7 @@ class FavouriteScreen extends StatelessWidget {
             children: [
               Align(
                 alignment: AlignmentDirectional.topCenter,
-                heightFactor: 0.12.h,
+                heightFactor: 0.1.h,
                 child: ClipPath(
                   clipper: HalfCircleCurve(14.h),
                   child: Container(

@@ -189,6 +189,7 @@
   "doWannaDeleteAccount": "Do you want to delete the account ?",
   "yes": "Yes",
   "no": "No",
+  "addRating": "Add Rating",
   "checkInternet": "Please check your internet connection"
 }
 

@@ -5,6 +5,7 @@ import 'package:almasheed/authentication/presentation/components.dart';
 import 'package:almasheed/authentication/presentation/screens/account_type_screen.dart';
 import 'package:almasheed/authentication/presentation/screens/addresses_screen.dart';
 import 'package:almasheed/authentication/presentation/screens/faq_screen.dart';
+import 'package:almasheed/chat/presentation/screens/chats_screen.dart';
 import 'package:almasheed/core/error/remote_error.dart';
 import 'package:almasheed/core/utils/constance_manager.dart';
 import 'package:almasheed/core/utils/navigation_manager.dart';
@@ -75,7 +76,7 @@ class ProfileScreen extends StatelessWidget {
           return Column(
             children: [
               appBarWidget(
-                  S.of(context).myAccount, Icons.person_outline_rounded),
+                  title:S.of(context).myAccount,icon: Icons.person_outline_rounded,),
               SizedBox(
                 height: 3.h,
               ),
@@ -159,6 +160,12 @@ class ProfileScreen extends StatelessWidget {
                         iconData: Icons.map_outlined,
                         label: S.of(context).addressesList,
                         nextScreen: const AddressesScreen(),
+                      ),
+                    if(ConstantsManager.appUser != null)
+                      ProfileItemBuilder(
+                        iconData: Icons.chat_bubble,
+                        label: S.of(context).chat,
+                        nextScreen: const ChatsScreen(),
                       ),
                     if (ConstantsManager.appUser is Worker)
                       ProfileItemBuilder(

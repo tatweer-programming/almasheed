@@ -22,7 +22,7 @@ class LastSeenScreen extends StatelessWidget {
             child: Column(
               children: [
                 appBarWidget(
-                    S.of(context).lastSeen, Icons.remove_red_eye_rounded),
+                   title:  S.of(context).lastSeen,icon:  Icons.remove_red_eye_rounded,context:context),
                 _buildProductList(context: context, mainBloc: bloc)
               ],
             ),

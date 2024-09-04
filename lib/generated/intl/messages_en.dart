@@ -36,6 +36,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "addImage": MessageLookupByLibrary.simpleMessage("Add Image"),
         "addOrder": MessageLookupByLibrary.simpleMessage("Add order"),
         "addProduct": MessageLookupByLibrary.simpleMessage("Add Product"),
+        "addRating": MessageLookupByLibrary.simpleMessage("Add Rating"),
         "addToCart": MessageLookupByLibrary.simpleMessage("Add To Cart"),
         "addedSuccessfully":
             MessageLookupByLibrary.simpleMessage("Added Successfully"),

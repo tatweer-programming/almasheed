@@ -28,7 +28,10 @@ class OrdersForWorkersScreen extends StatelessWidget {
         return Scaffold(
           body: Column(
             children: [
-              appBarWidget(S.of(context).orders, Icons.list_outlined),
+              appBarWidget(
+                  title: S.of(context).orders,
+                  icon: Icons.list_outlined,
+                  context: context),
               Expanded(
                 child: BlocBuilder<MainBloc, MainState>(
                   builder: (context, state) {
@@ -39,8 +42,7 @@ class OrdersForWorkersScreen extends StatelessWidget {
                           onTap: () {
                             context.push(
                               OrderForWorkersDetailsScreen(
-                                  orderForWorkers:
-                                      ordersForWorkers[index]),
+                                  orderForWorkers: ordersForWorkers[index]),
                             );
                           },
                           orderForWorkers: ordersForWorkers[index]),

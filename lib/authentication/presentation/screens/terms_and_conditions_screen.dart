@@ -24,7 +24,7 @@ class TermsAndConditionsScreen extends StatelessWidget {
         child: Column(
           children: [
             appBarWidget(
-                S.of(context).termsAndConditions, Icons.privacy_tip_outlined),
+               title: S.of(context).termsAndConditions,icon: Icons.privacy_tip_outlined,context:context),
             Padding(
               padding: EdgeInsets.all(8.0.sp),
               child: Center(

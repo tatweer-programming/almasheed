@@ -416,8 +416,8 @@ class AddProductScreen extends StatelessWidget {
                             bloc.add(
                               SetProductEvent(
                                 product: Product(
-                                  productRating: 5,
-                                  ratingNumbers: 1,
+                                  productRate: 0,
+                                  ratings: const [],
                                   customProperties: ProductCustomProperties(
                                       availableProperties: transformList(
                                           selectedPropertiesSaved),

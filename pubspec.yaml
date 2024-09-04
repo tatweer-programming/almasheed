@@ -48,9 +48,10 @@ dependencies:
   share_plus: ^9.0.0
   animated_splash_screen: ^1.3.0
   flutter_rating_bar: ^4.0.1
-
+  url_launcher: ^6.3.0
   multi_dropdown: ^2.1.4
   http: ^1.2.1
+  googleapis_auth:
 
 
 
@@ -116,6 +117,7 @@ flutter:
   assets:
     - assets/images/
     - assets/audios/
+    - assets/notification/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

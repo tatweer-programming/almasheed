@@ -29,7 +29,7 @@ class WorkerDetailsScreen extends StatelessWidget {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            appBarWidget(S.of(context).worker, Icons.miscellaneous_services),
+            appBarWidget(title:S.of(context).worker,icon: Icons.miscellaneous_services,context:context),
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 5.w, vertical: 3.h),
               child: Column(

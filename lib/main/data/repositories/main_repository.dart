@@ -2,6 +2,7 @@ import 'package:almasheed/authentication/data/models/merchant.dart';
 import 'package:almasheed/authentication/data/models/worker.dart';
 import 'package:almasheed/main/data/models/category.dart';
 import 'package:almasheed/main/data/models/product.dart';
+import 'package:almasheed/main/data/models/rating.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dartz/dartz.dart';
 
@@ -79,12 +80,14 @@ class MainRepository {
         favorites: favorites);
   }
 
-  Future<Either<FirebaseException, Tuple2<double, int>>> productRatingUpdate({
-    required double productRating,
+  Future<Either<FirebaseException, Product>> productRatingUpdate({
+    required Rating rating,
+    required List<Rating> ratings,
     required String productId,
   }) async {
     return await mainRemoteDataSource.productRatingUpdate(
-        productId: productId, productRating: productRating);
+        ratings: ratings,
+        productId: productId, rating: rating);
   }
 
   Future<Either<FirebaseException, Unit>> getUserData() {

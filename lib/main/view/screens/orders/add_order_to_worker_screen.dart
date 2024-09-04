@@ -81,7 +81,7 @@ class AddOrderToWorkerScreen extends StatelessWidget {
               key: formKey,
               child: Column(
                 children: [
-                  appBarWidget(S.of(context).addOrder, Icons.add_box_rounded),
+                  appBarWidget(title: S.of(context).addOrder,icon:  Icons.add_box_rounded,context:context),
                   Padding(
                     padding:
                         EdgeInsets.symmetric(horizontal: 5.w, vertical: 3.h),

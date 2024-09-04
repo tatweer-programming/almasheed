@@ -2,6 +2,11 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:almasheed/authentication/data/models/customer.dart';
+import 'package:almasheed/core/utils/notification_manager.dart';
+import 'package:almasheed/main/data/models/rating.dart';
+import 'package:flutter/services.dart';
+import 'package:googleapis_auth/auth.dart';
+import 'package:googleapis_auth/auth_io.dart';
 import 'package:http/http.dart' as http;
 import 'package:almasheed/authentication/data/models/user.dart';
 import 'package:almasheed/authentication/data/models/worker.dart';
@@ -168,27 +173,52 @@ class MainRemoteDataSource {
     }
   }
 
-  Future<Either<FirebaseException, Tuple2<double, int>>> productRatingUpdate({
-    required double productRating,
+  Future<Either<FirebaseException, Product>> productRatingUpdate({
+    required Rating rating,
+    required List<Rating> ratings,
     required String productId,
   }) async {
     try {
-      int ratingNumbers = 0;
+      // int ratingNumbers = 0;
+      // await firebaseInstance.collection("products").doc(productId).update({
+      //   "productRating": productRating,
+      //   "ratingNumbers": FieldValue.increment(1)
+      // }).then((value) async {
+      //   await firebaseInstance
+      //       .collection("products")
+      //       .doc(productId)
+      //       .get()
+      //       .then((value) {
+      //     ratingNumbers = value.data()!["ratingNumbers"].toInt();
+      //   });
+      // });
+      bool updated = false;
+      for (int i = 0; i < ratings.length; i++) {
+        if (ratings[i].customerId == rating.customerId) {
+          // Update the existing rating
+          ratings[i] = rating;
+          updated = true;
+          break;
+        }
+      }
 
+      if (!updated) {
+        // Add the new rating if customerId was not found
+        ratings.add(rating);
+      }
+
+      // Save the updated ratings back to Firestore
       await firebaseInstance.collection("products").doc(productId).update({
-        "productRating": productRating,
-        "ratingNumbers": FieldValue.increment(1)
-      }).then((value) async {
-        await firebaseInstance
-            .collection("products")
-            .doc(productId)
-            .get()
-            .then((value) {
-          ratingNumbers = value.data()!["ratingNumbers"].toInt();
-        });
+        "ratings": ratings.map((rating) => rating.toJson()).toList(),
       });
 
-      return Right(Tuple2(productRating, ratingNumbers));
+      Product? product;
+      await firebaseInstance.collection("products").doc(productId).get().then(
+        (value) {
+          product = Product.fromJson(value.data()!);
+        },
+      );
+      return Right(product!);
     } on FirebaseException catch (error) {
       return Left(error);
     }
@@ -248,7 +278,7 @@ class MainRemoteDataSource {
           .doc("best_sales")
           .get();
       data = value.data() as Map<String, dynamic>;
-      if(data.isEmpty) return const Right({});
+      if (data.isEmpty) return const Right({});
       Map<String, int> bestSales = data.map(
         (key, value) =>
             MapEntry(key.replaceAll("-", "."), value is int ? value : 0),
@@ -426,22 +456,34 @@ class MainRemoteDataSource {
     return reference.getDownloadURL();
   }
 
-  Future<void> _pushNotification({
+  Future _pushNotification({
     required String id,
     required String work,
     required String city,
   }) async {
-    await http.post(Uri.parse(ConstantsManager.baseUrlNotification),
-        body: jsonEncode({
-          "to": "/topics/$id",
-          "notification": {
-            "body": "مطلوب $work في $city",
-            "click_action": "FLUTTER_NOTIFICATION_CLICK"
+    try {
+      final String jsonCredentials = await rootBundle
+          .loadString('assets/notification/notifications_key.json');
+      final ServiceAccountCredentials cred =
+          ServiceAccountCredentials.fromJson(jsonCredentials);
+      final client = await clientViaServiceAccount(
+          cred, [NotificationManager.clientViaServiceAccount]);
+      await client.post(
+        Uri.parse(NotificationManager.notificationUrl),
+        headers: {'content-type': 'application/json'},
+        body: {
+          'message': {
+            'topic': id,
+            'notification': {
+              "body": "مطلوب $work في $city",
+              // "title": "",
+            },
           }
-        }),
-        headers: {
-          "Authorization": "key=${ConstantsManager.firebaseMessagingAPI}",
-          "Content-Type": "application/json"
-        });
+        },
+      );
+      client.close();
+    } catch (e) {
+      print("Error in sending notification: $e");
+    }
   }
 }

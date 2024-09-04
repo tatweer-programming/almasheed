@@ -7,7 +7,11 @@ import 'package:almasheed/core/utils/constance_manager.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dartz/dartz.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:flutter/services.dart';
+import 'package:googleapis_auth/auth.dart';
+import 'package:googleapis_auth/auth_io.dart';
 import 'package:http/http.dart' as http;
+import '../../../core/utils/notification_manager.dart';
 import '../models/chat.dart';
 
 class ChatService {
@@ -183,21 +187,50 @@ class ChatService {
     return reference.getDownloadURL();
   }
 
-  Future<void> _pushNotification({
+  // Future<void> _pushNotification({
+  //   required Message message,
+  // }) async {
+  //   await http.post(Uri.parse(ConstantsManager.baseUrlNotification),
+  //       body: jsonEncode({
+  //         "to": "/topics/${message.receiverId}",
+  //         "notification": {
+  //           "body": message.message,
+  //           "title": message.receiverName,
+  //           "click_action": "FLUTTER_NOTIFICATION_CLICK"
+  //         }
+  //       }),
+  //       headers: {
+  //         "Authorization": "key=${ConstantsManager.firebaseMessagingAPI}",
+  //         "Content-Type": "application/json"
+  //       });
+  // }
+
+  Future _pushNotification({
     required Message message,
   }) async {
-    await http.post(Uri.parse(ConstantsManager.baseUrlNotification),
-        body: jsonEncode({
-          "to": "/topics/${message.receiverId}",
-          "notification": {
-            "body": message.message,
-            "title": message.receiverName,
-            "click_action": "FLUTTER_NOTIFICATION_CLICK"
+    try {
+      final String jsonCredentials = await rootBundle
+          .loadString('assets/notification/notifications_key.json');
+      final ServiceAccountCredentials cred =
+          ServiceAccountCredentials.fromJson(jsonCredentials);
+      final client = await clientViaServiceAccount(
+          cred, [NotificationManager.clientViaServiceAccount]);
+      await client.post(
+        Uri.parse(NotificationManager.notificationUrl),
+        headers: {'content-type': 'application/json'},
+        body: {
+          'message': {
+            'topic': message.receiverId,
+            'notification': {
+              "body": message.message,
+              "title": message.receiverName,
+            },
           }
-        }),
-        headers: {
-          "Authorization": "key=${ConstantsManager.firebaseMessagingAPI}",
-          "Content-Type": "application/json"
-        });
+        },
+      );
+      client.close();
+    } catch (e) {
+      print("Error in sending notification: $e");
+    }
   }
 }

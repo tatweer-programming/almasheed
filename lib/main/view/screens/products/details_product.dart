@@ -1,6 +1,7 @@
+import 'package:almasheed/main/data/models/rating.dart';
 import 'package:almasheed/main/view/screens/products/view_image_screen.dart';
 import 'package:almasheed/payment/bloc/payment_bloc.dart';
-import 'package:carousel_slider/carousel_controller.dart';
+// import 'package:carousel_slider/carousel_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
@@ -36,6 +37,8 @@ class DetailsProductScreen extends StatelessWidget {
     mainBloc.lastSeenProducts.add(product);
     List<String> selectedProperties = [];
     quantityController.text = "1";
+    double customerRate = Product.calculateCustomerRate(product.ratings);
+
     return BlocListener<PaymentBloc, PaymentState>(
       bloc: paymentBloc,
       listener: _handlePaymentBlocState,
@@ -60,8 +63,9 @@ class DetailsProductScreen extends StatelessWidget {
             selectedProperties = state.availableProperties;
           }
           if (state is ProductRatingUpdateSuccessfullyState) {
-            product.productRating = state.rating;
-            product.ratingNumbers = state.numbers;
+            product.productRate =
+                Product.calculateProductRating(state.product.ratings);
+            customerRate = Product.calculateCustomerRate(product.ratings);
           }
         },
         builder: (context, state) {
@@ -112,6 +116,40 @@ class DetailsProductScreen extends StatelessWidget {
                             title: S.of(context).WorkCharacteristics,
                             context: context,
                             body: product.productWorkCharacteristics),
+                        if (ConstantsManager.appUser is Customer)
+                          Row(
+                            children: [
+                              Expanded(
+                                  child: Padding(
+                                padding: EdgeInsets.symmetric(horizontal: 3.w),
+                                child: Text(S.of(context).addRating),
+                              )),
+                              Expanded(
+                                child: RatingBar.builder(
+                                  initialRating: customerRate,
+                                  minRating: 1,
+                                  itemSize: 25.sp,
+                                  direction: Axis.horizontal,
+                                  allowHalfRating: true,
+                                  itemPadding:
+                                      EdgeInsets.symmetric(horizontal: 0.5.w),
+                                  itemBuilder: (context, _) => const Icon(
+                                    Icons.star,
+                                    color: Colors.amber,
+                                  ),
+                                  onRatingUpdate: (rate) {
+                                    mainBloc.add(ProductRatingUpdateEvent(
+                                        ratings: product.ratings,
+                                        rating: Rating(
+                                            rate: rate,
+                                            customerId:
+                                                ConstantsManager.userId!),
+                                        productId: product.productId));
+                                  },
+                                ),
+                              ),
+                            ],
+                          ),
                         products.length <= 1
                             ? Container()
                             : Padding(
@@ -126,10 +164,10 @@ class DetailsProductScreen extends StatelessWidget {
                             : Padding(
                                 padding: EdgeInsets.symmetric(
                                     horizontal: 2.w, vertical: 2.h),
-                                child: SizedBox(
-                                  height: 31.h,
+                                child: SizedBox(height: 40.h,
                                   child: ListView.separated(
                                       scrollDirection: Axis.horizontal,
+                                      shrinkWrap: true,
                                       itemCount: products.length,
                                       separatorBuilder: (context, index) =>
                                           SizedBox(
@@ -435,11 +473,11 @@ class DetailsProductScreen extends StatelessWidget {
                             }),
                       ),
                     RatingBar.builder(
-                      initialRating:
-                          (product.productRating / product.ratingNumbers),
+                      initialRating: product.productRate,
                       minRating: 1,
                       itemSize: 25.sp,
                       ignoreGestures: true,
+                      updateOnDrag: true,
                       direction: Axis.horizontal,
                       allowHalfRating: true,
                       itemPadding: EdgeInsets.symmetric(horizontal: 0.5.w),
@@ -448,11 +486,13 @@ class DetailsProductScreen extends StatelessWidget {
                         color: Colors.amber,
                       ),
                       onRatingUpdate: (rating) {
-                        if (isCustomer) {
-                          bloc.add(ProductRatingUpdateEvent(
-                              productRating: (product.productRating + rating),
-                              productId: product.productId));
-                        }
+                        // if (isCustomer) {
+                        //   bloc.add(ProductRatingUpdateEvent(
+                        //       rating: Rating(
+                        //           rate: rating,
+                        //           customerId: ConstantsManager.userId!),
+                        //       productId: product.productId));
+                        // }
                       },
                     )
                   ],

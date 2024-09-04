@@ -27,27 +27,48 @@ class AllCategoriesScreen extends StatelessWidget {
                   height: 20.h,
                   color: ColorManager.primary,
                   width: double.infinity,
-                  child: Column(
+                  child: Row(
                     children: [
-                      SizedBox(
-                        height: 6.h,
-                      ),
-                      Text(
-                        S.of(context).allCategories,
-                        style: TextStyle(
-                          fontSize: 25.sp,
-                          color: ColorManager.white,
-                          fontWeight: FontWeight.w600,
+                      Padding(
+                        padding: EdgeInsets.symmetric(vertical: 4.h),
+                        child: Align(
+                          alignment: AlignmentDirectional.topStart,
+                          child: IconButton(
+                            onPressed: () => context.pop(),
+                            icon: Icon(
+                              Icons.arrow_back_ios_new,
+                              color: ColorManager.white,
+                              size: 25.sp,
+                            ),
+                          ),
                         ),
                       ),
-                      SizedBox(
-                        height: 1.h,
+                      Expanded(
+                        child: Column(
+                          children: [
+                            SizedBox(
+                              height: 6.h,
+                            ),
+                            Text(
+                              S.of(context).allCategories,
+                              style: TextStyle(
+                                fontSize: 25.sp,
+                                color: ColorManager.white,
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
+                            SizedBox(
+                              height: 1.h,
+                            ),
+                            Icon(
+                              Icons.category_outlined,
+                              size: 30.sp,
+                              color: ColorManager.white,
+                            )
+                          ],
+                        ),
                       ),
-                      Icon(
-                        Icons.category_outlined,
-                        size: 30.sp,
-                        color: ColorManager.white,
-                      )
+                      SizedBox(width: 12.w,)
                     ],
                   ),
                 ),

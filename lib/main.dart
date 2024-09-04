@@ -24,6 +24,7 @@ import 'package:permission_handler/permission_handler.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await CacheHelper.init();
   await Firebase.initializeApp(
     // name: 'Masheed',
     options: DefaultFirebaseOptions.currentPlatform,
@@ -32,27 +33,25 @@ Future<void> main() async {
     androidProvider: AndroidProvider.debug,
     appleProvider: AppleProvider.appAttest,
   );
+  ConstantsManager.appUser = null;
+  ConstantsManager.userId = await CacheHelper.getData(key: "userId");
+  ConstantsManager.isNotificationsOn =
+  await CacheHelper.getData(key: "isNotificationsOn");
+  ConstantsManager.userType = await CacheHelper.getData(key: "userType");
   await Permission.notification.isDenied.then((value) {
     if (value) {
       Permission.notification.request();
     }
   });
-  ConstantsManager.appUser = null;
   await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
-  await CacheHelper.init();
-
-  ConstantsManager.userId = await CacheHelper.getData(key: "userId");
-  ConstantsManager.isNotificationsOn =
-      await CacheHelper.getData(key: "isNotificationsOn");
-  ConstantsManager.userType = await CacheHelper.getData(key: "userType");
   ServiceLocator().init();
   FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
   await LocalizationManager.init();
-  runApp(const Masheed());
+  runApp(const AlMasheed());
 }
 
-class Masheed extends StatelessWidget {
-  const Masheed({super.key});
+class AlMasheed extends StatelessWidget {
+  const AlMasheed({super.key});
 
   @override
   Widget build(BuildContext context) {

@@ -14,7 +14,7 @@ import 'package:almasheed/main/data/models/category.dart';
 import 'package:almasheed/main/view/screens/categories/category_screen.dart';
 import 'package:almasheed/main/view/screens/products/details_product.dart';
 import 'package:almasheed/main/view/widgets/widgets.dart';
-import 'package:carousel_slider/carousel_slider.dart';
+// import 'package:carousel_slider/carousel_slider.dart';
 import '../../../../authentication/data/models/worker.dart';
 import '../../../../generated/l10n.dart';
 import '../../../../payment/presentation/screens/cart_screen.dart';
@@ -204,7 +204,7 @@ class HomePageScreen extends StatelessWidget {
         textContainerWidget(text: S.of(context).categories),
         SizedBox(height: 1.h),
         SizedBox(
-          height: 14.h,
+          height: 16.h,
           child: ListView.separated(
             scrollDirection: Axis.horizontal,
             itemBuilder: (context, index) => categoryWidget(

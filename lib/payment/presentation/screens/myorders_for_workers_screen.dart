@@ -22,7 +22,7 @@ class MyOrdersForWorkersScreen extends StatelessWidget {
     return Scaffold(
       body: Column(
         children: [
-          appBarWidget(S.of(context).myOrders, Icons.shopping_cart_outlined),
+          appBarWidget(title:S.of(context).myOrders,icon: Icons.shopping_cart_outlined,context:context),
           Expanded(
             child: BlocBuilder<MainBloc, MainState>(
               builder: (context, state) {

@@ -8,6 +8,8 @@ class ConstantsManager {
   static String? userId;
   static String? userType;
   static bool? isNotificationsOn;
+  static String whatsappSupport = "00966537014738";
+  static String paymentToken = "00966537014738";
   static const String baseUrlNotification =
       "https://fcm.googleapis.com/fcm/send";
   static const String successUrl =

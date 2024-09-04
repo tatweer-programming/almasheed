@@ -5,6 +5,7 @@ import 'package:almasheed/core/utils/localization_manager.dart';
 import 'package:almasheed/main/data/models/category.dart';
 import 'package:almasheed/main/data/models/order_for_workers.dart';
 import 'package:almasheed/main/data/models/product.dart';
+import 'package:almasheed/main/data/models/rating.dart';
 import 'package:almasheed/main/data/repositories/main_repository.dart';
 import 'package:almasheed/authentication/presentation/screens/profile_screen.dart';
 import 'package:almasheed/main/view/screens/support/support_screen.dart';
@@ -246,12 +247,13 @@ class MainBloc extends Bloc<MainEvent, MainState> {
         });
       } else if (event is ProductRatingUpdateEvent) {
         var result = await MainRepository(sl()).productRatingUpdate(
-            productRating: event.productRating, productId: event.productId);
+            ratings: event.ratings,
+            rating: event.rating, productId: event.productId);
         result.fold((l) {
           emit(ProductRatingUpdateErrorState(l));
         }, (r) {
           emit(ProductRatingUpdateSuccessfullyState(
-              rating: r.value1, numbers: r.value2));
+              product: r));
         });
       } else if (event is SelectProductEvent) {
         emit(SelectProductState(event.product));

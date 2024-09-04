@@ -36,9 +36,9 @@ class CartScreen extends StatelessWidget {
                   child: Column(
                     children: [
                       appBarWidget(
-                        S.of(context).cart,
-                        Icons.shopping_cart_outlined,
-                      ),
+                          title: S.of(context).cart,
+                          icon: Icons.shopping_cart_outlined,
+                          context: context),
                       customer != null
                           ? BlocListener<PaymentBloc, PaymentState>(
                               bloc: bloc,

@@ -63,7 +63,7 @@ class CompleteOrderScreen extends StatelessWidget {
                 child: Column(
                   children: [
                     appBarWidget(
-                        S.of(context).completeOrder, Icons.payments_outlined),
+                     title:   S.of(context).completeOrder,icon:  Icons.payments_outlined,context:context),
                     SizedBox(height: 1.h),
                     Text(
                       S.of(context).chooseAddress,

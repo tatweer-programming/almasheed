@@ -167,11 +167,10 @@ class AddAndRemoveFromFavoritesErrorState extends MainState {
 // Product Rating Update
 
 class ProductRatingUpdateSuccessfullyState extends MainState {
-  final double rating;
-  final int numbers;
+  final Product product;
 
   ProductRatingUpdateSuccessfullyState(
-      {required this.rating, required this.numbers});
+      {required this.product,});
 }
 
 class ProductRatingUpdateErrorState extends MainState {

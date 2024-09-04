@@ -26,10 +26,10 @@ class ShowAllMerchantsOrWorkers extends StatelessWidget {
       body: Column(
         children: [
           appBarWidget(
-              merchants.isNotEmpty
+             title: merchants.isNotEmpty
                   ? S.of(context).merchants
                   : S.of(context).workers,
-              Icons.work),
+              icon:Icons.work,context:context),
           Expanded(
             child: Padding(
               padding: EdgeInsets.symmetric(horizontal: 3.w),

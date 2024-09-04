@@ -1,3 +1,4 @@
+import 'package:almasheed/core/utils/navigation_manager.dart';
 import 'package:almasheed/main/data/models/category.dart';
 import 'package:almasheed/main/data/models/product.dart';
 import 'package:carousel_slider/carousel_slider.dart';
@@ -200,14 +201,14 @@ Widget searchWidget({required Product product, required bool isSelected}) =>
       ),
     );
 
-Widget defaultCarousel(
-    {required List<String> list,
-    required CarouselController controller,
-    required MainBloc bloc,
-    double? height,
-    BoxFit? fit,
-    bool autoPlay = true,
-    }) {
+Widget defaultCarousel({
+  required List<String> list,
+  required CarouselController controller,
+  required MainBloc bloc,
+  double? height,
+  BoxFit? fit,
+  bool autoPlay = true,
+}) {
   return Column(
     children: [
       CarouselSlider(
@@ -219,7 +220,7 @@ Widget defaultCarousel(
                       color: ColorManager.grey1,
                       borderRadius: BorderRadius.circular(40.sp),
                       image: DecorationImage(
-                        fit: fit??BoxFit.cover,
+                        fit: fit ?? BoxFit.cover,
                         image: NetworkImage(
                           image,
                         ),
@@ -363,10 +364,11 @@ Widget merchantAndWorkerWidget(
       ),
     );
 
-Widget appBarWidget(String title, IconData icon) {
+Widget appBarWidget(
+    {required String title, required IconData icon, BuildContext? context}) {
   return Align(
     alignment: AlignmentDirectional.topCenter,
-    heightFactor: 0.12.h,
+    heightFactor: 0.11.h,
     child: ClipPath(
       clipper: HalfCircleCurve(14.h),
       child: Container(
@@ -374,25 +376,43 @@ Widget appBarWidget(String title, IconData icon) {
         width: double.infinity,
         color: ColorManager.primary,
         child: Padding(
-          padding: EdgeInsetsDirectional.only(start: 8.w, end: 8.w, top: 1.h),
-          child: Column(
+          padding: EdgeInsetsDirectional.only(top: 4.h),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              SizedBox(
-                height: 4.h,
+              if (context != null)
+                Align(
+                  alignment: AlignmentDirectional.topStart,
+                  child: IconButton(
+                    onPressed: () => context.pop(),
+                    icon: Icon(
+                      Icons.arrow_back_ios_new,
+                      color: ColorManager.white,
+                      size: 25.sp,
+                    ),
+                  ),
+                ),
+              Expanded(
+                child: Column(
+                  children: [
+                    Text(
+                      title,
+                      style: TextStyle(
+                          color: ColorManager.white,
+                          fontSize: 30.sp,
+                          fontWeight: FontWeight.bold),
+                    ),
+                    SizedBox(height: 2.h),
+                    Icon(
+                      icon,
+                      color: ColorManager.white,
+                      size: 40.sp,
+                    ),
+                  ],
+                ),
               ),
-              Text(
-                title,
-                style: TextStyle(
-                    color: ColorManager.white,
-                    fontSize: 30.sp,
-                    fontWeight: FontWeight.bold),
-              ),
-              SizedBox(height: 3.h),
-              Icon(
-                icon,
-                color: ColorManager.white,
-                size: 40.sp,
-              ),
+              if (context != null)
+              SizedBox(width: 12.w,)
             ],
           ),
         ),
@@ -478,9 +498,11 @@ Widget categoryWidget(
             backgroundColor: ColorManager.grey1,
             backgroundImage: NetworkImage(category.categoryImage!),
           ),
-          Text(
-            category.categoryName,
-            style: TextStyle(fontWeight: FontWeight.w400, fontSize: 14.sp),
+          Expanded(
+            child: Text(
+              category.categoryName,
+              style: TextStyle(fontWeight: FontWeight.w400, fontSize: 14.sp),
+            ),
           )
         ],
       ),
@@ -626,7 +648,7 @@ Widget categoryProductsVerticalWidget({
         children: [
           Container(
             width: 44.w,
-            height: 31.h,
+            // height: 31.h,
             clipBehavior: Clip.antiAliasWithSaveLayer,
             decoration: BoxDecoration(
                 color: ColorManager.white,
@@ -842,8 +864,7 @@ Widget favouriteProduct(
                   ),
                 ),
                 RatingBar.builder(
-                  initialRating:
-                      (product.productRating / product.ratingNumbers),
+                  initialRating: product.productRate,
                   minRating: 1,
                   itemSize: 20.sp,
                   direction: Axis.horizontal,

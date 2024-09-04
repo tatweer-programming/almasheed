@@ -9,6 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sizer/sizer.dart';
 import 'package:share_plus/share_plus.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../../../chat/presentation/screens/chats_screen.dart';
 import '../../../../core/services/dep_injection.dart';
@@ -52,7 +53,10 @@ class SupportScreen extends StatelessWidget {
         return SingleChildScrollView(
           child: Column(
             children: [
-              appBarWidget(S.of(context).support, Icons.support),
+              appBarWidget(
+                title: S.of(context).support,
+                icon: Icons.support,
+              ),
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: 4.w),
                 child: Column(
@@ -89,17 +93,13 @@ class SupportScreen extends StatelessWidget {
                           label: S.of(context).whoAreWe,
                           nextScreen: const FAQScreen(),
                         ),
-                        ProfileItemBuilder(
-                          iconData: Icons.contact_phone_outlined,
-                          label: S.of(context).contactUs,
-                          nextScreen: const FAQScreen(),
-                        ),
-                        if(ConstantsManager.appUser != null)
-                        ProfileItemBuilder(
-                          iconData: Icons.chat_bubble,
-                          label: S.of(context).chat,
-                          nextScreen: const ChatsScreen(),
-                        ),
+                        settingItemBuilder(
+                            iconData: Icons.contact_phone_outlined,
+                            label: S.of(context).contactUs,
+                            onTap: () {
+                              _openWhatsAppChat(
+                                  ConstantsManager.whatsappSupport);
+                            }),
                       ],
                     ),
                   ],
@@ -159,9 +159,9 @@ class SupportScreen extends StatelessWidget {
                             activeTrackColor: ColorManager.grey2,
                             value: isOn,
                             onChanged: (isOn) {
-                              if(ConstantsManager.appUser == null){
+                              if (ConstantsManager.appUser == null) {
                                 errorToast(msg: S.of(context).loginFirst);
-                              }else {
+                              } else {
                                 bloc.add(ChangeSwitchNotificationsEvent(isOn));
                               }
                             },
@@ -188,6 +188,13 @@ class SupportScreen extends StatelessWidget {
         );
       },
     );
+  }
+}
+
+void _openWhatsAppChat(String phoneNumber) async {
+  final Uri url = Uri.parse('https://wa.me/$phoneNumber');
+  if (!await launchUrl(url)) {
+    throw Exception('Could not launch $url');
   }
 }
 

@@ -105,7 +105,7 @@ class OrderForWorkersDetailsScreen extends StatelessWidget {
           body: SingleChildScrollView(
             child: Column(
               children: [
-                appBarWidget(S.of(context).orderDetails, Icons.list_outlined),
+                appBarWidget(title:S.of(context).orderDetails,icon:  Icons.list_outlined,context:context),
                 Padding(
                   padding: EdgeInsets.symmetric(horizontal: 5.w, vertical: 3.h),
                   child: Column(

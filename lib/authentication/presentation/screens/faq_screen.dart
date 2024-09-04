@@ -14,7 +14,7 @@ class FAQScreen extends StatelessWidget {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            appBarWidget(S.of(context).faq, Icons.privacy_tip_outlined),
+            appBarWidget(title:S.of(context).faq,icon:  Icons.privacy_tip_outlined,context:context),
             Padding(
               padding: EdgeInsets.all(10.sp),
               child: SingleChildScrollView(

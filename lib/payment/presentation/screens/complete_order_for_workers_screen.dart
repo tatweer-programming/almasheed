@@ -52,7 +52,7 @@ class CompleteOrderForWorkers extends StatelessWidget {
           ),
           body: Column(
             children: [
-              appBarWidget(S.of(context).completeOrder, Icons.payment),
+              appBarWidget(title:S.of(context).completeOrder, icon:Icons.payment,context:context),
               Text(
                 "${S.of(context).acceptOrderFrom} ${worker.name}",
                 style: TextStyle(fontSize: 15.sp, fontWeight: FontWeight.w600),

@@ -1942,6 +1942,16 @@ class S {
     );
   }
 
+  /// `Add Rating`
+  String get addRating {
+    return Intl.message(
+      'Add Rating',
+      name: 'addRating',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Please check your internet connection`
   String get checkInternet {
     return Intl.message(
