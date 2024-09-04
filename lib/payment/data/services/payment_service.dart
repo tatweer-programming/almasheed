@@ -7,10 +7,10 @@ import 'package:almasheed/payment/data/models/order.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dartz/dartz.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:http/http.dart' as http;
 import 'package:my_fatoorah/my_fatoorah.dart';
 
 import '../../../chat/data/models/chat.dart';
-import 'package:http/http.dart' as http;
 
 class PaymentService {
   FirebaseFirestore fireStore = FirebaseFirestore.instance;
@@ -55,7 +55,16 @@ class PaymentService {
 
   Future<PaymentResponse> completePayment(
       {required BuildContext context, required double totalPrice}) async {
+    List<String> availablePaymentMethods = [
+      "VISA/MASTER",
+    ];
     return await MyFatoorah.startPayment(
+      filterPaymentMethods: (List<PaymentMethod> paymentMethods) {
+        return paymentMethods
+            .where((element) =>
+                availablePaymentMethods.contains(element.paymentMethodEn))
+            .toList();
+      },
       context: context,
       request: MyfatoorahRequest.live(
         currencyIso: Country.SaudiArabia,
@@ -272,3 +281,34 @@ class PaymentService {
 //       return Left(e);
 //         }
 // }
+//
+/*
+// client
+ photos ,
+ mic ,
+ name ,
+ profile photo ,
+ number,
+ location,
+
+ worker
+  name,
+  number,
+  photo,
+  job,
+  bio,
+  location,
+  registering number,
+  organization name,
+
+
+  merchant
+   name,
+   number,
+   photo,
+   job,
+   bio,
+   city & area,
+   registering number,
+   organization name,
+ */
