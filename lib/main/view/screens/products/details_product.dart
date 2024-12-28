@@ -1,6 +1,7 @@
 import 'package:almasheed/main/data/models/rating.dart';
 import 'package:almasheed/main/view/screens/products/view_image_screen.dart';
 import 'package:almasheed/payment/bloc/payment_bloc.dart';
+import 'package:carousel_slider/carousel_controller.dart';
 // import 'package:carousel_slider/carousel_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -31,7 +32,7 @@ class DetailsProductScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     PaymentBloc paymentBloc = PaymentBloc.get(context);
-    final CarouselController carouselController = CarouselController();
+    final CarouselSliderController carouselController = CarouselSliderController();
     TextEditingController quantityController = TextEditingController();
     final MainBloc mainBloc = sl();
     mainBloc.lastSeenProducts.add(product);
@@ -225,7 +226,7 @@ class DetailsProductScreen extends StatelessWidget {
       {required BuildContext context,
       required MainBloc bloc,
       required List<String> selectedProperties,
-      required CarouselController carouselController}) {
+      required CarouselSliderController  carouselController}) {
     bool isCustomer = ConstantsManager.appUser is Customer;
     return Padding(
       padding: EdgeInsetsDirectional.only(top: 5.h),

@@ -55,25 +55,15 @@ class PaymentService {
 
   Future<PaymentResponse> completePayment(
       {required BuildContext context, required double totalPrice}) async {
-    List<String> availablePaymentMethods = [
-      "VISA/MASTER",
-    ];
     return await MyFatoorah.startPayment(
-      filterPaymentMethods: (List<PaymentMethod> paymentMethods) {
-        return paymentMethods
-            .where((element) =>
-                availablePaymentMethods.contains(element.paymentMethodEn))
-            .toList();
-      },
       context: context,
-      request: MyfatoorahRequest.live(
-        currencyIso: Country.SaudiArabia,
-        successUrl: ConstantsManager.successUrl,
-        errorUrl: ConstantsManager.errorUrl,
-        invoiceAmount: totalPrice,
-        language: ApiLanguage.Arabic,
-        token: ConstantsManager.paymentToken
-      ),
+      request: MyfatoorahRequest.test(
+          currencyIso: Country.SaudiArabia,
+          successUrl: ConstantsManager.successUrl,
+          errorUrl: ConstantsManager.errorUrl,
+          invoiceAmount: totalPrice,
+          language: ApiLanguage.English,
+          token: ConstantsManager.paymentToken),
     );
   }
 

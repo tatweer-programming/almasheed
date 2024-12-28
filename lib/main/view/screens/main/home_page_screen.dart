@@ -1,6 +1,7 @@
 import 'package:almasheed/authentication/data/models/merchant.dart';
 import 'package:almasheed/main/view/screens/show_all_merchants_or_workers_screen.dart';
 import 'package:almasheed/main/view/screens/worker_details_screen.dart';
+import 'package:carousel_slider/carousel_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sizer/sizer.dart';
@@ -25,7 +26,7 @@ class HomePageScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final CarouselController carouselController = CarouselController();
+    final CarouselSliderController carouselController = CarouselSliderController();
     final MainBloc bloc = sl();
     return BlocConsumer<MainBloc, MainState>(
       listener: (context, state) {
@@ -63,7 +64,7 @@ class HomePageScreen extends StatelessWidget {
     );
   }
 
-  Widget builder(MainBloc bloc, CarouselController carouselController) {
+  Widget builder(MainBloc bloc, CarouselSliderController carouselController) {
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 6.w),
       child: BlocBuilder<MainBloc, MainState>(

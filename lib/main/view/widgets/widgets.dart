@@ -203,7 +203,7 @@ Widget searchWidget({required Product product, required bool isSelected}) =>
 
 Widget defaultCarousel({
   required List<String> list,
-  required CarouselController controller,
+  required CarouselSliderController  controller,
   required MainBloc bloc,
   double? height,
   BoxFit? fit,
@@ -251,7 +251,7 @@ Widget defaultCarousel({
 
 Widget indicator(
         {required List<String> list,
-        required CarouselController controller,
+        required CarouselSliderController  controller,
         required int current}) =>
     Row(
       mainAxisAlignment: MainAxisAlignment.center,
